@@ -3,7 +3,25 @@ import HomePage from '../components/HomePage.vue'
 </script>
 
 <template>
-  <main>
+  <div class="container">
     <HomePage />
-  </main>
+  </div>
 </template>
+
+
+<style scoped>
+
+.container {
+  margin-bottom: 10%;
+}
+
+
+@media (min-width: 1000px) {
+  
+  .container {
+    width: 80%;
+  }
+  
+}
+
+</style>

@@ -1,9 +1,10 @@
 <template>
-    <div class="aboutBox container-fluid">
+    <div class="aboutBox">
         <div class="text">
             <p> 
-                I am 21 year old male from Bærum, live with my Alaskan husky named Leo,
-                and have about 14 years experience playing football, which has provided me with extensive team-building skills.
+                I am a 21 year old male from Bærum, live with my Alaskan husky - Leo.
+                Played football for over 14 years, which provided me with extensive team-building skills.
+
             </p>
             
             <p>
@@ -11,7 +12,7 @@
                 a bachelor's degree in Computer Technology.      
             </p>
             
-            <p> <strong> Patient, dedicated and calm </strong> describe me the best </p>
+            <p> <strong> Patient, dedicated and driven </strong> describe me the best </p>
         </div>
     </div>
 </template>
@@ -22,8 +23,6 @@
 }
 
 .text {
-    margin-top: 0.5%;
-
     padding: 5%;
     padding-top: 1.14321%;
 }
@@ -31,6 +30,12 @@
 p {
     margin: 1em 0;
     font-size: 1.7vw;
+}
+
+@media (min-width: 700px) {
+    p {
+        font-size: 1.2vw;
+    }
 }
     
 </style>

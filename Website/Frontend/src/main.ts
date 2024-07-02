@@ -1,9 +1,15 @@
 import './assets/main.css'
 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootswatch/dist/darkly/bootstrap.min.css';
 import 'bootstrap'
 
-import '@fortawesome/fontawesome-free/css/all.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(fab, fas)
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -13,6 +19,7 @@ import router from './router'
 
 const app = createApp(App)
 
+app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(createPinia())
 app.use(router)
 

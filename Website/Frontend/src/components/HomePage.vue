@@ -4,10 +4,10 @@ import { RouterLink, RouterView } from 'vue-router'
 </script>
 
 <template>
-    <div class="box container-fluid mt-5">
+    <div class="box mt-4">
         <div class="secondBox justify-content-center d-flex flex-row p-3"> 
             <div class="info d-flex flex-column">
-                <h1 class="mb-0"> Joachim Tisløv </h1>
+                <h1 class="m-0"> Joachim Tisløv </h1>
                 <socialLinks class="socialLinks" />
 
                 <figure>
@@ -25,9 +25,10 @@ import { RouterLink, RouterView } from 'vue-router'
 
     <div class="content">
         
-        <div class="pt-2 d-flex justify-content-around">
-          <RouterLink class="link" to="/"> About Me </RouterLink> 
-          <RouterLink class="link" to="/projects"> Projects </RouterLink>
+        <div class="pt-1 pb-2 d-flex justify-content-around">
+          <RouterLink class="link" to="/"> Regarding me </RouterLink>
+          <RouterLink class="link" to="blog"> Blog </RouterLink> 
+          <RouterLink class="link" to="projects"> Projects </RouterLink>
         </div>
   
         <RouterView />
@@ -38,6 +39,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 .info {
     width: 55%;
+    margin-top: 1%;
 }
 
 .cite {
@@ -56,7 +58,7 @@ p {
 }
 
 .socialLinks {
-    margin-top: -1.5vh;
+    margin-top: -6px;
 }
 
 .box {
@@ -67,7 +69,6 @@ p {
 }
 
 h1 {
-    margin: 0;
     font-size: 4.5vw;
 }
 
@@ -90,11 +91,11 @@ img {
 
 .link {
     text-decoration: none;
-    color: darkgrey;
+    color: rgb(216, 189, 189);
 
-    margin-top: 0.1em;
+    margin-top: 3%;
 
-    font-size: 3vw;
+    font-size: 2.5vw;
 }
 
 .link:hover {
@@ -107,6 +108,31 @@ img {
     border-radius: 15px;
     margin-top: 3%;
     box-shadow: 0 1px 8px 4px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(0, 0, 0, 0.5);
+}
+
+
+@media (min-width: 700px) {
+
+    .link {
+        font-size: 1.5vw;
+    }
+
+    .imgDiv {
+        width: 15vw;
+        height: 15vw;
+    }
+
+    h1 {
+        font-size: 3.5vw;
+    }
+
+    p {
+        font-size: 1.5vw;
+    }
+
+    .cite {
+        font-size: 1.3vw;
+    }
 }
   
 </style>
