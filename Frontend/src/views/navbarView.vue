@@ -5,8 +5,3 @@ import mainNavbar from '../components/mainNavbar.vue'
 <template>
     <mainNavbar />
 </template>
-
-
-<style scoped>
-
-</style>

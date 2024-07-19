@@ -27,15 +27,37 @@ import { RouterLink, RouterView } from 'vue-router'
         
         <div class="pt-1 pb-2 d-flex justify-content-around">
           <RouterLink class="link" to="/"> Regarding me </RouterLink>
-          <RouterLink class="link" to="blog"> Blog </RouterLink> 
           <RouterLink class="link" to="projects"> Projects </RouterLink>
         </div>
-  
+
         <RouterView />
+
+        <div class="d-flex justify-content-around">
+            <p class="contact"> 
+                Please contact at joachim.tislov@gmail.com 
+
+                <font-awesome-icon class="arrow" :icon="['fas', 'arrow-right']" />
+
+                <a href="mailto:Joachim.tislov@gmail.com"><img class="gmail" src="/gmail.png" /></a>
+
+            </p>
+        </div>
+  
     </div>
 </template>
 
 <style scoped>
+
+.arrow {
+    margin-right : 0.4em;
+}
+
+.gmail {
+    margin-top: -5px;
+
+    width: 2em;
+    height: auto;
+}
 
 .info {
     width: 55%;
@@ -53,8 +75,8 @@ blockquote {
     margin-bottom: 0;
 }
 
-p {
-    font-size: 2vw
+figure p {
+    font-size: 1.5vw
 }
 
 .socialLinks {
@@ -89,7 +111,7 @@ img {
     object-fit: cover;
 }
 
-.link {
+.link, .contact {
     text-decoration: none;
     color: rgb(216, 189, 189);
 
@@ -113,7 +135,7 @@ img {
 
 @media (min-width: 700px) {
 
-    .link {
+    .link, .contact {
         font-size: 1.5vw;
     }
 
@@ -126,12 +148,12 @@ img {
         font-size: 3.5vw;
     }
 
-    p {
-        font-size: 1.5vw;
+    figure p {
+        font-size: 1.3vw;
     }
 
     .cite {
-        font-size: 1.3vw;
+        font-size: 1vw;
     }
 }
   

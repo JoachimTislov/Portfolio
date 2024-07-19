@@ -10,8 +10,6 @@ const links: {img: string, link: string}[] = [
 <template>
   <div class="d-flex flex-row">
     <a v-for="item in links" :key="item.img" :href="item.link"><img class="socialLink" :src="item.img" /></a>
-  
-    <a href="mailto:Joachim.tislov@gmail.com"><img class="gmail" src="/gmail.png" /></a>
   </div>
 </template>
 
@@ -21,6 +19,7 @@ const links: {img: string, link: string}[] = [
 }
 
 .gmail {
+  margin-top: -0.3em;
   width: 3.4vw;
 }
 
@@ -34,7 +33,8 @@ a {
   }
 
   .gmail {
-    width: 2.4vw;
+    margin: 0;
+    width: 2.5vw;
   }
 }
 </style>

@@ -6,10 +6,7 @@ defineProps(['project'])
 
 <template>
     <CAccordionHeader>
-        <div class="d-flex flex-row align-items-center">
-            <h1 class="m-0 p-0">  {{ project.name }}, Github repository <font-awesome-icon :icon="['fas', 'arrow-right']" /> </h1>
-            <a :href="project.githubLink"> <img class="githubIcon" src="/github.png" alt="github"> </a>
-        </div>
+        <h1 class="m-0 p-0">  {{ project.name }} </h1>
     </CAccordionHeader>
     <CAccordionBody>
         <div class="d-flex flex-column">

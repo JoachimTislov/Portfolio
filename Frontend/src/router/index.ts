@@ -13,13 +13,15 @@ const router = createRouter({
         },
         {
           path: 'projects', name: 'projects', component: () => import('../components/MyProjects.vue')
-        },
-        {
-          path: 'blog', name: 'blog', component: () => import('../components/MyBlog.vue')
         }
       ]
     },
-  ]
+    {
+      path: '/Four in a row',
+      name: 'four in a row',
+      component: () => import('../views/FourInARowView.vue'),
+    },
+  ] 
 })
 
 export default router

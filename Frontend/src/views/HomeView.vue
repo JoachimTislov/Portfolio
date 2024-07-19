@@ -16,7 +16,7 @@ import HomePage from '../components/HomePage.vue'
 }
 
 
-@media (min-width: 1000px) {
+@media (min-width: 700px) {
   
   .container {
     width: 80%;
