@@ -8,7 +8,6 @@ import {
   first_player,
   ShowWinner,
   winnerMsg,
-  switchTurn,
   previousMove,
   resetGame,
   board,
