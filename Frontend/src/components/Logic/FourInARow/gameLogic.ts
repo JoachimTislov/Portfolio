@@ -65,7 +65,7 @@ watch(
 )
 
 export const winnerMsg = ref<string>('')
-export const gameMode = ref<string>('')
+export const gameMode = ref<string>('Player vs Player')
 
 const GameOver = ref<boolean>(false)
 

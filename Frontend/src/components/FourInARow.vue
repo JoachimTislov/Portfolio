@@ -36,7 +36,7 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
           <div class="p-3 mb-3 participantTurnMessage">
             <h4>{{ gameMode }} </h4>
             <template v-if="botGame">
-              <h3 class="statusText" v-if="playerTurn"> <strong>  Your Turn </strong> </h3>
+              <h3 v-if="playerTurn"> <strong>  Your Turn </strong> </h3>
               <h3 v-else> <strong> Bot is calculating... </strong> </h3>
             </template>
           </div>
@@ -217,6 +217,10 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
     height: 3.5em;
 
   }
+
+  h3 {
+    font-size: 1em;
+  }
 }
 
 @media (max-width: 500px) {
@@ -225,6 +229,10 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
     width: 2.5em;
     height: 2.5em;
 
+  }
+
+  h3 {
+    font-size: 1em;
   }
 }
 
