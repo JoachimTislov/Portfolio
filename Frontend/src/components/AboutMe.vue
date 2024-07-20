@@ -99,24 +99,13 @@ p {
 
 
 
-@media (max-width: 1100px) {
+
+@media (min-width: 1200px) {
     .skill {
         padding: 1.2vw;
         margin: 0.5vw;
     }
-}
 
-@media (max-width: 900px) {
-    p {
-        font-size: 2vw;
-    }
-
-    h3 {
-        font-size: 3vw;
-    }
-}
-
-@media (min-width: 901px) {
     p {
         font-size: 1.3vw;
     }
@@ -124,6 +113,29 @@ p {
     h3 {
         font-size: 1.7vw;
     }
+}
+
+@media (min-width: 600px) and (max-width: 1200px) {
+
+    p {
+        font-size: 2.5vw;
+    }
+
+    h3 {
+        font-size: 4vw;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+p {
+    font-size: 3vw;
+}
+
+h3 {
+    font-size: 5vw;
+}
 }
     
 </style>

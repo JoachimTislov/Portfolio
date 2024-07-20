@@ -12,16 +12,7 @@ import HomePage from '../components/HomePage.vue'
 <style scoped>
 
 .container {
-  margin-bottom: 10%;
-}
-
-
-@media (min-width: 700px) {
-  
-  .container {
-    width: 80%;
-  }
-  
+  margin-bottom: 5%;
 }
 
 </style>

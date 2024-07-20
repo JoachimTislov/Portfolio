@@ -99,6 +99,7 @@ h1 {
     height: 20vw;
     overflow: hidden;
     margin-left: 3vw;
+    
     border-radius: 50%;
 
     background-color: white;
@@ -107,6 +108,7 @@ h1 {
 img {
     width: 100%;
     height: auto;
+
 
     object-fit: cover;
 }
@@ -132,28 +134,78 @@ img {
     box-shadow: 0 1px 8px 4px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(0, 0, 0, 0.5);
 }
 
+@media (min-width: 1000px) {
 
-@media (min-width: 700px) {
+.link, .contact {
+    font-size: 1.5vw;
+}
+
+.imgDiv {
+    width: 15vw;
+    height: 15vw;
+}
+
+h1 {
+    font-size: 3.5vw;
+}
+
+figure p {
+    font-size: 1.3vw;
+}
+
+.cite {
+    font-size: 1vw;
+}
+}
+
+
+@media (min-width: 600px) and (max-width: 1000px) {
 
     .link, .contact {
         font-size: 1.5vw;
     }
 
     .imgDiv {
-        width: 15vw;
-        height: 15vw;
+        width: 25vw;
+        height: 25vw;
     }
 
     h1 {
-        font-size: 3.5vw;
+        font-size: 4.5vw;
     }
 
     figure p {
-        font-size: 1.3vw;
+        font-size: 2vw;
     }
 
     .cite {
-        font-size: 1vw;
+        font-size: 2vw;
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .link, .contact {
+        font-size: 3.5vw;
+    }
+
+    .imgDiv {
+        width: 35vw;
+        height: 35vw;
+    }
+
+    h1 {
+        font-size: 6.5vw;
+    }
+
+    figure p {
+        margin-top: 6px;
+        font-size: 2.7vw;
+    }
+
+    .cite {
+        font-size: 2.3vw;
     }
 }
   

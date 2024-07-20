@@ -1,23 +1,9 @@
 <script setup lang="ts">
-
-
-
+import FourInARow from '../components/FourInARow.vue'
 </script>
 
-
 <template>
-    <div class="d-flex justify-content-center">
-        <h1> Four in a row, coming soon </h1>
-    </div>
+  <main class="container">
+    <FourInARow />
+  </main>
 </template>
-
-
-
-<style scoped>
-
-h1 {
-    margin-top: 1em;
-}
-
-</style>
-

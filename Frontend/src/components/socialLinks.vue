@@ -27,14 +27,21 @@ a {
   margin-left: 2%;
 }
 
-@media (min-width: 700px) {
+@media (min-width: 1000px) {
   .socialLink {
     width: 2vw;
   }
+}
 
-  .gmail {
-    margin: 0;
-    width: 2.5vw;
+@media (min-width: 700px) and (max-width: 1000px) {
+  .socialLink {
+    width: 3vw;
+  }
+}
+
+@media (max-width: 600px) {
+  .socialLink {
+    width: 5vw;
   }
 }
 </style>
