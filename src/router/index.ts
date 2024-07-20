@@ -18,7 +18,7 @@ const router = createRouter({
     },
     {
       path: '/Four-in-a-row',
-      name: 'four in a row',
+      name: 'fourInARow',
       component: () => import('../views/FourInARowView.vue'),
     },
   ] 
