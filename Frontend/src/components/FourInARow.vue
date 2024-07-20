@@ -54,21 +54,23 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
                 <label for="starting_player"> Starting Player: </label> <br>
                 <select 
                   id="starting_player"
-                  class="form-control-lg"
+                  class="form-control form-control-md"
                   v-model="first_player"
                   @change="resetGame()"
                 >
                   <option value="Player 1">Player 1</option>
-                  <option value="bot">Artificial Intelligence</option>
+                  <option value="bot">Bot</option>
                 </select>
               </div>
             </template>
 
+            <div class="btn-group btn-group-sm" role="group">
               <button @click="resetGame()" type="button" class="m-1 mt-3 btn btn-success">Play Again / Restart </button>
 
               <template v-if="!ShowWinner">
                 <button v-if="!botGame && pieces > 0 || botGame && pieces > 1" @click="previousMove()" type="button" class="m-1 mt-3 btn btn-primary"> Previous Move </button>
               </template>
+            </div>
           </div>
 
         </div>
