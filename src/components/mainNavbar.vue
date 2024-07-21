@@ -24,7 +24,7 @@ import { RouterLink } from 'vue-router';
                         <RouterLink class="nav-link active" to="/Four-in-a-row"> 
                             Four in a row
                         </RouterLink>
-                    </li>
+                    </li> 
                 </ul>
             </div>
         </div>

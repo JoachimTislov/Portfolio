@@ -16,10 +16,10 @@ import { RouterLink, RouterView } from 'vue-router'
                     </blockquote>
                     
                     <p class="cite">- Doug Linder, computer scientist</p>
-                </figure>
-            </div>
+                </figure> 
+            </div> 
 
-            <div class="imgDiv"> <img src="\\src\\assets\\images\\joachim.png" alt="image"> </div>
+            <div class="imgDiv"> <img src="@\\assets\\images\\joachim.png" alt="image"> </div>
         </div>
     </div>
 

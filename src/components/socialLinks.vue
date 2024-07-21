@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const baseUrl = '@\\assets\\images\\'
+const baseUrl = '\\src\\assets\\images\\'
 const links: {img: string, link: string}[] = [
     { img: baseUrl + 'github.png', link: 'https://github.com/JoachimTislov'},
     { img: baseUrl + 'linkedin.png', link: 'https://www.linkedin.com/in/joachim-tisl%C3%B8v-7074642b1/'},
@@ -10,7 +10,7 @@ const links: {img: string, link: string}[] = [
 
 <template>
   <div class="d-flex flex-row">
-    <a v-for="item in links" :key="item.img" :href="item.link"><img class="socialLink" :src="baseUrl + 'github.png'" /></a>
+    <a v-for="item in links" :key="item.img" :href="item.link"><img class="socialLink" :src="item.img" /></a>
   </div>
 </template>
 

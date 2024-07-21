@@ -7,9 +7,13 @@ import type { _losingCoordinates, possible_Choices, possible_Coordinates } from 
 export const piecesInARow = 4
 export const officialOffset = piecesInARow - 1 
 
-export const ShowWinner = ref<boolean>(false)
+const storedShowWinner = localStorage.getItem('ShowWinner')
+export const ShowWinner = ref<boolean>(storedShowWinner ? JSON.parse(storedShowWinner) : false)
+watch(ShowWinner, (newShowWinner) => {localStorage.setItem('ShowWinner', JSON.stringify(newShowWinner))}, {deep: true })
 
-export const botGame = ref<boolean>(false)
+const storedBotGame = localStorage.getItem('botGame')
+export const botGame = ref<boolean>(storedBotGame ? JSON.parse(storedBotGame) : false)
+watch(botGame, (newBotGame) => {localStorage.setItem('botGame', JSON.stringify(newBotGame))}, {deep: true })
 
 export const remainingChoices = ref<possible_Coordinates[]>([])
 
@@ -24,7 +28,6 @@ export const defaultGoldenMove = {
 }
 
 export const goldenMove = ref<possible_Coordinates>(defaultGoldenMove) 
-
 
 export const deepClone = <T>(obj: T): T => {
   return JSON.parse(JSON.stringify(obj));
@@ -41,7 +44,9 @@ export const botChoices = ref<possible_Choices>(deepClone(defaultChoices))
 
 export const playerChoices = ref<possible_Choices>(deepClone(defaultChoices))
 
-export const first_player = ref<string>('Player 1')
+const storedFirst_player = localStorage.getItem('first_player')
+export const first_player = ref<string>(storedFirst_player ? JSON.parse(storedFirst_player): 'Player 1')
+watch(first_player,(newFirst_player) => {localStorage.setItem('first_player', JSON.stringify(newFirst_player))},{ deep: true })
 
 const storedLog = localStorage.getItem('log')
 export const log = ref<number[][]>(storedLog ? JSON.parse(storedLog) : [])
@@ -50,8 +55,19 @@ watch(log,(newLog) => {localStorage.setItem('log', JSON.stringify(newLog))},{ de
 
 export const botValue: number = 3
 
-export const playerStatus = ref<number>(1)
-export const playerTurn = ref<boolean>(true)
+const storedPlayerStatus = localStorage.getItem('playerStatus')
+export const playerStatus = ref<number>(storedPlayerStatus ? JSON.parse(storedPlayerStatus) : 1)
+watch(playerStatus,(newPlayerStatus) => {localStorage.setItem('playerStatus', JSON.stringify(newPlayerStatus))},{ deep: true })
+
+const storedPlayerTurn = localStorage.getItem('playerTurn')
+export const playerTurn = ref<boolean>(storedPlayerTurn ?  JSON.parse(storedPlayerTurn) : true)
+watch(
+  playerTurn,
+  (newPlayerTurn) => {
+    localStorage.setItem('playerTurn', JSON.stringify(newPlayerTurn))
+  },
+  { deep: true }
+)
 
 const storedPieces = localStorage.getItem('pieces')
 export const pieces = ref<number>(storedPieces ? JSON.parse(storedPieces) : 0)
@@ -64,10 +80,38 @@ watch(
   { deep: true }
 )
 
-export const winnerMsg = ref<string>('')
-export const gameMode = ref<string>('Player vs Player')
+const storedWinnerMsg = localStorage.getItem('winnerMsg')
+export const winnerMsg = ref<string>(storedWinnerMsg ? JSON.parse(storedWinnerMsg) : '')
 
-const GameOver = ref<boolean>(false)
+watch(
+  winnerMsg,
+  (newWinnerMsg) => {
+    localStorage.setItem('winnerMsg', JSON.stringify(newWinnerMsg))
+  },
+  { deep: true }
+)
+
+const storedGameMode = localStorage.getItem('gameMode')
+export const gameMode = ref<string>(storedGameMode ? JSON.parse(storedGameMode) : 'Player vs Player')
+
+watch(
+  gameMode,
+  (newGameMode) => {
+    localStorage.setItem('gameMode', JSON.stringify(newGameMode))
+  },
+  { deep: true }
+)
+
+const storedGameOver = localStorage.getItem('GameOver')
+const GameOver = ref<boolean>(storedGameOver ? JSON.parse(storedGameOver) : false)
+
+watch(
+  GameOver,
+  (newGameOver) => {
+    localStorage.setItem('GameOver', JSON.stringify(newGameOver))
+  },
+  { deep: true }
+)
 
 const boardWidth = ref(7)
 const boardHeight = ref(6)
@@ -83,9 +127,18 @@ watch(
   { deep: true }
 )
 
-export const losing_Coordinates = ref<_losingCoordinates>([])
+const storedLosing_Coordinates = localStorage.getItem('losing_Coordinates')
+export const losing_Coordinates = ref<_losingCoordinates>(storedLosing_Coordinates ? JSON.parse(storedLosing_Coordinates) : [])
 
-export const handleDropInAnimation = (specific_slot: Element | null) => {
+watch(
+  losing_Coordinates,
+  (newLosing_Coordinates) => {
+    localStorage.setItem('losing_Coordinates', JSON.stringify(newLosing_Coordinates))
+  },
+  { deep: true }
+)
+
+export const handleDropInAnimation = async (specific_slot: Element | null) => {
   if (specific_slot != null) {
     specific_slot.classList.add('drop-in')
 
@@ -97,7 +150,6 @@ export const handleDropInAnimation = (specific_slot: Element | null) => {
 
 export const dropPiece = async (index: number) => {
   if(!GameOver.value) {
-    console.log(playerTurn.value, botGame.value)
     if(playerTurn.value && botGame.value || !botGame.value) {
       for (let i = 0; i < 7; i++) {
         if (board[index][i] === 0) {
@@ -112,16 +164,30 @@ export const dropPiece = async (index: number) => {
           checkWinner(true)
 
           if (botGame.value && !ShowWinner.value) {
+            alterPreviousButton(1)
             await initiateAlgorithms(board)
           }
 
           if (!botGame.value) {
+            alterPreviousButton(0)
             updatePlayerStatus()
           }
           break
         }
       }
     }
+  }
+}
+
+export const alterPreviousButton = (int: number) => {
+  const previousButton: any = document.getElementById('previousButton')
+
+  console.log(pieces.value, int, GameOver.value)
+  if (pieces.value > int && !GameOver.value) {
+    previousButton.disabled = false
+  } else {
+    console.log('Disabled')
+    previousButton.disabled = true
   }
 }
 
@@ -132,6 +198,9 @@ export const previousMove = () => {
       board[x][y] = 0
       pieces.value--
     }
+
+    const previousButton: any = document.getElementById('previousButton')
+    if(first_player.value == 'bot' && pieces.value == 1) previousButton.disabled = true
   }
 
   GameOver.value = false
@@ -196,6 +265,8 @@ export const resetGame = () => {
   board.forEach((row: number[]) => {
     row.fill(0) // Fill each row with 0
   })
+
+  alterPreviousButton(pieces.value)
 
   resetChoices()
 
@@ -312,9 +383,11 @@ const determineWinner = (value: number) => {
   ShowWinner.value = true
   GameOver.value = true
   if (value == botValue) {
-    winnerMsg.value = 'The winner is the bot, better practice till next time!'
+    winnerMsg.value = 'The winner is the bot'
   } else {
-    winnerMsg.value = `The winner is player ${playerStatus.value}`
+    const color = getSlotColor(playerStatus.value)
+
+    winnerMsg.value = `The winner is ${color}`
   }
   return true
 }

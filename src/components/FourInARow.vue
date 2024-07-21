@@ -2,7 +2,6 @@
 import {
   botGame,
   gameMode,
-  pieces,
   initTwoPlayer,
   initBotGame,
   first_player,
@@ -21,7 +20,7 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
   return 'slot' + colIndex + '-' + rowIndex
 } 
 </script>
-
+ 
 <template>
   <div class="mt-5 d-flex btn-group-lg btn-group" role="group">
     <button v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button" class="border-light m-1 btn btn-secondary">
@@ -33,11 +32,11 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
   <section id="mainDiv">
     <div class="menu m-1">
         <template v-if="!ShowWinner">
-          <div class="p-3 mb-3 participantTurnMessage">
-            <h4>{{ gameMode }} </h4>
+          <div class="p-3 participantTurnMessage">
+            <h4> {{ gameMode }} </h4>
             <template v-if="botGame">
-              <h3 v-if="playerTurn"> <strong>  Your Turn </strong> </h3>
-              <h3 v-else> <strong> Bot is calculating... </strong> </h3>
+              <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
+              <h5 v-else> <strong> Bot is calculating... </strong> </h5>
             </template>
           </div>
         </template>
@@ -49,12 +48,12 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
         <div class="d-flex justify-content-center form-group" role="group">
 
           <div class="info">
-            <template v-if="botGame" >
-              <div class="m-1 mt-0">
+            <template v-if="botGame">
+              <div class="m-1 mt-1">
                 <label for="starting_player"> Starting Player: </label> <br>
                 <select 
                   id="starting_player"
-                  class="form-control form-control-md"
+                  class="form-control form-control-sm"
                   v-model="first_player"
                   @change="resetGame()"
                 >
@@ -64,12 +63,13 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
               </div>
             </template>
 
-            <div class="btn-group btn-group-sm" role="group">
-              <button @click="resetGame()" type="button" class="m-1 mt-3 btn btn-success">Play Again / Restart </button>
+            <div class="btn-group btn-group-sm" role="group">      
+              <button id="previousButton" @click="previousMove()" type="button" class="m-1 mt-3 btn btn-primary" disabled> Previous Move </button>
 
-              <template v-if="!ShowWinner">
-                <button v-if="!botGame && pieces > 0 || botGame && pieces > 1" @click="previousMove()" type="button" class="m-1 mt-3 btn btn-primary"> Previous Move </button>
-              </template>
+              <button id="restartButton" @click="resetGame()" type="button" class="m-1 mt-3 btn btn-success">
+                <template v-if="ShowWinner"> Play Again </template>
+                <template v-else> Restart </template>
+              </button>
             </div>
           </div>
 
@@ -140,7 +140,7 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
 
   gap: 0.15em;
 
-  border: solid 10px black;
+  border: solid 1px black;
 
   margin-top: 20px;
   margin-bottom: 3%;
@@ -225,7 +225,7 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
   }
 }
 
-@media (max-width: 500px) {
+@media (min-width: 400px) and (max-width: 500px) {
   .slotBackground {
 
     width: 2.5em;
@@ -235,6 +235,15 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
 
   h3 {
     font-size: 1em;
+  }
+}
+
+@media (max-width: 400px) {
+  .slotBackground {
+
+    width: 1.8em;
+    height: 1.8em;
+
   }
 }
 
@@ -267,27 +276,28 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
 
 h1,
 h2,
-h3 {
+h3, h4, h5 {
   padding: 0;
   margin: 0;
 }
+
+h5 {
+  font-size: 1rem;
+}
+
 .winner-message {
-  background-color: #f9f9f9; /* Light background color */
+  background-color: #2e2a2a; /* Light background color */
   border: 2px solid #ccc; /* Border for contrast */
   padding: 20px; /* Padding around the content */
   text-align: center; /* Center-align text */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
   border-radius: 8px; /* Rounded corners */
-  margin: 20px auto; /* Center horizontally with some vertical margin */
   max-width: 400px; /* Example maximum width */
 }
 
 .winner-message h4 {
-  margin: 0; /* Remove default margin for cleaner look */
-  color: #333; /* Text color */
-  font-size: 1.5rem; /* Example font size */
-  letter-spacing: 2px; /* Spacing between letters */
+  margin: 0; 
+  font-size: 1rem; 
 }
-
 
 </style>

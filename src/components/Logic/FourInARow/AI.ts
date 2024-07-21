@@ -16,7 +16,8 @@ import {
   defaultChoices,
   handleDropInAnimation,
   playerTurn,
-  checkWinner
+  checkWinner,
+  alterPreviousButton
 } from './gameLogic'
 
 import {
@@ -683,12 +684,14 @@ export const resetChoices = () => {
 
 export const botMove = (board: number[][], row: number, slot: number) => {
   const specific_slot = document.querySelector('.slot' + row + '-' + slot)
-  
-  setTimeout(() => {
-    handleDropInAnimation(specific_slot)
+  const restartButton: any = document.getElementById('restartButton')
+  restartButton.disabled = true
 
+  setTimeout(() => {
     board[row][slot] = botValue
     log.value.push([row, slot])
+
+    handleDropInAnimation(specific_slot)
 
     checkWinner(true)
   
@@ -697,6 +700,10 @@ export const botMove = (board: number[][], row: number, slot: number) => {
     incrementPiecesAndCheckForTie()
 
     playerTurn.value = true
+
+    alterPreviousButton(1)
+
+    restartButton.disabled = false
   
     return [row, slot]
   }, 1000)
