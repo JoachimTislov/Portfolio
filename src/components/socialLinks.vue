@@ -1,10 +1,14 @@
 <script setup lang="ts">
-const baseUrl = '\\src\\assets\\images\\'
+import githubLogo from '@/assets/images/github.png'
+import linkendIn from '@/assets/images/linkedin.png'
+import instagram from '@/assets/images/instagram.png'
+import facebook from '@/assets/images/facebook.png'
+
 const links: {img: string, link: string}[] = [
-    { img: baseUrl + 'github.png', link: 'https://github.com/JoachimTislov'},
-    { img: baseUrl + 'linkedin.png', link: 'https://www.linkedin.com/in/joachim-tisl%C3%B8v-7074642b1/'},
-    { img: baseUrl + 'instagram.png', link: 'https://www.instagram.com/joachimtislov/'},  
-    { img: baseUrl + 'facebook.png', link: 'https://www.facebook.com/profile.php?id=100011419305331'}
+    { img: githubLogo, link: 'https://github.com/JoachimTislov'},
+    { img: linkendIn, link: 'https://www.linkedin.com/in/joachim-tisl%C3%B8v-7074642b1/'},
+    { img: instagram, link: 'https://www.instagram.com/joachimtislov/'},  
+    { img: facebook, link: 'https://www.facebook.com/profile.php?id=100011419305331'}
 ]
 </script>
 

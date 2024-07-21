@@ -13,7 +13,7 @@ import {
   getSlotColor,
   dropPiece,
   playerTurn
-} from './Logic/FourInARow/gameLogic'  
+} from '../Logic/FourInARow/gameLogic'  
 
 
 const getNameOfSlot = (colIndex: number, rowIndex: number) => {

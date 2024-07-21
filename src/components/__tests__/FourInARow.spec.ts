@@ -1,7 +1,7 @@
 import { describe, it, expect, test } from 'vitest'
 
 //import { mount } from '@vue/test-utils'
-import { scanBoard, initiateAlgorithms } from '../Logic/FourInARow/AI'
+import { scanBoard, initiateAlgorithms } from '../../Logic/FourInARow/AI'
 
 describe('Scanning a 7x6 board', () => {
   it('scans properly', () => {

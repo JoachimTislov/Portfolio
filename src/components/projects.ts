@@ -1,3 +1,5 @@
+import macroTrackerImg from '@/assets/images/MacroTracker.png'
+
 export const projects = [
     {
         name: 'Macro Tracker', 
@@ -29,7 +31,7 @@ export const projects = [
                 {name: 'SQLite', icon:  ['fas','database'], link: 'https://www.sqlite.org/docs.html'},
             ]
         }, 
-        imageLink: '/MacroTracker.png', 
+        imageLink: macroTrackerImg, 
         routerLink: '/MacroTracker'
     }
 ]
