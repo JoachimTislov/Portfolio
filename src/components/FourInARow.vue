@@ -19,15 +19,15 @@ import {
 
 const getNameOfSlot = (colIndex: number, rowIndex: number) => {
   return 'slot' + colIndex + '-' + rowIndex
-}
+} 
 </script>
 
 <template>
   <div class="mt-5 d-flex btn-group-lg btn-group" role="group">
-    <button @click="initTwoPlayer(), resetGame()" type="button" class="border-light m-1 btn btn-secondary">
+    <button v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button" class="border-light m-1 btn btn-secondary">
       Two Player Game
     </button>
-    <button @click="initBotGame()" type="button" class="border-light m-1 m-1 btn btn-secondary">Play against the Bot</button>
+    <button v-if="!botGame" @click="initBotGame()" type="button" class="border-light m-1 m-1 btn btn-secondary">Play against the Bot</button>
   </div>
 
   <section id="mainDiv">

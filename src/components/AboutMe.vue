@@ -25,9 +25,9 @@ const jobs = ['Full-Stack', 'IT-Consultant', 'Technology Integration Specialist'
     <div class="aboutBox">
         <div class="text">
             <p> 
-                I am a 21 year old male from Bærum, live with my Alaskan husky - Leo.
+                I am a 21 year old male from Sandnes, live with my Alaskan husky - Leo.
                 Played football for over 14 years, which provided me with extensive team-building skills.
-            </p>
+            </p> 
             
             <p>
                 Technology has been my passion since i got access to it, leading me to pursue

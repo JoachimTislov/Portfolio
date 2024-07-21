@@ -19,7 +19,7 @@ import { RouterLink, RouterView } from 'vue-router'
                 </figure>
             </div>
 
-            <div class="imgDiv"> <img src="/joachim.png" alt="image"> </div>
+            <div class="imgDiv"> <img src="\\src\\assets\\images\\joachim.png" alt="image"> </div>
         </div>
     </div>
 
@@ -38,7 +38,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
                 <font-awesome-icon class="arrow" :icon="['fas', 'arrow-right']" />
 
-                <a href="mailto:Joachim.tislov@gmail.com"><img class="gmail" src="/gmail.png" /></a>
+                <a href="mailto:Joachim.tislov@gmail.com"><img class="gmail" src="@\\assets\\images\\gmail.png" /></a>
 
             </p>
         </div>
