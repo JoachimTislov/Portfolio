@@ -12,7 +12,7 @@ export const ShowWinner = ref<boolean>(storedShowWinner ? JSON.parse(storedShowW
 watch(ShowWinner, (newShowWinner) => {localStorage.setItem('ShowWinner', JSON.stringify(newShowWinner))}, {deep: true })
 
 const storedBotGame = localStorage.getItem('botGame')
-export const botGame = ref<boolean>(storedBotGame ? JSON.parse(storedBotGame) : false)
+export const botGame = ref<boolean>(storedBotGame ? JSON.parse(storedBotGame) : true)
 watch(botGame, (newBotGame) => {localStorage.setItem('botGame', JSON.stringify(newBotGame))}, {deep: true })
 
 export const remainingChoices = ref<possible_Coordinates[]>([])
@@ -91,16 +91,7 @@ watch(
   { deep: true }
 )
 
-const storedGameMode = localStorage.getItem('gameMode')
-export const gameMode = ref<string>(storedGameMode ? JSON.parse(storedGameMode) : 'Player vs Player')
-
-watch(
-  gameMode,
-  (newGameMode) => {
-    localStorage.setItem('gameMode', JSON.stringify(newGameMode))
-  },
-  { deep: true }
-)
+export const gameMode = ref<string>(botGame.value ? 'Player vs Bot' : 'Player vs Player')
 
 const storedGameOver = localStorage.getItem('GameOver')
 const GameOver = ref<boolean>(storedGameOver ? JSON.parse(storedGameOver) : false)

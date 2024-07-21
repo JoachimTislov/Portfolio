@@ -114,10 +114,6 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
   text-align: center;
 }
 
-.menu {
-  width: 80%;
-}
-
 .info {
   display: flex;
   flex-direction: row;
@@ -286,6 +282,7 @@ h5 {
 }
 
 .winner-message {
+
   background-color: #2e2a2a; /* Light background color */
   border: 2px solid #ccc; /* Border for contrast */
   padding: 20px; /* Padding around the content */

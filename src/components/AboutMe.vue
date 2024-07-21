@@ -25,16 +25,29 @@ const jobs = ['Full-Stack', 'IT-Consultant', 'Technology Integration Specialist'
     <div class="aboutBox">
         <div class="text">
             <p> 
-                I am a 21 year old male from Sandnes, live with my Alaskan husky - Leo.
+                I am a 22 year old male from Sandnes, live with my Alaskan husky - Leo.
                 Played football for over 14 years, which provided me with extensive team-building skills.
+                
+                I love sports, being active, and taken on challenges, both physically and mentally. 
+                
+                That is part the reason why programming sparked my interests. Solving problems, creating solutions, and developing
+                creative applications, systems or more, all in one. 
             </p> 
             
             <p>
                 Technology has been my passion since i got access to it, leading me to pursue
                 a bachelor's degree in Computer Technology.      
             </p>
-            
+
             <p> <strong> Patient, dedicated and driven </strong> describe me the best </p>
+
+            <h3> Situation: </h3>
+
+            <p>
+                I am currently working on personal projects, and plan to integrate every project into
+                the website. This allows you to interact with and explore them, instead of just reading
+                about each project. 
+            </p>
 
             <h3> Proficient in: </h3>
 
