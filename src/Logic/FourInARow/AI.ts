@@ -668,7 +668,6 @@ const filterOutLosingPatternByCheckingLosingCoordinates = (
     return true
 }
 
-
 export const resetChoices = () => {
   const values = [playerChoices, botChoices]
 

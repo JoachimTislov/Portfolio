@@ -7,6 +7,10 @@ import type { _losingCoordinates, possible_Choices, possible_Coordinates } from 
 export const piecesInARow = 4
 export const officialOffset = piecesInARow - 1 
 
+const storedShowMenu = localStorage.getItem('ShowMenu')
+export const ShowMenu = ref<boolean>(storedShowMenu ? JSON.parse(storedShowMenu) : true)
+watch(ShowMenu, (newShowMenu) => {localStorage.setItem('ShowMenu', JSON.stringify(newShowMenu))}, {deep: true})
+
 const storedShowWinner = localStorage.getItem('ShowWinner')
 export const ShowWinner = ref<boolean>(storedShowWinner ? JSON.parse(storedShowWinner) : false)
 watch(ShowWinner, (newShowWinner) => {localStorage.setItem('ShowWinner', JSON.stringify(newShowWinner))}, {deep: true })
@@ -374,11 +378,13 @@ const determineWinner = (value: number) => {
   ShowWinner.value = true
   GameOver.value = true
   if (value == botValue) {
-    winnerMsg.value = 'The winner is the bot'
-  } else {
+    winnerMsg.value = 'The bot won'
+  } else if(!botGame.value) {
     const color = getSlotColor(playerStatus.value)
 
-    winnerMsg.value = `The winner is ${color}`
+    winnerMsg.value = `${color} won`
+  } else {
+    winnerMsg.value = `Player ${playerStatus.value} won`
   }
   return true
 }

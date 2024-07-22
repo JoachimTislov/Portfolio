@@ -12,7 +12,8 @@ import {
   board,
   getSlotColor,
   dropPiece,
-  playerTurn
+  playerTurn,
+  ShowMenu
 } from '../Logic/FourInARow/gameLogic'  
 
 
@@ -22,59 +23,64 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
 </script>
  
 <template>
-  <div class="mt-5 d-flex btn-group-lg btn-group" role="group">
-    <button v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button" class="border-light m-1 btn btn-secondary">
-      Two Player Game
-    </button>
-    <button v-if="!botGame" @click="initBotGame()" type="button" class="border-light m-1 m-1 btn btn-secondary">Play against the Bot</button>
-  </div>
-
   <section id="mainDiv">
-    <div class="menu m-1">
-        <template v-if="!ShowWinner">
-          <div class="p-3 participantTurnMessage">
-            <h4> {{ gameMode }} </h4>
-            <template v-if="botGame">
-              <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
-              <h5 v-else> <strong> Bot is calculating... </strong> </h5>
-            </template>
-          </div>
-        </template>
-
-        <div class="winner-message" v-show="ShowWinner">
-          <h4>{{ winnerMsg }}</h4>
+    <button @click="ShowMenu = !ShowMenu" class="mb-1 btn btn-secondary">
+      <template v-if="ShowMenu">
+        Hide Game Menu
+      </template>
+      <template v-else>
+        Show Game Menu
+      </template>
+    </button>
+    <div v-show="ShowMenu">
+      <div class="d-flex btn-group-sm btn-group" role="group">
+        <button v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button" class="border-light m-1 btn btn-secondary">
+          Two Player Game
+        </button>
+        <button v-if="!botGame" @click="initBotGame()" type="button" class="border-light m-1 m-1 btn btn-secondary">Play against the Bot</button>
+      </div>
+      <template v-if="!ShowWinner">
+        <div class="p-3 participantTurnMessage">
+          <h4> {{ gameMode }} </h4>
+          <template v-if="botGame">
+            <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
+            <h5 v-else> <strong> Bot is calculating... </strong> </h5>
+          </template>
         </div>
+      </template>
 
-        <div class="d-flex justify-content-center form-group" role="group">
+      <div class="winner-message" v-show="ShowWinner">
+        <h4>{{ winnerMsg }}</h4>
+      </div>
 
-          <div class="info">
-            <template v-if="botGame">
-              <div class="m-1 mt-1">
-                <label for="starting_player"> Starting Player: </label> <br>
-                <select 
-                  id="starting_player"
-                  class="form-control form-control-sm"
-                  v-model="first_player"
-                  @change="resetGame()"
-                >
-                  <option value="Player 1">Player 1</option>
-                  <option value="bot">Bot</option>
-                </select>
-              </div>
-            </template>
+      <div class="d-flex justify-content-center form-group" role="group">
 
-            <div class="btn-group btn-group-sm" role="group">      
-              <button id="previousButton" @click="previousMove()" type="button" class="m-1 mt-3 btn btn-primary" disabled> Previous Move </button>
-
-              <button id="restartButton" @click="resetGame()" type="button" class="m-1 mt-3 btn btn-success">
-                <template v-if="ShowWinner"> Play Again </template>
-                <template v-else> Restart </template>
-              </button>
+        <div class="info">
+          <template v-if="botGame">
+            <div class="m-1 mt-1">
+              <label for="starting_player"> Starting Player: </label> <br>
+              <select 
+                id="starting_player"
+                class="form-control form-control-sm"
+                v-model="first_player"
+                @change="resetGame()"
+              >
+                <option value="Player 1">Player 1</option>
+                <option value="bot">Bot</option>
+              </select>
             </div>
-          </div>
+          </template>
 
+          <div class="btn-group btn-group-sm" role="group">      
+            <button id="previousButton" @click="previousMove()" type="button" class="m-1 mt-3 btn btn-primary" disabled> Previous Move </button>
+
+            <button id="restartButton" @click="resetGame()" type="button" class="m-1 mt-3 btn btn-success">
+              <template v-if="ShowWinner"> Play Again </template>
+              <template v-else> Restart </template>
+            </button>
+          </div>
         </div>
-        
+      </div>
     </div>
     
     <div id="board">
@@ -134,15 +140,8 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
   justify-content: center;
   align-items: center;
 
-  gap: 0.15em;
-
-  border: solid 1px black;
-
   margin-top: 20px;
-  margin-bottom: 3%;
   padding: 20px;
-
-  background-color: rgb(49, 49, 49);
 }
 
 #board {
@@ -168,11 +167,9 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
 .column-reverse {
   display: flex;
   flex-direction: column-reverse;
-  transition:
-    background-color 0.3s ease,
-    box-shadow 0.3s ease,
-    transform 0.3s ease;
   border-top: 0;
+
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 .column-reverse:hover {
@@ -184,64 +181,13 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
   border-radius: 50%;
   background-color: white;  
 
-  width: 8em;
-  height: 8em;
+  width: clamp(2.1em, 8vw, 8em);
+  height: clamp(2.1em, 8vw, 8em);
 
   padding: 2px;
   margin: 2px;
 }
 
-@media (min-width: 1000px) and (max-width: 1200px) {
-  .slotBackground {
-
-    width: 6em;
-    height: 6em;
-
-  }
-}
-@media (min-width: 770px) and (max-width: 1000px) {
-  .slotBackground {
-
-    width: 4em;
-    height: 4em;
-
-  }
-}
-
-@media (min-width: 500px) and (max-width: 770px) {
-  .slotBackground {
-
-    width: 3.5em;
-    height: 3.5em;
-
-  }
-
-  h3 {
-    font-size: 1em;
-  }
-}
-
-@media (min-width: 400px) and (max-width: 500px) {
-  .slotBackground {
-
-    width: 2.5em;
-    height: 2.5em;
-
-  }
-
-  h3 {
-    font-size: 1em;
-  }
-}
-
-@media (max-width: 400px) {
-  .slotBackground {
-
-    width: 1.8em;
-    height: 1.8em;
-
-  }
-}
 
 .slot {
   border: solid 2px #333;
@@ -252,7 +198,7 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
 
 @keyframes dropIn {
   0% {
-    transform: translateY(-28vw); /* Start position relative to board height */
+    transform: translateY(-300%); /* Start position relative to board height */
   }
   40% {
     transform: translateY(5px); /* Slight movement up */
@@ -267,7 +213,7 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
 
 .drop-in {
   z-index: 1;
-  animation: dropIn 2s ease-out;
+  animation: dropIn 2s ease-in-out forwards;
 }
 
 h1,
@@ -275,6 +221,10 @@ h2,
 h3, h4, h5 {
   padding: 0;
   margin: 0;
+}
+
+h4 {
+  font-size: clamp(0.8rem, 5vw, 1.2rem);
 }
 
 h5 {
