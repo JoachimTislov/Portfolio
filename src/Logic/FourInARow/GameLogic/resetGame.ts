@@ -8,6 +8,14 @@ export const resetGame = (pieces: number, assignInt: (int: number) => void) => {
     row.fill(0) // Fill each row with 0
   })
 
+  resetChoices()
+
+  ShowBoard.value = true
+  playerTurn.value = true
+
+  GameOver.value = false
+  ShowWinner.value = false
+
   assignInt(0)
   pieces = 0
 
@@ -17,14 +25,6 @@ export const resetGame = (pieces: number, assignInt: (int: number) => void) => {
   
   alterRestartButton(pieces)
   alterPreviousButton(pieces)
-
-  resetChoices()
-
-  ShowBoard.value = true
-  playerTurn.value = true
-
-  GameOver.value = false
-  ShowWinner.value = false
   
   log.value = []
   losing_Coordinates.value = []

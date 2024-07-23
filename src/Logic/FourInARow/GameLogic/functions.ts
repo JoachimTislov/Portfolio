@@ -16,8 +16,8 @@ export const handleDropInAnimation = async (colIndex: number, rowIndex: number) 
   }
 }
 
-const number = botGame.value ? 1 : 0
 export const alterPreviousButton = (pieces: number) => {
+  const number = botGame.value ? 1 : 0
   if(pieces > number && !GameOver.value) {
     console.log('P not D')
     isPreviousDisabled.value = false
@@ -30,6 +30,7 @@ export const alterPreviousButton = (pieces: number) => {
 }
 
 export const alterRestartButton = (pieces: number) => {
+  const number = botGame.value ? 1 : 0
   if (pieces > number || ShowWinner.value) {
     console.log('R not D')
     isRestartDisabled.value = false
@@ -46,8 +47,7 @@ export const previousMove = (pieces: number, decrementPieces: () => void) => {
     const [x, y]: number[] = log.value.pop() ?? [-1, 0]
     if (x != -1) {
       board[x][y] = 0
-      decrementPieces()
-      pieces--
+      decrementPieces(); pieces--;
     }
 
     alterRestartButton(pieces)

@@ -6,9 +6,11 @@ import { vi } from 'vitest'
 import { emptyBoard, testBoards } from './testBoards'
 import { emptyScanOfBoard } from './EmptyScanOfBoard'
 
-import { createTestingPinia } from '@pinia/testing';
 
+////////////
+import { createTestingPinia } from '@pinia/testing';
 createTestingPinia({createSpy: vi.fn});
+////////////
 
 describe('Scanning a 7x6 board', () => {
   it('scans properly', () => {

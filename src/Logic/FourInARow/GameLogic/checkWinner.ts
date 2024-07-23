@@ -1,4 +1,3 @@
-import { getSlotColor } from "./functions"
 import { board, botGame, botValue, GameOver, playerStatus, ShowWinner, winnerMsg } from "./variables"
 
 export const checkWinner = (boolCheck: boolean) => {
@@ -91,11 +90,16 @@ const determineWinner = (value: number) => {
   if (value == botValue) {
     winnerMsg.value = 'The bot won'
   } else if(!botGame.value) {
-    const color = getSlotColor(playerStatus.value)
+    const color = getColor(playerStatus.value)
 
     winnerMsg.value = `${color} won`
   } else {
     winnerMsg.value = `Player ${playerStatus.value} won`
   }
   return true
+}
+
+const getColor = (int: number) => {
+  const colors = ['', 'Red', 'Blue']
+  return colors[int]
 }

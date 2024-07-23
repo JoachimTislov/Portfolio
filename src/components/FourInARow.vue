@@ -53,71 +53,68 @@ onMounted(async () => {
 </script>
  
 <template>
-  <section id="mainDiv">
-    <button @click="ShowMenu = !ShowMenu" class="mb-1 btn btn-secondary">
-      <template v-if="ShowMenu">
-        Hide Game Menu
-      </template>
-      <template v-else>
-        Show Game Menu
-      </template>
-    </button>
-    <div v-show="ShowMenu">
-      <div class="d-flex btn-group-sm btn-group" role="group">
-        <button v-if="botGame" @click="initTwoPlayer(), resetGame(pieces, assignInt)" type="button" class="border-light m-1 btn btn-secondary">
-          Two Player Game
-        </button>
-        <button v-if="!botGame" @click="initBotGame(assignInt), resetGame(pieces, assignInt)" type="button" class="border-light m-1 m-1 btn btn-secondary">Play against the Bot</button>
-      </div>
-      <template v-if="!ShowWinner">
-        <div class="p-3 participantTurnMessage">
-          <h4> {{ gameMode }} </h4>
-          <template v-if="botGame">
-            <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
-            <h5 v-else> <strong> Bot is calculating... </strong> </h5>
-          </template>
-        </div>
-      </template>
+  <section class="mainDiv">
+    <div class="menu">
+          <button @click="ShowMenu = !ShowMenu" class="mt-1 btn btn-secondary align-self-center">
+            <template v-if="ShowMenu">
+              Hide Game Menu
+            </template>
+            <template v-else>
+              Show Game Menu
+            </template>
+          </button>
 
-      <div class="winner-message" v-show="ShowWinner">
-        <h4>{{ winnerMsg }}</h4>
-      </div>
+          <div v-if="ShowMenu && botGame" class="mt-4 d-flex flex-column">
+            <label class="label" for="starting_player"> Starting Player: </label>
+            <select 
+              id="starting_player"
+              class="form-control form-control-sm"
+              v-model="first_player"
+              @change="resetGame(pieces, assignInt)"
+            >
+              <option value="Player 1">You</option>
+              <option value="bot">Bot</option>
+            </select>
+          </div>
+          
+          <div v-if="ShowMenu" class="mt-2 mb-2 btn-group">
+            <button v-if="botGame" @click="initTwoPlayer(), resetGame(pieces, assignInt)" type="button" class="border-light btn btn-secondary">
+              Two Player Game
+            </button>
+            <button v-if="!botGame" @click="initBotGame(assignInt), resetGame(pieces, assignInt)" type="button" class="border-light btn btn-secondary">Play against the Bot</button>
+          </div>
 
-      <div class="d-flex justify-content-center form-group" role="group">
-
-        <div class="info">
-          <template v-if="botGame">
-            <div class="m-1 mt-1">
-              <label for="starting_player"> Starting Player: </label> <br>
-              <select 
-                id="starting_player"
-                class="form-control form-control-sm"
-                v-model="first_player"
-                @change="resetGame(pieces, assignInt)"
-              >
-                <option value="Player 1">Player 1</option>
-                <option value="bot">Bot</option>
-              </select>
+          <template v-if="!ShowWinner && ShowMenu">
+            <div class="p-4 message">
+              <h4> {{ gameMode }} </h4>
+              <template v-if="botGame">
+                <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
+                <h5 v-else> <strong> Bot is calculating... </strong> </h5>
+              </template>
             </div>
           </template>
 
-          <div class="btn-group btn-group-sm" role="group">      
-            <button ref="previousButton" :disabled="isPreviousDisabled" @click="previousMove(pieces, decrementPieces)" type="button" class="m-1 mt-3 btn btn-primary"> Previous Move </button>
+          <template v-if="ShowWinner && ShowMenu"> 
+            <div class="p-4 message">
+              <h4>{{ winnerMsg }}</h4>
+            </div>
+          </template>
 
-            <button ref="restartButton" :disabled="isRestartDisabled" @click="resetGame(pieces, assignInt)" type="button" class="m-1 mt-3 btn btn-success">
+          <div v-if="ShowMenu" class="d-flex btn-group btn-group-md mt-1"> 
+            <button ref="restartButton" :disabled="isRestartDisabled" @click="resetGame(pieces, assignInt)" type="button" class="m-1 btn btn-md btn-success">
               <template v-if="ShowWinner"> Play Again </template>
               <template v-else> Restart </template>
             </button>
+
+            <button ref="previousButton" :disabled="isPreviousDisabled" @click="previousMove(pieces, decrementPieces)" type="button" class="m-1 btn btn-md btn-primary"> Previous Move </button>
           </div>
-        </div>
-      </div>
     </div>
     
     <div id="board" v-show="ShowBoard">
       <div
         v-for="(column, colIndex) in board"
         :key="colIndex"
-        @click="incrementPieces(), dropPiece(colIndex, pieces, incrementPieces)"
+        @click="dropPiece(colIndex, pieces, incrementPieces)"
         class="boardColumn column-reverse"
       >
         <div
@@ -138,30 +135,40 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.label {
+  font-size: 0.8em;
+}
 .participantTurnMessage {
-  color: black;
-
-  background-color: grey;
-  height: auto;
+  background-color: #2e2a2a;
 
   border-radius: 10px;
-  border: 5px solid darkslategrey;
+  border: 5px solid rgb(35, 37, 37);
 
   text-align: center;
 }
 
-.info {
+.menu {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
-@media (max-width: 1000px) {
-  .info {
+.buttons {
+    margin-top: 1rem;
+  }
+
+@media (max-width: 700px) {
+  .menu {
+    display: flex;
     flex-direction: column;
+  }
+
+  .buttons {
+    margin-top: 3.5rem;
+    margin-left: 0.5rem;
   }
 }
 
-#mainDiv {
+.mainDiv {
   width: 100%;
   height: auto;
   
@@ -171,7 +178,6 @@ onMounted(async () => {
   align-items: center;
 
   margin-top: 20px;
-  padding: 20px;
 }
 
 #board {
@@ -199,12 +205,14 @@ onMounted(async () => {
   flex-direction: column-reverse;
   border-top: 0;
 
+  border-radius: 40px;
+
   transition: transform 0.5s ease, box-shadow 0.5s ease;
 }
 
 .column-reverse:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  transform: scale(1.1);
+  background-color: rgb(0, 0, 0);
+  transform: scale(1.05);
 }
 
 .slotBackground {
@@ -261,15 +269,16 @@ h5 {
   font-size: 1rem;
 }
 
-.winner-message {
+.message {
+  background-color: #2e2a2a; 
+  text-align: center; 
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  border: solid 2px white;
+  border-radius: 8px; 
 
-  background-color: #2e2a2a; /* Light background color */
-  border: 2px solid #ccc; /* Border for contrast */
-  padding: 20px; /* Padding around the content */
-  text-align: center; /* Center-align text */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-  border-radius: 8px; /* Rounded corners */
-  max-width: 400px; /* Example maximum width */
+  margin-right: 20px;
+
+  width: 100%;
 }
 
 .winner-message h4 {

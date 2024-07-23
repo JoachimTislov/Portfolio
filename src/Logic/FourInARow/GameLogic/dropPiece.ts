@@ -8,7 +8,8 @@ export const dropPiece = async (index: number, pieces: number, incrementPieces: 
     if(playerTurn.value && botGame.value || !botGame.value) {
       for (let i = 0; i < 7; i++) {
         if (board[index][i] === 0) {
-          
+            incrementPieces(); pieces++; 
+            
             handleDropInAnimation(index, i)
 
             //Placing pieces
@@ -17,13 +18,14 @@ export const dropPiece = async (index: number, pieces: number, incrementPieces: 
             
             log.value.push([index, i])
 
+            checkWinner(true)
+
             alterRestartButton(pieces)
             alterPreviousButton(pieces)
-            checkWinner(true)
             
             if (botGame.value && !ShowWinner.value) {
                 await initiateAlgorithms(board)
-                incrementPieces(); checkWinner(true)
+                incrementPieces(); pieces++; checkWinner(true)
                 alterRestartButton(pieces)
                 alterPreviousButton(pieces)
             }
