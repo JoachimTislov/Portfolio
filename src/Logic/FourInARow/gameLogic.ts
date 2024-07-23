@@ -3,6 +3,7 @@ import { ref, reactive, watch } from 'vue'
 import { initiateAlgorithms, resetChoices } from './AI'
 
 import type { _losingCoordinates, possible_Choices, possible_Coordinates } from './Types'
+import { delay } from './delay'
 
 export const piecesInARow = 4
 export const officialOffset = piecesInARow - 1 
@@ -137,9 +138,9 @@ export const handleDropInAnimation = async (specific_slot: Element | null) => {
   if (specific_slot != null) {
     specific_slot.classList.add('drop-in')
 
-    setInterval(() => {
-      specific_slot.classList.remove('drop-in')
-    }, 1000)
+    await delay(1000)
+   
+    specific_slot.classList.remove('drop-in')
   }
 }
 
@@ -177,12 +178,15 @@ export const dropPiece = async (index: number) => {
 export const alterPreviousButton = (int: number) => {
   const previousButton: any = document.getElementById('previousButton')
 
-  console.log(pieces.value, int, GameOver.value)
-  if (pieces.value > int && !GameOver.value) {
-    previousButton.disabled = false
+  if (previousButton != undefined) {
+    if (pieces.value > int && !GameOver.value) {
+      previousButton.disabled = false
+    } else {
+      console.log('Disabled')
+      previousButton.disabled = true
+    }
   } else {
-    console.log('Disabled')
-    previousButton.disabled = true
+    console.log('Could not find the previous button')
   }
 }
 

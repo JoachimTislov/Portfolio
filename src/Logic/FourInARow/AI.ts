@@ -43,6 +43,7 @@ import type {
   relatedArraysType
 } from './Types'
 import { ref } from 'vue'
+import { delay } from './delay'
 
 const evaluateOperation = (colIndex: number, offset: number, colOperation: string) => {
   const operation: {[key:string]: (a: number, b: number) => number } = {
@@ -136,7 +137,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
   ]
 
   for (const participant of participants) {
-    searchForLosingPatterns(board, participant.scan, participant.id)
+     searchForLosingPatterns(board, participant.scan, participant.id)
   }
 
   for (const participant of participants) {
@@ -156,11 +157,11 @@ export const initiateAlgorithms = async (board: number[][]) => {
   console.log('BotChoices:', botChoices.value, 'PlayerChoices: ', playerChoices.value, 'RemainingChoices: ', remainingChoices.value)
   console.log('LosingChoices: ', losing_Coordinates.value)
 
-  return searchForBestChoice(board)
+  return await searchForBestChoice(board)
 }
 
-const handleLosingChoices = (board: number[][]) => {
-  const place_Piece = (entry: {
+const handleLosingChoices = async (board: number[][]) => {
+  const place_Piece = async (entry: {
     coordinates: number[]
     player_identifier: number
     piece_count: string
@@ -169,7 +170,7 @@ const handleLosingChoices = (board: number[][]) => {
     losing_Coordinates.value = losing_Coordinates.value.filter(
       (e: { coordinates: number[]; player_identifier: number; piece_count: string }) => e !== entry
     )
-    return botMove(board, h[0], h[1])
+    return await botMove(board, h[0], h[1])
   }
 
   const checkCoordinatesStatus = (piece_count: string, participant: number) => {
@@ -208,13 +209,13 @@ const handleLosingChoices = (board: number[][]) => {
   }
 }
 
-const searchForBestChoice = (board: number[][]) => {
+const searchForBestChoice = async (board: number[][]) => {
   
   const threeChoices = [botChoices.value['Three_in_a_row'], playerChoices.value['Three_in_a_row']]
   for (const entry of threeChoices) {
     if(entry.length) {
       const [x,y] = entry[0].coordinates
-      return botMove(board, x, y)
+      return await botMove(board, x, y)
     }
   }
 
@@ -222,14 +223,14 @@ const searchForBestChoice = (board: number[][]) => {
     const [x,y] = goldenMove.value.coordinates
 
     console.log('Playing the legendary golden move, which cant be stopped')
-    return botMove(board, x, y)
+    return await botMove(board, x, y)
   }
 
   const doubleChoices = [botChoices.value['double_Three_in_a_row'], playerChoices.value['double_Three_in_a_row']]
   for (const entry of doubleChoices) {
     if(entry.length) {
       const [x,y] = entry[0].coordinates
-      return botMove(board, x, y)
+      return await botMove(board, x, y)
     }
   }
 
@@ -237,7 +238,7 @@ const searchForBestChoice = (board: number[][]) => {
   for (const entry of potentiallyDoubleChoices) {
     if(entry.length) {
       const [x,y] = entry[0].coordinates
-      return botMove(board, x, y)
+      return await botMove(board, x, y)
     }
   }
   
@@ -255,7 +256,7 @@ const searchForBestChoice = (board: number[][]) => {
               console.log('Building in direction: ', direction, entry)
             }
             const [row, slot] = entry.coordinates
-            return botMove(board, row, slot)
+            return await botMove(board, row, slot)
           }
       }
     }
@@ -273,7 +274,7 @@ const searchForBestChoice = (board: number[][]) => {
             console.log('Building in direction: ', direction, entry, ' this is a losing move')
           }
           const [row, slot] = entry.coordinates
-          return botMove(board, row, slot)
+          return await botMove(board, row, slot)
         }
       }
     }
@@ -286,7 +287,7 @@ const searchForBestChoice = (board: number[][]) => {
     // Handle vertical cases  first
     if (entry.direction == 'vertical' && pieces.value < 5) {
       console.log('played base case vertically')
-      return botMove(board, entry.coordinates[0], entry.coordinates[1])
+      return await botMove(board, entry.coordinates[0], entry.coordinates[1])
     }
 
     // This checks if any of the patterns have chosen the same coordinates
@@ -315,7 +316,7 @@ const searchForBestChoice = (board: number[][]) => {
     }
     if (winner.value[0] != -1) {
       console.log('Move with highest amount of votes: ', winner.value, 'votes: ', maxNumber.value, entry)
-      return botMove(board, winner.value[0], winner.value[1])
+      return await botMove(board, winner.value[0], winner.value[1])
     }
   }
 
@@ -681,29 +682,29 @@ export const resetChoices = () => {
   goldenMove.value = defaultGoldenMove
 }
 
-export const botMove = (board: number[][], row: number, slot: number) => {
+export const botMove = async (board: number[][], row: number, slot: number) => {
   const specific_slot = document.querySelector('.slot' + row + '-' + slot)
   const restartButton: any = document.getElementById('restartButton')
-  restartButton.disabled = true
+  if (restartButton != undefined) restartButton.disabled = true
 
-  setTimeout(() => {
-    board[row][slot] = botValue
-    log.value.push([row, slot])
+  await delay(1000)
 
-    handleDropInAnimation(specific_slot)
+  board[row][slot] = botValue
+  log.value.push([row, slot])
 
-    checkWinner(true)
+  handleDropInAnimation(specific_slot)
+
+  checkWinner(true)
+
+  resetChoices()
+
+  incrementPiecesAndCheckForTie()
+
+  playerTurn.value = true
+
+  alterPreviousButton(1)
+
+  if (restartButton != undefined) restartButton.disabled = false
   
-    resetChoices()
-  
-    incrementPiecesAndCheckForTie()
-
-    playerTurn.value = true
-
-    alterPreviousButton(1)
-
-    restartButton.disabled = false
-  
-    return [row, slot]
-  }, 1000)
+  return [row, slot]
 }
