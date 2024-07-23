@@ -13,7 +13,8 @@ import {
   getSlotColor,
   dropPiece,
   playerTurn,
-  ShowMenu
+  ShowMenu,
+  ShowBoard
 } from '../Logic/FourInARow/gameLogic'  
 
 
@@ -74,7 +75,7 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
           <div class="btn-group btn-group-sm" role="group">      
             <button id="previousButton" @click="previousMove()" type="button" class="m-1 mt-3 btn btn-primary" disabled> Previous Move </button>
 
-            <button id="restartButton" @click="resetGame()" type="button" class="m-1 mt-3 btn btn-success">
+            <button id="restartButton" @click="resetGame()" type="button" class="m-1 mt-3 btn btn-success" disabled>
               <template v-if="ShowWinner"> Play Again </template>
               <template v-else> Restart </template>
             </button>
@@ -83,7 +84,7 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
       </div>
     </div>
     
-    <div id="board">
+    <div id="board" v-show="ShowBoard">
       <div
         v-for="(column, colIndex) in board"
         :key="colIndex"
@@ -181,8 +182,8 @@ const getNameOfSlot = (colIndex: number, rowIndex: number) => {
   border-radius: 50%;
   background-color: white;  
 
-  width: clamp(2.1em, 8vw, 8em);
-  height: clamp(2.1em, 8vw, 8em);
+  width: clamp(2em, 11.5vw, 8em);
+  height: clamp(2em, 11.5vw, 8em);
 
   padding: 2px;
   margin: 2px;

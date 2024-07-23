@@ -1,10 +1,9 @@
 import { describe, it, expect, test } from 'vitest'
-
 import { scanBoard, initiateAlgorithms } from '../../Logic/FourInARow/AI'
-
 import { vi } from 'vitest'
 import { emptyBoard, testBoards } from './testBoards'
 import { emptyScanOfBoard } from './EmptyScanOfBoard'
+
 
 describe('Scanning a 7x6 board', () => {
   it('scans properly', () => {

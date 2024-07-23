@@ -8,6 +8,10 @@ import { delay } from './delay'
 export const piecesInARow = 4
 export const officialOffset = piecesInARow - 1 
 
+const storedShowBoard = localStorage.getItem('ShowBoard')
+export const ShowBoard = ref<boolean>(storedShowBoard ? JSON.parse(storedShowBoard) : true)
+watch(ShowBoard, (newShowBoard) => {localStorage.setItem('ShowBoard', JSON.stringify(newShowBoard))}, {deep: true})
+
 const storedShowMenu = localStorage.getItem('ShowMenu')
 export const ShowMenu = ref<boolean>(storedShowMenu ? JSON.parse(storedShowMenu) : true)
 watch(ShowMenu, (newShowMenu) => {localStorage.setItem('ShowMenu', JSON.stringify(newShowMenu))}, {deep: true})
@@ -49,16 +53,15 @@ export const botChoices = ref<possible_Choices>(deepClone(defaultChoices))
 
 export const playerChoices = ref<possible_Choices>(deepClone(defaultChoices))
 
+export const botValue: number = 3
+
 const storedFirst_player = localStorage.getItem('first_player')
 export const first_player = ref<string>(storedFirst_player ? JSON.parse(storedFirst_player): 'Player 1')
 watch(first_player,(newFirst_player) => {localStorage.setItem('first_player', JSON.stringify(newFirst_player))},{ deep: true })
 
 const storedLog = localStorage.getItem('log')
 export const log = ref<number[][]>(storedLog ? JSON.parse(storedLog) : [])
-
 watch(log,(newLog) => {localStorage.setItem('log', JSON.stringify(newLog))},{ deep: true })
-
-export const botValue: number = 3
 
 const storedPlayerStatus = localStorage.getItem('playerStatus')
 export const playerStatus = ref<number>(storedPlayerStatus ? JSON.parse(storedPlayerStatus) : 1)
@@ -66,73 +69,32 @@ watch(playerStatus,(newPlayerStatus) => {localStorage.setItem('playerStatus', JS
 
 const storedPlayerTurn = localStorage.getItem('playerTurn')
 export const playerTurn = ref<boolean>(storedPlayerTurn ?  JSON.parse(storedPlayerTurn) : true)
-watch(
-  playerTurn,
-  (newPlayerTurn) => {
-    localStorage.setItem('playerTurn', JSON.stringify(newPlayerTurn))
-  },
-  { deep: true }
-)
+watch(playerTurn,(newPlayerTurn) => {localStorage.setItem('playerTurn', JSON.stringify(newPlayerTurn))},{ deep: true })
 
 const storedPieces = localStorage.getItem('pieces')
 export const pieces = ref<number>(storedPieces ? JSON.parse(storedPieces) : 0)
-
-watch(
-  pieces,
-  (pieces) => {
-    localStorage.setItem('pieces', JSON.stringify(pieces))
-  },
-  { deep: true }
-)
+watch(pieces,(pieces) => {localStorage.setItem('pieces', JSON.stringify(pieces))},{ deep: true })
 
 const storedWinnerMsg = localStorage.getItem('winnerMsg')
 export const winnerMsg = ref<string>(storedWinnerMsg ? JSON.parse(storedWinnerMsg) : '')
-
-watch(
-  winnerMsg,
-  (newWinnerMsg) => {
-    localStorage.setItem('winnerMsg', JSON.stringify(newWinnerMsg))
-  },
-  { deep: true }
-)
-
-export const gameMode = ref<string>(botGame.value ? 'Player vs Bot' : 'Player vs Player')
+watch(winnerMsg,(newWinnerMsg) => {localStorage.setItem('winnerMsg', JSON.stringify(newWinnerMsg))},{ deep: true })
 
 const storedGameOver = localStorage.getItem('GameOver')
 const GameOver = ref<boolean>(storedGameOver ? JSON.parse(storedGameOver) : false)
+watch(GameOver,(newGameOver) => {localStorage.setItem('GameOver', JSON.stringify(newGameOver))},{ deep: true })
 
-watch(
-  GameOver,
-  (newGameOver) => {
-    localStorage.setItem('GameOver', JSON.stringify(newGameOver))
-  },
-  { deep: true }
-)
+export const gameMode = ref<string>(botGame.value ? 'Player vs Bot' : 'Player vs Player')
 
 const boardWidth = ref(7)
 const boardHeight = ref(6)
 
 const storedBoard = localStorage.getItem('board')
 export const board = reactive(storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0)))
-
-watch(
-  board,
-  (newBoard) => {
-    localStorage.setItem('board', JSON.stringify(newBoard))
-  },
-  { deep: true }
-)
+watch(board,(newBoard) => {localStorage.setItem('board', JSON.stringify(newBoard))},{ deep: true })
 
 const storedLosing_Coordinates = localStorage.getItem('losing_Coordinates')
 export const losing_Coordinates = ref<_losingCoordinates>(storedLosing_Coordinates ? JSON.parse(storedLosing_Coordinates) : [])
-
-watch(
-  losing_Coordinates,
-  (newLosing_Coordinates) => {
-    localStorage.setItem('losing_Coordinates', JSON.stringify(newLosing_Coordinates))
-  },
-  { deep: true }
-)
+watch(losing_Coordinates,(newLosing_Coordinates) => {localStorage.setItem('losing_Coordinates', JSON.stringify(newLosing_Coordinates))},{ deep: true })
 
 export const handleDropInAnimation = async (specific_slot: Element | null) => {
   if (specific_slot != null) {
@@ -182,7 +144,6 @@ export const alterPreviousButton = (int: number) => {
     if (pieces.value > int && !GameOver.value) {
       previousButton.disabled = false
     } else {
-      console.log('Disabled')
       previousButton.disabled = true
     }
   } else {
@@ -259,7 +220,19 @@ export const getSlotColor = (value: number) => {
   return colors[value]
 }
 
+const toggleRestartButton = () => {
+  const restart: any = document.getElementById('restartButton')
+  if(restart != undefined && ((pieces.value == 0 && (!botGame.value || botGame.value && first_player.value === 'Player 1') || pieces.value == 1 && botGame.value && first_player.value === 'bot') || ShowWinner.value)) {
+      restart.disabled = true
+  } else {
+    console.log(botGame.value, pieces.value, first_player.value)
+      restart.disabled = false
+  }
+}
+
 export const resetGame = () => {
+  toggleRestartButton()
+
   // resetting board
   board.forEach((row: number[]) => {
     row.fill(0) // Fill each row with 0
@@ -269,10 +242,12 @@ export const resetGame = () => {
 
   resetChoices()
 
+  ShowBoard.value = true
   playerTurn.value = true
   GameOver.value = false
   ShowWinner.value = false
   pieces.value = 0
+
   log.value = []
   losing_Coordinates.value = []
 
@@ -288,9 +263,13 @@ const updatePlayerStatus = () => {
 }
 
 export const incrementPiecesAndCheckForTie = () => {
+
   pieces.value++
-  if (pieces.value === 42) {
-    resetGame()
+
+  toggleRestartButton()
+
+  if(pieces.value == boardWidth.value * boardHeight.value) {
+    ShowBoard.value = false
     winnerMsg.value = 'It was a tie'
     ShowWinner.value = true
   }

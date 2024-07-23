@@ -6,7 +6,6 @@ import {
   incrementPiecesAndCheckForTie,
   playerStatus,
   playerChoices,
-  pieces,
   piecesInARow,
   officialOffset,
   remainingChoices,
@@ -284,11 +283,12 @@ const searchForBestChoice = async (board: number[][]) => {
   // Algorithm that check which choice is chosen the most
   const storedCoordinates = []
   for (const entry of patterns) {
+    
     // Handle vertical cases  first
-    if (entry.direction == 'vertical' && pieces.value < 5) {
+    /*if (entry.direction == 'vertical' && pieces.value < 5) {
       console.log('played base case vertically')
       return await botMove(board, entry.coordinates[0], entry.coordinates[1])
-    }
+    }*/
 
     // This checks if any of the patterns have chosen the same coordinates
     //base case
