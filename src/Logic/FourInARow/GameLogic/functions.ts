@@ -1,100 +1,10 @@
-import { ref, reactive, watch } from 'vue'
+import { initiateAlgorithms, resetChoices } from '../AI'
 
-import { initiateAlgorithms, resetChoices } from './AI'
+import { delay } from '../delay'
+import { usePiecesStore } from '../stores/counter'
 
-import type { _losingCoordinates, possible_Choices, possible_Coordinates } from './Types'
-import { delay } from './delay'
-
-export const piecesInARow = 4
-export const officialOffset = piecesInARow - 1 
-
-const storedShowBoard = localStorage.getItem('ShowBoard')
-export const ShowBoard = ref<boolean>(storedShowBoard ? JSON.parse(storedShowBoard) : true)
-watch(ShowBoard, (newShowBoard) => {localStorage.setItem('ShowBoard', JSON.stringify(newShowBoard))}, {deep: true})
-
-const storedShowMenu = localStorage.getItem('ShowMenu')
-export const ShowMenu = ref<boolean>(storedShowMenu ? JSON.parse(storedShowMenu) : true)
-watch(ShowMenu, (newShowMenu) => {localStorage.setItem('ShowMenu', JSON.stringify(newShowMenu))}, {deep: true})
-
-const storedShowWinner = localStorage.getItem('ShowWinner')
-export const ShowWinner = ref<boolean>(storedShowWinner ? JSON.parse(storedShowWinner) : false)
-watch(ShowWinner, (newShowWinner) => {localStorage.setItem('ShowWinner', JSON.stringify(newShowWinner))}, {deep: true })
-
-const storedBotGame = localStorage.getItem('botGame')
-export const botGame = ref<boolean>(storedBotGame ? JSON.parse(storedBotGame) : true)
-watch(botGame, (newBotGame) => {localStorage.setItem('botGame', JSON.stringify(newBotGame))}, {deep: true })
-
-export const remainingChoices = ref<possible_Coordinates[]>([])
-
-export const defaultGoldenMove = {
-  pattern: [],
-  coordinates: [],
-  all_coordinates: [],
-  direction: '',
-  losing: { bool: false, bot_instances: [], player_instances: [] },
-  participant: 0,
-  piece_count: ''
-}
-
-export const goldenMove = ref<possible_Coordinates>(defaultGoldenMove) 
-
-export const deepClone = <T>(obj: T): T => {
-  return JSON.parse(JSON.stringify(obj));
-}
-
-export const defaultChoices = {
-  Three_in_a_row: [],
-  double_Three_in_a_row: [],
-  potentially_double_Three_in_a_row: [],
-  Two_in_a_row: []
-}
-
-export const botChoices = ref<possible_Choices>(deepClone(defaultChoices))
-
-export const playerChoices = ref<possible_Choices>(deepClone(defaultChoices))
-
-export const botValue: number = 3
-
-const storedFirst_player = localStorage.getItem('first_player')
-export const first_player = ref<string>(storedFirst_player ? JSON.parse(storedFirst_player): 'Player 1')
-watch(first_player,(newFirst_player) => {localStorage.setItem('first_player', JSON.stringify(newFirst_player))},{ deep: true })
-
-const storedLog = localStorage.getItem('log')
-export const log = ref<number[][]>(storedLog ? JSON.parse(storedLog) : [])
-watch(log,(newLog) => {localStorage.setItem('log', JSON.stringify(newLog))},{ deep: true })
-
-const storedPlayerStatus = localStorage.getItem('playerStatus')
-export const playerStatus = ref<number>(storedPlayerStatus ? JSON.parse(storedPlayerStatus) : 1)
-watch(playerStatus,(newPlayerStatus) => {localStorage.setItem('playerStatus', JSON.stringify(newPlayerStatus))},{ deep: true })
-
-const storedPlayerTurn = localStorage.getItem('playerTurn')
-export const playerTurn = ref<boolean>(storedPlayerTurn ?  JSON.parse(storedPlayerTurn) : true)
-watch(playerTurn,(newPlayerTurn) => {localStorage.setItem('playerTurn', JSON.stringify(newPlayerTurn))},{ deep: true })
-
-const storedPieces = localStorage.getItem('pieces')
-export const pieces = ref<number>(storedPieces ? JSON.parse(storedPieces) : 0)
-watch(pieces,(pieces) => {localStorage.setItem('pieces', JSON.stringify(pieces))},{ deep: true })
-
-const storedWinnerMsg = localStorage.getItem('winnerMsg')
-export const winnerMsg = ref<string>(storedWinnerMsg ? JSON.parse(storedWinnerMsg) : '')
-watch(winnerMsg,(newWinnerMsg) => {localStorage.setItem('winnerMsg', JSON.stringify(newWinnerMsg))},{ deep: true })
-
-const storedGameOver = localStorage.getItem('GameOver')
-const GameOver = ref<boolean>(storedGameOver ? JSON.parse(storedGameOver) : false)
-watch(GameOver,(newGameOver) => {localStorage.setItem('GameOver', JSON.stringify(newGameOver))},{ deep: true })
-
-export const gameMode = ref<string>(botGame.value ? 'Player vs Bot' : 'Player vs Player')
-
-const boardWidth = ref(7)
-const boardHeight = ref(6)
-
-const storedBoard = localStorage.getItem('board')
-export const board = reactive(storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0)))
-watch(board,(newBoard) => {localStorage.setItem('board', JSON.stringify(newBoard))},{ deep: true })
-
-const storedLosing_Coordinates = localStorage.getItem('losing_Coordinates')
-export const losing_Coordinates = ref<_losingCoordinates>(storedLosing_Coordinates ? JSON.parse(storedLosing_Coordinates) : [])
-watch(losing_Coordinates,(newLosing_Coordinates) => {localStorage.setItem('losing_Coordinates', JSON.stringify(newLosing_Coordinates))},{ deep: true })
+import { board, boardHeight, boardWidth, botGame, botValue, first_player, gameMode, 
+  GameOver, log, losing_Coordinates, playerStatus, playerTurn, ShowBoard, ShowWinner, winnerMsg } from './variables'
 
 export const handleDropInAnimation = async (specific_slot: Element | null) => {
   if (specific_slot != null) {
@@ -140,8 +50,10 @@ export const dropPiece = async (index: number) => {
 export const alterPreviousButton = (int: number) => {
   const previousButton: any = document.getElementById('previousButton')
 
+  const { pieces } = usePiecesStore()
+
   if (previousButton != undefined) {
-    if (pieces.value > int && !GameOver.value) {
+    if (pieces > int && !GameOver.value) {
       previousButton.disabled = false
     } else {
       previousButton.disabled = true
@@ -152,15 +64,17 @@ export const alterPreviousButton = (int: number) => {
 }
 
 export const previousMove = () => {
+  const { pieces, decrementPieces } = usePiecesStore()
+
   const remove_last_move = () => {
     const [x, y]: number[] = log.value.pop() ?? [-1, 0]
     if (x != -1) {
       board[x][y] = 0
-      pieces.value--
+      decrementPieces()
     }
 
     const previousButton: any = document.getElementById('previousButton')
-    if(first_player.value == 'bot' && pieces.value == 1) previousButton.disabled = true
+    if(first_player.value == 'bot' && pieces == 1) previousButton.disabled = true
   }
 
   GameOver.value = false
@@ -187,8 +101,9 @@ export const previousMove = () => {
 }
 
 const initBotStarts = () => {
+  const { setPiecesToNumber } = usePiecesStore()
   if (first_player.value === 'bot') {
-    pieces.value = 1
+    setPiecesToNumber(1)
     board[3][0] = botValue
   }
 }
@@ -220,33 +135,43 @@ export const getSlotColor = (value: number) => {
   return colors[value]
 }
 
-const toggleRestartButton = () => {
-  const restart: any = document.getElementById('restartButton')
-  if(restart != undefined && ((pieces.value == 0 && (!botGame.value || botGame.value && first_player.value === 'Player 1') || pieces.value == 1 && botGame.value && first_player.value === 'bot') || ShowWinner.value)) {
+export const getNameOfSlot = (colIndex: number, rowIndex: number) => {
+  return 'slot' + colIndex + '-' + rowIndex
+}
+
+const toggleRestartButton = (bool: boolean) => {
+  /*const restart: any = document.getElementById('restartButton')
+  if(restart != undefined && ((pieces == 0 && (!botGame.value || botGame.value && first_player.value === 'Player 1') || pieces == 1 && botGame.value && first_player.value === 'bot') || ShowWinner.value)) {
       restart.disabled = true
   } else {
-    console.log(botGame.value, pieces.value, first_player.value)
+    console.log(botGame.value, pieces, first_player.value)
       restart.disabled = false
-  }
+  }*/
+
+  const restart: any = document.getElementById('restartButton')
+  if (restart != undefined) restart.disabled = bool
 }
 
 export const resetGame = () => {
-  toggleRestartButton()
-
+  const { pieces, setPiecesToNumber } = usePiecesStore()
   // resetting board
   board.forEach((row: number[]) => {
     row.fill(0) // Fill each row with 0
   })
 
-  alterPreviousButton(pieces.value)
+  alterPreviousButton(pieces)
 
   resetChoices()
 
   ShowBoard.value = true
   playerTurn.value = true
+
   GameOver.value = false
   ShowWinner.value = false
-  pieces.value = 0
+  
+  setPiecesToNumber(0)
+
+  toggleRestartButton(true)
 
   log.value = []
   losing_Coordinates.value = []
@@ -263,12 +188,11 @@ const updatePlayerStatus = () => {
 }
 
 export const incrementPiecesAndCheckForTie = () => {
+  const { pieces, incrementPieces } = usePiecesStore()
 
-  pieces.value++
+  incrementPieces()
 
-  toggleRestartButton()
-
-  if(pieces.value == boardWidth.value * boardHeight.value) {
+  if(pieces == boardWidth.value * boardHeight.value) {
     ShowBoard.value = false
     winnerMsg.value = 'It was a tie'
     ShowWinner.value = true
@@ -371,3 +295,4 @@ const determineWinner = (value: number) => {
   }
   return true
 }
+

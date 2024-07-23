@@ -1,26 +1,31 @@
 <script setup lang="ts">
 import {
-  botGame,
-  gameMode,
   initTwoPlayer,
   initBotGame,
+  previousMove,
+  resetGame,
+  getSlotColor,
+  dropPiece,
+  getNameOfSlot
+  
+} from '../Logic/FourInARow/GameLogic/functions'  
+
+
+import {
+  botGame,
+  gameMode,
+  
   first_player,
   ShowWinner,
   winnerMsg,
-  previousMove,
-  resetGame,
+
   board,
-  getSlotColor,
-  dropPiece,
   playerTurn,
   ShowMenu,
   ShowBoard
-} from '../Logic/FourInARow/gameLogic'  
 
-
-const getNameOfSlot = (colIndex: number, rowIndex: number) => {
-  return 'slot' + colIndex + '-' + rowIndex
-} 
+} from '../Logic/FourInARow/GameLogic/variables'  
+ 
 </script>
  
 <template>

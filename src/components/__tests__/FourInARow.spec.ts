@@ -4,7 +4,6 @@ import { vi } from 'vitest'
 import { emptyBoard, testBoards } from './testBoards'
 import { emptyScanOfBoard } from './EmptyScanOfBoard'
 
-
 describe('Scanning a 7x6 board', () => {
   it('scans properly', () => {
     const patterns = scanBoard(emptyBoard, 1)
@@ -13,9 +12,10 @@ describe('Scanning a 7x6 board', () => {
   })
 })
 
-vi.mock('../../Logic/FourInARow/delay', () => ({
+vi.mock('@/Logic/FourInARow/delay', () => ({
   delay: vi.fn().mockResolvedValue(undefined),
 }));
+
 
 for (let index = 0; index < testBoards.length; index++) {
   test(`Test Case ${index + 1}; ${testBoards[index].description}`, async () => {

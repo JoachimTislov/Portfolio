@@ -1,9 +1,11 @@
 import {
-  botValue,
-  botChoices,
-  losing_Coordinates,
-  log,
   incrementPiecesAndCheckForTie,
+  handleDropInAnimation,
+  checkWinner,
+  alterPreviousButton
+} from './GameLogic/functions'
+
+import {
   playerStatus,
   playerChoices,
   piecesInARow,
@@ -13,11 +15,12 @@ import {
   defaultGoldenMove,
   deepClone,
   defaultChoices,
-  handleDropInAnimation,
+  botValue,
+  botChoices,
+  losing_Coordinates,
+  log,
   playerTurn,
-  checkWinner,
-  alterPreviousButton
-} from './gameLogic'
+} from './GameLogic/variables'
 
 import {
   double_three_in_a_row_patterns,
