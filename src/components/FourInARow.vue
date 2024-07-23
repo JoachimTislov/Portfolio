@@ -26,7 +26,6 @@ import {
 
   board,
   playerTurn,
-  ShowMenu,
   ShowBoard,
 
   isPreviousDisabled,
@@ -55,16 +54,14 @@ onMounted(async () => {
 <template>
   <section class="mainDiv">
     <div class="menu">
-          <button @click="ShowMenu = !ShowMenu" class="mt-1 btn btn-secondary align-self-center">
-            <template v-if="ShowMenu">
-              Hide Game Menu
-            </template>
-            <template v-else>
-              Show Game Menu
-            </template>
-          </button>
+          <div class="mt-1 mb-1 btn-group">
+            <button v-if="botGame" @click="initTwoPlayer(), resetGame(pieces, assignInt)" type="button" class="border-light btn btn-secondary">
+              Two Player Game
+            </button>
+            <button v-if="!botGame" @click="initBotGame(assignInt), resetGame(pieces, assignInt)" type="button" class="border-light btn btn-secondary">Play against the Bot</button>
+          </div>
 
-          <div v-if="ShowMenu && botGame" class="mt-4 d-flex flex-column">
+          <div v-if="botGame" class="mb-1 d-flex flex-column">
             <label class="label" for="starting_player"> Starting Player: </label>
             <select 
               id="starting_player"
@@ -76,16 +73,9 @@ onMounted(async () => {
               <option value="bot">Bot</option>
             </select>
           </div>
-          
-          <div v-if="ShowMenu" class="mt-2 mb-2 btn-group">
-            <button v-if="botGame" @click="initTwoPlayer(), resetGame(pieces, assignInt)" type="button" class="border-light btn btn-secondary">
-              Two Player Game
-            </button>
-            <button v-if="!botGame" @click="initBotGame(assignInt), resetGame(pieces, assignInt)" type="button" class="border-light btn btn-secondary">Play against the Bot</button>
-          </div>
 
-          <template v-if="!ShowWinner && ShowMenu">
-            <div class="p-4 message">
+          <template v-if="!ShowWinner">
+            <div class="mt-2 p-4 message">
               <h4> {{ gameMode }} </h4>
               <template v-if="botGame">
                 <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
@@ -94,13 +84,13 @@ onMounted(async () => {
             </div>
           </template>
 
-          <template v-if="ShowWinner && ShowMenu"> 
+          <template v-if="ShowWinner"> 
             <div class="p-4 message">
               <h4>{{ winnerMsg }}</h4>
             </div>
           </template>
 
-          <div v-if="ShowMenu" class="d-flex btn-group btn-group-md mt-1"> 
+          <div  class="d-flex btn-group btn-group-lg mt-2"> 
             <button ref="restartButton" :disabled="isRestartDisabled" @click="resetGame(pieces, assignInt)" type="button" class="m-1 btn btn-md btn-success">
               <template v-if="ShowWinner"> Play Again </template>
               <template v-else> Restart </template>
