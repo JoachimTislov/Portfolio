@@ -21,7 +21,7 @@ import { RouterLink } from 'vue-router';
                 <ul class="navbar-nav me-auto"> 
                     
                     <li class="nav-item">
-                        <RouterLink class="nav-link active" to="/Four-in-a-row"> 
+                        <RouterLink class="nav-link" to="/Four-in-a-row"> 
                             Four in a row
                         </RouterLink>
                     </li> 

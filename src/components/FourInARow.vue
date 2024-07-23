@@ -1,15 +1,20 @@
 <script setup lang="ts">
+import { usePiecesStore } from '@/Logic/FourInARow/stores/counter';
+
 import {
   initTwoPlayer,
   initBotGame,
   previousMove,
-  resetGame,
   getSlotColor,
-  dropPiece,
-  getNameOfSlot
+  getNameOfSlot,
+  alterPreviousButton,
+  alterRestartButton
   
 } from '../Logic/FourInARow/GameLogic/functions'  
 
+import { resetGame } from '@/Logic/FourInARow/GameLogic/resetGame';
+
+import { dropPiece } from '@/Logic/FourInARow/GameLogic/dropPiece';
 
 import {
   botGame,
@@ -22,9 +27,28 @@ import {
   board,
   playerTurn,
   ShowMenu,
-  ShowBoard
+  ShowBoard,
+
+  isPreviousDisabled,
+  isRestartDisabled
 
 } from '../Logic/FourInARow/GameLogic/variables'  
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
+
+const store = usePiecesStore()
+
+const { decrementPieces, incrementPieces, assignInt} = store
+
+const { pieces } = storeToRefs(store)
+
+onMounted(async () => {
+  // Perform initialization or setup tasks here
+  console.log('At mounted: ', pieces.value)
+
+  alterPreviousButton(pieces.value)
+  alterRestartButton(pieces.value)
+});
  
 </script>
  
@@ -40,10 +64,10 @@ import {
     </button>
     <div v-show="ShowMenu">
       <div class="d-flex btn-group-sm btn-group" role="group">
-        <button v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button" class="border-light m-1 btn btn-secondary">
+        <button v-if="botGame" @click="initTwoPlayer(), resetGame(pieces, assignInt)" type="button" class="border-light m-1 btn btn-secondary">
           Two Player Game
         </button>
-        <button v-if="!botGame" @click="initBotGame()" type="button" class="border-light m-1 m-1 btn btn-secondary">Play against the Bot</button>
+        <button v-if="!botGame" @click="initBotGame(assignInt), resetGame(pieces, assignInt)" type="button" class="border-light m-1 m-1 btn btn-secondary">Play against the Bot</button>
       </div>
       <template v-if="!ShowWinner">
         <div class="p-3 participantTurnMessage">
@@ -69,7 +93,7 @@ import {
                 id="starting_player"
                 class="form-control form-control-sm"
                 v-model="first_player"
-                @change="resetGame()"
+                @change="resetGame(pieces, assignInt)"
               >
                 <option value="Player 1">Player 1</option>
                 <option value="bot">Bot</option>
@@ -78,9 +102,9 @@ import {
           </template>
 
           <div class="btn-group btn-group-sm" role="group">      
-            <button id="previousButton" @click="previousMove()" type="button" class="m-1 mt-3 btn btn-primary" disabled> Previous Move </button>
+            <button ref="previousButton" :disabled="isPreviousDisabled" @click="previousMove(pieces, decrementPieces)" type="button" class="m-1 mt-3 btn btn-primary"> Previous Move </button>
 
-            <button id="restartButton" @click="resetGame()" type="button" class="m-1 mt-3 btn btn-success" disabled>
+            <button ref="restartButton" :disabled="isRestartDisabled" @click="resetGame(pieces, assignInt)" type="button" class="m-1 mt-3 btn btn-success">
               <template v-if="ShowWinner"> Play Again </template>
               <template v-else> Restart </template>
             </button>
@@ -93,7 +117,7 @@ import {
       <div
         v-for="(column, colIndex) in board"
         :key="colIndex"
-        @click="dropPiece(colIndex)"
+        @click="incrementPieces(), dropPiece(colIndex, pieces, incrementPieces)"
         class="boardColumn column-reverse"
       >
         <div

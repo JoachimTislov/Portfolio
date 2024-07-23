@@ -1,4 +1,4 @@
-import { losing_Coordinates } from './GameLogic/variables'
+import { losing_Coordinates } from '../GameLogic/variables'
 
 export const checkIfArrayInThe2DArrayEqualArray = (
   arr: (string | number)[][],

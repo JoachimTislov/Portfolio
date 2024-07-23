@@ -1,8 +1,14 @@
 import { describe, it, expect, test } from 'vitest'
-import { scanBoard, initiateAlgorithms } from '../../Logic/FourInARow/AI'
+import { initiateAlgorithms } from '../../Logic/FourInARow/BotLogic/Bot'
+import { scanBoard } from '@/Logic/FourInARow/BotLogic/scanLogic'
 import { vi } from 'vitest'
+
 import { emptyBoard, testBoards } from './testBoards'
 import { emptyScanOfBoard } from './EmptyScanOfBoard'
+
+import { createTestingPinia } from '@pinia/testing';
+
+createTestingPinia({createSpy: vi.fn});
 
 describe('Scanning a 7x6 board', () => {
   it('scans properly', () => {

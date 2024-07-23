@@ -2,6 +2,9 @@ import { ref, watch, reactive } from "vue"
 
 import type { _losingCoordinates, possible_Choices, possible_Coordinates } from '../Types'
 
+export const isPreviousDisabled = ref<boolean>(false)
+export const isRestartDisabled = ref<boolean>(false)
+
 export const piecesInARow = 4
 export const officialOffset = piecesInARow - 1 
 

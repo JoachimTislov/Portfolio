@@ -6,10 +6,11 @@ export const usePiecesStore = defineStore('counter', () => {
   const pieces = ref<number>(storedPieces ? JSON.parse(storedPieces) : 0)
   watch(pieces, (newPieces) => {localStorage.setItem('pieces', JSON.stringify(newPieces))},{ deep: true })
 
-  function setPiecesToNumber(int: number) {
+
+  function assignInt(int: number) {
     pieces.value = int
   }
-  
+
   function incrementPieces() {
     pieces.value++
   }
@@ -17,5 +18,5 @@ export const usePiecesStore = defineStore('counter', () => {
     pieces.value--
   }
 
-  return { pieces, incrementPieces, decrementPieces, setPiecesToNumber }
+  return { pieces, incrementPieces, decrementPieces, assignInt }
 })
