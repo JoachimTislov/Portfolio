@@ -70,4 +70,8 @@ h1, p, .icon, a {
     font-size: clamp(1rem, 3vw, 2rem);
 }
 
+h1 {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+}
+
 </style>

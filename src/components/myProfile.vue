@@ -68,8 +68,8 @@ p {
 }
 
 img {
-    width: clamp(20rem, 30vw, 30rem);
-    height: clamp(20rem, 30vw, 30rem);
+    width: clamp(17rem, 30vw, 30rem);
+    height: clamp(17rem, 30vw, 30rem);
 
     margin-left: clamp(1rem, 2vw, 2rem);
 

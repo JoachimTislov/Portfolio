@@ -21,7 +21,7 @@
 
     margin-top: 3%;
 
-    font-size: clamp(0.7rem, 2.5vw, 2rem);
+    font-size: clamp(0.75rem, 3vw, 2rem);
 }
 
 .gmail {

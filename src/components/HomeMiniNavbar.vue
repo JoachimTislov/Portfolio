@@ -30,7 +30,7 @@ import { RouterLink } from 'vue-router';
 
     padding: 0.5rem;
 
-    font-size: clamp(1rem, 3vw, 2rem);
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
 }
 
 .link:hover {
