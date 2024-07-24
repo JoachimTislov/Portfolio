@@ -79,6 +79,8 @@ const situation = personalData['situation']
 .skill {
     padding: 0.9vw;
     margin: 0.6vw;
+
+    color: darkgrey;
 }
 
 

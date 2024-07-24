@@ -23,7 +23,6 @@ defineProps(['project'])
 
                 <br>
                 
-              
                 <RouterLink v-if="project.routerLink" :to="project.routerLink"> <p> Go to {{ project.name }} </p> </RouterLink>
 
                 <a :href="project.githubLink"> 
