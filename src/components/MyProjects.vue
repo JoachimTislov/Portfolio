@@ -3,7 +3,9 @@
 
     import { CAccordion, CAccordionItem } from '@coreui/vue';
 
-    import { projects } from './projects';
+    import { personalData } from '@/Data/personal';
+
+    const projects = personalData['projects']
 </script>
 
 <template>

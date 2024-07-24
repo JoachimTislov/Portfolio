@@ -25,6 +25,7 @@ import { RouterLink } from 'vue-router';
                             Four in a row
                         </RouterLink>
                     </li> 
+                    
                 </ul>
             </div>
         </div>

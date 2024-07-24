@@ -1,15 +1,9 @@
 <script setup lang="ts">
-import githubLogo from '@/assets/images/github.png'
-import linkendIn from '@/assets/images/linkedin.png'
-import instagram from '@/assets/images/instagram.png'
-import facebook from '@/assets/images/facebook.png'
 
-const links: {img: string, link: string}[] = [
-    { img: githubLogo, link: 'https://github.com/JoachimTislov'},
-    { img: linkendIn, link: 'https://www.linkedin.com/in/joachim-tisl%C3%B8v-7074642b1/'},
-    { img: instagram, link: 'https://www.instagram.com/joachimtislov/'},  
-    { img: facebook, link: 'https://www.facebook.com/profile.php?id=100011419305331'}
-]
+import { personalData } from '@/Data/personal';
+
+const links = personalData['socialLinks']
+
 </script>
 
 <template>
@@ -20,7 +14,7 @@ const links: {img: string, link: string}[] = [
 
 <style scoped>
 .socialLink {
-  width: 3vw;
+  width: clamp(2rem, 3.5vw, 4rem);
 }
 
 .gmail {
@@ -32,21 +26,4 @@ a {
   margin-left: 2%;
 }
 
-@media (min-width: 1000px) {
-  .socialLink {
-    width: 2vw;
-  }
-}
-
-@media (min-width: 700px) and (max-width: 1000px) {
-  .socialLink {
-    width: 3vw;
-  }
-}
-
-@media (max-width: 600px) {
-  .socialLink {
-    width: 5vw;
-  }
-}
 </style>

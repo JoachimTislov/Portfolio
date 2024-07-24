@@ -1,37 +1,38 @@
 <script setup lang="ts">
 import { CAccordionHeader, CAccordionBody } from '@coreui/vue';
-
 defineProps(['project']) 
 </script>
 
 <template>
     <CAccordionHeader>
-        <h1 class="m-0 p-0">  {{ project.name }} </h1>
+        <h1 class="m-0 p-0">  
+            {{ project.name }} 
+        </h1>
     </CAccordionHeader>
     <CAccordionBody>
         <div class="d-flex flex-column">
-
             <div class="description" >
                 <p class="" v-for="paragraph in project.description" :key="paragraph"> {{ paragraph }} </p>
-
-
-                <div class="m-2 tools_container d-flex flex-row align-items-center">
-                    <div class="frontend d-flex">
-                        <div class="m-1" v-for="tool in project.tools.frontend" :key="tool.name">
-                           <a :href="tool.link"> <font-awesome-icon class="icon" :icon="tool.icon" /> </a> 
-                        </div>
-                    </div>
                 
-                    <div class="backend d-flex">
-                        <div class="m-1" v-for="tool in project.tools.backend" :key="tool.name">
-                            <a :href="tool.link"> <font-awesome-icon class="icon" :icon="tool.icon" /> </a> 
-                        </div>
+                <small> Tools: </small>
+                <div class="d-flex flex-wrap">
+                    <div class="m-1 p-1 bg-dark" v-for="tool in project.tools" :key="tool.name">
+                        <a class="link" :href="tool.link"> {{ tool.name }} <font-awesome-icon class="icon" :icon="tool.icon" /> </a> 
                     </div>
                 </div>
 
+                <br>
+                
+              
+                <RouterLink v-if="project.routerLink" :to="project.routerLink"> <p> Go to {{ project.name }} </p> </RouterLink>
+
+                <a :href="project.githubLink"> 
+                    Github repository 
+                </a>
             </div>
 
-            <img class="project_img" :src="project.imageLink" alt="Project Image">
+            <img v-if="project.imageLink" class="project_img" :src="project.imageLink" alt="Project Image">
+
         </div>
 
     </CAccordionBody>
@@ -39,14 +40,6 @@ defineProps(['project'])
 
 
 <style scoped>
-.frontend {
-    margin-right: 0.5vw;
-}
-
-.backend {
-    margin-left: 0.5vw;
-}
-
 .description {
     background-color: rgb(61, 53, 53);
     color: rgb(247, 228, 228);
@@ -58,57 +51,23 @@ defineProps(['project'])
     border-radius: 4px;
 }
 
-.icon {
-    font-size: 3vw;
-}
-
-
 .project_img {
     margin-top: 5%;
 
     border-radius: 8px; 
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
-    
-    transition: box-shadow 0.3s ease;
 }
 
-.project_img:hover {
-    box-shadow: 0 0 18px rgba(0, 0, 0, 0.5);
-
-    transform: scale(1.2);
+.link {
+    text-decoration: none;
 }
 
-h1 {
-    font-size: 3vw;
+small {
+    font-size: clamp(0.5rem, 3vw, 1.5rem);
 }
 
-p {
-    font-size: 1.8vw;
+h1, p, .icon, a {
+    font-size: clamp(1rem, 3vw, 2rem);
 }
 
-.githubIcon {
-    margin-bottom: 3px;
-    margin-left: 8px;
-    width: 3vw;
-}
-
-@media (min-width: 700px) {
-
-    .icon {
-        font-size: 2vw; /* Adjust font size for smaller screens */
-    }
-
-    p {
-        font-size: 1.2vw;
-    }
-
-    .githubIcon {
-        width: 2.5vw;
-    }
-
-    h1 {
-        font-size: 1.5vw;
-    }
-    
-}
 </style>

@@ -125,6 +125,10 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+#starting_player {
+  font-size: clamp(1rem, 2vw, 1.6rem);
+}
+
 .label {
   font-size: 0.8em;
 }
@@ -252,11 +256,11 @@ h3, h4, h5 {
 }
 
 h4 {
-  font-size: clamp(0.8rem, 5vw, 1.2rem);
+  font-size: clamp(1.4rem, 2vw, 2rem);
 }
 
 h5 {
-  font-size: 1rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
 }
 
 .message {
