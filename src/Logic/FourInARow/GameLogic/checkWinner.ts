@@ -70,10 +70,10 @@ const loopThroughValues = (coordinates: number[][], values: number[], boolCheck:
     ) {
       if (boolCheck) {
 
-        for (const coords of coordinates) {
+        /*for (const coords of coordinates) {
           const [x,y] = coords
           board[x][y] = 4
-        }
+        }*/
 
         return determineWinner(participants[i])
       } else {
@@ -84,22 +84,25 @@ const loopThroughValues = (coordinates: number[][], values: number[], boolCheck:
   return false
 }
 
+export const getColor = (int: number) => {
+  const colors = ['', 'Red', 'Blue']
+  return colors[int]
+}
+
 const determineWinner = (value: number) => {
   ShowWinner.value = true
   GameOver.value = true
-  if (value == botValue) {
-    winnerMsg.value = 'The bot won'
+
+  if(botGame.value) {
+    if (value == botValue) {
+      winnerMsg.value = 'Bot won'
+    } else {
+      winnerMsg.value = 'You won, congrats'
+    }
   } else if(!botGame.value) {
     const color = getColor(playerStatus.value)
-
     winnerMsg.value = `${color} won`
-  } else {
-    winnerMsg.value = `Player ${playerStatus.value} won`
   }
   return true
 }
 
-const getColor = (int: number) => {
-  const colors = ['', 'Red', 'Blue']
-  return colors[int]
-}

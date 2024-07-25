@@ -19,7 +19,7 @@ export const find_all_related_moves_to_given_pattern = (
         direction: entry.direction,
         pattern: entry.pattern,
         all_coordinates: entry.all_coordinates,
-        potentiallyDoubleThreeInARow: entry.potentiallyDoubleThreeInARow,
+        PDThreeInARow: entry.potentiallyDoubleThreeInARow,
         relevantMoves: entry.relevantMoves
       }
     }

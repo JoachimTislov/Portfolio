@@ -43,6 +43,11 @@ export type columnInformation = {
   bots_opportunities: filterObject[]
 }
 
+export type DThree =  false | {
+    success: boolean;
+    coords: number[];
+}
+
 export type filterObject = {
   coords: number[]
   piece_count: string
@@ -50,7 +55,8 @@ export type filterObject = {
   direction: string
   pattern: _pattern
   all_coordinates: number[][]
-  potentiallyDoubleThreeInARow: boolean
+  // P - Potentially, D - Double
+  PDThreeInARow: boolean
   relevantMoves: relevantMovesType
 }
 

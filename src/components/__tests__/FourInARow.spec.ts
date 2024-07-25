@@ -1,5 +1,5 @@
 import { describe, it, expect, test } from 'vitest'
-import { initiateAlgorithms } from '../../Logic/FourInARow/BotLogic/Bot'
+import { initiateAlgorithms } from '../../Logic/FourInARow/BotLogic/BotInit'
 import { scanBoard } from '@/Logic/FourInARow/BotLogic/scanLogic'
 import { vi } from 'vitest'
 

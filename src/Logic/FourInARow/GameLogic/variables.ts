@@ -2,8 +2,7 @@ import { ref, watch, reactive } from "vue"
 
 import type { _losingCoordinates, possible_Choices, possible_Coordinates } from '../Types'
 
-export const isPreviousDisabled = ref<boolean>(false)
-export const isRestartDisabled = ref<boolean>(false)
+export const droppingPiece = ref<boolean>(false)
 
 export const piecesInARow = 4
 export const officialOffset = piecesInARow - 1 
@@ -49,8 +48,24 @@ watch(GameOver,(newGameOver) => {localStorage.setItem('GameOver', JSON.stringify
 
 export const boardWidth = ref(7); export const boardHeight = ref(6)
 const storedBoard = localStorage.getItem('board')
-export const board = reactive(storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0)))
+export const board = reactive(
+  /*storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0))*/
+  [
+    [1, 3, 1, 0, 0, 0],
+    [1, 1, 1, 3, 3, 0],
+    [3, 3, 3, 1, 3, 3],
+    [1, 3, 3, 1, 3, 1],
+    [1, 1, 1, 3, 1, 3],
+    [3, 3, 1, 3, 1, 3],
+    [0, 0, 0, 0, 0, 0]
+  ]
+)
+
+
+
 watch(board,(newBoard) => {localStorage.setItem('board', JSON.stringify(newBoard))},{ deep: true })
+
+
 
 const storedLosing_Coordinates = localStorage.getItem('losing_Coordinates')
 export const losing_Coordinates = ref<_losingCoordinates>(storedLosing_Coordinates ? JSON.parse(storedLosing_Coordinates) : [])
@@ -59,10 +74,6 @@ watch(losing_Coordinates,(newLosing_Coordinates) => {localStorage.setItem('losin
 const storedShowBoard = localStorage.getItem('ShowBoard')
 export const ShowBoard = ref<boolean>(storedShowBoard ? JSON.parse(storedShowBoard) : true)
 watch(ShowBoard, (newShowBoard) => {localStorage.setItem('ShowBoard', JSON.stringify(newShowBoard))}, {deep: true})
-
-const storedShowMenu = localStorage.getItem('ShowMenu')
-export const ShowMenu = ref<boolean>(storedShowMenu ? JSON.parse(storedShowMenu) : true)
-watch(ShowMenu, (newShowMenu) => {localStorage.setItem('ShowMenu', JSON.stringify(newShowMenu))}, {deep: true})
 
 const storedShowWinner = localStorage.getItem('ShowWinner')
 export const ShowWinner = ref<boolean>(storedShowWinner ? JSON.parse(storedShowWinner) : false)

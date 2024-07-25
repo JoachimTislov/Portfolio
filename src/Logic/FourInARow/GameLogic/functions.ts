@@ -1,9 +1,31 @@
-import { resetChoices } from '../BotLogic/Bot'
+import { resetChoices } from '../BotLogic/BotInit'
 
 import { delay } from '../delay'
+import { checkWinner } from './checkWinner'
+import { logMove } from './logMove'
+import { assignPiecesWithInt, decrementPieces, incrementPieces, pieces } from './pieces'
+import { placePiece } from './placePieceOnBoard'
 
-import { board, boardHeight, boardWidth, botGame, botValue, first_player, gameMode, 
-  GameOver, isPreviousDisabled, isRestartDisabled, log, losing_Coordinates, playerStatus, ShowBoard, ShowWinner, winnerMsg } from './variables'
+import { board, boardHeight, boardWidth, botGame, botValue, droppingPiece, first_player, gameMode, 
+  GameOver, log, losing_Coordinates, playerStatus, ShowBoard, ShowWinner, winnerMsg } from './variables'
+
+export const executePlacement = async (row: number, slot: number, playerValue: number) => {
+  placePiece(board, row, slot, playerValue)
+  logMove([row, slot])
+
+  incrementPieces()
+
+  await handleDropInAnimation(row, slot)
+
+  toggleButtons(false)
+  
+  checkWinner(true)
+  checkForTie(pieces.value)
+} 
+
+export function toggleButtons(bool: boolean) {
+    droppingPiece.value = bool
+}
 
 export const handleDropInAnimation = async (colIndex: number, rowIndex: number) => {
   const specific_slot = document.querySelector('.slot' + colIndex + '-' + rowIndex)
@@ -16,42 +38,17 @@ export const handleDropInAnimation = async (colIndex: number, rowIndex: number) 
   }
 }
 
-export const alterPreviousButton = (pieces: number) => {
-  const number = botGame.value ? 1 : 0
-  if(pieces > number && !GameOver.value) {
-    console.log('P not D')
-    isPreviousDisabled.value = false
-  } else {
-    console.log('P, D')
-    isPreviousDisabled.value = true
-  }
-
-  console.log('P: ', number, pieces, botGame.value)
+export function getNumber() {
+  return botGame.value ? 1 : 0
 }
 
-export const alterRestartButton = (pieces: number) => {
-  const number = botGame.value ? 1 : 0
-  if (pieces > number || ShowWinner.value) {
-    console.log('R not D')
-    isRestartDisabled.value = false
-  } else {
-    console.log('R D')
-    isRestartDisabled.value = true
-  }
-
-  console.log('R: ', number, pieces , botGame.value)
-}
-
-export const previousMove = (pieces: number, decrementPieces: () => void) => {
+export const previousMove = () => {
   const remove_last_move = () => {
     const [x, y]: number[] = log.value.pop() ?? [-1, 0]
     if (x != -1) {
       board[x][y] = 0
-      decrementPieces(); pieces--;
+      decrementPieces();
     }
-
-    alterRestartButton(pieces)
-    alterPreviousButton(pieces)
   }
 
   GameOver.value = false
@@ -77,10 +74,10 @@ export const previousMove = (pieces: number, decrementPieces: () => void) => {
   }
 }
 
-export const initBotStarts = (assignInt: (int: number) => void) => {
+export const initBotStarts = () => {
   if (first_player.value === 'bot') {
-    assignInt(1)
-    board[3][0] = botValue
+    assignPiecesWithInt(1)
+    placePiece(board, 3, 0, botValue)
   }
 }
 
@@ -90,12 +87,12 @@ export const initTwoPlayer = () => {
   gameMode.value = 'Player vs Player'
 }
 
-export const initBotGame = (assignInt: (int: number) => void) => {
+export const initBotGame = () => {
   initBaseGame()
   botGame.value = true
   gameMode.value = 'Player vs Bot'
 
-  initBotStarts(assignInt)
+  initBotStarts()
 }
 
 export const initBaseGame = () => {
@@ -117,7 +114,6 @@ export const updatePlayerStatus = () => {
 }
 
 export const checkForTie = (pieces: number) => {
-  console.log(pieces)
   if(pieces == boardWidth.value * boardHeight.value) {
     ShowBoard.value = false
     winnerMsg.value = 'It was a tie'

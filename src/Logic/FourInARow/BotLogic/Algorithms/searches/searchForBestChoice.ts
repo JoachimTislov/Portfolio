@@ -1,7 +1,7 @@
 import { ref } from "vue"
 import { arraysEqual } from "../../ArrayLogic"
 import { botChoices, goldenMove, playerChoices, remainingChoices } from "../../../GameLogic/variables"
-import { botMove } from "../../Bot"
+import { botMove } from "../../botMove"
 import { handleLosingChoices } from "../handleLosingChoices"
 
 export const searchForBestChoice = async (board: number[][]) => {
@@ -25,6 +25,7 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of doubleChoices) {
     if(entry.length) {
       const [x,y] = entry[0].coordinates
+      console.log('d in a row')
       return await botMove(board, x, y)
     }
   }
@@ -33,6 +34,7 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of potentiallyDoubleChoices) {
     if(entry.length) {
       const [x,y] = entry[0].coordinates
+      console.log('Potential d in a row')
       return await botMove(board, x, y)
     }
   }
@@ -43,16 +45,15 @@ export const searchForBestChoice = async (board: number[][]) => {
     const patterns = choice['Two_in_a_row']
     for (const direction of directions) {
       for (const entry of patterns) {
-        if (direction != 'vertical' && choice != playerChoices.value)
-          if (entry.direction === direction && entry.losing.bool == false) {
-            if (choice == playerChoices.value) {
-              console.log('Blocking in direction: ', direction, entry)
-            } else {
-              console.log('Building in direction: ', direction, entry)
-            }
-            const [row, slot] = entry.coordinates
-            return await botMove(board, row, slot)
+        if (entry.direction === direction && entry.losing.bool == false) {
+          if (choice == playerChoices.value) {
+            console.log('Blocking in direction: ', direction, entry)
+          } else {
+            console.log('Building in direction: ', direction, entry)
           }
+          const [row, slot] = entry.coordinates
+          return await botMove(board, row, slot)
+        }
       }
     }
   }

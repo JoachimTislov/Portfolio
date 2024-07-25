@@ -1,24 +1,29 @@
 <script setup lang="ts">
-import { usePiecesStore } from '@/Logic/FourInARow/stores/counter';
-
 import {
   initTwoPlayer,
   initBotGame,
   previousMove,
   getSlotColor,
   getNameOfSlot,
-  alterPreviousButton,
-  alterRestartButton
+  getNumber
   
 } from '../Logic/FourInARow/GameLogic/functions'  
 
 import { resetGame } from '@/Logic/FourInARow/GameLogic/resetGame';
 
-import { dropPiece } from '@/Logic/FourInARow/GameLogic/dropPiece';
+import { dropPiece, busy } from '@/Logic/FourInARow/GameLogic/dropPiece';
+
+import { pieces } from '@/Logic/FourInARow/GameLogic/pieces';
+
+import { getColor } from '@/Logic/FourInARow/GameLogic/checkWinner'
+
+import { botCalculating } from '@/Logic/FourInARow/BotLogic/botMove'
 
 import {
   botGame,
   gameMode,
+
+  GameOver,
   
   first_player,
   ShowWinner,
@@ -28,83 +33,75 @@ import {
   playerTurn,
   ShowBoard,
 
-  isPreviousDisabled,
-  isRestartDisabled
+  droppingPiece,
+  playerStatus
 
 } from '../Logic/FourInARow/GameLogic/variables'  
-import { onMounted } from 'vue';
-import { storeToRefs } from 'pinia';
 
-const store = usePiecesStore()
-
-const { decrementPieces, incrementPieces, assignInt} = store
-
-const { pieces } = storeToRefs(store)
-
-onMounted(async () => {
-  // Perform initialization or setup tasks here
-  console.log('At mounted: ', pieces.value)
-
-  alterPreviousButton(pieces.value)
-  alterRestartButton(pieces.value)
-});
- 
 </script>
  
 <template>
   <section class="mainDiv">
     <div class="menu">
           <div class="mt-1 mb-1 btn-group">
-            <button v-if="botGame" @click="initTwoPlayer(), resetGame(pieces, assignInt)" type="button" class="border-light btn btn-secondary">
+            <button :disabled="droppingPiece" v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button" class="border-light btn btn-secondary">
               Two Player Game
             </button>
-            <button v-if="!botGame" @click="initBotGame(assignInt), resetGame(pieces, assignInt)" type="button" class="border-light btn btn-secondary">Play against the Bot</button>
+            <button :disabled="droppingPiece" v-if="!botGame" @click="initBotGame(), resetGame()" type="button" class="border-light btn btn-secondary">Play against the Bot</button>
           </div>
 
           <div v-if="botGame" class="mb-1 d-flex flex-column">
             <label class="label" for="starting_player"> Starting Player: </label>
             <select 
+              :disabled="droppingPiece"
               id="starting_player"
               class="form-control form-control-sm"
               v-model="first_player"
-              @change="resetGame(pieces, assignInt)"
+              @change="resetGame()"
             >
               <option value="Player 1">You</option>
               <option value="bot">Bot</option>
             </select>
           </div>
 
-          <template v-if="!ShowWinner">
-            <div class="mt-2 p-4 message">
-              <h4> {{ gameMode }} </h4>
-              <template v-if="botGame">
+          <div v-if="!ShowWinner" class="mt-2 p-4 message">
+            <h4> {{ gameMode }} </h4>
+            <template v-if="botGame">
+              <h5 v-if="busy && !botCalculating"> <strong>  Dropping piece.. </strong> </h5>
+              <template v-else>
                 <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
-                <h5 v-else> <strong> Bot is calculating... </strong> </h5>
+                <h5 v-if="botCalculating"> <strong> Bot is calculating... </strong> </h5>
               </template>
-            </div>
-          </template>
+            </template>
+            <template v-if="!botGame">
+              <h5 v-if="busy"> <strong>  Dropping piece.. </strong> </h5>
 
-          <template v-if="ShowWinner"> 
-            <div class="p-4 message">
-              <h4>{{ winnerMsg }}</h4>
-            </div>
-          </template>
+              <template v-else>
+                <h5 v-if="playerStatus == 1"> <strong>  {{ getColor(1) }} to play </strong> </h5>
+                <h5 v-if="playerStatus == 2"> <strong>  {{ getColor(2) }} to play </strong> </h5>
+              </template>
+            </template>
+          </div>
 
-          <div  class="d-flex btn-group btn-group-lg mt-2"> 
-            <button ref="restartButton" :disabled="isRestartDisabled" @click="resetGame(pieces, assignInt)" type="button" class="m-1 btn btn-md btn-success">
+          <div v-if="ShowWinner" class="p-4 message">
+            <h4>{{ winnerMsg }}</h4>
+          </div>
+
+          <div class="d-flex btn-group btn-group-lg mt-2"> 
+            <button ref="restartButton" :disabled="droppingPiece || !(pieces > getNumber() || ShowWinner)" @click="resetGame()" type="button" class="m-1 btn btn-md btn-success">
               <template v-if="ShowWinner"> Play Again </template>
               <template v-else> Restart </template>
             </button>
 
-            <button ref="previousButton" :disabled="isPreviousDisabled" @click="previousMove(pieces, decrementPieces)" type="button" class="m-1 btn btn-md btn-primary"> Previous Move </button>
+            <button ref="previousButton" :disabled="droppingPiece /*|| !(pieces > getNumber() && !GameOver)*/" @click="previousMove()" type="button" class="m-1 btn btn-md btn-primary"> Previous Move </button>
           </div>
     </div>
     
-    <div id="board" v-show="ShowBoard">
+    <div class="board" v-show="ShowBoard">
       <div
         v-for="(column, colIndex) in board"
         :key="colIndex"
-        @click="dropPiece(colIndex, pieces, incrementPieces)"
+        @click="dropPiece(colIndex)"
         class="boardColumn column-reverse"
       >
         <div
@@ -150,18 +147,6 @@ onMounted(async () => {
     margin-top: 1rem;
   }
 
-@media (max-width: 700px) {
-  .menu {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .buttons {
-    margin-top: 3.5rem;
-    margin-left: 0.5rem;
-  }
-}
-
 .mainDiv {
   width: 100%;
   height: auto;
@@ -174,7 +159,7 @@ onMounted(async () => {
   margin-top: 20px;
 }
 
-#board {
+.board {
   display: flex;
   flex-direction: row;
 
@@ -187,6 +172,7 @@ onMounted(async () => {
   border-top: 0;
 
   margin-top: 3%;
+  margin-bottom: 100px;
 }
 
 .column {
@@ -201,12 +187,13 @@ onMounted(async () => {
 
   border-radius: 40px;
 
-  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 
 .column-reverse:hover {
-  background-color: rgb(0, 0, 0);
+  background-color: #000; /* Using hex for consistency */
   transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Adding a subtle shadow effect */
 }
 
 .slotBackground {
@@ -230,22 +217,22 @@ onMounted(async () => {
 
 @keyframes dropIn {
   0% {
-    transform: translateY(-300%); /* Start position relative to board height */
-  }
-  40% {
-    transform: translateY(5px); /* Slight movement up */
+    transform: translateY(-300%); 
   }
   70% {
-    transform: translateY(-10px); /* Additional bounce effect */
+    transform: translateY(0); 
+  }
+  90% {
+    transform: translateY(-5px); 
   }
   100% {
-    transform: translateY(0); /* Return to normal */
+    transform: translateY(0); 
   }
 }
 
 .drop-in {
   z-index: 1;
-  animation: dropIn 2s ease-in-out forwards;
+  animation: dropIn 1s cubic-bezier(0.9, 0.6, 0.4, 1);
 }
 
 h1,

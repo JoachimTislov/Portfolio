@@ -1,36 +1,25 @@
-import { initiateAlgorithms } from "../BotLogic/Bot"
-import { checkWinner } from "./checkWinner"
-import { handleDropInAnimation, checkForTie, updatePlayerStatus, alterPreviousButton, alterRestartButton } from "./functions"
-import { board, botGame, GameOver, log, playerStatus, playerTurn, ShowWinner } from "./variables"
+import { ref } from "vue"
+import { initiateAlgorithms } from "../BotLogic/BotInit"
+import { updatePlayerStatus, toggleButtons, executePlacement } from "./functions"
+import { board, botGame, GameOver, playerStatus, playerTurn, ShowWinner } from "./variables"
 
-export const dropPiece = async (index: number, pieces: number, incrementPieces: () => void) => {
-  if(!GameOver.value) {
-    if(playerTurn.value && botGame.value || !botGame.value) {
-      for (let i = 0; i < 7; i++) {
-        if (board[index][i] === 0) {
-            incrementPieces(); pieces++; 
+export const busy = ref<boolean>(false)
+
+export const dropPiece = async (row: number) => {
+  if(!GameOver.value && !busy.value) {
+    busy.value = true
+    if(botGame.value && playerTurn.value || !botGame.value) {
+      for (let slot = 0; slot < 7; slot++) {
+        if (board[row][slot] === 0) {
+            toggleButtons(true)
             
-            handleDropInAnimation(index, i)
-
-            //Placing pieces
-            board[index][i] = playerStatus.value
+            await executePlacement(row, slot, playerStatus.value)
+            
             playerTurn.value = false
-            
-            log.value.push([index, i])
-
-            checkWinner(true)
-
-            alterRestartButton(pieces)
-            alterPreviousButton(pieces)
             
             if (botGame.value && !ShowWinner.value) {
                 await initiateAlgorithms(board)
-                incrementPieces(); pieces++; checkWinner(true)
-                alterRestartButton(pieces)
-                alterPreviousButton(pieces)
             }
-
-            checkForTie(pieces)
 
             if (!botGame.value) {
             updatePlayerStatus()
@@ -40,5 +29,6 @@ export const dropPiece = async (index: number, pieces: number, incrementPieces: 
         }
       }
     }
+    busy.value = false
   }
 }

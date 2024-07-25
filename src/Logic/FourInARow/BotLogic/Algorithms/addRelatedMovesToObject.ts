@@ -6,7 +6,7 @@ export const addRelatedMovesToObject = (botAndPlayerRelatedMoves: relatedArraysT
       if (relatedMoves.arr[i] != undefined) relatedMoves.targetArr.push({
         piece_count: relatedMoves.arr[i].piece_count, 
         relativeRowIndex: i, 
-        potentiallyDoubleThreeInARow: relatedMoves.arr[i].potentiallyDoubleThreeInARow,
+        potentiallyDoubleThreeInARow: relatedMoves.arr[i].PDThreeInARow,
         coords: relatedMoves.arr[i].coords
       })
     }

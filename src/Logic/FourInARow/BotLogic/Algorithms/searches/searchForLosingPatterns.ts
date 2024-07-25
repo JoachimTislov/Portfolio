@@ -25,6 +25,7 @@ export const searchForLosingPatterns = (
         for (const index of piece_countAndIndices.indices) {
           const [x, y] = [sequence.coordinates[index][0], sequence.coordinates[index][1] - 1]
           const check = checkLosingCoordinates(
+            sequence.pattern,
             [x, y],
             participant,
             structure.direction,

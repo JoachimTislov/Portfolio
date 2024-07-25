@@ -13,7 +13,7 @@ export const checkPotentiallyDoubleThreeInARow = (
   participant: number,
   all_coordinates: number[][]
 ) => {
-  const checkIfSpotIsNotOccupiedOnBoard = (board: number[][], coords: number[]) => {
+  const checkIfSpotIsNotOccupiedOnBoard = (coords: number[]) => {
     const [x, y] = coords
     return board[x][y] == 0 
   }
@@ -22,17 +22,17 @@ export const checkPotentiallyDoubleThreeInARow = (
    
     if (arraysEqual(arr.pattern, pattern)) {
 
-      if (checkCoordinatesLimit(arr.coords[0]) && checkIfSpotIsNotOccupiedOnBoard(board, arr.coords[0])) {
+      if (checkCoordinatesLimit(arr.coords[0]) && checkIfSpotIsNotOccupiedOnBoard(arr.coords[0])) {
         return { success: true, coords: arr.coords[1] }
       }
 
     } else if (arraysEqual(['*', participant, participant, '*'], pattern) || arraysEqual([0, participant, participant, 0], pattern)) {
       
-      if (checkCoordinatesLimit(coords.first) && checkIfSpotIsNotOccupiedOnBoard(board, coords.first)) {
+      if (checkCoordinatesLimit(coords.first) && checkIfSpotIsNotOccupiedOnBoard(coords.first)) {
         return { success: true, coords: all_coordinates[0] }
       }
 
-      if(checkCoordinatesLimit(coords.last) && checkIfSpotIsNotOccupiedOnBoard(board, coords.last)) {
+      if(checkCoordinatesLimit(coords.last) && checkIfSpotIsNotOccupiedOnBoard(coords.last)) {
         return { success: true, coords: all_coordinates[3] }
       }
     }

@@ -1,8 +1,9 @@
-import { resetChoices } from "../BotLogic/Bot"
-import { alterPreviousButton, alterRestartButton, initBotStarts } from "./functions"
+import { resetChoices } from "../BotLogic/BotInit"
+import { initBotStarts } from "./functions"
+import { assignPiecesWithInt } from "./pieces"
 import { board, botGame, GameOver, log, losing_Coordinates, playerStatus, playerTurn, ShowBoard, ShowWinner } from "./variables"
 
-export const resetGame = (pieces: number, assignInt: (int: number) => void) => {
+export const resetGame = () => {
   // resetting board
   board.forEach((row: number[]) => {
     row.fill(0) // Fill each row with 0
@@ -16,15 +17,11 @@ export const resetGame = (pieces: number, assignInt: (int: number) => void) => {
   GameOver.value = false
   ShowWinner.value = false
 
-  assignInt(0)
-  pieces = 0
+  assignPiecesWithInt(0)
 
   if(botGame.value) {
-    initBotStarts(assignInt)
+    initBotStarts()
   } 
-  
-  alterRestartButton(pieces)
-  alterPreviousButton(pieces)
   
   log.value = []
   losing_Coordinates.value = []

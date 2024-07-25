@@ -83,8 +83,6 @@ const situation = personalData['situation']
     color: darkgrey;
 }
 
-
-
 h3 {
     margin: 0;
 }

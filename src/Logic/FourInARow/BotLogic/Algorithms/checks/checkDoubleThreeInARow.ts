@@ -20,11 +20,17 @@ export const checkDoubleThreeInARow = (
   const checkPattern = (arr: { pattern: (number | string)[]; coords: number[][] }) => {
     if (arraysEqual(arr.pattern, pattern)) {
 
-      return { success: true, coords: [arr.coords[1]] }
+      return { success: true, coords: arr.coords[1] }
 
     } else if (arraysEqual([0, participant, participant, 0], pattern)) {
 
-      return { success: true, coords: [all_coordinates[0], all_coordinates[3]] }
+      if (checkCoordinatesLimit(coords.first) && checkIfSpotIsNotOccupiedOnBoard(coords.first)) {
+        return { success: true, coords: all_coordinates[0] }
+      }
+
+      if(checkCoordinatesLimit(coords.last) && checkIfSpotIsNotOccupiedOnBoard(coords.last)) {
+        return { success: true, coords: all_coordinates[3] }
+      }
 
     }
     

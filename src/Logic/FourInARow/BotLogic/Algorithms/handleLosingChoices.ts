@@ -1,5 +1,5 @@
 import { botValue, losing_Coordinates, playerStatus } from "../../GameLogic/variables"
-import { botMove } from "../Bot"
+import { botMove } from "../botMove"
 
 export const handleLosingChoices = async (board: number[][]) => {
   const place_Piece = async (entry: {
@@ -7,11 +7,11 @@ export const handleLosingChoices = async (board: number[][]) => {
     player_identifier: number
     piece_count: string
   }) => {
-    const h = entry.coordinates
+    const [x, y] = entry.coordinates
     losing_Coordinates.value = losing_Coordinates.value.filter(
       (e: { coordinates: number[]; player_identifier: number; piece_count: string }) => e !== entry
     )
-    return await botMove(board, h[0], h[1])
+    return await botMove(board, x, y)
   }
 
   const checkCoordinatesStatus = (piece_count: string, participant: number) => {
