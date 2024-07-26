@@ -33,8 +33,8 @@ export const structureCases = (relatedMoves: relatedMovesObject) => {
 
   const firstOtherPossiblePlacement = relatedMoves.second 
 
-  const [firstOtherPossiblePlacementFirstBotOpportunity, firstOtherPossiblePlacementSecondBotOpportunity]  = [firstOtherPossiblePlacement?.bots_opportunities[0], firstOtherPossiblePlacement?.bots_opportunities[1]]
-  const [firstOtherPossiblePlacementFirstPlayerThreat, firstOtherPossiblePlacementSecondPlayerThreat] = [firstOtherPossiblePlacement?.player_threats[0], firstOtherPossiblePlacement?.player_threats[1]]
+  const [firstOtherPossiblePlacementFirstBotOpportunity]  = [firstOtherPossiblePlacement?.bots_opportunities[0]]
+  const [firstOtherPossiblePlacementFirstPlayerThreat] = [firstOtherPossiblePlacement?.player_threats[0]]
   
   const firstOtherPossiblePlacementFirstPlayerThreatIsThree = firstOtherPossiblePlacementFirstPlayerThreat?.piece_count == 'Three'
   const firstOtherPossiblePlacementFirstBotOpportunityIsThree = firstOtherPossiblePlacementFirstBotOpportunity?.piece_count == 'Three'

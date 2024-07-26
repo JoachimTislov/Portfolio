@@ -65,12 +65,12 @@ small {
     font-size: clamp(0.5rem, 3vw, 1.5rem);
 }
 
-h1, p, .icon, a {
-    font-size: clamp(1rem, 3vw, 2rem);
+p, .icon, a {
+    font-size: clamp(1.2rem, 3vw, 2rem);
 }
 
 h1 {
-    font-size: clamp(1.2rem, 3vw, 2rem);
+    font-size: clamp(1.2rem, 3vw, 3rem);
 }
 
 </style>

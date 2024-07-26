@@ -12,6 +12,7 @@ const name = personalData['name']
     <div class="box"> 
         <div class="info d-flex flex-column">
             <h1> Hey, I'm {{ name }} </h1>
+
             <socialLinks class="socialLinks" />
 
             <figure>
@@ -30,8 +31,8 @@ const name = personalData['name']
 <style scoped>
 
 .info {
-    margin-top: 1%;
-    margin-left: 1%;
+    margin-right: 0.2rem;
+    margin-left: clamp(1rem, 1.5vw, 2rem);
 }
 
 blockquote {
@@ -46,7 +47,15 @@ blockquote {
 }
 
 h1 {
-    font-size: clamp(3rem, 5vw, 6rem);
+    font-size: 6rem;
+    margin-top: 0;
+}
+
+@media (max-width: 1500px) {
+    h1 {
+        font-size: clamp(2.5rem, 4.5vw, 6rem);
+        margin-top: 0;
+    }
 }
 
 p {
@@ -68,10 +77,8 @@ p {
 }
 
 img {
-    width: clamp(17rem, 30vw, 30rem);
-    height: clamp(17rem, 30vw, 30rem);
-
-    margin-left: clamp(1rem, 2vw, 2rem);
+    width: clamp(18rem, 35vw, 30rem);
+    height: clamp(18rem, 35vw, 30rem);
 
     border-radius: 50%;
 }
@@ -89,7 +96,7 @@ img {
     color: #3A3A3A;
 }
 
-@media (max-width: 769px) {
+@media (max-width: 767px) {
     .box {
         flex-direction: column-reverse;
     }
@@ -99,9 +106,13 @@ img {
     }
 
     .info {
-        margin: 1rem;
+        margin: 0.5rem;
     }
 
+    h1 {
+        margin: 0;
+        margin-top: 1rem;
+    }
 }
 
 </style>

@@ -8,7 +8,7 @@ import { RouterLink } from 'vue-router';
 
 <template>
 
-    <div class="pt-1 pb-2 d-flex justify-content-around">
+    <div class="p-2 d-flex justify-content-around">
         <RouterLink class="link" to="/"> 
             Regarding me  
         </RouterLink>
@@ -28,9 +28,7 @@ import { RouterLink } from 'vue-router';
 
     color: white;
 
-    padding: 0.5rem;
-
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
 }
 
 .link:hover {
