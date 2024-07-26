@@ -70,10 +70,10 @@ const loopThroughValues = (coordinates: number[][], values: number[], boolCheck:
     ) {
       if (boolCheck) {
 
-        /*for (const coords of coordinates) {
+        for (const coords of coordinates) {
           const [x,y] = coords
           board[x][y] = 4
-        }*/
+        }
 
         return determineWinner(participants[i])
       } else {

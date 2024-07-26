@@ -10,13 +10,16 @@ const evaluateOperation = (colIndex: number, offset: number, colOperation: strin
   return operation[colOperation](colIndex, offset)
 }
 
-const scanDirection = (board: number[][], colIndex: number, rowIndex: number, colOperation: string | undefined, rowOperation: string | undefined, left: boolean) => {
+const scanDirection = (board: number[][], colIndex: number, rowIndex: number, colOperation: string | undefined, rowOperation: string | undefined, left: boolean, _offset: number | undefined) => {
   const pattern_arr: _pattern = []
   const coordinates: _coordinates = []
- 
-  for (let offset = 0; offset < piecesInARow; offset++) {
+  
+  const __offset = _offset != undefined ? _offset : 0
+
+  for (let offset = __offset; offset < piecesInARow + __offset; offset++) {
     const colValue = colOperation != undefined ? evaluateOperation(colIndex, offset, colOperation) : colIndex
     const rowValue = rowOperation != undefined ? evaluateOperation(rowIndex, offset, rowOperation) : rowIndex
+    if(colValue > 6 || colValue < 0 || rowValue < 0 || rowValue > 5) return false
     let slot: string | number = board[colValue][rowValue]; 
     // Check if the slot below is empty (for vertical placement logic)
     if (rowValue > 0 && board[colValue][rowValue - 1] == 0) {
@@ -36,7 +39,10 @@ const scanDirection = (board: number[][], colIndex: number, rowIndex: number, co
 
 export const scanBoard = (board: number[][], participant: number) => {
 
-  const [horizontal_left, horizontal_right, cross_up_right, cross_up_left, cross_down_right, cross_down_left, vertical]: [
+  const [horizontal_left, horizontal_right, 
+        cross_up_right, cross_up_left, 
+        cross_down_right, cross_down_left, 
+        vertical]: [
     _patternData,
     _patternData,
     _patternData,
@@ -52,19 +58,35 @@ export const scanBoard = (board: number[][], participant: number) => {
         const horizontalOffSet = board.length - officialOffset
         const verticalOffSet = board[colIndex].length - officialOffset
 
+        const offset = -1
+
+        const rowIndexAndOffSet = rowIndex + offset 
+        const colIndexAndOffSet = colIndex + offset 
+
+        // There is an index fault inside of directions array, idk where, but a condition in scanDirection handles it
         const directions = [
+          // Entries with offset, is to capture rows which are cut off by the border
           {requirement: (colIndex < horizontalOffSet), colOperation: '+', arr: horizontal_right, left: false},
           {requirement: (colIndex >= officialOffset), colOperation: '-', arr: horizontal_left, left: true},
           {requirement: (rowIndex < verticalOffSet), rowOperation: '+', arr: vertical, left: false},
+
           {requirement: (rowIndex < verticalOffSet && colIndex < horizontalOffSet), colOperation: '+', rowOperation: '+', arr: cross_up_right, left: false},
           {requirement: (rowIndex < verticalOffSet && colIndex >= officialOffset), colOperation: '-', rowOperation: '+', arr: cross_up_left, left: true},
           {requirement: (rowIndex >= verticalOffSet && colIndex < horizontalOffSet), colOperation: '+', rowOperation: '-', arr: cross_down_right, left: false},
-          {requirement: (rowIndex >= verticalOffSet && colIndex >= officialOffset), colOperation: '-', rowOperation: '-', arr: cross_down_left, left: true}
+          {requirement: (rowIndex >= verticalOffSet && colIndex >= officialOffset), colOperation: '-', rowOperation: '-', arr: cross_down_left, left: true},
+
+
+          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet < horizontalOffSet), colOperation: '+', offset: offset, arr: horizontal_right, left: false},
+          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet >= officialOffset), colOperation: '-', offset: offset, arr: horizontal_left, left: true},
+          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet < verticalOffSet && colIndexAndOffSet >= 0 && colIndexAndOffSet < horizontalOffSet), colOperation: '+', rowOperation: '+', offset: offset, arr: cross_up_right, left: false},
+          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet < verticalOffSet && colIndexAndOffSet >= 0 && colIndexAndOffSet >= officialOffset), colOperation: '-', rowOperation: '+', offset: offset, arr: cross_up_left, left: true},
+          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet >= verticalOffSet && colIndexAndOffSet >= 0 && colIndexAndOffSet < horizontalOffSet), colOperation: '+', rowOperation: '-', offset: offset, arr: cross_down_right, left: false},
+          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet >= verticalOffSet && colIndexAndOffSet >= 0 && colIndexAndOffSet >= officialOffset), colOperation: '-', rowOperation: '-', offset: offset, arr: cross_down_left, left: true}
         ]
 
         for (const direction of directions) {
           if(direction.requirement) {
-            const result = scanDirection(board, colIndex, rowIndex, direction.colOperation, direction.rowOperation, direction.left)
+            const result = scanDirection(board, colIndex, rowIndex, direction.colOperation, direction.rowOperation, direction.left, direction.offset)
             if(result != false) direction.arr.push(result)
           }
         }       
@@ -75,6 +97,7 @@ export const scanBoard = (board: number[][], participant: number) => {
   const result = [
     { direction: 'vertical', sequence: vertical },
     { direction: 'horizontal_right', sequence: horizontal_right },
+
     { direction: 'horizontal_left', sequence: horizontal_left },
     { direction: 'cross_up_right', sequence: cross_up_right },
     { direction: 'cross_up_left', sequence: cross_up_left },
@@ -82,6 +105,6 @@ export const scanBoard = (board: number[][], participant: number) => {
     { direction: 'cross_down_left', sequence: cross_down_left },
   ]
 
-  console.log(result)
+  //console.log(result)
   return result
 }

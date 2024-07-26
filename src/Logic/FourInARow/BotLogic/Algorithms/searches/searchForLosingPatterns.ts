@@ -1,12 +1,13 @@
 import { arraysEqual, checkIfArrayInThe2DArrayEqualArray, checkLosingCoordinates } from "../../ArrayLogic"
 import { losing_Coordinates } from "../../../GameLogic/variables"
 import { three_in_a_row_pattern, two_in_a_row_losing_pattern } from "../../PatternLogic"
-import type { _patternData, relevantMovesType } from "../../../Types"
+import type { _patternData } from "../../../Types"
 import { find_all_related_moves_to_given_pattern } from "./searchForAllRelatedMovesToPattern"
 import { getFourthAndFifthCoordinates } from "../get/getFourthAndFifthCoordinates"
 import { checkPotentiallyDoubleThreeInARow } from "../checks/checkPotentiallyDoubleThreeInARow"
-import { addRelatedMovesToObject } from "../addRelatedMovesToObject"
 import { getPieceCountAndIndices } from "../get/getPieceCountAndIndices"
+import { getOtherZeroCoordinatesIndex } from "../get/getOtherZeroOrAsteriskCoordinatesIndex"
+
 
 export const searchForLosingPatterns = (
   board: number[][],
@@ -32,19 +33,13 @@ export const searchForLosingPatterns = (
             piece_countAndIndices.piece_count
           )
           if (structure.direction != 'vertical' && (check && three) || (check && two)) {
-            const relevantMoves: relevantMovesType =  { bot_instances: [], player_instances: [] }
 
-            const moves_related_to_pattern = find_all_related_moves_to_given_pattern(board, [x,y+1])
-
-            const botAndPlayerRelatedMoves = [
-              {targetArr: relevantMoves.bot_instances, arr: moves_related_to_pattern.bots_opportunities}, 
-              {targetArr: relevantMoves.player_instances, arr: moves_related_to_pattern.player_threats}]
-            
-            addRelatedMovesToObject(botAndPlayerRelatedMoves)
+            const otherZeroOrAsteriskIndex = getOtherZeroCoordinatesIndex(sequence.pattern, [index])
+            const relevantMovesOfOtherZeroOrAsterisk = otherZeroOrAsteriskIndex ? find_all_related_moves_to_given_pattern(sequence.coordinates[index]) : undefined
 
             const thirdAndFifth = getFourthAndFifthCoordinates(sequence.coordinates)
-            const result = checkPotentiallyDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant, sequence.coordinates)
-            const potentiallyDoubleInARow = (result != false && arraysEqual(moves_related_to_pattern.coords, result.coords)) ? result.success : false
+            const result = checkPotentiallyDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant, sequence.coordinates, index)
+            const potentiallyDoubleInARow = (result != false && relevantMovesOfOtherZeroOrAsterisk && arraysEqual(relevantMovesOfOtherZeroOrAsterisk.coords, result.coords)) ? result.success : false
 
             losing_Coordinates.value.push({
               coordinates: [x, y],
@@ -54,7 +49,7 @@ export const searchForLosingPatterns = (
               player_identifier: participant,
               piece_count: piece_countAndIndices.piece_count,
               instances: 1,
-              relevantMoves: relevantMoves,
+              relatedMovesOfOtherZeroOrAsterisk: relevantMovesOfOtherZeroOrAsterisk,
               potentiallyDoubleThreeInARow: potentiallyDoubleInARow
             })
           }

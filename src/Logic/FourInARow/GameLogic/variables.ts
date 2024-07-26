@@ -9,27 +9,14 @@ export const officialOffset = piecesInARow - 1
 
 export const remainingChoices = ref<possible_Coordinates[]>([])
 
-export const defaultGoldenMove = {
-  pattern: [],
-  coordinates: [],
-  all_coordinates: [],
-  direction: '',
-  losing: { bool: false, bot_instances: [], player_instances: [] },
-  participant: 0,
-  piece_count: ''
-}
-
-export const goldenMove = ref<possible_Coordinates>(defaultGoldenMove) 
-
 export const deepClone = <T>(obj: T): T => {
   return JSON.parse(JSON.stringify(obj));
 }
 
 export const defaultChoices = {
-  Three_in_a_row: [],
   double_Three_in_a_row: [],
   potentially_double_Three_in_a_row: [],
-  Two_in_a_row: []
+  Two_in_a_row: [ [],[],[],[],[],[] ]
 }
 
 export const botChoices = ref<possible_Choices>(deepClone(defaultChoices))
@@ -48,24 +35,8 @@ watch(GameOver,(newGameOver) => {localStorage.setItem('GameOver', JSON.stringify
 
 export const boardWidth = ref(7); export const boardHeight = ref(6)
 const storedBoard = localStorage.getItem('board')
-export const board = reactive(
-  /*storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0))*/
-  [
-    [1, 3, 1, 0, 0, 0],
-    [1, 1, 1, 3, 3, 0],
-    [3, 3, 3, 1, 3, 3],
-    [1, 3, 3, 1, 3, 1],
-    [1, 1, 1, 3, 1, 3],
-    [3, 3, 1, 3, 1, 3],
-    [0, 0, 0, 0, 0, 0]
-  ]
-)
-
-
-
+export const board = reactive(storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0)))
 watch(board,(newBoard) => {localStorage.setItem('board', JSON.stringify(newBoard))},{ deep: true })
-
-
 
 const storedLosing_Coordinates = localStorage.getItem('losing_Coordinates')
 export const losing_Coordinates = ref<_losingCoordinates>(storedLosing_Coordinates ? JSON.parse(storedLosing_Coordinates) : [])

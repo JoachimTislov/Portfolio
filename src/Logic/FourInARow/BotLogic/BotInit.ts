@@ -2,8 +2,6 @@ import {
   playerStatus,
   playerChoices,
   remainingChoices,
-  goldenMove,
-  defaultGoldenMove,
   deepClone,
   defaultChoices,
   botValue,
@@ -23,10 +21,11 @@ import { checkPotentiallyDoubleThreeInARow } from './Algorithms/checks/checkPote
 import { searchForLosingPatterns } from './Algorithms/searches/searchForLosingPatterns'
 import { getFourthAndFifthCoordinates } from './Algorithms/get/getFourthAndFifthCoordinates'
 import { getPieceCount } from './Algorithms/get/getPieceCount'
-import { addRelatedMovesToObject } from './Algorithms/addRelatedMovesToObject'
-import { checkThreeInARow } from './Algorithms/checks/checkThreeInARow'
-import { applyPropertiesToEntry } from './applyPropertiesToEntry'
+import { applyPropertiesToEntry } from './applyPropertiesToAndFilterEntries'
 import { botMove } from './botMove'
+import { arraysEqual } from './ArrayLogic'
+import { three_in_a_row_pattern_with_index } from './PatternLogic'
+import { getOtherZeroCoordinatesIndex } from './Algorithms/get/getOtherZeroOrAsteriskCoordinatesIndex'
 
 export const initiateAlgorithms = async (board: number[][]) => {
 
@@ -39,15 +38,16 @@ export const initiateAlgorithms = async (board: number[][]) => {
     for (const structure of participant.scan) {
       for (const sequence of structure.sequence) {
 
-        const result = checkThreeInARow(board, sequence.coordinates, participant.id, sequence.pattern)
-        if (result != false) {
-          const [x, y] = result
-          return botMove(board, x, y)
+        // checking for three in a row
+        for(const entry of three_in_a_row_pattern_with_index(0, participant.id)) {
+          if(arraysEqual(entry.pattern, sequence.pattern)) {
+              const [x, y] = sequence.coordinates[entry.zeroIndex]
+              return botMove(board, x, y)
+          }
         }
-
+        
       }
     }
-
     searchForLosingPatterns(board, participant.scan, participant.id)
   }
 
@@ -64,35 +64,43 @@ export const initiateAlgorithms = async (board: number[][]) => {
             const piece_count = getPieceCount(pattern, participant.id)
             const key = `${piece_count}_in_a_row`
             const targetArr = (participant.id == botValue) ? botChoices.value : playerChoices.value
+
+            const moves_related_to_pattern = find_all_related_moves_to_given_pattern(coordinates[index])
+
+            const firstOtherZeroOrAsteriskCoordinatesIndex = getOtherZeroCoordinatesIndex(sequence.pattern, [index])
+            const moves_related_to_firstOtherZeroCoordinatesIndex = firstOtherZeroOrAsteriskCoordinatesIndex != null ? find_all_related_moves_to_given_pattern(coordinates[firstOtherZeroOrAsteriskCoordinatesIndex]) : undefined
+
+            const secondOtherZeroOrAsteriskCoordinatesIndex = firstOtherZeroOrAsteriskCoordinatesIndex != null ? getOtherZeroCoordinatesIndex(sequence.pattern, [index, firstOtherZeroOrAsteriskCoordinatesIndex]) : null
+            const moves_related_to_secondOtherZeroCoordinatesIndex = secondOtherZeroOrAsteriskCoordinatesIndex != null ? find_all_related_moves_to_given_pattern(coordinates[secondOtherZeroOrAsteriskCoordinatesIndex]) : undefined
               
             const entry: possible_Coordinates = {
               pattern: pattern,
               coordinates: coordinates[index],
               all_coordinates: coordinates,
               direction: direction,
-              losing: { bool: false, bot_instances: [], player_instances: [] },
+              losing: false, 
+              relatedMoves: { 
+                first: moves_related_to_pattern,
+                second: moves_related_to_firstOtherZeroCoordinatesIndex,
+                third: moves_related_to_secondOtherZeroCoordinatesIndex,
+              },
+              winning: false,
               participant: participant.id,
               piece_count: piece_count
             }
 
-            const moves_related_to_pattern = find_all_related_moves_to_given_pattern(board, coordinates[index])
-
-            // Adding relevant coordinates information
-            const botAndPlayerRelatedMoves = [
-              {targetArr: entry.losing.bot_instances, arr: moves_related_to_pattern.bots_opportunities}, 
-              {targetArr: entry.losing.player_instances, arr: moves_related_to_pattern.player_threats}
-            ]
-
-            addRelatedMovesToObject(botAndPlayerRelatedMoves)
-
             const thirdAndFifth = getFourthAndFifthCoordinates(sequence.coordinates)
-            const DThreeInARow = checkDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant.id, sequence.coordinates)
-            const PDThreeInARow = checkPotentiallyDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant.id, sequence.coordinates)
+            
+            const _result = checkDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant.id, sequence.coordinates, index)
+            const doubleThreeInARow = (_result != false && moves_related_to_pattern && arraysEqual(moves_related_to_pattern.coords, _result.coords)) ? _result.success : false
+
+            const result = checkPotentiallyDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant.id, sequence.coordinates, index)
+            const potentiallyDoubleInARow = (result != false && moves_related_to_pattern && arraysEqual(moves_related_to_pattern.coords, result.coords)) ? result.success : false
 
             applyPropertiesToEntry(
-              board, 
-              moves_related_to_pattern, 
-              DThreeInARow, PDThreeInARow, 
+              board,
+              pattern,
+              doubleThreeInARow, potentiallyDoubleInARow, 
               coordinates[index], entry,
               targetArr, key
             ) 
@@ -103,8 +111,8 @@ export const initiateAlgorithms = async (board: number[][]) => {
     }
   }
 
-  console.log('BotChoices:', botChoices.value, 'PlayerChoices: ', playerChoices.value, 'RemainingChoices: ', remainingChoices.value)
-  console.log('LosingChoices: ', losing_Coordinates.value)
+  //console.log('BotChoices:', botChoices.value, 'PlayerChoices: ', playerChoices.value, 'RemainingChoices: ', remainingChoices.value)
+  //console.log('LosingChoices: ', losing_Coordinates.value)
 
   return await searchForBestChoice(board)
 }
@@ -118,6 +126,4 @@ export const resetChoices = () => {
   remainingChoices.value = []
   // resetting losing choices
   losing_Coordinates.value = []
-
-  goldenMove.value = defaultGoldenMove
 }

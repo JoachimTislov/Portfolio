@@ -1,6 +1,39 @@
+import type { _pattern, spotInfo } from "@/Logic/FourInARow/Types"
 import { arraysEqual } from "../../ArrayLogic"
 import { double_three_in_a_row_patterns } from "../../PatternLogic"
 import { checkCoordinatesLimit } from "./checkCoordinatesLimit"
+
+
+const checkIfSpotIsNotOccupiedOnBoard = (board: number[][], coords: number[]) => {
+  const [x, y] = coords
+  return board[x][y] == 0 && (y == 0 || y > 0 && board[x][y-1] != 0)
+}
+
+const checkPattern = (
+  arr: spotInfo, 
+  pattern: _pattern, zeroIndex: number,
+  participant: number, all_coordinates: number[][],
+  board: number[][],
+  coords: {
+    first: number[]
+    last: number[]
+  },
+) => {
+
+  if (checkCoordinatesLimit(arr.coords[0]) && checkIfSpotIsNotOccupiedOnBoard(board, arr.coords[0]) && arraysEqual(arr.pattern, pattern)) {
+
+    return { success: true, coords: arr.coords[1] }
+
+  } else if (arraysEqual([0, participant, participant, 0], pattern) &&
+    ((zeroIndex == 3 && checkCoordinatesLimit(coords.last) && checkIfSpotIsNotOccupiedOnBoard(board, coords.last)) || 
+    (zeroIndex == 0 && checkCoordinatesLimit(coords.first) && checkIfSpotIsNotOccupiedOnBoard(board, coords.first)))) {
+    
+    return { success: true, coords: all_coordinates[zeroIndex] }
+  }
+
+  return false
+}
+
 
 export const checkDoubleThreeInARow = (
   board: number[][],
@@ -10,38 +43,14 @@ export const checkDoubleThreeInARow = (
   },
   pattern: (string | number)[],
   participant: number,
-  all_coordinates: number[][]
+  all_coordinates: number[][],
+  zeroIndex: number
 ) => {
-  const checkIfSpotIsNotOccupiedOnBoard = (coords: number[]) => {
-    const [x, y] = coords
-    return (board[x][y] == 0 && y == 0)  ||  (board[x][y] == 0 && y > 0 && board[x][y-1] == 0)
-  }
-
-  const checkPattern = (arr: { pattern: (number | string)[]; coords: number[][] }) => {
-    if (arraysEqual(arr.pattern, pattern)) {
-
-      return { success: true, coords: arr.coords[1] }
-
-    } else if (arraysEqual([0, participant, participant, 0], pattern)) {
-
-      if (checkCoordinatesLimit(coords.first) && checkIfSpotIsNotOccupiedOnBoard(coords.first)) {
-        return { success: true, coords: all_coordinates[0] }
-      }
-
-      if(checkCoordinatesLimit(coords.last) && checkIfSpotIsNotOccupiedOnBoard(coords.last)) {
-        return { success: true, coords: all_coordinates[3] }
-      }
-
-    }
-    
-    return false
-  }
-
   const arr = double_three_in_a_row_patterns(participant, coords, all_coordinates)
-  if(!checkCoordinatesLimit(coords.first) || !checkCoordinatesLimit(coords.last) || !checkIfSpotIsNotOccupiedOnBoard(coords.first) ||  !checkIfSpotIsNotOccupiedOnBoard(coords.last)) return false
 
   for (const entry of arr) {
-    const result = checkPattern(entry)
+    const result = checkPattern(entry, pattern, zeroIndex, participant, all_coordinates, board, coords)
+
     if (result !== false) {
       return result
     }

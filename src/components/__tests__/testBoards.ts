@@ -142,7 +142,7 @@ export const testBoards = [
   {
     board: [
       [1, 3, 0, 0, 0, 0],
-      [3, 1, 1, 3, 1, 1],
+      [3, 1, 1, 3, 1, 0],
       [3, 0, 0, 0, 0, 0],
       [1, 1, 3, 3, 1, 0],
       [0, 0, 0, 0, 0, 0],
@@ -175,8 +175,8 @@ export const testBoards = [
       [1, 1, 3, 1, 1, 0],
       [0, 0, 0, 0, 0, 0]
     ],
-    expect_coordinate: [4, 4],
-    description: "Avoiding losing a potential three in a row opportunity and building a three in a row"
+    expect_coordinate: [0, 0],
+    description: "Avoiding losing a potential three in a row opportunity and building a two three in a row"
   },
   {
     board: [
@@ -188,34 +188,21 @@ export const testBoards = [
       [1, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0]
     ],
-    expect_coordinate: [5, 1],
-    description: "Building double three in a row, and letting the player achieve the same later"
+    expect_coordinate: [6, 0],
+    description: "Building three in a row, and luring the player into a unstoppable loss afterwards"
   },
   {
     board: [
-      [3, 1, 0, 0, 0, 0],
-      [1, 1, 1, 3, 0, 0],
-      [1, 0, 0, 0, 0, 0],
-      [1, 3, 1, 1, 1, 3],
-      [3, 1, 3, 3, 3, 1],
-      [3, 0, 0, 0, 0, 0],
+      [3, 3, 3, 1, 3, 1],
+      [1, 3, 1, 3, 1, 3],
+      [0, 0, 0, 0, 0, 0],
+      [1, 3, 1, 3, 1, 1],
+      [3, 1, 3, 1, 3, 1],
+      [1, 1, 0, 0, 0, 0],
       [3, 0, 0, 0, 0, 0]
     ],
-    expect_coordinate: [0, 2],
-    description: "Letting player get a three in a row and building three in a row"
-  },
-  {
-    board: [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0],
-      [3, 1, 3, 1, 3, 0],
-      [0, 0, 0, 0, 0, 0],
-      [3, 1, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ],
-    expect_coordinate: [6, 0],
-    description: "Avoiding a completely losing move and blocking two three in a rows. Player has two potential double three in a row in the currently losing column"
+    expect_coordinate: [6, 1],
+    description: "luring the player into a unstoppable loss...."
   },
   {
     board: [
@@ -320,5 +307,57 @@ export const testBoards = [
     ],
     expect_coordinate: [6, 0],
     description: "Late game, avoid losing a potential three in a row"
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [3, 1, 3, 0, 0, 0],
+      [3, 1, 0, 0, 0, 0],
+      [1, 3, 1, 0, 0, 0],
+      [3, 1, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [1, 3],
+    description: "Build Three And Force Player To Loose A Three In A Row"
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [3, 1, 1, 0, 0, 0],
+      [3, 1, 0, 0, 0, 0],
+      [1, 3, 3, 0, 0, 0],
+      [3, 3, 0, 0, 0, 0],
+      [3, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [1, 3],
+    description: "Build Three And Force Player To Block Three In A Row And Win With Three In A Row One Above"
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [1, 1, 3, 0, 0, 0],
+      [1, 3, 0, 0, 0, 0],
+      [3, 1, 1, 0, 0, 0],
+      [1, 1, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [1, 3],
+    description: "Prevent unstoppable loss"
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [1, 3, 1, 0, 0, 0],
+      [1, 3, 0, 0, 0, 0],
+      [3, 1, 3, 0, 0, 0],
+      [1, 3, 0, 0, 0, 0],
+      [3, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [1, 3],
+    description: "Prevent losing a three in a row"
   },
 ]

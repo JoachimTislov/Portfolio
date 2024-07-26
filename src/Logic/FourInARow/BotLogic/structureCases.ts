@@ -1,42 +1,53 @@
-import type { columnInformation } from "../Types";
+import type { relatedMovesObject } from "../Types";
 
-/* 
-    F - first, S - second
-    O - Opportunity, T - Threat
-    P - Player, B - Bot 
-*/
+export const structureCases = (relatedMoves: relatedMovesObject) => {
 
-export const structureCases = (moves_related_to_pattern: columnInformation) => {
+  const moves_related_to_pattern_coordinates_choice = relatedMoves.first
 
-  const [firstBotOpportunity, secondBotOpportunity] = moves_related_to_pattern.bots_opportunities;
-  const [firstPlayerThreat, secondPlayerThreat] = moves_related_to_pattern.player_threats;
+  const [firstBotOpportunity, secondBotOpportunity] =  moves_related_to_pattern_coordinates_choice.bots_opportunities 
+  const [firstPlayerThreat, secondPlayerThreat] = moves_related_to_pattern_coordinates_choice.player_threats 
 
-  // Check if the first bot opportunity and player threat have two pieces
   const firstBotOpportunityIsTwo = firstBotOpportunity?.piece_count === 'Two'
   const firstPlayerThreatIsTwo = firstPlayerThreat?.piece_count === 'Two'
 
-  // Check if the first bot opportunity and player threat have potential three-in-a-row
-  const firstBotOpportunityIsPotentialThree = firstBotOpportunity?.PDThreeInARow === true
-  const firstPlayerThreatIsPotentialThree = firstPlayerThreat?.PDThreeInARow === true
+  const firstIsTwo = firstBotOpportunity || firstPlayerThreatIsTwo
 
-  // Combined condition for potential three-in-a-row
+  const firstBotOpportunityIsPotentialThree = firstBotOpportunity?.potentialDoubleThreeInARow 
+  const firstPlayerThreatIsPotentialThree = firstPlayerThreat?.potentialDoubleThreeInARow
+
   const firstIsPotentialThree = firstBotOpportunityIsPotentialThree || firstPlayerThreatIsPotentialThree
 
-  // Check if the first bot opportunity and player threat have three pieces
   const firstBotOpportunityIsThree = firstBotOpportunity?.piece_count === 'Three'
   const firstPlayerThreatIsThree = firstPlayerThreat?.piece_count === 'Three'
 
-  // Combined condition for having three pieces
   const firstIsThree = firstBotOpportunityIsThree || firstPlayerThreatIsThree;
 
-  // Check if the second bot opportunity and player threat have three pieces
+  const secondBotOpportunityIsTwo = secondBotOpportunity?.piece_count === 'Two'
+  const secondPlayerThreatIsTwo = secondPlayerThreat?.piece_count === 'Two'
+
   const secondBotOpportunityIsThree = secondBotOpportunity?.piece_count === 'Three'
   const secondPlayerThreatIsThree = secondPlayerThreat?.piece_count === 'Three'
 
+  const secondIsThree = secondBotOpportunityIsThree || secondPlayerThreatIsThree
+
+
+  const firstOtherPossiblePlacement = relatedMoves.second 
+
+  const [firstOtherPossiblePlacementFirstBotOpportunity, firstOtherPossiblePlacementSecondBotOpportunity]  = [firstOtherPossiblePlacement?.bots_opportunities[0], firstOtherPossiblePlacement?.bots_opportunities[1]]
+  const [firstOtherPossiblePlacementFirstPlayerThreat, firstOtherPossiblePlacementSecondPlayerThreat] = [firstOtherPossiblePlacement?.player_threats[0], firstOtherPossiblePlacement?.player_threats[1]]
+  
+  const firstOtherPossiblePlacementFirstPlayerThreatIsThree = firstOtherPossiblePlacementFirstPlayerThreat?.piece_count == 'Three'
+  const firstOtherPossiblePlacementFirstBotOpportunityIsThree = firstOtherPossiblePlacementFirstBotOpportunity?.piece_count == 'Three'
+
+  const preventLoosingOrWinWithThisSmartMove = firstOtherPossiblePlacementFirstPlayerThreatIsThree || firstOtherPossiblePlacementFirstBotOpportunityIsThree
+
+  const isPrime_two_move = !firstOtherPossiblePlacementFirstPlayerThreatIsThree && firstOtherPossiblePlacementFirstBotOpportunityIsThree
+  
   // Return structured data
   return {
     firstBotOpportunity,
     secondBotOpportunity,
+    firstIsTwo,
     firstPlayerThreat,
     secondPlayerThreat,
     firstBotOpportunityIsTwo,
@@ -45,7 +56,12 @@ export const structureCases = (moves_related_to_pattern: columnInformation) => {
     firstPlayerThreatIsThree,
     firstIsPotentialThree,
     firstIsThree,
+    secondBotOpportunityIsTwo,
+    secondPlayerThreatIsTwo,
     secondBotOpportunityIsThree,
     secondPlayerThreatIsThree,
+    secondIsThree,
+    preventLoosingOrWinWithThisSmartMove,
+    isPrime_two_move
   }
 }

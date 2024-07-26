@@ -24,7 +24,7 @@ export const handleLosingChoices = async (board: number[][]) => {
         board[x][y] == 0 &&
         pieceValueUnderLosingCoordinate != 0
       ) {
-        console.log(`Losing move, ${piece_count}, player value: `, participant, entry.piece_count)
+        //console.log(`Losing move, ${piece_count}, player value: `, participant, entry.piece_count)
         return place_Piece(entry)
       }
     }
@@ -42,7 +42,7 @@ export const handleLosingChoices = async (board: number[][]) => {
     for (const entry of losing_Coordinates.value) {
       const [x, y] = entry.coordinates
       const pieceValueUnderLosingCoordinate = board[x][y - 1]
-      console.log('accepting loss')
+      //console.log('accepting loss')
       if (pieceValueUnderLosingCoordinate != 0 && board[x][y] == 0) {
         return place_Piece(entry)
       }

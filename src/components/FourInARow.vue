@@ -22,9 +22,7 @@ import { botCalculating } from '@/Logic/FourInARow/BotLogic/botMove'
 import {
   botGame,
   gameMode,
-
   GameOver,
-  
   first_player,
   ShowWinner,
   winnerMsg,
@@ -93,7 +91,7 @@ import {
               <template v-else> Restart </template>
             </button>
 
-            <button ref="previousButton" :disabled="droppingPiece /*|| !(pieces > getNumber() && !GameOver)*/" @click="previousMove()" type="button" class="m-1 btn btn-md btn-primary"> Previous Move </button>
+            <button ref="previousButton" :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)" @click="previousMove()" type="button" class="m-1 btn btn-md btn-primary"> Previous Move </button>
           </div>
     </div>
     
@@ -209,7 +207,6 @@ import {
 
 
 .slot {
-  border: solid 2px #333;
   border-radius: 50%;
   width: 100%;
   height: 100%;

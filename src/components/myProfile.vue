@@ -2,12 +2,16 @@
 
 import socialLinks from './socialLinks.vue'
 
+import { personalData } from '@/Data/personal'
+
+const name = personalData['name']
+
 </script>
 
 <template>
     <div class="box"> 
         <div class="info d-flex flex-column">
-            <h1 class="m-0"> Joachim Tisløv </h1>
+            <h1> Hey, I'm {{ name }} </h1>
             <socialLinks class="socialLinks" />
 
             <figure>
@@ -47,10 +51,6 @@ h1 {
 
 p {
     font-size: clamp(1.5rem, 2.5vw, 2.5rem);
-}
-
-.socialLinks {
-    margin-top: -6px;
 }
 
 .box {

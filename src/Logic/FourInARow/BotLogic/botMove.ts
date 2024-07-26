@@ -11,7 +11,7 @@ export const botMove = async (board: number[][], row: number, slot: number) => {
   toggleButtons(true)
 
   botCalculating.value = true
-  await delay(1500) // simulating the bot thinking
+  await delay(1200) // simulating the bot thinking
   botCalculating.value = false
 
   await executePlacement(row, slot, botValue)
