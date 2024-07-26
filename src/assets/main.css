@@ -2,3 +2,15 @@
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
     sans-serif;
 }
+
+:root {
+  --text-color: #cfcfcf;
+
+  --background-color: #222222;
+  --secondary-background-color: #212121;
+  --profile-background-color: #18222a;
+
+  --main-navbar-color: #171717;
+
+  --highlight-color: grey;
+}

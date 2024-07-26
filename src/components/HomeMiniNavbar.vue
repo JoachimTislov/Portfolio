@@ -32,7 +32,7 @@ import { RouterLink } from 'vue-router';
 }
 
 .link:hover {
-    color: grey;
+    color: var(--highlight-color);
 }
 
 

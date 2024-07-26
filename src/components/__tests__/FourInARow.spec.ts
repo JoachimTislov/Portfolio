@@ -18,7 +18,6 @@ vi.mock('@/Logic/FourInARow/delay', () => ({
   delay: vi.fn().mockResolvedValue(undefined),
 }));
 
-
 for (let index = 0; index < testBoards.length; index++) {
   test(`Test Case ${index + 1}; ${testBoards[index].description}`, async () => {
       expect(await initiateAlgorithms(testBoards[index].board)).toStrictEqual(testBoards[index].expect_coordinate)

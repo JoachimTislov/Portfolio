@@ -47,6 +47,10 @@ blockquote {
     color: grey;
 }
 
+h1, p {
+    color: var(--text-color)
+}
+
 h1 {
     font-size: clamp(3.5rem, 4vw, 5rem);
     margin-top: 0;
@@ -63,7 +67,7 @@ p {
 }
 
 .box {
-    background-color: #232931;
+    background-color: var(--profile-background-color);
     border-radius: 30px;
     box-shadow: 0 0 8px 8px rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(0, 0, 0, 0.5);
 
@@ -72,13 +76,13 @@ p {
     flex-direction: row;
     align-items: center;
 
-    margin-top: 1rem;
+    margin-top: 2rem;
     padding: 0.75rem;
 }
 
 img {
-    width: clamp(18rem, 35vw, 30rem);
-    height: clamp(18rem, 35vw, 30rem);
+    width: clamp(18rem, 35vw, 29rem);
+    height: clamp(18rem, 35vw, 29rem);
 
     border-radius: 50%;
 }

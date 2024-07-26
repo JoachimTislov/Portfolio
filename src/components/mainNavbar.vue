@@ -3,22 +3,30 @@ import { RouterLink } from 'vue-router';
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-md bg-dark" data-bs-theme="dark">
+    <nav class="navbar navbar-expand-md" data-bs-theme="dark">
         <div class="container">
-            <div class="row">
 
-                <RouterLink class="link navbar-brand" to="/"> 
-                    <em> JTs Portfolio </em> 
-                </RouterLink>
-
-            </div>
-
+         
+            <em> <h3 class="logo"> JTs Portfolio </h3> </em> 
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button> 
 
             <div class="collapse navbar-collapse" id="navbarColor02">
                 <ul class="navbar-nav me-auto"> 
+
+                    <li class="nav-item">
+                        <RouterLink class="nav-link" to="/"> 
+                            About me
+                        </RouterLink>
+                    </li> 
+                    
+                    <li class="nav-item">
+                        <RouterLink class="nav-link" to="/projects"> 
+                            Projects 
+                        </RouterLink>
+                    </li> 
                     
                     <li class="nav-item">
                         <RouterLink class="nav-link" to="/Four-in-a-row"> 
@@ -43,6 +51,12 @@ import { RouterLink } from 'vue-router';
     margin-right: 20px;
 }
 
+.logo {
+    color: rgb(216, 189, 189);
+    margin-right: 1rem;
+    margin-top: 0.2rem;
+}
+
 .githubIcon {
     width: 1.5em;
 
@@ -56,5 +70,9 @@ import { RouterLink } from 'vue-router';
 .row {
     display: flex;
     flex-direction: row;
+}
+
+.navbar {
+    background-color: var(--main-navbar-color);
 }
 </style>

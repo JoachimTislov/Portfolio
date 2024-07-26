@@ -10,7 +10,7 @@
 
 <template>
     <div class="project_main d-flex flex-column justify-content-center">
-        <CAccordion>
+        <CAccordion active-item-key="Image guesser" always-open flush>
             <CAccordionItem v-for="project in projects" :key="project.name" :item-key="project.name">
                 <projectTemplate :project="project" />
             </CAccordionItem>

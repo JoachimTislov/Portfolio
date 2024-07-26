@@ -83,7 +83,7 @@ export const personalData = {
             name: 'Image guesser',
             description: [
 
-                `Me and four other people developed a game with the objective of guessing an image. The roles of the game consisted of an Oracle which could either be AI or
+                `I and four other people developed a game with the objective of guessing an image. The roles of the game consisted of an Oracle which could either be AI or
                 a person, and the rest were guessers. The game is straightforward: the Oracle of the game reveals parts of the image and the guessers
                 write their guesses in the chat until a player guesses correctly.`,
 

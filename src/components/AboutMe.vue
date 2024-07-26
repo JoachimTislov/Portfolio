@@ -73,7 +73,7 @@ const situation = personalData['situation']
 }
 
 .aboutBox {
-    background-color: #3A3A3A;
+    background-color: var(--secondary-background-color);
 }
 
 .text {
@@ -93,10 +93,12 @@ h3 {
 }
 
 p {
+    color: var(--text-color);
     font-size: clamp(1.1rem, 2.6vw, 1.8rem);
 } 
 
 h3 {
-     font-size: clamp(1.2rem, 3vw, 2.5rem);
+    color: var(--text-color);
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
 }
 </style>

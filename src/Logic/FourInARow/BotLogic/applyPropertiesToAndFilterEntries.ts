@@ -35,8 +35,9 @@ export const applyPropertiesToEntry = (
         //console.log('Playing the golden move')
         return botMove(board, x, y)
     } 
-        
-    const relevantFirstMoveToOriginalThreatIsThree = (firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats.length == 1 && firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0].piece_count == 'Three')
+    
+    const relevantMovesPlayerThreats = firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0] 
+    const relevantFirstMoveToOriginalThreatIsThree = relevantMovesPlayerThreats && firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0].piece_count == 'Three'
     const firstPlayerThreatTwoAndRelevantMoveThreatThree = (firstPlayerThreatIsTwo && relevantFirstMoveToOriginalThreatIsThree)
     
     //if (arraysEqual(pattern, [0,'*',1,1])) console.log(!firstIsThree, !firstPlayerThreatTwoAndRelevantMoveThreatThree, !firstIsPotentialThree, secondIsThree, !firstPlayerThreatIsTwo, !secondPlayerThreatIsTwo)
@@ -50,7 +51,7 @@ export const applyPropertiesToEntry = (
 
     } else if (!firstIsThree && !firstPlayerThreatTwoAndRelevantMoveThreatThree && (secondIsThree || (!firstIsPotentialThree && !(firstPlayerThreatIsTwo && secondPlayerThreatIsTwo)))) {
         
-        //console.log(!firstIsThree, !firstPlayerThreatTwoAndRelevantMoveThreatThree, !firstIsPotentialThree, secondIsThree, !firstPlayerThreatIsTwo, !secondPlayerThreatIsTwo, pattern, !firstIsThree && !firstPlayerThreatTwoAndRelevantMoveThreatThree && !firstIsPotentialThree && (secondIsThree || (!firstIsPotentialThree || !firstPlayerThreatIsTwo && !secondPlayerThreatIsTwo)))
+        console.log(!firstIsThree, 'dwadwa: ', !firstPlayerThreatTwoAndRelevantMoveThreatThree, !firstIsPotentialThree, secondIsThree, !firstPlayerThreatIsTwo, !secondPlayerThreatIsTwo, pattern, !firstIsThree && !firstPlayerThreatTwoAndRelevantMoveThreatThree && !firstIsPotentialThree && (secondIsThree || (!firstIsPotentialThree || !firstPlayerThreatIsTwo && !secondPlayerThreatIsTwo)))
 
         if (preventLoosingOrWinWithThisSmartMove || prime_two && isPrime_two_move) {
             entry.winning = true

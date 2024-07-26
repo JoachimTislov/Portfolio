@@ -35,7 +35,7 @@ export const searchForLosingPatterns = (
           if (structure.direction != 'vertical' && (check && three) || (check && two)) {
 
             const otherZeroOrAsteriskIndex = getOtherZeroCoordinatesIndex(sequence.pattern, [index])
-            const relevantMovesOfOtherZeroOrAsterisk = otherZeroOrAsteriskIndex ? find_all_related_moves_to_given_pattern(sequence.coordinates[index]) : undefined
+            const relevantMovesOfOtherZeroOrAsterisk = otherZeroOrAsteriskIndex != null ? find_all_related_moves_to_given_pattern(sequence.coordinates[otherZeroOrAsteriskIndex]) : undefined
 
             const thirdAndFifth = getFourthAndFifthCoordinates(sequence.coordinates)
             const result = checkPotentiallyDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant, sequence.coordinates, index)
