@@ -11,6 +11,8 @@ export const personalData = {
     name: "Joachim",
     surname: "Tisløv",
 
+    email: 'joachim.tislov@gmail.com',
+
     about: [
         `I am a 22 year old male from Sandnes, live with my Alaskan husky - Leo.
         Played football for over 14 years, which provided me with extensive team-building skills.
@@ -47,16 +49,18 @@ export const personalData = {
             name: 'Macro Tracker', 
             githubLink: 'https://github.com/JoachimTislov/MacroTracker', 
             description: [
-                `During a two-month development period, my fellow student and I aimed for excellence in creating a Macro Tracker
+                `During a two-month development period, my fellow student and I aimed for excellence in creating a Macro Tracker.
                 I took responsibility for both backend and frontend development, while he focused on styling, 
-                the website's structure and the setup of a profile picture for users on their profile.`, 
+                the website's layout and enable users to upload a profile picture.`, 
                 
-                `This Macro Tracker includes an authentication system, personal meal and ingredient management, user profile, in built calender algorithms (since we could'nt use libraries) and a meal calendar. 
-                We integrated the kassal.app API to enhance functionality. The technology stack includes: flask, flask login, vue js and python, enabling robust functionality and a smooth user experience.`,
+                `This Macro Tracker includes an authentication system, personal meal and ingredient management, user profile, built in calender algorithms (since we could'nt use libraries) and a meal calendar. 
+                We integrated the kassal.app API to enhance functionality.`,
                 
-                `Looking ahead, i am planning to expand Macro Tracker with additional features and refactoring the whole code structure, utilizing more tools. 
-                We were in fact limited to the tools listed bellow since our teacher knowledge was limited, and that was understandable.  
-                My goal is to publish the application as a standalone app, reaching a broader audience and providing enhanced dietary tracking capabilities.`
+                `I am considering expanding Macro Tracker with additional features, refactoring the whole code structure, and utilizing more tools. 
+                We were in fact limited to the tools listed bellow since our teacher knowledge was limited.`,
+                
+                `It would be quite cool to publish the application as a standalone app, but since theres 
+                multiple popular macro apps, the chance of me doing so is small.`
             ], 
             tools: [
 
@@ -76,23 +80,53 @@ export const personalData = {
             //routerLink: '/MacroTracker'
         },
         {
+            name: 'Image guesser',
+            description: [
+
+                `Me and four other people developed a game with the objective of guessing an image. The roles of the game consisted of an Oracle which could either be AI or
+                a person, and the rest were guessers. The game is straightforward: the Oracle of the game reveals parts of the image and the guessers
+                write their guesses in the chat until a player guesses correctly.`,
+
+                `The website's structure is composed of an authentication system, primarily to identify players and distinguish them as different individuals.
+                Then we have the join or create lobby options, the lobby features customizable options including the Oracle, image choice, amount of rounds, game mode and more.`,
+                
+                `The application is synced using SignalR, allowing players to interact live. The Oracle of the game choose which image tiles to reveal, and if its AI or, in other words,
+                 an algorithm, then it determines which tiles to reveal when the leader of the lobby decides to do so.`,
+
+                `The development period was roughly two months. I experienced programming an application in a group for the first time. It was quite challenging,
+                 since I did not have full control over the project and could'nt just implement everything; So I adapted my work in relation to the group.`
+
+            ],
+            tools: [
+                //Frontend
+                skills['Bootstrap'],
+                skills['CSS'],
+                skills['HTML'],
+                skills['Javascript'],
+                skills['C#'],
+                skills['.NET'],
+                skills['SQLite'],
+                skills['Docker'],
+            ],
+        },
+        {
             name: 'Four in a row',
             githubLink: 'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
             description: [
 
                 `During my holiday, my father and brother played four in a row, and after hearing my brother loose
-                for the 7th time, i thought, why not create a bot which he can play against.`,
+                for the 7th time, I thought, why not create a bot which he can play against.`,
 
                 `This is what sparked the one-month development of a fairly complex four in a row bot.
                 The intent of creating such a bot, were to help my brother, but rather escalated into a far more better goal: `,
                 
                 `- Creating an intelligent bot combining both simple and advanced algorithms, making it unbeatable.`,
                 
-                `This is still ongoing, since it is in fact not unbeatable, but i am fortunately on the path to achieve this remarkable goal.`,
+                `This is still ongoing, since it is in fact not unbeatable, but I am fortunately on the path to achieve this remarkable goal.`,
 
-                `PS: I created this bot for fun, but half the time it was a pain in the butt, no seriously, i haven't written any typescript before
-                and decided midway through the project to convert my application written with javascript to typescript. All the struggles i went
-                through during development only made me and the code better, which motivates me when i am having a hard time.`,
+                `PS: I created this bot for fun, but half the time it was a pain in the butt, no seriously, I haven't written any typescript before
+                and decided midway through the project to convert my application written with javascript to typescript. All the struggles I went
+                through during development only made me and the code better, which motivates me when I am having a hard time.`,
             ], 
             tools: [
                 //Frontend

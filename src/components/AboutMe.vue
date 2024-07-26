@@ -21,7 +21,7 @@ const situation = personalData['situation']
 
                 <h3> Situation: </h3>
 
-                <p> {{ situation }} </p>
+                <p class="situation"> {{ situation }} </p>
 
                 <h3> Proficient in: </h3>
 
@@ -54,6 +54,11 @@ const situation = personalData['situation']
 </template>
 
 <style scoped>
+
+
+.situation {
+    margin-left: 0.5rem;
+}
 
 .link {
     text-decoration: none;
@@ -88,7 +93,7 @@ h3 {
 }
 
 p {
-    font-size: clamp(1.1rem, 3vw, 2rem);
+    font-size: clamp(1.1rem, 2.6vw, 1.8rem);
 } 
 
 h3 {

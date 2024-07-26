@@ -360,4 +360,17 @@ export const testBoards = [
     expect_coordinate: [1, 3],
     description: "Prevent losing a three in a row"
   },
+  {
+    board: [
+      [3, 1, 3, 1, 0, 0],
+      [3, 3, 1, 3, 3, 0],
+      [1, 3, 1, 0, 0, 0],
+      [1, 1, 1, 3, 1, 3],
+      [1, 1, 1, 3, 3, 1],
+      [3, 3, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [1, 3],
+    description: "? weird choice ? "
+  },
 ]

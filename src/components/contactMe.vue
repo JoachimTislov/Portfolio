@@ -1,13 +1,16 @@
+<script setup lang="ts">
+
+import { personalData } from '@/Data/personal';
+
+const email = personalData['email']
+
+</script>
+
 <template>
 
     <div class="d-flex justify-content-around">
         <p class="contact"> 
-            Please contact at joachim.tislov@gmail.com 
-
-            <font-awesome-icon class="arrow" :icon="['fas', 'arrow-right']" />
-
-            <a href="mailto:Joachim.tislov@gmail.com"><img class="gmail" src="@\\assets\\images\\gmail.png" /></a>
-
+            Please contact at <a href="mailto: {{ email }}"> {{ email }} </a> 
         </p>
     </div>
 
@@ -19,9 +22,9 @@
     text-decoration: none;
     color: rgb(216, 189, 189);
 
-    margin-top: 3%;
+    margin: 1rem;
 
-    font-size: clamp(0.75rem, 3vw, 2rem);
+    font-size: clamp(0.8rem, 3vw, 2.5rem);
 }
 
 .gmail {

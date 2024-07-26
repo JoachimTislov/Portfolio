@@ -25,7 +25,7 @@ defineProps(['project'])
                 
                 <RouterLink v-if="project.routerLink" :to="project.routerLink"> <p> Go to {{ project.name }} </p> </RouterLink>
 
-                <a :href="project.githubLink"> 
+                <a v-if="project.githubLink" :href="project.githubLink"> 
                     Github repository 
                 </a>
             </div>
@@ -70,7 +70,7 @@ p, .icon, a {
 }
 
 h1 {
-    font-size: clamp(1.2rem, 3vw, 3rem);
+    font-size: clamp(1.2rem, 3vw, 2.5rem);
 }
 
 </style>

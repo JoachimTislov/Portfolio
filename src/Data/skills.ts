@@ -23,4 +23,5 @@ export const skills: skills = {
     'C#': {name: 'C#', icon: null, link: 'https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/'},
     '.NET': {name: '.NET', icon: null, link: 'https://dotnet.microsoft.com/en-us/'},
     'Flask': {name: 'Flask', icon: ['fas', 'flask'], link: 'https://flask.palletsprojects.com/en/3.0.x/'},
+    'Docker': {name: 'Docker', icon: ['fab', 'docker'], link: 'https://docs.docker.com/'},
 }

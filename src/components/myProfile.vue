@@ -31,6 +31,7 @@ const name = personalData['name']
 <style scoped>
 
 .info {
+    margin: 1rem;
     margin-right: 0.2rem;
     margin-left: clamp(1rem, 1.5vw, 2rem);
 }
@@ -47,14 +48,13 @@ blockquote {
 }
 
 h1 {
-    font-size: 6rem;
+    font-size: clamp(3.5rem, 4vw, 5rem);
     margin-top: 0;
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 990px) {
     h1 {
-        font-size: clamp(2.5rem, 4.5vw, 6rem);
-        margin-top: 0;
+        font-size: clamp(2.4rem, 2.5vw, 3rem);
     }
 }
 

@@ -26,7 +26,7 @@ import { RouterLink } from 'vue-router';
 .link {
     text-decoration: none;
 
-    color: white;
+    color:rgb(216, 189, 189);
 
     font-size: clamp(1.2rem, 3vw, 2.5rem);
 }
