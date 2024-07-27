@@ -17,10 +17,10 @@ export const personalData = {
     about: [
         `I am a 22 year old male from Sandnes, live with my Alaskan husky - Leo.
         Played football for over 14 years, which provided me with extensive team-building skills.
-        I love sports, being active, and taken on challenges, both physically and mentally.`,
+        I love sports, being active, and taking on challenges.`,
                 
-        `That is part of the reason why programming sparked my interests. Solving problems, creating solutions, and developing
-        creative applications, systems or more, all in one.`,
+        `That is part of the reason why programming sparked my interests. Tackling challenges with patience and 
+        intellectual thinking, developing applications and systems - an all-in-one package deal.`,
         
         `Technology has been my passion since i got access to it, leading me to pursue
         a bachelor's degree in Computer Technology. `
@@ -43,7 +43,7 @@ export const personalData = {
         { img: facebook, link: 'https://www.facebook.com/profile.php?id=100011419305331'}
     ],
 
-    jobs: ['Full-Stack', 'IT-Consultant', 'Technology Integration Specialist', 'Software Engineer', 'Game developer', 'Data Engineer', 'Application/Web Developer', 'Database Administrator'],
+    jobs: ['Full-Stack', 'IT-Consultant', 'Technology Integration Specialist', 'Software Engineer', 'Data Engineer', 'Junior/Intern', 'Application/Web Developer', 'Database Administrator', 'Developer'],
 
     projects: [
         {
@@ -89,13 +89,14 @@ export const personalData = {
                 write their guesses in the chat until a player guesses correctly.`,
 
                 `The website's structure is composed of an authentication system, primarily to identify players and distinguish them as different individuals.
-                Then we have the join or create lobby options, the lobby features customizable options including the Oracle, image choice, amount of rounds, game mode and more.`,
+                Then we have the join and create lobby alternatives, players can join public lobbies or their own lobby which features customizable options including the Oracle, 
+                image choice, amount of rounds, game mode and more.`,
                 
-                `The application is synced using SignalR, allowing players to interact live. The Oracle of the game choose which image tiles to reveal, and if its AI or, in other words,
-                 an algorithm, then it determines which tiles to reveal when the leader of the lobby decides to do so.`,
+                `The application is synchronized using SignalR, enabling players to interact in real-time. The Oracle of the game choose which image tiles to reveal, 
+                and if its AI or, in other words; an algorithm, then it determines which tiles to reveal when the leader of the lobby decides to do so.`,
 
                 `The development period was roughly two months. I experienced programming an application in a group for the first time. It was quite challenging,
-                 since I did not have full control over the project and could'nt just implement everything; So I adapted my work in relation to the group.`
+                 considering I did'nt have full control over the project and could'nt just implement everything; So I adapted my work in relation to the group.`
 
             ],
             tools: [
@@ -124,11 +125,11 @@ export const personalData = {
                 
                 `- Creating an intelligent bot combining both simple and advanced algorithms, making it unbeatable.`,
                 
-                `This is still ongoing, since it is in fact not unbeatable, but I am fortunately on the path to achieve this remarkable goal.`,
+                `This is still ongoing, since it is in fact beatable. I am currently having issues with the core design of my algorithms;
+                scan the board, check for three in a row, mark losing choices, filter out awful choices 
+                and in the end determine the best choice in the remaining pool.`,
 
-                `PS: I created this bot for fun, but half the time it was a pain in the butt, no seriously, I haven't written any typescript before
-                and decided midway through the project to convert my application written with javascript to typescript. All the struggles I went
-                through during development only made me and the code better, which motivates me when I am having a hard time.`,
+                `That was the process in a nutshell. There are many more pieces to the puzzle.`,
             ], 
             tools: [
                 //Frontend

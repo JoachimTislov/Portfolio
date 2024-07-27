@@ -13,8 +13,6 @@ const place_Piece = async (entry: {
   return await botMove(board, x, y)
 }
 
-// these algorithms are kind of outdated, but needed
-
 const checkCoordinatesStatus = async (board: number[][], piece_count: string, participant: number) => {
   for (const entry of losing_Coordinates.value) {
     const [x, y] = entry.coordinates
@@ -31,7 +29,6 @@ const checkCoordinatesStatus = async (board: number[][], piece_count: string, pa
   }
   return false
 }
-
 
 export const handleLosingChoices = async (board: number[][]) => {
  

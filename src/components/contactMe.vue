@@ -10,7 +10,7 @@ const email = personalData['email']
 
     <div class="d-flex justify-content-around">
         <p class="contact"> 
-            Please contact at <a href="mailto: {{ email }}"> {{ email }} </a> 
+            Please contact me at <a :href="'mailto:' + email"> {{ email }} </a> 
         </p>
     </div>
 
