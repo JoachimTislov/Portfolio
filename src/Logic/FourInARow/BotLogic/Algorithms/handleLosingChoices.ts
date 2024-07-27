@@ -23,7 +23,7 @@ const checkCoordinatesStatus = async (board: number[][], piece_count: string, pa
       board[x][y] == 0 &&
       pieceValueUnderLosingCoordinate != 0
     ) {
-      //console.log(`Losing move, ${piece_count}, player value: `, participant, entry.piece_count)
+      console.log(`Losing move, ${piece_count}, player value: `, participant, entry.piece_count)
       return await place_Piece(entry, board)
     }
   }

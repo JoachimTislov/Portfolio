@@ -28,7 +28,7 @@ const email = personalData['email']
 
     margin: 1rem;
 
-    font-size: clamp(0.8rem, 3vw, 2.5rem);
+    font-size: clamp(0.8rem, 3vw, 2rem);
 }
 
 .gmail {

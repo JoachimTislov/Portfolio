@@ -90,15 +90,8 @@ const situation = personalData['situation']
 
 h3 {
     margin: 0;
-}
-
-p {
-    color: var(--text-color);
-    font-size: clamp(1.1rem, 2.6vw, 1.8rem);
-} 
-
-h3 {
     color: var(--text-color);
     font-size: clamp(1.2rem, 3vw, 2.5rem);
 }
+
 </style>

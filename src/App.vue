@@ -17,14 +17,5 @@ import navbarView from './views/navbarView.vue'
   </main>
 </template>
 
-<style>
-
-body {
-  background-color: var(--background-color);
-}
-
-</style>
-
-
 
 

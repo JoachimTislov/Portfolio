@@ -121,7 +121,7 @@ import {
 
 <style scoped>
 #starting_player {
-  font-size: clamp(1rem, 2vw, 1.6rem);
+  font-size: clamp(1rem, 2vw, 1.4rem);
 }
 
 .label {

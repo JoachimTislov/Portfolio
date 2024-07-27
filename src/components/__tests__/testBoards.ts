@@ -386,4 +386,17 @@ export const testBoards = [
     expect_coordinate: [6, 2],
     description: "Avoid losing, only one correct move"
   },
+  {
+    board: [
+      [1, 3, 1, 1, 3, 1],
+      [3, 3, 3, 1, 3, 3],
+      [3, 1, 0, 0, 0, 0],
+      [1, 3, 3, 0, 0, 0],
+      [3, 3, 1, 1, 3, 3],
+      [1, 3, 1, 1, 1, 3],
+      [1, 1, 1, 3, 1, 1]
+    ],
+    expect_coordinate: [2, 2],
+    description: "Avoid losing, sacrifice three in a row, and not make a golden move, since its a player three in a row above wanted placement"
+  },
 ]

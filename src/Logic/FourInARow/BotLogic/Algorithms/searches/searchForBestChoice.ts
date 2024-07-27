@@ -164,6 +164,6 @@ export const searchForBestChoice = async (board: number[][]) => {
   }
 
   /// No more choices left
-  //console.log('handling losing choices')
+  console.log('handling losing choices')
   return handleLosingChoices(board)
 }

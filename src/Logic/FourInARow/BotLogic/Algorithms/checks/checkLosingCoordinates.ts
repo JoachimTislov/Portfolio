@@ -11,6 +11,8 @@ export const checkLosingCoordinates = (
 ) => {
   if (direction == 'vertical') return false
   const coordsList = constructLosingCoordinatesList(losing_Coordinates.value)
+
+  let addLosingCoordinates = true
   
   for (let i = 0; i < losing_Coordinates.value.length; i++) {
     const losingCoords = losing_Coordinates.value[i]
@@ -20,9 +22,12 @@ export const checkLosingCoordinates = (
       if(losingCoords.piece_count == 'Three' && piece_count != 'Three') return false
 
       if (losingCoords.piece_count == 'Two' && piece_count == 'Three') {
+      
           losingCoords.piece_count = piece_count
           losingCoords.instances = 1
           losingCoords.pattern = pattern
+          losingCoords.player_identifier = participant
+
       }
 
       if (losingCoords.piece_count == piece_count) {
@@ -30,12 +35,12 @@ export const checkLosingCoordinates = (
       }
 
       if(losingCoords.player_identifier == participant) {
-        
-        return false
-      } 
+        addLosingCoordinates = false
+      }
     }
   }
-  return true
+
+  return addLosingCoordinates
 }
 
 const constructLosingCoordinatesList = (

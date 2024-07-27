@@ -89,7 +89,7 @@ export const personalData = {
                 write their guesses in the chat until a player guesses correctly.`,
 
                 `The website's structure is composed of an authentication system, primarily to identify players and distinguish them as different individuals.
-                Then we have the join and create lobby alternatives, players can join public lobbies or their own lobby which features customizable options including the Oracle, 
+                Then we have the join and create lobby alternatives, players can join public lobbies or create their own lobby which features customizable options including the Oracle, 
                 image choice, amount of rounds, game mode and more.`,
                 
                 `The application is synchronized using SignalR, enabling players to interact in real-time. The Oracle of the game choose which image tiles to reveal, 
@@ -117,7 +117,7 @@ export const personalData = {
             githubLink: 'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
             description: [
 
-                `During my holiday, my father and brother played four in a row, and after hearing my brother loose
+                `During my summer holiday, my father and brother played four in a row, and after hearing my brother loose
                 for the 7th time, I thought, why not create a bot which he can play against.`,
 
                 `This is what sparked the one-month development of a fairly complex four in a row bot.
