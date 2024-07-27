@@ -1,3 +1,6 @@
+
+// source stack overflow user: @chiedo
+
 export class LocalStorageMock {
   private store: { [key: string]: string };
 

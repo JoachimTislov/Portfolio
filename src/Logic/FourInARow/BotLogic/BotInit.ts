@@ -112,8 +112,8 @@ export const initiateAlgorithms = async (board: number[][]) => {
     }
   }
 
-  console.log('BotChoices:', botChoices.value, 'PlayerChoices: ', playerChoices.value, 'RemainingChoices: ', remainingChoices.value)
-  console.log('LosingChoices: ', losing_Coordinates.value)
+  //console.log('BotChoices:', botChoices.value, 'PlayerChoices: ', playerChoices.value, 'RemainingChoices: ', remainingChoices.value)
+  //console.log('LosingChoices: ', losing_Coordinates.value)
 
   return await searchForBestChoice(board)
 }
