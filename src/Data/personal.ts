@@ -126,8 +126,8 @@ export const personalData = {
                 `- Creating an intelligent bot combining both simple and advanced algorithms, making it unbeatable.`,
                 
                 `This is still ongoing, since it is in fact beatable. I am currently having issues with the core design of my algorithms;
-                scan the board, check for three in a row, mark losing choices, filter out awful choices 
-                and in the end determine the best choice in the remaining pool.`,
+                scan the board, check for three and two in a row, mark losing choices, filter out awful choices 
+                and in the end determine the optimal choice among the remaining options.`,
 
                 `That was the process in a nutshell. There are many more pieces to the puzzle.`,
             ], 
