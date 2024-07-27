@@ -9,10 +9,10 @@ const router = createRouter({
       component: () => import('../views/HomeView.vue'),
       children: [
         {
-          path: '', name: 'about', component: () => import('../components/AboutMe.vue')
+          path: '', name: 'about', component: () => import('../views/AboutMeView.vue')
         },
         {
-          path: 'projects', name: 'projects', component: () => import('../components/MyProjects.vue')
+          path: 'projects', name: 'projects', component: () => import('../views/MyProjectsView.vue')
         }
       ]
     },
@@ -24,12 +24,12 @@ const router = createRouter({
     {
       path: '/about-me',
       name: 'mainAboutMe',
-      component: () => import('../components/AboutMe.vue'),
+      component: () => import('../views/AboutMeView.vue')
     },
     {
       path: '/-projects',
       name: 'mainProjects',
-      component: () => import('../components/MyProjects.vue'),
+      component: () => import('../views/MyProjectsView.vue')
     },
   ] 
 })

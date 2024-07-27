@@ -2,7 +2,6 @@
 import { RouterView } from 'vue-router'
 
 import HomeMiniNavbar from './HomeMiniNavbar.vue'
-import contactMe from './contactMe.vue';
 
 import myProfile from './myProfile.vue';
 </script>
@@ -15,8 +14,6 @@ import myProfile from './myProfile.vue';
         <HomeMiniNavbar />
 
         <RouterView />
-
-        <contactMe />
     </div>
 
 </template>

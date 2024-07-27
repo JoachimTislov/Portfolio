@@ -8,7 +8,7 @@ const email = personalData['email']
 
 <template>
 
-    <div class="d-flex justify-content-around">
+    <div class="box d-flex justify-content-around">
         <p class="contact"> 
             Please contact me at <a :href="'mailto:' + email"> {{ email }} </a> 
         </p>
@@ -17,6 +17,10 @@ const email = personalData['email']
 </template>
 
 <style scoped>
+
+.box {
+    background-color: #1A1916;
+}
 
 .contact {
     text-decoration: none;

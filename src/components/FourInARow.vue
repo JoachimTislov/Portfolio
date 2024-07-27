@@ -170,7 +170,7 @@ import {
   border-top: 0;
 
   margin-top: 3%;
-  margin-bottom: 100px;
+  margin-bottom: 15rem;
 }
 
 .column {
