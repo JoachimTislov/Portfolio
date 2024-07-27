@@ -6,7 +6,6 @@ import { RouterLink } from 'vue-router';
     <nav class="navbar navbar-expand-md" data-bs-theme="dark">
         <div class="container">
 
-         
             <em> <h3 class="logo"> JTs Portfolio </h3> </em> 
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
@@ -18,18 +17,24 @@ import { RouterLink } from 'vue-router';
 
                     <li class="nav-item">
                         <RouterLink class="nav-link" to="/"> 
+                            Home
+                        </RouterLink>
+                    </li> 
+
+                    <li class="nav-item">
+                        <RouterLink class="nav-link" to="/about-me"> 
                             About me
                         </RouterLink>
                     </li> 
                     
                     <li class="nav-item">
-                        <RouterLink class="nav-link" to="/projects"> 
+                        <RouterLink class="nav-link" to="/-projects"> 
                             Projects 
                         </RouterLink>
                     </li> 
                     
                     <li class="nav-item">
-                        <RouterLink class="nav-link" to="/Four-in-a-row"> 
+                        <RouterLink class="nav-link" to="/four-in-a-row"> 
                             Four in a row
                         </RouterLink>
                     </li> 

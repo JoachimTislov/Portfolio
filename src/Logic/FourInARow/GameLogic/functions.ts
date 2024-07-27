@@ -1,27 +1,11 @@
 import { resetChoices } from '../BotLogic/BotInit'
 
 import { delay } from '../delay'
-import { checkWinner } from './checkWinner'
-import { logMove } from './logMove'
-import { assignPiecesWithInt, decrementPieces, incrementPieces, pieces } from './pieces'
+import { assignPiecesWithInt, decrementPieces } from './pieces'
 import { placePiece } from './placePieceOnBoard'
 
 import { board, boardHeight, boardWidth, botGame, botValue, droppingPiece, first_player, gameMode, 
   GameOver, log, losing_Coordinates, playerStatus, ShowBoard, ShowWinner, winnerMsg } from './variables'
-
-export const executePlacement = async (row: number, slot: number, playerValue: number) => {
-  placePiece(board, row, slot, playerValue)
-  logMove([row, slot])
-
-  incrementPieces()
-
-  await handleDropInAnimation(row, slot)
-
-  toggleButtons(false)
-  
-  checkWinner(true)
-  checkForTie(pieces.value)
-} 
 
 export function toggleButtons(bool: boolean) {
     droppingPiece.value = bool

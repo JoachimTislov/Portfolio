@@ -1,4 +1,4 @@
-import { arraysEqual, checkIfArrayInThe2DArrayEqualArray, checkLosingCoordinates } from "../../ArrayLogic"
+import { arraysEqual, checkIfArrayInThe2DArrayEqualArray } from "../../ArrayLogic"
 import { losing_Coordinates } from "../../../GameLogic/variables"
 import { three_in_a_row_pattern, two_in_a_row_losing_pattern } from "../../PatternLogic"
 import type { _patternData } from "../../../Types"
@@ -7,6 +7,7 @@ import { getFourthAndFifthCoordinates } from "../get/getFourthAndFifthCoordinate
 import { checkPotentiallyDoubleThreeInARow } from "../checks/checkPotentiallyDoubleThreeInARow"
 import { getPieceCountAndIndices } from "../get/getPieceCountAndIndices"
 import { getOtherZeroCoordinatesIndex } from "../get/getOtherZeroOrAsteriskCoordinatesIndex"
+import { checkLosingCoordinates } from "../checks/checkLosingCoordinates"
 
 
 export const searchForLosingPatterns = (
@@ -32,7 +33,7 @@ export const searchForLosingPatterns = (
             structure.direction,
             piece_countAndIndices.piece_count
           )
-          if (structure.direction != 'vertical' && (check && three) || (check && two)) {
+          if ((check && three) || (check && two)) {
 
             const otherZeroOrAsteriskIndex = getOtherZeroCoordinatesIndex(sequence.pattern, [index])
             const relevantMovesOfOtherZeroOrAsterisk = otherZeroOrAsteriskIndex != null ? find_all_related_moves_to_given_pattern(sequence.coordinates[otherZeroOrAsteriskIndex]) : undefined

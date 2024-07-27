@@ -1,39 +1,43 @@
 import { botValue, losing_Coordinates, playerStatus } from "../../GameLogic/variables"
 import { botMove } from "../botMove"
 
-export const handleLosingChoices = async (board: number[][]) => {
-  const place_Piece = async (entry: {
-    coordinates: number[]
-    player_identifier: number
-    piece_count: string
-  }) => {
+const place_Piece = async (entry: {
+  coordinates: number[]
+  player_identifier: number
+  piece_count: string
+}, board: number[][]) => {
+  const [x, y] = entry.coordinates
+  losing_Coordinates.value = losing_Coordinates.value.filter(
+    (e: { coordinates: number[]; player_identifier: number; piece_count: string }) => e !== entry
+  )
+  return await botMove(board, x, y)
+}
+
+// these algorithms are kind of outdated, but needed
+
+const checkCoordinatesStatus = async (board: number[][], piece_count: string, participant: number) => {
+  for (const entry of losing_Coordinates.value) {
     const [x, y] = entry.coordinates
-    losing_Coordinates.value = losing_Coordinates.value.filter(
-      (e: { coordinates: number[]; player_identifier: number; piece_count: string }) => e !== entry
-    )
-    return await botMove(board, x, y)
-  }
-
-  const checkCoordinatesStatus = (piece_count: string, participant: number) => {
-    for (const entry of losing_Coordinates.value) {
-      const [x, y] = entry.coordinates
-      const pieceValueUnderLosingCoordinate = board[x][y - 1]
-      if (
-        entry.player_identifier === participant &&
-        entry.piece_count === piece_count &&
-        board[x][y] == 0 &&
-        pieceValueUnderLosingCoordinate != 0
-      ) {
-        //console.log(`Losing move, ${piece_count}, player value: `, participant, entry.piece_count)
-        return place_Piece(entry)
-      }
+    const pieceValueUnderLosingCoordinate = board[x][y - 1]
+    if (
+      entry.player_identifier === participant &&
+      entry.piece_count === piece_count &&
+      board[x][y] == 0 &&
+      pieceValueUnderLosingCoordinate != 0
+    ) {
+      //console.log(`Losing move, ${piece_count}, player value: `, participant, entry.piece_count)
+      return await place_Piece(entry, board)
     }
-    return false
   }
+  return false
+}
 
+
+export const handleLosingChoices = async (board: number[][]) => {
+ 
   for (const piece_count of ['Two', 'Three']) {
     for (const value of [botValue, playerStatus.value]) {
-      const result = checkCoordinatesStatus(piece_count, value)
+      const result = await checkCoordinatesStatus(board,piece_count, value)
       if (result != false) return result
     }
   }
@@ -44,7 +48,7 @@ export const handleLosingChoices = async (board: number[][]) => {
       const pieceValueUnderLosingCoordinate = board[x][y - 1]
       //console.log('accepting loss')
       if (pieceValueUnderLosingCoordinate != 0 && board[x][y] == 0) {
-        return place_Piece(entry)
+        return await place_Piece(entry, board)
       }
     }
   }

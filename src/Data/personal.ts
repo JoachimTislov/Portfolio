@@ -1,4 +1,5 @@
 import macroTrackerImg from '@/assets/images/MacroTracker.png'
+import imageGuesserImg from '@/assets/images/image-guesser.png'
 
 import githubLogo from '@/assets/images/github.png'
 import linkendIn from '@/assets/images/linkedin.png'
@@ -108,6 +109,7 @@ export const personalData = {
                 skills['SQLite'],
                 skills['Docker'],
             ],
+            imageLink: imageGuesserImg
         },
         {
             name: 'Four in a row',

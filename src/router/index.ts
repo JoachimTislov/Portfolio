@@ -17,9 +17,19 @@ const router = createRouter({
       ]
     },
     {
-      path: '/Four-in-a-row',
+      path: '/four-in-a-row',
       name: 'fourInARow',
       component: () => import('../views/FourInARowView.vue'),
+    },
+    {
+      path: '/about-me',
+      name: 'mainAboutMe',
+      component: () => import('../components/AboutMe.vue'),
+    },
+    {
+      path: '/-projects',
+      name: 'mainProjects',
+      component: () => import('../components/MyProjects.vue'),
     },
   ] 
 })

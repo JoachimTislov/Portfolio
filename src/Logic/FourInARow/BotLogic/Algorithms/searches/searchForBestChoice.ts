@@ -3,7 +3,6 @@ import { arraysEqual } from "../../ArrayLogic"
 import { botChoices, botValue, playerChoices, remainingChoices } from "../../../GameLogic/variables"
 import { botMove } from "../../botMove"
 import { handleLosingChoices } from "../handleLosingChoices"
-import { pieces } from "@/Logic/FourInARow/GameLogic/pieces"
 
 export const searchForBestChoice = async (board: number[][]) => {
 
@@ -12,7 +11,7 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of doubleChoices) {
     if(entry.length > 0) {
       const [x,y] = entry[0].coordinates
-      // console.log('double in a row')
+      //console.log('double in a row')
       return await botMove(board, x, y)
     }
   }
@@ -21,7 +20,7 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of potentiallyDoubleChoices) {
     if(entry.length > 0) {
       const [x,y] = entry[0].coordinates
-      // console.log('Potential double in a row')
+      //console.log('Potential double in a row')
       return await botMove(board, x, y)
     }
   }
@@ -159,12 +158,12 @@ export const searchForBestChoice = async (board: number[][]) => {
       }
     }
     if (winner.value[0] != -1) {
-      // console.log('Move with highest amount of votes: ', winner.value, 'votes: ', maxNumber.value, entry)
+      //console.log('Move with highest amount of votes: ', winner.value, 'votes: ', maxNumber.value, entry)
       return await botMove(board, winner.value[0], winner.value[1])
     }
   }
 
   /// No more choices left
-  // console.log('handling losing choices')
+  //console.log('handling losing choices')
   return handleLosingChoices(board)
 }

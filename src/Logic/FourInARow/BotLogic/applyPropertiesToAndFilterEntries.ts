@@ -5,7 +5,7 @@ import { botMove } from "./botMove"
 import { prime_two_in_a_row_pattern } from "./PatternLogic"
 import { structureCases } from "./structureCases"
 
-export const applyPropertiesToEntry = (
+export const applyPropertiesToEntry = async (
     board: number[][], pattern: _pattern, 
     doubleThreeInARow: boolean, potentialDoubleThreeInARow: boolean,
     coordinates: number[], entry: possible_Coordinates,
@@ -33,7 +33,7 @@ export const applyPropertiesToEntry = (
     // Golden move, guaranteed to win
     if (!firstPlayerThreatIsThree && firstBotOpportunityIsThree && secondBotOpportunityIsThree) {
         //console.log('Playing the golden move')
-        return botMove(board, x, y)
+        return await botMove(board, x, y)
     } 
     
     const relevantMovesPlayerThreats = firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0] 
@@ -51,14 +51,11 @@ export const applyPropertiesToEntry = (
 
     } else if (!firstIsThree && !firstPlayerThreatTwoAndRelevantMoveThreatThree && (secondIsThree || (!firstIsPotentialThree && !(firstPlayerThreatIsTwo && secondPlayerThreatIsTwo)))) {
         
-        console.log(!firstIsThree, 'dwadwa: ', !firstPlayerThreatTwoAndRelevantMoveThreatThree, !firstIsPotentialThree, secondIsThree, !firstPlayerThreatIsTwo, !secondPlayerThreatIsTwo, pattern, !firstIsThree && !firstPlayerThreatTwoAndRelevantMoveThreatThree && !firstIsPotentialThree && (secondIsThree || (!firstIsPotentialThree || !firstPlayerThreatIsTwo && !secondPlayerThreatIsTwo)))
-
         if (preventLoosingOrWinWithThisSmartMove || prime_two && isPrime_two_move) {
             entry.winning = true
         }
         
         if (firstIsTwo) { 
-
             entry.losing = true
         } 
 
@@ -74,4 +71,5 @@ export const applyPropertiesToEntry = (
             
         }
     }
+    return true
 }

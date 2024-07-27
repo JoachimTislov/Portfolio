@@ -10,7 +10,9 @@ import navbarView from './views/navbarView.vue'
 
     <navbarView />
     
-    <RouterView />
+    <div class="container mb-5">
+      <RouterView />
+    </div>
 
   </main>
 </template>

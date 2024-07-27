@@ -42,7 +42,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
         for(const entry of three_in_a_row_pattern_with_index(0, participant.id)) {
           if(arraysEqual(entry.pattern, sequence.pattern)) {
               const [x, y] = sequence.coordinates[entry.zeroIndex]
-              return botMove(board, x, y)
+              return await botMove(board, x, y)
           }
         }
         
@@ -97,13 +97,14 @@ export const initiateAlgorithms = async (board: number[][]) => {
             const result = checkPotentiallyDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant.id, sequence.coordinates, index)
             const potentiallyDoubleInARow = (result != false && moves_related_to_pattern && arraysEqual(moves_related_to_pattern.coords, result.coords)) ? result.success : false
 
-            applyPropertiesToEntry(
+            const __result = await applyPropertiesToEntry(
               board,
               pattern,
               doubleThreeInARow, potentiallyDoubleInARow, 
               coordinates[index], entry,
               targetArr, key
             ) 
+            if (__result != true) return __result
 
           }
         }
@@ -111,7 +112,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
     }
   }
 
-  console.log('BotChoices:', botChoices.value, 'PlayerChoices: ', playerChoices.value, 'RemainingChoices: ', remainingChoices.value)
+  //console.log('BotChoices:', botChoices.value, 'PlayerChoices: ', playerChoices.value, 'RemainingChoices: ', remainingChoices.value)
   //console.log('LosingChoices: ', losing_Coordinates.value)
 
   return await searchForBestChoice(board)
