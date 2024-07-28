@@ -33,3 +33,5 @@ test-results/
 playwright-report/
 
 Earlier-versions
+ftp.py
+.venv

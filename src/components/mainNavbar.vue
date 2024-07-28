@@ -38,6 +38,12 @@ import { RouterLink } from 'vue-router';
                             Four in a row
                         </RouterLink>
                     </li> 
+
+                    <li class="nav-item">
+                        <RouterLink class="nav-link" to="/macro-tracker"> 
+                            Macro Tracker
+                        </RouterLink>
+                    </li> 
                     
                 </ul>
             </div>

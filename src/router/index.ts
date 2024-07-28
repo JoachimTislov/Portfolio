@@ -16,11 +16,7 @@ const router = createRouter({
         }
       ]
     },
-    {
-      path: '/four-in-a-row',
-      name: 'fourInARow',
-      component: () => import('../views/FourInARowView.vue'),
-    },
+    
     {
       path: '/about-me',
       name: 'mainAboutMe',
@@ -30,6 +26,33 @@ const router = createRouter({
       path: '/-projects',
       name: 'mainProjects',
       component: () => import('../views/MyProjectsView.vue')
+    },
+    {
+      path: '/four-in-a-row',
+      name: 'fourInARow',
+      component: () => import('../views/FourInARowView.vue'),
+    },
+    {
+      path: '/macro-tracker',
+      name: 'macro-tracker',
+      component: () => import('../views/MacroTracker/MacroTrackerView.vue'),
+      children: [
+        {
+          path: '/login', name: 'login', component: () => import('../views/MacroTracker/LoginView.vue')
+        },
+        {
+          path: '/home', name: 'home', component: () => import('../views/MacroTracker/HomeView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        },
+        {
+          path: '/profile', name: 'profile', component: () => import('../views/MacroTracker/ProfileView.vue'),
+          meta: {
+            requiresAuth: true
+          }
+        },
+      ]
     },
   ] 
 })
