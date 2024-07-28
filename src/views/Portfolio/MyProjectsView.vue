@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import projects from '../components/Portofolio/MyProjects.vue'
+import projects from '../../components/Portfolio/MyProjects.vue'
 </script>
 
 <template>
