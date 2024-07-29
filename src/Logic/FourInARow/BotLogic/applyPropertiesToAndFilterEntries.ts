@@ -1,6 +1,5 @@
 import { remainingChoices } from "../GameLogic/variables"
 import type { _pattern, possible_Choices, possible_Coordinates } from "../Types"
-import { arraysEqual } from "./ArrayLogic"
 import { botMove } from "./botMove"
 import { structureCases } from "./structureCases"
 
@@ -29,16 +28,11 @@ export const applyPropertiesToEntry = async (
 
     // Golden move, guaranteed to win
     if (!firstPlayerThreatIsThree && firstBotOpportunityIsThree && secondBotOpportunityIsThree) {
-        console.log('Playing the golden move')
         return await botMove(board, x, y)
     } 
     
-    //if (arraysEqual(pattern, [0, 0,3,3])) console.log(entry, doubleThreeInARow, verticalBotDoubleThree, firstPlayerThreatIsThree)
-    
     if ((doubleThreeInARow || verticalDoubleThree) && !firstPlayerThreatIsThree) {
 
-        console.log(entry, doubleThreeInARow, firstPlayerThreatIsThree)
-        
         targetArr['double_Three_in_a_row'].push(entry)
 
     } else if (potentialDoubleThreeInARow && !firstIsThree) {

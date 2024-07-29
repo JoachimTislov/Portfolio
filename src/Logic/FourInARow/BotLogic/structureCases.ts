@@ -1,6 +1,6 @@
 import { botValue, playerStatus } from "../GameLogic/variables";
 import type { possible_Coordinates } from "../Types";
-import { arraysEqual, checkIfArrayInThe2DArrayEqualArray } from "./ArrayLogic";
+import { checkIfArrayInThe2DArrayEqualArray } from "./ArrayLogic";
 import { prime_two_in_a_row_pattern } from "./PatternLogic";
 
 export const structureCases = (entry: possible_Coordinates) => {
@@ -61,7 +61,6 @@ export const structureCases = (entry: possible_Coordinates) => {
   const relevantFirstMoveUnderToOriginalThreatIsThree = firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[-1]?.piece_count == 'Three'
   const firstPlayerThreatTwoAndRelevantMoveThreatThree = firstPlayerThreatIsTwo && (relevantFirstMoveToOriginalThreatIsThree || relevantFirstMoveUnderToOriginalThreatIsThree)
 
-  // Return structured data
   return {
     secondBotOpportunity,
     firstIsTwo,

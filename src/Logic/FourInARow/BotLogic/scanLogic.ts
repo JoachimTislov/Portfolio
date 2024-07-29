@@ -1,4 +1,4 @@
-import { officialOffset, piecesInARow } from "../GameLogic/variables"
+import { piecesInARow } from "../GameLogic/variables"
 import type { _coordinates, _pattern, _patternData } from "../Types"
 
 const evaluateOperation = (colIndex: number, offset: number, colOperation: string) => {
@@ -55,40 +55,35 @@ export const scanBoard = (board: number[][], participant: number) => {
   for (let colIndex = 0; colIndex < board.length; colIndex++) {
     for (let rowIndex = 0; rowIndex < board[colIndex].length; rowIndex++) {
       if(board[colIndex][rowIndex] == participant) {
-        const horizontalOffSet = board.length - officialOffset
-        const verticalOffSet = board[colIndex].length - officialOffset
 
         const offset = -1
-
-        const rowIndexAndOffSet = rowIndex + offset 
-        const colIndexAndOffSet = colIndex + offset 
-
+        
         // There is an index fault inside of directions array, idk where, but a condition in scanDirection handles it
         const directions = [
           // Entries with offset, is to capture rows which are cut off by the border
-          {requirement: (colIndex < horizontalOffSet), colOperation: '+', arr: horizontal_right, left: false},
-          {requirement: (colIndex >= officialOffset), colOperation: '-', arr: horizontal_left, left: true},
-          {requirement: (rowIndex < verticalOffSet), rowOperation: '+', arr: vertical, left: false},
+          {colOperation: '+', arr: horizontal_right, left: false},
+          {colOperation: '-', arr: horizontal_left, left: true},
+          {rowOperation: '+', arr: vertical, left: false},
 
-          {requirement: (rowIndex < verticalOffSet && colIndex < horizontalOffSet), colOperation: '+', rowOperation: '+', arr: cross_up_right, left: false},
-          {requirement: (rowIndex < verticalOffSet && colIndex >= officialOffset), colOperation: '-', rowOperation: '+', arr: cross_up_left, left: true},
-          {requirement: (rowIndex >= verticalOffSet && colIndex < horizontalOffSet), colOperation: '+', rowOperation: '-', arr: cross_down_right, left: false},
-          {requirement: (rowIndex >= verticalOffSet && colIndex >= officialOffset), colOperation: '-', rowOperation: '-', arr: cross_down_left, left: true},
+          {colOperation: '+', rowOperation: '+', arr: cross_up_right, left: false},
+          {colOperation: '-', rowOperation: '+', arr: cross_up_left, left: true},
+          {colOperation: '+', rowOperation: '-', arr: cross_down_right, left: false},
+          {colOperation: '-', rowOperation: '-', arr: cross_down_left, left: true},
 
 
-          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet < horizontalOffSet), colOperation: '+', offset: offset, arr: horizontal_right, left: false},
-          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet >= officialOffset), colOperation: '-', offset: offset, arr: horizontal_left, left: true},
-          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet < verticalOffSet && colIndexAndOffSet >= 0 && colIndexAndOffSet < horizontalOffSet), colOperation: '+', rowOperation: '+', offset: offset, arr: cross_up_right, left: false},
-          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet < verticalOffSet && colIndexAndOffSet >= 0 && colIndexAndOffSet >= officialOffset), colOperation: '-', rowOperation: '+', offset: offset, arr: cross_up_left, left: true},
-          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet >= verticalOffSet && colIndexAndOffSet >= 0 && colIndexAndOffSet < horizontalOffSet), colOperation: '+', rowOperation: '-', offset: offset, arr: cross_down_right, left: false},
-          {requirement: (rowIndexAndOffSet >= 0 && rowIndexAndOffSet >= verticalOffSet && colIndexAndOffSet >= 0 && colIndexAndOffSet >= officialOffset), colOperation: '-', rowOperation: '-', offset: offset, arr: cross_down_left, left: true}
+          {colOperation: '+', offset: offset, arr: horizontal_right, left: false},
+          {colOperation: '-', offset: offset, arr: horizontal_left, left: true},
+          {colOperation: '+', rowOperation: '+', offset: offset, arr: cross_up_right, left: false},
+          {colOperation: '-', rowOperation: '+', offset: offset, arr: cross_up_left, left: true},
+          {colOperation: '+', rowOperation: '-', offset: offset, arr: cross_down_right, left: false},
+          {colOperation: '-', rowOperation: '-', offset: offset, arr: cross_down_left, left: true}
         ]
 
         for (const direction of directions) {
-          if(direction.requirement) {
-            const result = scanDirection(board, colIndex, rowIndex, direction.colOperation, direction.rowOperation, direction.left, direction.offset)
-            if(result != false) direction.arr.push(result)
-          }
+          
+          const result = scanDirection(board, colIndex, rowIndex, direction.colOperation, direction.rowOperation, direction.left, direction.offset)
+          if(result != false) direction.arr.push(result)
+        
         }       
       }
     }

@@ -35,19 +35,19 @@ watch(GameOver,(newGameOver) => {localStorage.setItem('GameOver', JSON.stringify
 
 export const boardWidth = ref(7); export const boardHeight = ref(6)
 const storedBoard = localStorage.getItem('board')
-/*export const board = reactive(storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0)))
+/*export const board = reactive(storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0)))*/
 
 export const board = reactive(
   [
-    [3, 1, 1, 3, 1, 1],
-    [0, 0, 0, 0, 0, 0],
-    [1, 1, 0, 0, 0, 0],
-    [1, 1, 3, 1, 1, 1],
-    [3, 3, 3, 1, 3, 3],
-    [3, 3, 1, 3, 1, 3],
-    [0, 0, 0, 0, 0, 0]
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [1, 1, 3, 0, 0, 0],
+      [3, 1, 3, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
   ]
-)*/
+)
 
 watch(board,(newBoard) => {localStorage.setItem('board', JSON.stringify(newBoard))},{ deep: true })
 
