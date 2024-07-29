@@ -22,13 +22,13 @@ import { RouterLink } from 'vue-router';
                     </li> 
 
                     <li class="nav-item">
-                        <RouterLink class="nav-link" to="/about-me"> 
+                        <RouterLink class="nav-link" :to="{ name: 'mainAbout' }"> 
                             About me
                         </RouterLink>
                     </li> 
                     
                     <li class="nav-item">
-                        <RouterLink class="nav-link" to="/projects"> 
+                        <RouterLink class="nav-link" :to="{ name: 'mainProjects' }"> 
                             Projects 
                         </RouterLink>
                     </li> 

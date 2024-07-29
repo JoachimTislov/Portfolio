@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+const macroLogin = 'macroLogin'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -22,8 +24,8 @@ const router = createRouter({
     },
     
     {
-      path: '/about-me',
-      name: 'mainAboutMe',
+      path: '/about',
+      name: 'mainAbout',
       component: () => import('../views/Portfolio/AboutMeView.vue')
     },
     {
@@ -40,29 +42,50 @@ const router = createRouter({
       path: '/macro-tracker',
       name: 'macro-tracker',
       component: () => import('../views/MacroTracker/MacroTrackerView.vue'),
-      //meta: { requiresAuth: false },
+      meta: { requiresAuth: false },
       children: [
         {
           path: 'login', 
           name: 'macroLogin', 
           component: () => import('../views/MacroTracker/LoginView.vue'),
-          //meta: { requiresAuth: false }
+          meta: { requiresAuth: false }
         },
         {
           path: 'home', 
           name: 'macroHome', 
           component: () => import('../views/MacroTracker/HomeView.vue'),
-          //meta: { requiresAuth: true }
+          meta: { requiresAuth: true, authRedirect: macroLogin}
         },
         {
           path: 'profile', 
           name: 'macroProfile', 
           component: () => import('../views/MacroTracker/ProfileView.vue'),
-          //meta: { requiresAuth: true }
+          meta: { requiresAuth: true, authRedirect: macroLogin}
         }
       ]
     },
   ] 
 })
+
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth) {
+
+      const token = localStorage.getItem('token');
+      if (token) {
+          
+        next();
+
+      } else {
+        
+        next({ name: to.meta.authRedirect as string });
+      }
+
+    } else {
+      // Non-protected route, allow access
+      next();
+    }
+  }
+);
+
 
 export default router

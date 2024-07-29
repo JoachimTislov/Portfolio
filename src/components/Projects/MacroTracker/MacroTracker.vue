@@ -30,6 +30,8 @@ import { RouterLink } from 'vue-router';
         </ul>
     </nav>
 
+    <RouterView />
+
 </template>
 
 <style scoped>
