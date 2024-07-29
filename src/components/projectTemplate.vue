@@ -17,7 +17,7 @@ defineProps(['project'])
                 <small> Tools: </small>
                 <div class="d-flex flex-wrap">
                     <div class="m-1 p-1 bg-dark" v-for="tool in project.tools" :key="tool.name">
-                        <a class="link" :href="tool.link"> {{ tool.name }} <font-awesome-icon class="icon" :icon="tool.icon" /> </a> 
+                        <a class="link" :href="tool.link"> {{ tool.name }} <font-awesome-icon v-if="tool.icon" class="icon" :icon="tool.icon" /> </a> 
                     </div>
                 </div>
 

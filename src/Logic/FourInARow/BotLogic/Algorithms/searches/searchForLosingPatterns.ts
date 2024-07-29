@@ -26,6 +26,7 @@ export const searchForLosingPatterns = (
       if (piece_countAndIndices != false) {
         for (const index of piece_countAndIndices.indices) {
           const [x, y] = [sequence.coordinates[index][0], sequence.coordinates[index][1] - 1]
+          
           const check = checkLosingCoordinates(
             sequence.pattern,
             [x, y],
@@ -33,6 +34,7 @@ export const searchForLosingPatterns = (
             structure.direction,
             piece_countAndIndices.piece_count
           )
+
           if ((check && three) || (check && two)) {
 
             const otherZeroOrAsteriskIndex = getOtherZeroCoordinatesIndex(sequence.pattern, [index])
@@ -40,7 +42,7 @@ export const searchForLosingPatterns = (
 
             const thirdAndFifth = getFourthAndFifthCoordinates(sequence.coordinates)
             const result = checkPotentiallyDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant, sequence.coordinates, index)
-            const potentiallyDoubleInARow = (result != false && relevantMovesOfOtherZeroOrAsterisk && arraysEqual(relevantMovesOfOtherZeroOrAsterisk.coords, result.coords)) ? result.success : false
+            const potentiallyDoubleInARow = (result != false && arraysEqual([x, y - 1], result.coords)) ? true : false
 
             losing_Coordinates.value.push({
               coordinates: [x, y],

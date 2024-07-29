@@ -188,7 +188,7 @@ export const testBoards = [
       [1, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0]
     ],
-    expect_coordinate: [5, 1],
+    expect_coordinate: [6, 0],
     description: "Building three in a row, and luring the player into a unstoppable loss afterwards"
   },
   {
@@ -399,4 +399,30 @@ export const testBoards = [
     expect_coordinate: [2, 2],
     description: "Avoid losing, sacrifice three in a row, and not make a golden move, since its a player three in a row above wanted placement"
   },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [1, 1, 3, 0, 0, 0],
+      [3, 1, 3, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [2, 0],
+    description: "Prioritize blocking where its a threat later, therefore avoiding potential three in a row, and can easily block it later"
+  },
+  /*{
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [1, 1, 3, 0, 0, 0],
+      [3, 1, 3, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [2, 2],
+    description: "Avoid adding a three in a row above another three in a row, from above"
+  },*/
 ]

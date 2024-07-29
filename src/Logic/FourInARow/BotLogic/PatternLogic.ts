@@ -45,6 +45,7 @@ export const prime_two_in_a_row_pattern = (participant: number) => {
       [0, participant, 0, participant]
   ]
 }
+
 export const double_three_in_a_row_patterns = (participant: number, coords: {first: number[], last: number[]}, all_coordinates: number[][]) =>  [
   { pattern: [participant, participant, 0, 0], coords: [coords.first, all_coordinates[2]] },
   { pattern: [0, 0, participant, participant], coords: [coords.last, all_coordinates[1]] },

@@ -1,6 +1,6 @@
 import { ref } from "vue"
 import { arraysEqual } from "../../ArrayLogic"
-import { botChoices, botValue, playerChoices, remainingChoices } from "../../../GameLogic/variables"
+import { botChoices, botValue, playerChoices, playerStatus, remainingChoices } from "../../../GameLogic/variables"
 import { botMove } from "../../botMove"
 import { handleLosingChoices } from "../handleLosingChoices"
 
@@ -11,7 +11,11 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of doubleChoices) {
     if(entry.length > 0) {
       const [x,y] = entry[0].coordinates
-      //console.log('double in a row')
+      if(entry[0].participant == playerStatus.value) {
+        console.log('Blocked double in a row')
+      } else {
+        console.log('double in a row')
+      }
       return await botMove(board, x, y)
     }
   }
@@ -20,12 +24,12 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of potentiallyDoubleChoices) {
     if(entry.length > 0) {
       const [x,y] = entry[0].coordinates
-      //console.log('Potential double in a row')
+      console.log('Potential double in a row')
       return await botMove(board, x, y)
     }
   }
 
-  const arr = [botChoices.value['Two_in_a_row'], playerChoices.value['Two_in_a_row']]
+ /* const arr = [botChoices.value['Two_in_a_row'], playerChoices.value['Two_in_a_row']]
   
   for (const entry of arr) {
     for (const column of entry) {
@@ -33,7 +37,7 @@ export const searchForBestChoice = async (board: number[][]) => {
         const columnIndex = lvl.coordinates[1]
         let bool = true
         for (let i = 0; i < columnIndex; i++) {
-          // Prioritizing blocking the lowest threats, instead building above them
+          //Prioritizing blocking the lowest threats, instead building above them
           if (playerChoices.value['Two_in_a_row'][i].length > 0 && lvl.participant == botValue) {
             bool = false
           }
@@ -45,7 +49,7 @@ export const searchForBestChoice = async (board: number[][]) => {
         }
       }
     }
-  }
+  }*/
 
 /*
   This chooses two in a row with lowest column index value*/
@@ -58,7 +62,7 @@ export const searchForBestChoice = async (board: number[][]) => {
 
       const playerHasMoreTwoInARow = botTwoInARows.length <= playerTwoInARows.length
       const targetArr = playerHasMoreTwoInARow ? playerTwoInARows : botTwoInARows 
-      //const participant = botHasMoreTwoInARow ? botValue : playerStatus.value
+      const participant = playerHasMoreTwoInARow ? playerStatus.value :  botValue 
 
       const amountOfEach: { [key: string]: {count: number, coordinates: number[]} } = {}
     
@@ -66,11 +70,11 @@ export const searchForBestChoice = async (board: number[][]) => {
 
           const coordKey: string = JSON.stringify(item.coordinates);
 
-          /*if (participant == botValue) {
+          if (participant == botValue) {
             console.log('Blocking two in a row: ', item)
           } else {
             console.log('Building two in a row: ', item)
-          }*/
+          }
 
           // Assign an empty object if the key doesn't exist
           if (!amountOfEach[coordKey]) {

@@ -43,7 +43,7 @@ export const handleLosingChoices = async (board: number[][]) => {
     for (const entry of losing_Coordinates.value) {
       const [x, y] = entry.coordinates
       const pieceValueUnderLosingCoordinate = board[x][y - 1]
-      //console.log('accepting loss')
+      console.log('accepting loss')
       if (pieceValueUnderLosingCoordinate != 0 && board[x][y] == 0) {
         return await place_Piece(entry, board)
       }
