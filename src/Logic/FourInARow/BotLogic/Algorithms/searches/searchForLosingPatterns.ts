@@ -42,7 +42,7 @@ export const searchForLosingPatterns = (
 
             const thirdAndFifth = getFourthAndFifthCoordinates(sequence.coordinates)
             const result = checkPotentiallyDoubleThreeInARow(board, thirdAndFifth, sequence.pattern, participant, sequence.coordinates, index)
-            const potentiallyDoubleInARow = (result != false && arraysEqual([x, y - 1], result.coords)) ? true : false
+            const potentiallyDoubleInARow = (result != false && arraysEqual([x, y + 1], result.coords)) ? true : false
 
             losing_Coordinates.value.push({
               coordinates: [x, y],

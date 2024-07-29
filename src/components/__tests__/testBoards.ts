@@ -409,7 +409,7 @@ export const testBoards = [
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0]
     ],
-    expect_coordinate: [2, 0],
+    expect_coordinate: [1, 1],
     description: "Prioritize blocking where its a threat later, therefore avoiding potential three in a row, and can easily block it later"
   },
   /*{
