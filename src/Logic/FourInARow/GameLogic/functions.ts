@@ -1,11 +1,13 @@
+import { checkForLoop } from '../BotLogic/Algorithms/checks/checkForLoop'
 import { resetChoices } from '../BotLogic/BotInit'
+import { startBotVBot } from '../BotLogic/startBotVBot'
 
 import { delay } from '../delay'
-import { assignPiecesWithInt, decrementPieces } from './pieces'
-import { placePiece } from './placePieceOnBoard'
+import { decrementPieces } from './pieces'
+import { resetGame } from './resetGame'
 
-import { board, boardHeight, boardWidth, botGame, botValue, droppingPiece, first_player, gameMode, 
-  GameOver, log, losing_Coordinates, playerStatus, ShowBoard, ShowWinner, winnerMsg } from './variables'
+import { board, boardHeight, boardWidth, botGame, botValue, botVBot, droppingPiece, gameMode, 
+  GameOver, log, losing_Coordinates, nonStopTesting, playerStatus, playerTurn, ShowBoard, ShowWinner, Stop, waitingTime, winnerMsg } from './variables'
 
 export function toggleButtons(bool: boolean) {
     droppingPiece.value = bool
@@ -16,9 +18,29 @@ export const handleDropInAnimation = async (colIndex: number, rowIndex: number) 
   if (specific_slot != null) {
     specific_slot.classList.add('drop-in')
 
-    await delay(1000)
+    const animationTime = botVBot.value ? waitingTime.value/2 : 1000
+    await delay(animationTime)
    
     specific_slot.classList.remove('drop-in')
+  }
+}
+
+export async function handleGameModeSwitch() {
+  botVBot.value = false
+  Stop.value = true
+
+  switch(gameMode.value) {
+    case 'Player vs Player':
+          botGame.value = false
+      break
+    case 'Player vs Bot':
+          botValue.value = 3
+          botGame.value = true
+      break
+    case 'Bot vs Bot':
+          botGame.value = true
+          botVBot.value = true
+      break
   }
 }
 
@@ -58,34 +80,8 @@ export const previousMove = () => {
   }
 }
 
-export const initBotStarts = () => {
-  if (first_player.value === 'bot') {
-    assignPiecesWithInt(1)
-    placePiece(board, 3, 0, botValue)
-  }
-}
-
-export const initTwoPlayer = () => {
-  initBaseGame()
-  botGame.value = false
-  gameMode.value = 'Player vs Player'
-}
-
-export const initBotGame = () => {
-  initBaseGame()
-  botGame.value = true
-  gameMode.value = 'Player vs Bot'
-
-  initBotStarts()
-}
-
-export const initBaseGame = () => {
-  playerStatus.value = 1
-  ShowWinner.value = false
-}
-
 export const getSlotColor = (value: number) => {
-  const colors = ['white', 'red', 'blue', 'black', 'green']
+  const colors = ['white', 'red', 'blue', 'black', 'green', 'blue']
   return colors[value]
 }
 
@@ -97,10 +93,17 @@ export const updatePlayerStatus = () => {
   playerStatus.value = playerStatus.value === 1 ? 2 : 1
 }
 
-export const checkForTie = (pieces: number) => {
-  if(pieces == boardWidth.value * boardHeight.value) {
-    ShowBoard.value = false
+export const checkForTie = async (pieces: number) => {
+  if(!GameOver.value && pieces == boardWidth.value * boardHeight.value) {
+    console.log("Checked for tie")
+
+
+    ShowBoard.value = botVBot.value ? true : false
     winnerMsg.value = 'It was a tie'
     ShowWinner.value = true
+
+    if(botVBot.value) {
+      await checkForLoop()
+    }
   }
 }

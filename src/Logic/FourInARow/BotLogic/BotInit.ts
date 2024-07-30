@@ -7,6 +7,8 @@ import {
   botValue,
   botChoices,
   losing_Coordinates,
+  boardWidth,
+  botVBot,
 } from '../GameLogic/variables'
 
 import type {
@@ -26,13 +28,26 @@ import { botMove } from './botMove'
 import { arraysEqual } from './ArrayLogic'
 import { three_in_a_row_pattern_with_index } from './PatternLogic'
 import { getOtherZeroCoordinatesIndex } from './Algorithms/get/getOtherZeroOrAsteriskCoordinatesIndex'
+import { pieces } from '../GameLogic/pieces'
+import { getRandomNumber } from './Algorithms/get/getRandomNumber'
 
 export const initiateAlgorithms = async (board: number[][]) => {
 
+  const row = getRandomNumber(boardWidth.value - 1)
+  if (pieces.value == 0 && row) return await botMove(board, row, 0)
+ 
   const participants = [
-    {id: botValue, scan: scanBoard(board, botValue)}, 
-    {id: playerStatus.value, scan: scanBoard(board, playerStatus.value)}
+    {id: botValue.value, scan: scanBoard(board, botValue.value)}, 
   ]
+
+  if(botVBot.value) {
+    const otherBotValue = botValue.value == 3 ? 5 : 3
+    participants.push({id: otherBotValue, scan: scanBoard(board, otherBotValue)})
+  } else {
+    participants.push({id: playerStatus.value, scan: scanBoard(board, playerStatus.value)})
+  }
+
+  console.log(participants)
 
   for (const participant of participants) {
     for (const structure of participant.scan) {
@@ -63,7 +78,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
 
             const piece_count = getPieceCount(pattern, participant.id)
             const key = `${piece_count}_in_a_row`
-            const targetArr = (participant.id == botValue) ? botChoices.value : playerChoices.value
+            const targetArr = (participant.id == botValue.value) ? botChoices.value : playerChoices.value
 
             const moves_related_to_pattern = find_all_related_moves_to_given_pattern(coordinates[index])
 

@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import {
-  initTwoPlayer,
-  initBotGame,
   previousMove,
   getSlotColor,
   getNameOfSlot,
-  getNumber
+  getNumber,
+  handleGameModeSwitch
   
 } from '../Logic/FourInARow/GameLogic/functions'  
 
@@ -18,6 +17,8 @@ import { pieces } from '@/Logic/FourInARow/GameLogic/pieces';
 import { getColor } from '@/Logic/FourInARow/GameLogic/checkWinner'
 
 import { botCalculating } from '@/Logic/FourInARow/BotLogic/botMove'
+
+import { startBotVBot } from '@/Logic/FourInARow/BotLogic/startBotVBot'
 
 import {
   botGame,
@@ -32,7 +33,12 @@ import {
   ShowBoard,
 
   droppingPiece,
-  playerStatus
+  playerStatus,
+  botVBot,
+  Stop,
+  botValue,
+  waitingTime,
+  nonStopTesting
 
 } from '../Logic/FourInARow/GameLogic/variables'  
 
@@ -41,58 +47,91 @@ import {
 <template>
   <section class="mainDiv">
     <div class="menu">
-          <div class="mt-1 mb-1 btn-group">
-            <button :disabled="droppingPiece" v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button" class="border-light btn btn-secondary">
-              Two Player Game
-            </button>
-            <button :disabled="droppingPiece" v-if="!botGame" @click="initBotGame(), resetGame()" type="button" class="border-light btn btn-secondary">Play against the Bot</button>
-          </div>
 
-          <div v-if="botGame" class="mb-1 d-flex flex-column">
-            <label class="label" for="starting_player"> Starting Player: </label>
-            <select 
-              :disabled="droppingPiece"
-              id="starting_player"
-              class="form-control form-control-sm"
-              v-model="first_player"
-              @change="resetGame()"
-            >
-              <option value="Player 1">You</option>
-              <option value="bot">Bot</option>
-            </select>
-          </div>
+          <label class="label" for="gameMode"> GameMode: </label> 
+          <select 
+            :disabled="droppingPiece"
+            id="gameMode"
+            class="selectElement form-control form-control-sm"
+            v-model="gameMode"
+            @change="resetGame(), handleGameModeSwitch()"
+          >
+            <option value="Player vs Player">Player vs Player</option>
+            <option value="Player vs Bot">Player vs Bot</option>
+            <option value="Bot vs Bot">Bot vs Bot</option>
+          </select>
 
-          <div v-if="!ShowWinner" class="mt-2 p-4 message">
-            <h4> {{ gameMode }} </h4>
-            <template v-if="botGame">
-              <h5 v-if="busy && !botCalculating"> <strong>  Dropping piece.. </strong> </h5>
-              <template v-else>
-                <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
-                <h5 v-if="botCalculating"> <strong> Bot is calculating... </strong> </h5>
-              </template>
+        <template  v-if="botGame && !botVBot">
+          <label class="label" for="starting_player"> Starting Player: </label>
+          <select 
+            :disabled="droppingPiece"
+            id="starting_player"
+            class="selectElement form-control form-control-sm"
+            v-model="first_player"
+            @change="resetGame()"
+          >
+            <option value="Player 1">You</option>
+            <option value="bot">Bot</option>
+          </select>
+        </template>
+
+        <div v-if="!ShowWinner && !botVBot" class="mt-2 p-4 message">
+          <template v-if="botGame">
+            <h4 v-if="!botVBot"> {{ gameMode }} </h4>
+            <h5 v-if="busy && !botCalculating"> <strong>  Dropping piece.. </strong> </h5>
+            <template v-else-if="!botVBot">
+              <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
+              <h5 v-if="botCalculating"> <strong> Bot is calculating... </strong> </h5>
             </template>
-            <template v-if="!botGame">
-              <h5 v-if="busy"> <strong>  Dropping piece.. </strong> </h5>
-
-              <template v-else>
-                <h5 v-if="playerStatus == 1"> <strong>  {{ getColor(1) }} to play </strong> </h5>
-                <h5 v-if="playerStatus == 2"> <strong>  {{ getColor(2) }} to play </strong> </h5>
-              </template>
+            <template v-else>
+              <h5 v-if="botCalculating"> <strong> Bot {{ botValue }} is calculating... </strong> </h5>
             </template>
+          </template>
+          <template v-if="!botGame">
+            <h5 v-if="busy"> <strong>  Dropping piece.. </strong> </h5>
+
+            <template v-else>
+              <h5 v-if="playerStatus == 1"> <strong>  {{ getColor(1) }} to play </strong> </h5>
+              <h5 v-if="playerStatus == 2"> <strong>  {{ getColor(2) }} to play </strong> </h5>
+            </template>
+          </template>
+        </div>
+
+        <template v-if="botVBot">
+
+          <div class="input-group mt-1">
+            <input v-model="waitingTime" class="form-control form-control-sm" type="number">
+            <div class="input-group-append">
+                <span class="input-group-text"> ms </span>
+            </div>
           </div>
 
-          <div v-if="ShowWinner" class="p-4 message">
-            <h4>{{ winnerMsg }}</h4>
-          </div>
-
-          <div class="d-flex btn-group btn-group-lg mt-2"> 
-            <button ref="restartButton" :disabled="droppingPiece || !(pieces > getNumber() || ShowWinner)" @click="resetGame()" type="button" class="m-1 btn btn-md btn-success">
-              <template v-if="ShowWinner"> Play Again </template>
-              <template v-else> Restart </template>
+          <div class="d-flex btn-group btn-group-lg mt-1">
+            <button class="btn btn-success" :disabled="!Stop" @click="resetGame(), startBotVBot(board)"> 
+              <template v-if="ShowWinner"> Run </template> 
+              <template v-else> Start </template>
             </button>
-
-            <button ref="previousButton" :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)" @click="previousMove()" type="button" class="m-1 btn btn-md btn-primary"> Previous Move </button>
+            <button class="btn btn-danger" :disabled="ShowWinner" @click="Stop = true"> Stop </button>
           </div>
+          
+          <button v-if="nonStopTesting" class="btn btn-info mt-1 mb-2" @click="nonStopTesting = false">  Loop </button>
+          <button v-if="!nonStopTesting" class="btn btn-danger mt-1 mb-2" @click="nonStopTesting = true"> Disable Loop </button>
+          
+        </template>
+
+        
+        <div v-if="ShowWinner" class="p-4 message">
+          <h4>{{ winnerMsg }}</h4>
+        </div>
+
+        <div v-if="!botVBot" class="d-flex btn-group btn-group-lg mt-2"> 
+          <button ref="restartButton" :disabled="droppingPiece || !botVBot && !(pieces > getNumber() || ShowWinner)" @click="resetGame()" type="button" class="m-1 btn btn-md btn-success">
+            <template v-if="ShowWinner"> Play Again </template>
+            <template v-else> Restart </template>
+          </button>
+
+          <button ref="previousButton" :disabled="droppingPiece || !botVBot && !(pieces > getNumber() && !GameOver)" @click="previousMove()" type="button" class="m-1 btn btn-md btn-primary"> Previous Move </button>
+        </div>
     </div>
     
     <div class="board" v-show="ShowBoard">
@@ -120,12 +159,13 @@ import {
 </template>
 
 <style scoped>
-#starting_player {
+.selectElement {
   font-size: clamp(1rem, 2vw, 1.4rem);
 }
 
 .label {
-  font-size: 0.8em;
+  margin-top: 0.5rem;
+  font-size: 1em;
 }
 .participantTurnMessage {
   background-color: #2e2a2a;

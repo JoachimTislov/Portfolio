@@ -1,6 +1,7 @@
-import { board, botGame, botValue, GameOver, playerStatus, ShowWinner, winnerMsg } from "./variables"
+import { checkForLoop } from "../BotLogic/Algorithms/checks/checkForLoop"
+import { board, botGame, botValue, botVBot, GameOver, playerStatus, ShowWinner, winnerMsg } from "./variables"
 
-export const checkWinner = (boolCheck: boolean) => {
+export const checkWinner = async (boolCheck: boolean) => {
   //check vertical
   for (let j = 0; j < 7; j++) {
     for (let i = 0; i < 4; i++) {
@@ -8,7 +9,7 @@ export const checkWinner = (boolCheck: boolean) => {
 
       const coords = [[j,i],[j,i + 1], [j,i + 2], [j,i + 3]]
 
-      const result = loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values, boolCheck)
       if (result != false) {
         return result
       }
@@ -22,7 +23,7 @@ export const checkWinner = (boolCheck: boolean) => {
 
       const coords = [[j,i],[j + 1,i], [j + 2,i], [j + 3,i]]
 
-      const result = loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values, boolCheck)
       if (result != false) {
         return result
       }
@@ -36,7 +37,7 @@ export const checkWinner = (boolCheck: boolean) => {
 
       const coords = [[j,i],[j + 1,i + 1], [j + 2,i + 2], [j + 3,i + 3]]
 
-      const result = loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values, boolCheck)
       if (result != false) {
         return result
       }
@@ -50,7 +51,7 @@ export const checkWinner = (boolCheck: boolean) => {
 
       const coords = [[j,i],[j - 1,i + 1], [j - 2,i + 2], [j - 3,i + 3]]
 
-      const result = loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values, boolCheck)
       if (result != false) {
         return result
       }
@@ -58,8 +59,8 @@ export const checkWinner = (boolCheck: boolean) => {
   }
 }
 
-const loopThroughValues = (coordinates: number[][], values: number[], boolCheck: boolean) => {
-  const participants: number[] = [playerStatus.value, botValue]
+const loopThroughValues = async (coordinates: number[][], values: number[], boolCheck: boolean) => {
+  const participants: number[] = [playerStatus.value, botValue.value]
 
   for (let i = 0; i < 2; i++) {
     if (
@@ -75,7 +76,7 @@ const loopThroughValues = (coordinates: number[][], values: number[], boolCheck:
           board[x][y] = 4
         }
 
-        return determineWinner(participants[i])
+        return await determineWinner(participants[i])
       } else {
         return true
       }
@@ -85,17 +86,23 @@ const loopThroughValues = (coordinates: number[][], values: number[], boolCheck:
 }
 
 export const getColor = (int: number) => {
-  const colors = ['', 'Red', 'Blue']
+  const colors = ['', 'Red', 'Blue', 'Black', 'Green', 'Blue']
   return colors[int]
 }
 
-const determineWinner = (value: number) => {
+const determineWinner = async (value: number) => {
   ShowWinner.value = true
   GameOver.value = true
 
   if(botGame.value) {
-    if (value == botValue) {
-      winnerMsg.value = 'Bot won'
+    if (value == botValue.value) {
+      if(botVBot.value) {
+        console.log('running loop from checkWinner')
+        await checkForLoop()
+        winnerMsg.value = `${getColor(botValue.value)} Bot won`
+      } else {
+        winnerMsg.value = 'Bot won'
+      }
     } else {
       winnerMsg.value = 'You won, congrats'
     }

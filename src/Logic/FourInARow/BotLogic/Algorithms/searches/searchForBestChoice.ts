@@ -3,6 +3,8 @@ import { arraysEqual } from "../../ArrayLogic"
 import { botChoices, botValue, playerChoices, playerStatus, remainingChoices } from "../../../GameLogic/variables"
 import { botMove } from "../../botMove"
 import { handleLosingChoices } from "../handleLosingChoices"
+import type { possible_Coordinates } from "@/Logic/FourInARow/Types"
+import { pieces } from "@/Logic/FourInARow/GameLogic/pieces"
 
 export const searchForBestChoice = async (board: number[][]) => {
 
@@ -105,7 +107,8 @@ export const searchForBestChoice = async (board: number[][]) => {
   }
 
 
-  /*
+  
+  const patterns = remainingChoices.value
 
   // This makes the game vary, not optimal for 
 
@@ -117,14 +120,10 @@ export const searchForBestChoice = async (board: number[][]) => {
   
   
   
-  
-  
   if (pieces.value < 3 && patterns.length > 0) {
       const [x, y] = getRandomCoords(patterns.length, patterns)
       return await botMove(board, x, y)
-  } */
-
-  const patterns = remainingChoices.value
+  } 
 
 
    // Algorithm that check which choice is chosen the most

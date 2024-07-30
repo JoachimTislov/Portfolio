@@ -1,7 +1,7 @@
 import { ref } from "vue"
 import { checkForTie, handleDropInAnimation, toggleButtons } from "../GameLogic/functions"
 import { delay } from "../delay"
-import { botValue, playerTurn } from "../GameLogic/variables"
+import { botValue, botVBot, playerTurn, waitingTime } from "../GameLogic/variables"
 import { resetChoices } from "./BotInit"
 import { placePiece } from "../GameLogic/placePieceOnBoard"
 import { logMove } from "../GameLogic/logMove"
@@ -12,15 +12,17 @@ export const botCalculating = ref<boolean>(false)
 
 export const botMove = async (board: number[][], row: number, slot: number) => {
 
+  const botThinkingTime = botVBot.value ? waitingTime.value/2 : 1200
+
   toggleButtons(true)
 
   botCalculating.value = true
-  await delay(1200) // simulating the bot thinking
+  await delay(botThinkingTime) // simulating the bot thinking
   botCalculating.value = false
 
-  await executePlacement(board, row, slot, botValue)
-  
-  playerTurn.value = true
+  await executePlacement(board, row, slot, botValue.value)
+
+  if (!botVBot.value) playerTurn.value = true
 
   resetChoices()
 
@@ -38,6 +40,6 @@ export const executePlacement = async (board: number[][], row: number, slot: num
 
   toggleButtons(false)
   
-  checkWinner(true)
-  checkForTie(pieces.value)
+  await checkWinner(true)
+  await checkForTie(pieces.value)
 } 

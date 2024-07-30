@@ -23,7 +23,7 @@ export const dropPiece = async (row: number) => {
             }
 
             if (!botGame.value) {
-            updatePlayerStatus()
+              updatePlayerStatus()
             }
 
             break

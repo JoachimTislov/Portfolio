@@ -9,9 +9,13 @@ export const officialOffset = piecesInARow - 1
 
 export const remainingChoices = ref<possible_Coordinates[]>([])
 
+export const nonStopTesting = ref<boolean>(false)
+
 export const deepClone = <T>(obj: T): T => {
   return JSON.parse(JSON.stringify(obj));
 }
+
+export const waitingTime = ref<number>(0)
 
 export const defaultChoices = {
   double_Three_in_a_row: [],
@@ -19,11 +23,21 @@ export const defaultChoices = {
   Two_in_a_row: [ [],[],[],[],[],[] ]
 }
 
+const storedBotVBot = localStorage.getItem('botVBot')
+export const botVBot = ref<boolean>(storedBotVBot ? JSON.parse(storedBotVBot) : false)
+watch(botVBot, (newBotVBot) => {localStorage.setItem('botVBot', JSON.stringify(newBotVBot))}, {deep: true })
+
 export const botChoices = ref<possible_Choices>(deepClone(defaultChoices))
 
 export const playerChoices = ref<possible_Choices>(deepClone(defaultChoices))
 
-export const botValue: number = 3
+const storedBotValue = localStorage.getItem('botValue')
+export const botValue =  ref<number>(storedBotValue ? JSON.parse(storedBotValue) : 3)
+watch(botValue,(newBotValue) => {localStorage.setItem('botValue', JSON.stringify(newBotValue))},{ deep: true })
+
+const storedStop = localStorage.getItem('Stop')
+export const Stop = ref<boolean>(storedStop ? JSON.parse(storedStop) : false)
+watch(Stop, (newStop) => {localStorage.setItem('Stop', JSON.stringify(newStop))}, {deep: true})
 
 const storedWinnerMsg = localStorage.getItem('winnerMsg')
 export const winnerMsg = ref<string>(storedWinnerMsg ? JSON.parse(storedWinnerMsg) : '')
@@ -35,9 +49,9 @@ watch(GameOver,(newGameOver) => {localStorage.setItem('GameOver', JSON.stringify
 
 export const boardWidth = ref(7); export const boardHeight = ref(6)
 const storedBoard = localStorage.getItem('board')
-/*export const board = reactive(storedBoard ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0)))*/
+export const board = reactive(storedBoard && !botVBot.value ? JSON.parse(storedBoard) : Array(boardWidth.value).fill(0).map(() => Array(boardHeight.value).fill(0)))
 
-export const board = reactive(
+/*export const board = reactive(
   [
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0],
@@ -47,7 +61,7 @@ export const board = reactive(
     [0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0]
   ]
-)
+)*/
 
 watch(board,(newBoard) => {localStorage.setItem('board', JSON.stringify(newBoard))},{ deep: true })
 
@@ -67,7 +81,7 @@ const storedBotGame = localStorage.getItem('botGame')
 export const botGame = ref<boolean>(storedBotGame ? JSON.parse(storedBotGame) : true)
 watch(botGame, (newBotGame) => {localStorage.setItem('botGame', JSON.stringify(newBotGame))}, {deep: true })
 
-export const gameMode = ref<string>(botGame.value ? 'Player vs Bot' : 'Player vs Player')
+export const gameMode = ref<string>(botVBot.value ? 'Bot vs Bot' : botGame.value ? 'Player vs Bot' : 'Player vs Player')
 
 const storedFirst_player = localStorage.getItem('first_player')
 export const first_player = ref<string>(storedFirst_player ? JSON.parse(storedFirst_player): 'Player 1')
@@ -82,5 +96,5 @@ export const playerStatus = ref<number>(storedPlayerStatus ? JSON.parse(storedPl
 watch(playerStatus,(newPlayerStatus) => {localStorage.setItem('playerStatus', JSON.stringify(newPlayerStatus))},{ deep: true })
 
 const storedPlayerTurn = localStorage.getItem('playerTurn')
-export const playerTurn = ref<boolean>(storedPlayerTurn ?  JSON.parse(storedPlayerTurn) : true)
+export const playerTurn = ref<boolean>(storedPlayerTurn ?  JSON.parse(storedPlayerTurn) : botVBot.value ? false : true)
 watch(playerTurn,(newPlayerTurn) => {localStorage.setItem('playerTurn', JSON.stringify(newPlayerTurn))},{ deep: true })
