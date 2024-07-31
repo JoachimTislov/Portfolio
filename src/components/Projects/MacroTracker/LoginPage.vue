@@ -2,19 +2,124 @@
 
 import { RouterLink } from 'vue-router';
 
-const username = ''
-const password = ''
-let isUsernameValid = false
-let isPasswordValid = false
+import { ref, onMounted } from 'vue'
+import router from '@/router';
 
-function checkIfPasswordIsValid(input_name: string, className: string) {
-    return false
+onMounted(() => {
+    username_validation_message.value?.focus()
+    password_validation_message.value?.focus()
+})
+
+const username = ref<string>('Peddi')
+const password = ref<string>('peder@123')
+
+const username_validation_message = ref<HTMLInputElement | null>(null)
+const password_validation_message = ref<HTMLInputElement | null>(null)
+
+const isUsernameValid = ref<boolean>(true)
+const isPasswordValid = ref<boolean>(true)
+
+function checkValidation(alertDiv: HTMLElement, identifier: string, inputClassName: string) {
+    if(alertDiv.innerHTML == "") {
+        alertDiv.className = "ml-2 valid-feedback";
+        alertDiv.innerHTML = "Valid " + identifier;
+        (event?.target as HTMLElement).className = inputClassName +  " is-valid";
+
+        return true
+    } else {
+        return false
+    }
 }
 
-function checkIfUsernameIsValid(input_name: string, className: string) {
-    return false
+function changeAlertDivToInvalid(alertDiv: HTMLInputElement, inputClassName: string) {
+    alertDiv.className = "ml-2 invalid-feedback";
+    (event?.target as HTMLElement).className = inputClassName + " is-invalid";
 }
 
+function checkIfUsernameIsValid(inputClassName: string) {
+    const div = username_validation_message.value
+
+    if (!div) return false
+
+    div.innerHTML = ""
+
+    div.style.display = "block"
+    if(username.value.trim().length <= 3 || username.value.trim().length > 12 || !(/^[A-zA-Z0-9]+$/.test(username.value))) {
+        changeAlertDivToInvalid(div, inputClassName)
+    
+        if(username.value.trim().length < 3 || username.value.trim().length > 12) {
+            div.innerHTML = "Invalid length, 3 - 12 characters <br>"
+        }
+        if(!(/^[A-zA-Z0-9]+$/.test(username.value)) && username.value.trim().length > 0) {
+            div.innerHTML += "Only letters and numbers are allowed"
+        }
+    } 
+    return checkValidation(div, 'username', inputClassName)
+}
+
+function checkIfPasswordIsValid(inputClassName: string) {
+    const div = password_validation_message.value
+
+    if (!div) return false
+
+    div.innerHTML = ""
+
+    div.style.display = "block"
+    if(password.value.trim().length < 9 || password.value.trim().length > 50 || !(/(?=.*[@$£<`'^])/.test(password.value))) {
+        changeAlertDivToInvalid(div, inputClassName)
+        
+        if(password.value.trim().length < 9 || password.value.trim().length > 50) {
+            div.innerHTML = "Invalid length, 9 - 50 characters <br>"
+        }
+
+        if(!(/(?=.*[@$£<`'^:}])/.test(password.value)) && password.value.trim().length > 0) {
+            div.innerHTML += "One special character is needed"
+        }
+    }
+    return checkValidation(div, 'password', inputClassName)
+}
+
+
+
+async function login() {
+    if (isPasswordValid.value && isUsernameValid.value) {
+        try {
+
+        console.log('Loggin in')
+
+        const json = JSON.stringify({
+            "username": username.value,
+            "password": password.value
+        });
+
+        const response = await fetch('http://127.0.0.1:5000/login', {
+            method: 'POST',  
+            headers: { 
+                'Content-Type': 'application/json',  
+            },
+            body: json
+        });
+
+        // Check if the response is OK (status in the range 200-299)
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+ 
+        const result = (await response.json());
+
+        console.log('successfully received token', result.token)
+
+        localStorage.setItem('token', result.token)
+
+        console.log('Moving to home')
+        router.push({ name: 'macroHome' });
+            
+        } catch (error) {
+            alert('Error loging in: ' + error);
+        }
+    }   
+    
+}
 </script>
 
 <template>
@@ -25,25 +130,24 @@ function checkIfUsernameIsValid(input_name: string, className: string) {
                     <div id="login_alert" class="alert alert-success"> <h5> <strong> Hello </strong> </h5>  </div>
                     <h1 class="card-title">Macro Tracker </h1>
                     
-                    <form @submit.prevent>
+                    <form>
                         <div class="form-group">
-                            <input @input="isUsernameValid = checkIfUsernameIsValid('username_invalid', 'form-control form-control-lg')" class="form-control form-control-lg" type="text" v-model="username" placeholder="Username" required>
-                            <div id="username_invalid" class="ml-3 invalid-feedback" style="display: none;"></div>
+                            <input @input="isUsernameValid = checkIfUsernameIsValid('form-control form-control-lg')" class="form-control form-control-lg" type="text" v-model="username" placeholder="Username" required>
+                            <div ref="username_validation_message" class="ml-3 invalid-feedback" style="display: none;"></div>
                         </div>
 
                         <div class="form-group">
-                            <input @input="isPasswordValid = checkIfPasswordIsValid('password_invalid', 'mt-2 form-control form-control-lg')" class="mt-2 form-control form-control-lg" type="password" v-model="password" placeholder="Password" required>
-                            <div id="password_invalid" class="ml-3 mb-1 invalid-feedback" style="display: none;"></div>
+                            <input @input="isPasswordValid = checkIfPasswordIsValid('mt-2 form-control form-control-lg')" class="mt-2 form-control form-control-lg" type="password" v-model="password" placeholder="Password" required>
+                            <div ref="password_validation_message" class="ml-3 mb-1 invalid-feedback" style="display: none;"></div>
                         </div>
 
-                        <div class="form-group"> 
-                            <RouterLink class="btn btn-link" to="">
-                                 Register an account
-                            </RouterLink>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-lg btn-outline-primary btn-block" @click="console.log('log in')"> Login </button>
-                        </div>
+                        <RouterLink class="btn btn-link" to="">
+                                Register an account
+                        </RouterLink>
+
+                        <br>
+
+                        <button type="submit" class="btn btn-lg btn-outline-primary btn-block" @click.stop.prevent="login()"> Login </button>
                     </form>
                 </div>
             </div>

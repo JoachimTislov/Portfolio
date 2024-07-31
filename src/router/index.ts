@@ -67,21 +67,18 @@ const router = createRouter({
   ] 
 })
 
+function isAuthenticated() {
+ 
+  return localStorage.getItem('token')
+
+}
+
 router.beforeEach((to, from, next) => {
-  if (to.meta.requiresAuth) {
+    if (to.meta.requiresAuth && !isAuthenticated()) {
 
-      const token = localStorage.getItem('token');
-      if (token) {
-          
-        next();
-
-      } else {
-        
-        next({ name: to.meta.authRedirect as string });
-      }
-
+      next({ name: to.meta.authRedirect as string });
+      
     } else {
-      // Non-protected route, allow access
       next();
     }
   }
