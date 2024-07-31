@@ -64,7 +64,7 @@ export const searchForBestChoice = async (board: number[][]) => {
 
       const playerHasMoreTwoInARow = botTwoInARows.length <= playerTwoInARows.length
       const targetArr = playerHasMoreTwoInARow ? playerTwoInARows : botTwoInARows 
-      const participant = playerHasMoreTwoInARow ? playerStatus.value :  botValue 
+      const participant = playerHasMoreTwoInARow ? playerStatus.value :  botValue.value
 
       const amountOfEach: { [key: string]: {count: number, coordinates: number[]} } = {}
     
@@ -72,7 +72,7 @@ export const searchForBestChoice = async (board: number[][]) => {
 
           const coordKey: string = JSON.stringify(item.coordinates);
 
-          if (participant == botValue) {
+          if (participant == botValue.value) {
             console.log('Blocking two in a row: ', item)
           } else {
             console.log('Building two in a row: ', item)

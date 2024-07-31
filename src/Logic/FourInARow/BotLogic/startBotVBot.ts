@@ -1,4 +1,4 @@
-import { botValue, GameOver, Stop } from "../GameLogic/variables"
+import { botValue, GameOver, playerStatus, Stop } from "../GameLogic/variables"
 import { initiateAlgorithms } from "./BotInit"
 
 export const startBotVBot = async (board: number[][]) => {
@@ -8,7 +8,7 @@ export const startBotVBot = async (board: number[][]) => {
   try {
     while (!GameOver.value && !Stop.value && counter <= 42) {
 
-        botValue.value = botValue.value == 3 ? 5 : 3
+        botValue.value = botValue.value == 3 ? playerStatus.value : 3
         await initiateAlgorithms(board);
 
         counter++
@@ -17,6 +17,8 @@ export const startBotVBot = async (board: number[][]) => {
     console.error('An error occurred during the game loop:', error);
   } finally {
     console.log('Game loop has ended.');
+
+    Stop.value = true
     // Perform any necessary cleanup here
   }
   

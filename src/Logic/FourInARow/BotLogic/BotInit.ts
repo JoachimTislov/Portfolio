@@ -7,8 +7,8 @@ import {
   botValue,
   botChoices,
   losing_Coordinates,
-  boardWidth,
   botVBot,
+  boardWidth,
 } from '../GameLogic/variables'
 
 import type {
@@ -31,11 +31,14 @@ import { getOtherZeroCoordinatesIndex } from './Algorithms/get/getOtherZeroOrAst
 import { pieces } from '../GameLogic/pieces'
 import { getRandomNumber } from './Algorithms/get/getRandomNumber'
 
+
 export const initiateAlgorithms = async (board: number[][]) => {
 
   const row = getRandomNumber(boardWidth.value - 1)
-  if (pieces.value == 0 && row) return await botMove(board, row, 0)
- 
+  if (pieces.value == 0 && row) {
+    return await botMove(board, row, 0)
+  } 
+
   const participants = [
     {id: botValue.value, scan: scanBoard(board, botValue.value)}, 
   ]
@@ -46,8 +49,6 @@ export const initiateAlgorithms = async (board: number[][]) => {
   } else {
     participants.push({id: playerStatus.value, scan: scanBoard(board, playerStatus.value)})
   }
-
-  console.log(participants)
 
   for (const participant of participants) {
     for (const structure of participant.scan) {

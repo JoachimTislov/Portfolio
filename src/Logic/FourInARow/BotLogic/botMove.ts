@@ -29,10 +29,10 @@ export const botMove = async (board: number[][], row: number, slot: number) => {
   return [row, slot]
 }
 
-export const executePlacement = async (board: number[][], row: number, slot: number, playerValue: number) => {
+export const executePlacement = async (board: number[][], row: number, slot: number, participant: number) => {
   
-  placePiece(board, row, slot, playerValue)
-  logMove([row, slot])
+  placePiece(board, row, slot, participant)
+  logMove([row, slot], participant)
 
   incrementPieces()
 
@@ -40,6 +40,6 @@ export const executePlacement = async (board: number[][], row: number, slot: num
 
   toggleButtons(false)
   
-  await checkWinner(true)
+  await checkWinner()
   await checkForTie(pieces.value)
 } 

@@ -7,6 +7,19 @@ export type spotInfo = {
   coords: number[][]
 }
 
+export type gameLog = {
+  coords: number[], 
+  participant: number
+}[]
+
+export type _logOverEarlierGames = {
+  [key: string]: {
+    board: number[][]
+    log: gameLog
+    piece_count: string
+  }[]
+}
+
 export type _losingCoordinates = {
   coordinates: number[]
   direction: string

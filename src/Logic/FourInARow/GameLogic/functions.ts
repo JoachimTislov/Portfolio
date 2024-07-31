@@ -1,13 +1,10 @@
 import { checkForLoop } from '../BotLogic/Algorithms/checks/checkForLoop'
 import { resetChoices } from '../BotLogic/BotInit'
-import { startBotVBot } from '../BotLogic/startBotVBot'
-
 import { delay } from '../delay'
 import { decrementPieces } from './pieces'
-import { resetGame } from './resetGame'
 
 import { board, boardHeight, boardWidth, botGame, botValue, botVBot, droppingPiece, gameMode, 
-  GameOver, log, losing_Coordinates, nonStopTesting, playerStatus, playerTurn, ShowBoard, ShowWinner, Stop, waitingTime, winnerMsg } from './variables'
+  GameOver, log, losing_Coordinates, playerStatus, ShowBoard, ShowWinner, Stop, waitingTime, winnerMsg } from './variables'
 
 export function toggleButtons(bool: boolean) {
     droppingPiece.value = bool
@@ -48,15 +45,15 @@ export function getNumber() {
   return botGame.value ? 1 : 0
 }
 
-export const previousMove = () => {
-  const remove_last_move = () => {
-    const [x, y]: number[] = log.value.pop() ?? [-1, 0]
-    if (x != -1) {
-      board[x][y] = 0
-      decrementPieces();
-    }
+const remove_last_move = () => {
+  const [x, y]: number[] = log.value.pop()?.coords ?? [-1, 0]
+  if (x != -1) {
+    board[x][y] = 0
+    decrementPieces();
   }
+}
 
+export const previousMove = () => {
   GameOver.value = false
   losing_Coordinates.value = []
 

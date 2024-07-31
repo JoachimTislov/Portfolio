@@ -18,3 +18,16 @@ export const arraysEqual = (arr1: (string | number)[], arr2: (string | number)[]
   }
   return true
 }
+
+
+export const checkIfTwo2DArraysEqual = (arr1: number[][], arr2: number[][]) => {
+  
+  if (arr1.length !== arr2.length) return false;
+
+  for (let i = 0; i < arr1.length; i++) {
+    if (!arraysEqual(arr1[i], arr2[i])) return false
+  } 
+
+  return true
+
+}

@@ -12,7 +12,7 @@ export const find_all_related_moves_to_given_pattern = (
     
       const [x, y] = entry.coordinates
 
-      const targetArr = entry.player_identifier == botValue ? arr.bots_opportunities : arr.player_threats
+      const targetArr = entry.player_identifier == botValue.value ? arr.bots_opportunities : arr.player_threats
 
       if (arraysEqual(entry.pattern, [0, '*', 1, 1])) console.log(colIndex, [x, y], entry.coordinates[1], zeroCoords[1])
 

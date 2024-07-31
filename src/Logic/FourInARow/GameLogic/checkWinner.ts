@@ -1,7 +1,8 @@
 import { checkForLoop } from "../BotLogic/Algorithms/checks/checkForLoop"
-import { board, botGame, botValue, botVBot, GameOver, playerStatus, ShowWinner, winnerMsg } from "./variables"
+import { checkIfTwo2DArraysEqual } from "../BotLogic/ArrayLogic"
+import { board, botGame, botValue, botVBot, GameOver, playerStatus, ShowWinner, winnerMsg, log, logOverEarlierGames } from "./variables"
 
-export const checkWinner = async (boolCheck: boolean) => {
+export const checkWinner = async () => {
   //check vertical
   for (let j = 0; j < 7; j++) {
     for (let i = 0; i < 4; i++) {
@@ -9,7 +10,7 @@ export const checkWinner = async (boolCheck: boolean) => {
 
       const coords = [[j,i],[j,i + 1], [j,i + 2], [j,i + 3]]
 
-      const result = await loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values)
       if (result != false) {
         return result
       }
@@ -23,7 +24,7 @@ export const checkWinner = async (boolCheck: boolean) => {
 
       const coords = [[j,i],[j + 1,i], [j + 2,i], [j + 3,i]]
 
-      const result = await loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values)
       if (result != false) {
         return result
       }
@@ -37,7 +38,7 @@ export const checkWinner = async (boolCheck: boolean) => {
 
       const coords = [[j,i],[j + 1,i + 1], [j + 2,i + 2], [j + 3,i + 3]]
 
-      const result = await loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values)
       if (result != false) {
         return result
       }
@@ -51,7 +52,7 @@ export const checkWinner = async (boolCheck: boolean) => {
 
       const coords = [[j,i],[j - 1,i + 1], [j - 2,i + 2], [j - 3,i + 3]]
 
-      const result = await loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values)
       if (result != false) {
         return result
       }
@@ -59,28 +60,56 @@ export const checkWinner = async (boolCheck: boolean) => {
   }
 }
 
-const loopThroughValues = async (coordinates: number[][], values: number[], boolCheck: boolean) => {
+const loopThroughValues = async (coordinates: number[][], values: number[]) => {
   const participants: number[] = [playerStatus.value, botValue.value]
 
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < participants.length; i++) {
     if (
       values[0] == participants[i] &&
       values[1] == participants[i] &&
       values[2] == participants[i] &&
       values[3] == participants[i]
     ) {
-      if (boolCheck) {
+        if (!botVBot.value) {
+          for (const coords of coordinates) {
+            const [x,y] = coords
+            board[x][y] = 4
+          }
+        }
+   
+        const mistakenMove: string = JSON.stringify(log.value[log.value.length - 2].coords)
 
-        for (const coords of coordinates) {
-          const [x,y] = coords
-          board[x][y] = 4
+        const entry = {
+            board: board,
+            log: log.value,
+            piece_count: 'Three'
         }
 
+        console.log(!logOverEarlierGames.value[mistakenMove], )
+
+        if (!logOverEarlierGames.value[mistakenMove]) {
+          logOverEarlierGames.value[mistakenMove] = [entry]
+        } else {
+
+          let alreadyAdded = false
+          for (const member of logOverEarlierGames.value[mistakenMove]) {
+            const result = checkIfTwo2DArraysEqual(member.board, entry.board)
+            if (result) {
+              alreadyAdded = true
+              console.log('bad move is already added bad move', member.board, entry.board, mistakenMove)
+              break
+            }
+          } 
+          if (!alreadyAdded)  {
+            console.log('Adding bad move')
+            logOverEarlierGames.value[mistakenMove].push(entry)
+          }
+        }
+        
+        console.log(logOverEarlierGames.value)
+
         return await determineWinner(participants[i])
-      } else {
-        return true
-      }
-    }
+      } 
   }
   return false
 }

@@ -33,7 +33,7 @@ const checkCoordinatesStatus = async (board: number[][], piece_count: string, pa
 export const handleLosingChoices = async (board: number[][]) => {
  
   for (const piece_count of ['Two', 'Three']) {
-    for (const value of [botValue, playerStatus.value]) {
+    for (const value of [botValue.value, playerStatus.value]) {
       const result = await checkCoordinatesStatus(board,piece_count, value)
       if (result != false) return result
     }

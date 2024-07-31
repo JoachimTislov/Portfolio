@@ -1,6 +1,6 @@
-import { botValue, playerStatus } from "../GameLogic/variables";
+import { botValue, botVBot, playerStatus } from "../GameLogic/variables";
 import type { possible_Coordinates } from "../Types";
-import { arraysEqual, checkIfArrayInThe2DArrayEqualArray } from "./ArrayLogic";
+import { checkIfArrayInThe2DArrayEqualArray } from "./ArrayLogic";
 import { prime_two_in_a_row_pattern } from "./PatternLogic";
 
 export const structureCases = (entry: possible_Coordinates) => {
@@ -45,11 +45,11 @@ export const structureCases = (entry: possible_Coordinates) => {
   const firstOtherPossiblePlacementBotOpportunityIsThree = firstOtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
   
   const twoPieceCount = entry.piece_count == 'Two'
-  const twoAndBot = twoPieceCount && twoPieceCount
-  const twoAndPlayer = twoPieceCount && twoAndBot
+  const twoAndBot = twoPieceCount && entry.participant == botValue.value
+  const twoAndPlayer = twoPieceCount && entry.participant == playerStatus.value
 
-  const prioritizeTwoWithoutOpportunity = !(twoPieceCount && entry.participant == botValue && !firstBotOpportunityIsTwo && firstOtherPossiblePlacementBotOpportunityIsTwo)
-  const prioritizeTwoWithThreat = !(twoPieceCount && entry.participant == playerStatus.value && !firstPlayerThreatIsTwo && firstOtherPossiblePlacementPlayerThreatIsTwo)
+  const prioritizeTwoWithoutOpportunity = !(twoAndBot && !firstBotOpportunityIsTwo && firstOtherPossiblePlacementBotOpportunityIsTwo)
+  const prioritizeTwoWithThreat = !(twoAndBot && !firstPlayerThreatIsTwo && firstOtherPossiblePlacementPlayerThreatIsTwo)
 
   const prime_two = checkIfArrayInThe2DArrayEqualArray(prime_two_in_a_row_pattern(entry.participant), entry.pattern)
 

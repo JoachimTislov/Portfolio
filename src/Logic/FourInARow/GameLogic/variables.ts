@@ -1,6 +1,6 @@
 import { ref, watch, reactive } from "vue"
 
-import type { _losingCoordinates, possible_Choices, possible_Coordinates } from '../Types'
+import type { _logOverEarlierGames, _losingCoordinates, gameLog, possible_Choices, possible_Coordinates } from '../Types'
 
 export const droppingPiece = ref<boolean>(false)
 
@@ -88,7 +88,7 @@ export const first_player = ref<string>(storedFirst_player ? JSON.parse(storedFi
 watch(first_player,(newFirst_player) => {localStorage.setItem('first_player', JSON.stringify(newFirst_player))},{ deep: true })
 
 const storedLog = localStorage.getItem('log')
-export const log = ref<number[][]>(storedLog ? JSON.parse(storedLog) : [])
+export const log = ref<gameLog>(storedLog ? JSON.parse(storedLog) : [])
 watch(log,(newLog) => {localStorage.setItem('log', JSON.stringify(newLog))},{ deep: true })
 
 const storedPlayerStatus = localStorage.getItem('playerStatus')
@@ -98,3 +98,6 @@ watch(playerStatus,(newPlayerStatus) => {localStorage.setItem('playerStatus', JS
 const storedPlayerTurn = localStorage.getItem('playerTurn')
 export const playerTurn = ref<boolean>(storedPlayerTurn ?  JSON.parse(storedPlayerTurn) : botVBot.value ? false : true)
 watch(playerTurn,(newPlayerTurn) => {localStorage.setItem('playerTurn', JSON.stringify(newPlayerTurn))},{ deep: true })
+
+
+export const logOverEarlierGames = ref<_logOverEarlierGames>({})

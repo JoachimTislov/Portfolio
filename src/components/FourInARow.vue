@@ -111,7 +111,7 @@ import {
               <template v-if="ShowWinner"> Run </template> 
               <template v-else> Start </template>
             </button>
-            <button class="btn btn-danger" :disabled="ShowWinner" @click="Stop = true"> Stop </button>
+            <button class="btn btn-danger" :disabled="ShowWinner || Stop == true" @click="Stop = true"> Stop </button>
           </div>
           
           <button v-if="nonStopTesting" class="btn btn-info mt-1 mb-2" @click="nonStopTesting = false">  Loop </button>
