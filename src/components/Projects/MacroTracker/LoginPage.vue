@@ -5,86 +5,23 @@ import { RouterLink } from 'vue-router';
 import { ref, onMounted } from 'vue'
 import router from '@/router';
 import { token } from '@/Logic/MacroTracker/token';
+import { initAlertElements, password_validation_message, ValidateText } from '@/Logic/MacroTracker/validation';
 
 const login_alert_message = ref<string>('Welcome to the login page')
-    
+const username_validation_message = ref<HTMLElement | null>(null)
+
 onMounted(() => {
-    username_validation_message.value?.focus()
-    password_validation_message.value?.focus()
+    initAlertElements()
     login_alert.value?.focus()
 })
 
 const username = ref<string>('Peddi')
 const password = ref<string>('peder@123')
 
-const username_validation_message = ref<HTMLInputElement | null>(null)
-const password_validation_message = ref<HTMLInputElement | null>(null)
 const login_alert = ref<HTMLElement | null>(null)
 
 const isUsernameValid = ref<boolean>(true)
 const isPasswordValid = ref<boolean>(true)
-
-function checkValidation(alertDiv: HTMLElement, identifier: string, inputClassName: string) {
-    if(alertDiv.innerHTML == "") {
-        alertDiv.className = "ml-2 valid-feedback";
-        alertDiv.innerHTML = "Valid " + identifier;
-        (event?.target as HTMLElement).className = inputClassName +  " is-valid";
-
-        return true
-    } else {
-        return false
-    }
-}
-
-function changeAlertDivToInvalid(alertDiv: HTMLInputElement, inputClassName: string) {
-    alertDiv.className = "ml-2 invalid-feedback";
-    (event?.target as HTMLElement).className = inputClassName + " is-invalid";
-}
-
-function checkIfUsernameIsValid(inputClassName: string) {
-    const div = username_validation_message.value
-
-    if (!div) return false
-
-    div.innerHTML = ""
-
-    div.style.display = "block"
-    if(username.value.trim().length <= 3 || username.value.trim().length > 12 || !(/^[A-zA-Z0-9]+$/.test(username.value))) {
-        changeAlertDivToInvalid(div, inputClassName)
-    
-        if(username.value.trim().length < 3 || username.value.trim().length > 12) {
-            div.innerHTML = "Invalid length, 3 - 12 characters <br>"
-        }
-        if(!(/^[A-zA-Z0-9]+$/.test(username.value)) && username.value.trim().length > 0) {
-            div.innerHTML += "Only letters and numbers are allowed"
-        }
-    } 
-    return checkValidation(div, 'username', inputClassName)
-}
-
-function checkIfPasswordIsValid(inputClassName: string) {
-    const div = password_validation_message.value
-
-    if (!div) return false
-
-    div.innerHTML = ""
-
-    div.style.display = "block"
-    if(password.value.trim().length < 9 || password.value.trim().length > 50 || !(/(?=.*[@$£<`'^])/.test(password.value))) {
-        changeAlertDivToInvalid(div, inputClassName)
-        
-        if(password.value.trim().length < 9 || password.value.trim().length > 50) {
-            div.innerHTML = "Invalid length, 9 - 50 characters <br>"
-        }
-
-        if(!(/(?=.*[@$£<`'^:}])/.test(password.value)) && password.value.trim().length > 0) {
-            div.innerHTML += "One special character is needed"
-        }
-    }
-    return checkValidation(div, 'password', inputClassName)
-}
-
-
 
 async function login() {
     if (isPasswordValid.value && isUsernameValid.value) {
@@ -145,12 +82,12 @@ async function login() {
                     
                     <form>
                         <div class="form-group">
-                            <input @input="isUsernameValid = checkIfUsernameIsValid('form-control form-control-lg')" class="form-control form-control-lg" type="text" v-model="username" placeholder="Username" required>
+                            <input @input="isUsernameValid = ValidateText($event, username_validation_message, 'Username', 'form-control form-control-lg')" class="form-control form-control-lg" type="text" v-model="username" placeholder="Username" required>
                             <div ref="username_validation_message" class="ml-3 invalid-feedback" style="display: none;"></div>
                         </div>
 
                         <div class="form-group">
-                            <input @input="isPasswordValid = checkIfPasswordIsValid('mt-2 form-control form-control-lg')" class="mt-2 form-control form-control-lg" type="password" v-model="password" placeholder="Password" required>
+                            <input @input="isPasswordValid = ValidateText($event, password_validation_message, 'Password', 'mt-2 form-control form-control-lg')" class="mt-2 form-control form-control-lg" type="password" v-model="password" placeholder="Password" required>
                             <div ref="password_validation_message" class="ml-3 mb-1 invalid-feedback" style="display: none;"></div>
                         </div>
 

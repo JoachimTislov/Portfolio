@@ -52,7 +52,7 @@ const router = createRouter({
           meta: { requiresAuth: false }
         },
         {
-          path: 'home', 
+          path: '', 
           name: 'macroHome', 
           component: () => import('../views/MacroTracker/HomeView.vue'),
           meta: { requiresAuth: true, authRedirect: macroLogin}
