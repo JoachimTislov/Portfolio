@@ -1,3 +1,4 @@
+import { token } from '@/Logic/MacroTracker/token';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const macroLogin = 'macroLogin'
@@ -67,22 +68,16 @@ const router = createRouter({
   ] 
 })
 
-function isAuthenticated() {
- 
-  return localStorage.getItem('token')
-
-}
-
 router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && !isAuthenticated()) {
+    if (to.meta.requiresAuth && !token.value) {
 
       next({ name: to.meta.authRedirect as string });
       
     } else {
+      console.log('Routing to website')
       next();
     }
   }
 );
-
 
 export default router

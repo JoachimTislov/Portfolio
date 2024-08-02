@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router';
 
 import { ref, onMounted } from 'vue'
 import router from '@/router';
+import { token } from '@/Logic/MacroTracker/token';
 
 const login_alert_message = ref<string>('Welcome to the login page')
     
@@ -89,41 +90,42 @@ async function login() {
     if (isPasswordValid.value && isUsernameValid.value) {
         try {
 
-        console.log('Loggin in')
+            console.log('Loggin in')
 
-        const json = JSON.stringify({
-            "username": username.value,
-            "password": password.value
-        });
+            const json = JSON.stringify({
+                "username": username.value,
+                "password": password.value
+            });
 
-        const response = await fetch(`${import.meta.env.VITE_LOCAL_API_WEB_URL}/login`, {
-            method: 'POST',  
-            headers: { 
-                'Content-Type': 'application/json',
-                'Authorization': import.meta.env.VITE_API_KEY
-            },
-            body: json
-        });
+            const response = await fetch(`${import.meta.env.VITE_LOCAL_API_WEB_URL}/login`, {
+                method: 'POST',  
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Authorization': import.meta.env.VITE_API_KEY
+                },
+                body: json
+            });
 
-        const result = await response.json();
+            const result = await response.json();
 
-        login_alert_message.value = result.message
-        login_alert.value!.className = "alert alert-danger"
+            if (!response.ok) {
+                console.log(response)
+                login_alert_message.value = result.message
+                login_alert.value!.className = "alert alert-danger"
+                throw new Error(`HTTP error! Status: ${response.status}`);
 
-        // Check if the response is OK (status in the range 200-299)
-        if (!response.ok) {
-            console.log(response)
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
- 
-        console.log('successfully received token', result.token)
+            } else {
 
-        localStorage.setItem('token', result.token)
-        localStorage.setItem('user_id', result.user_id)
+                console.log('successfully received token', result.token)
 
-        console.log('Moving to home')
-        router.push({ name: 'macroHome' });
-            
+                token.value = result.token
+                localStorage.setItem('user_id', result.user_id)
+
+                console.log('Moving to home')
+
+                router.push({ name: 'macroHome' })
+            }
+
         } catch (error) {
             alert('Error loging in: ' + error);
         }

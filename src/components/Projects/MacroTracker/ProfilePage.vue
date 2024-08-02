@@ -1,41 +1,67 @@
 <script setup lang="ts">
 import router from '@/router';
 import { onMounted, ref } from 'vue';
-
 import user_icon from '@/assets/Icons/user-icon.png'
+import { token } from '@/Logic/MacroTracker/token';
 
 const alert_message = ref<string>('Hello fellow user')
 const profilePictureUrl = ref<string>(user_icon)
 const file = ref<File | undefined>(undefined)
-const userInfo = ref<any | undefined>(undefined)
+//const userInfo = ref<any | undefined>(undefined)
 
 async function fetchResource(url: string) {
-    const token = localStorage.getItem('token')
-    if (!token) {
+    if (!token.value) {
          router.push({ name: 'macroLogin'})
     } else {
+        const user_id = localStorage.getItem('user_id')
+
         try {
-            console.log('Fetching resource at: ', import.meta.env.VITE_LOCAL_API_WEB_URL + url)
-            const response = await fetch(import.meta.env.VITE_LOCAL_API_WEB_URL + url, {
+            console.log('Fetching resource at: ', import.meta.env.VITE_LOCAL_API_WEB_URL + url + user_id)
+            const response = await fetch(import.meta.env.VITE_LOCAL_API_WEB_URL + url + user_id, {
                 headers: {
-                    'Authorization': token 
+                    'Authorization': token.value
                 }
             });
-            const data = await response.json();
+            
+            if (!response.ok) {
+                const message = (await response.json()).message;
+                console.log(message)
+            } else if (response.status == 401) {
+                localStorage.removeItem('token')
+                router.push({ name: 'macroLogin'})
+            } else {
 
-            return data
+                const blob = await response.blob()
 
-        } catch (error) {
-            console.log('Error loading user information:' + error);
-            alert(`Network error: ${error}`)
+                const imageUrl = URL.createObjectURL(blob)
+
+                localStorage.setItem('imageUrl', imageUrl)
+
+                return imageUrl
+            }
+        } catch(Error) {
+            console.log('Fetch failed: ', Error)
         }
+    
     }
 } 
 
 onMounted(async () => {
-    userInfo.value = await fetchResource(`/user_info/${localStorage.getItem('user_id')}`)
-    if (userInfo.value.profile_picture_link) profilePictureUrl.value = userInfo.value.profile_picture_link
+    //userInfo.value = await fetchResource('/user_info/')
+    initPicture()
 })
+
+async function initPicture() {
+    const imageUrl = localStorage.getItem('imageUrl')
+    
+    if (imageUrl) {
+        profilePictureUrl.value = imageUrl
+    } else {
+        const userPictureURL = await fetchResource('/user_picture/')
+        console.log(userPictureURL)
+        if (userPictureURL) profilePictureUrl.value = userPictureURL
+    }
+}
 
 function handleFileUpload(event: Event) {
     console.log('Handling file upload')
@@ -64,28 +90,25 @@ async function uploadProfilePicture(file: File | undefined) {
         const formData = new FormData();
         formData.append('file', file);
         
-        const token = localStorage.getItem('token')
-
-        if (!token) {
+        if (!token.value) {
             return router.push({ name: 'macroLogin' })
         }
 
-        /*await fetch('http://127.0.0.1:5000/profile_picture', {
-            method: 'DELETE',
-            headers: { 
-                'Authorization': token
-            },
-        });*/
+        await deleteProfilePicture()
 
         const response = await fetch('http://127.0.0.1:5000/profile_picture', {
             method: 'POST',
             body: formData,
             headers: { 
-                'Authorization': token
+                'Authorization': token.value
             },
         });
 
         console.log((await response.json()).message)
+
+        if (response.status == 401) {
+            router.push({ name: 'macroLogin'})
+        }
 
         if (response.status != 200) {
             console.log("Error when uploading picture.")
@@ -94,7 +117,8 @@ async function uploadProfilePicture(file: File | undefined) {
         }
 
         if (response.ok) {
-           console.log('Uploaded picture')
+            console.log('Uploaded picture')
+            initPicture() 
             //this.$root.alertUserWithMessage('user_alert', this.$root.cookie['Message'], "green")
         }
     } catch (error) {
@@ -105,18 +129,20 @@ async function uploadProfilePicture(file: File | undefined) {
 
 async function deleteProfilePicture() {  
     try {
-        const token = localStorage.getItem('token')
-
-        if (!token) {
+        if (!token.value) {
             return router.push({ name: 'macroLogin' })
-        }
+        } 
 
         const response = await fetch('http://127.0.0.1:5000/profile_picture', {
             method: 'DELETE',
             headers: { 
-                'Authorization': token
+                'Authorization': token.value
             },
         });
+
+        if (response.status == 401) {
+            router.push({ name: 'macroLogin'})
+        }
 
         if(!response.ok) {
             console.log("Error when deleting picture.")
@@ -125,12 +151,13 @@ async function deleteProfilePicture() {
         }
         
         if (response.ok) {
+            profilePictureUrl.value = user_icon
+            localStorage.removeItem('imageUrl')
             console.log("Deleted picture.")
             //this.$root.load_user_info();
             //this.$root.alertUserWithMessage('user_alert', /* message */, "green");
             //file = null; 
         } 
-
     } catch (error) {
         console.error('Error deleting profile picture:', error);
     }
