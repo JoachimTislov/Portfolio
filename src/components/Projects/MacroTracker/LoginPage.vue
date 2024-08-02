@@ -5,9 +5,12 @@ import { RouterLink } from 'vue-router';
 import { ref, onMounted } from 'vue'
 import router from '@/router';
 
+const login_alert_message = ref<string>('Welcome to the login page')
+    
 onMounted(() => {
     username_validation_message.value?.focus()
     password_validation_message.value?.focus()
+    login_alert.value?.focus()
 })
 
 const username = ref<string>('Peddi')
@@ -15,6 +18,7 @@ const password = ref<string>('peder@123')
 
 const username_validation_message = ref<HTMLInputElement | null>(null)
 const password_validation_message = ref<HTMLInputElement | null>(null)
+const login_alert = ref<HTMLElement | null>(null)
 
 const isUsernameValid = ref<boolean>(true)
 const isPasswordValid = ref<boolean>(true)
@@ -92,24 +96,30 @@ async function login() {
             "password": password.value
         });
 
-        const response = await fetch('http://127.0.0.1:5000/login', {
+        const response = await fetch(`${import.meta.env.VITE_LOCAL_API_WEB_URL}/login`, {
             method: 'POST',  
             headers: { 
-                'Content-Type': 'application/json',  
+                'Content-Type': 'application/json',
+                'Authorization': import.meta.env.VITE_API_KEY
             },
             body: json
         });
 
+        const result = await response.json();
+
+        login_alert_message.value = result.message
+        login_alert.value!.className = "alert alert-danger"
+
         // Check if the response is OK (status in the range 200-299)
         if (!response.ok) {
+            console.log(response)
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
  
-        const result = (await response.json());
-
         console.log('successfully received token', result.token)
 
         localStorage.setItem('token', result.token)
+        localStorage.setItem('user_id', result.user_id)
 
         console.log('Moving to home')
         router.push({ name: 'macroHome' });
@@ -118,8 +128,9 @@ async function login() {
             alert('Error loging in: ' + error);
         }
     }   
-    
 }
+
+
 </script>
 
 <template>
@@ -127,7 +138,7 @@ async function login() {
         <div class="container">
             <div class="card" style="max-width: 500px">
                 <div class="card-body">
-                    <div id="login_alert" class="alert alert-success"> <h5> <strong> Hello </strong> </h5>  </div>
+                    <div ref="login_alert" class="alert alert-success"> {{ login_alert_message }} </div>
                     <h1 class="card-title">Macro Tracker </h1>
                     
                     <form>

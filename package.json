@@ -27,6 +27,7 @@
     "bootswatch": "^5.3.3",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
+    "vue-cli-service": "^5.0.10",
     "vue-router": "^4.3.3"
   },
   "devDependencies": {
@@ -36,7 +37,7 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/bootstrap": "^5.2.10",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^20.14.11",
+    "@types/node": "^20.14.13",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
     "@vue/eslint-config-prettier": "^9.0.0",
