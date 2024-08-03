@@ -19,13 +19,15 @@ function checkValidation(event: Event, alert_div: HTMLElement, identifier: strin
     }
 }
 
-export function validateGenderOrActivityLvl(event: Event, identifier: string, alert_div: HTMLElement, inputClassName: string) {
-
+export function validateGenderOrActivityLvl(event: Event, alert_div: HTMLElement | null, identifier: string, inputClassName: string) {
     const GenderOrActivityLvl = (event.target as HTMLSelectElement).value
+
+    if (!alert_div) return false
+
     alert_div.style.display = "block"
 
     if(GenderOrActivityLvl == '0') {
-        alert_div.innerHTML = "Gender is invalid"
+        alert_div.innerHTML = `${identifier} is invalid`
         changeAlertDivToInvalid(event, alert_div, inputClassName)
     }
     return checkValidation(event, alert_div, identifier, inputClassName)
@@ -44,8 +46,6 @@ export function ValidateText(event: Event, alert_div: HTMLElement | null, identi
     const min = requirements.min ? value.trim().length < requirements.min : undefined
     const max = requirements.max ? value.trim().length > requirements.max : undefined
     const regex = requirements.regExp ? !(requirements.regExp.test(value)) : undefined
-
-    console.log(regex, requirements.regExp)
 
     if(min || max || regex) {
 
@@ -70,18 +70,28 @@ type Text_validation_requirements = {
         unit: string | undefined
         regExp: RegExp | undefined
         regMessage: string | undefined
-        alert_div: HTMLElement | null
     } 
 }
 
 // Init html div alert elements
+
+// login
 export const username_validation_message = ref<HTMLElement | null>(null)
 export const password_validation_message = ref<HTMLElement | null>(null)
-export const name_validation_message = ref<HTMLElement | null>(null)
-export const email_validation_message = ref<HTMLElement | null>(null)
-export const weight_validation_message = ref<HTMLElement | null>(null)
-export const height_validation_message = ref<HTMLElement | null>(null)
-export const age_validation_message = ref<HTMLElement | null>(null)
+
+// register
+export const register_username_validation_message = ref<HTMLElement | null>(null)
+export const register_password_validation_message = ref<HTMLElement | null>(null)
+export const register_confirm_password_validation_message = ref<HTMLElement | null>(null)
+export const register_name_validation_message = ref<HTMLElement | null>(null)
+export const register_weight_validation_message = ref<HTMLElement | null>(null)
+export const register_height_validation_message = ref<HTMLElement | null>(null)
+export const register_age_validation_message = ref<HTMLElement | null>(null)
+export const register_gender_validation_message = ref<HTMLElement | null>(null)
+export const register_activityLvl_validation_message = ref<HTMLElement | null>(null)
+export const register_email_validation_message = ref<HTMLElement | null>(null)
+
+
 export const mealName_validation_message = ref<HTMLElement | null>(null)
 export const nutrient_validation_message = ref<HTMLElement | null>(null)
 export const ingredientName_validation_message = ref<HTMLElement | null>(null)
@@ -93,11 +103,19 @@ export const minutes_validation_message = ref<HTMLElement | null>(null)
 export function initAlertElements() {
     username_validation_message.value?.focus()
     password_validation_message.value?.focus()
-    name_validation_message.value?.focus()
-    email_validation_message.value?.focus()
-    weight_validation_message.value?.focus()
-    height_validation_message.value?.focus()
-    age_validation_message.value?.focus()
+
+    register_username_validation_message.value?.focus()
+    register_password_validation_message.value?.focus() 
+    register_confirm_password_validation_message.value?.focus() 
+    register_name_validation_message.value?.focus() 
+    register_weight_validation_message.value?.focus() 
+    register_height_validation_message.value?.focus() 
+    register_age_validation_message.value?.focus() 
+    register_gender_validation_message.value?.focus() 
+    register_activityLvl_validation_message.value?.focus() 
+    register_email_validation_message.value?.focus() 
+
+
     mealName_validation_message.value?.focus()
     nutrient_validation_message.value?.focus()
     ingredientName_validation_message.value?.focus()
@@ -121,7 +139,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: 'characters',
         regExp: regLettersAndNumbers,
         regMessage: "Only letters and numbers are allowed",
-        alert_div: username_validation_message.value
     },
 
     Password: {
@@ -130,7 +147,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: 'characters',
         regExp: regSpecialCharacter,
         regMessage: "One special character is required; ( }{.@$£<>-_/[+¤%&;:*¨~`'^# )",
-        alert_div: password_validation_message.value
     },
 
     Name: {
@@ -139,7 +155,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: 'characters',
         regExp: regLettersAndNumbers,
         regMessage: "Only letters allowed",
-        alert_div: name_validation_message.value
     },
 
     Email: {
@@ -148,7 +163,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: undefined,
         regExp: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
         regMessage: "Email is invalid",
-        alert_div: email_validation_message.value
     },
 
     Weight: {
@@ -157,7 +171,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: 'kg',
         regExp: regPeriodAndNumbers,
         regMessage: "Weight can only be defined by numbers and a period",
-        alert_div: weight_validation_message.value 
     },
 
     Height: {
@@ -166,7 +179,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: 'cm',
         regExp: regPeriodAndNumbers,
         regMessage: "Height can only be defined by numbers and a period",
-        alert_div: height_validation_message.value
     },
 
     Age: {
@@ -175,7 +187,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: undefined,
         regExp: regPeriodAndNumbers2,
         regMessage: "Age can only be defined by numbers and a period",
-        alert_div: age_validation_message.value
     },
 
     Nutrient: {
@@ -184,7 +195,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: undefined,
         regExp: regPeriodAndNumbers2,
         regMessage: "Nutrient can only be defined by numbers and a period",
-        alert_div: nutrient_validation_message.value
     },
 
     MealName: {
@@ -193,7 +203,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: 'characters',
         regExp: undefined,
         regMessage: undefined,
-        alert_div: mealName_validation_message.value
     },
 
     IngredientName: {
@@ -202,7 +211,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: 'characters',
         regExp: undefined,
         regMessage: undefined,
-        alert_div: ingredientName_validation_message.value
     },
 
     Amount: {
@@ -211,7 +219,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: undefined,
         regExp: /^(0|[1-9]\d*)(\.\d+)?\s*(g|kg|pounds|tsp|tbsp|oz|ml|L|cup)?$/,
         regMessage: "Amount can only be defined by numbers, a period and a unit",
-        alert_div: amount_validation_message.value
     },
 
     Hour: {
@@ -220,7 +227,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: undefined,
         regExp: regNumbers,
         regMessage: "Hour can only contain numbers",
-        alert_div: hour_validation_message.value
     },
 
     Minutes: {
@@ -229,7 +235,6 @@ const validation_requirements: Text_validation_requirements = {
         unit: undefined,
         regExp: regNumbers,
         regMessage: "Minutes can only contain numbers",
-        alert_div: minutes_validation_message.value
     }
 
 }

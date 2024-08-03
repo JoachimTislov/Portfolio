@@ -5,10 +5,10 @@ import { RouterLink } from 'vue-router';
 import { ref, onMounted } from 'vue'
 import router from '@/router';
 import { token } from '@/Logic/MacroTracker/token';
-import { initAlertElements, password_validation_message, ValidateText } from '@/Logic/MacroTracker/validation';
+import { initAlertElements, username_validation_message, password_validation_message, ValidateText } from '@/Logic/MacroTracker/validation';
+import { fetchResource } from '@/Logic/MacroTracker/ajax';
 
 const login_alert_message = ref<string>('Welcome to the login page')
-const username_validation_message = ref<HTMLElement | null>(null)
 
 onMounted(() => {
     initAlertElements()
@@ -33,36 +33,33 @@ async function login() {
                 "username": username.value,
                 "password": password.value
             });
+            
+            const api_key = import.meta.env.VITE_API_KEY
 
-            const response = await fetch(`${import.meta.env.VITE_LOCAL_API_WEB_URL}/login`, {
-                method: 'POST',  
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'Authorization': import.meta.env.VITE_API_KEY
-                },
-                body: json
-            });
+            const response = await fetchResource('POST', json, '/login', login_alert.value, api_key)
 
-            const result = await response.json();
+            if (response) {
+                const result = await response.json();
 
-            if (!response.ok) {
-                console.log(response)
-                login_alert_message.value = result.message
-                login_alert.value!.className = "alert alert-danger"
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                if (!response.ok) {
+                    
+                    console.log(response)
+                    login_alert_message.value = result.message
+                    login_alert.value!.className = "alert alert-danger"
+                    throw new Error(`HTTP error! Status: ${response.status}`);
 
-            } else {
+                } else {
 
-                console.log('successfully received token', result.token)
+                    console.log('successfully received token', result.token)
 
-                token.value = result.token
-                localStorage.setItem('user_id', result.user_id)
+                    token.value = result.token
+                    localStorage.setItem('user_id', result.user_id)
 
-                console.log('Moving to home')
-
-                router.push({ name: 'macroHome' })
+                    console.log('Moving to home')
+                    router.push({ name: 'macroHome' })
+                }
             }
-
+            
         } catch (error) {
             alert('Error loging in: ' + error);
         }
@@ -77,7 +74,7 @@ async function login() {
         <div class="container">
             <div class="card" style="max-width: 500px">
                 <div class="card-body">
-                    <div ref="login_alert" class="alert alert-success"> {{ login_alert_message }} </div>
+                    <div ref="login_alert" class="alert alert-success"></div>
                     <h1 class="card-title">Macro Tracker </h1>
                     
                     <form>
@@ -91,7 +88,7 @@ async function login() {
                             <div ref="password_validation_message" class="ml-3 mb-1 invalid-feedback" style="display: none;"></div>
                         </div>
 
-                        <RouterLink class="btn btn-link" to="">
+                        <RouterLink class="btn btn-link" :to="{ name: 'macroRegister' }">
                                 Register an account
                         </RouterLink>
 

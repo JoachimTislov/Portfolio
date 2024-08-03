@@ -52,6 +52,12 @@ const router = createRouter({
           meta: { requiresAuth: false }
         },
         {
+          path: 'register', 
+          name: 'macroRegister', 
+          component: () => import('../views/MacroTracker/RegisterView.vue'),
+          meta: { requiresAuth: false }
+        },
+        {
           path: '', 
           name: 'macroHome', 
           component: () => import('../views/MacroTracker/HomeView.vue'),
