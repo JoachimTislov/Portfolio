@@ -1,19 +1,15 @@
 <script setup lang="ts">
 
 import { RouterLink } from 'vue-router'
-import { onMounted } from 'vue'
-import { initAlertElements, username_validation_message, password_validation_message, login_alert, isUsernameValid, username, password, isPasswordValid } from '@/Logic/MacroTracker/initVariables'
+import { validation_messages, login_alert, login_validation, username, password } from '@/Logic/MacroTracker/initVariables'
 import { ValidateText } from '@/Logic/MacroTracker/validation'
 
 import { login } from '@/Logic/MacroTracker/Ajax/login'
 
-onMounted(async () => {
-    initAlertElements()
-})
 </script>
 
 <template>
-    <div class="container">
+    <div class="centerDiv">
         <div class="card mx-auto" style="max-width: 500px">
             <div class="card-body">
                 <div ref="login_alert" class="alert alert-success">
@@ -22,21 +18,23 @@ onMounted(async () => {
                 <h1 class="card-title">Macro Tracker </h1>
 
                 <form @submit.prevent>
+
                     <div class="form-group">
                         <input
-                            @input="isUsernameValid = ValidateText($event, username_validation_message, 'Username', 'form-control form-control-lg')"
+                            @input="login_validation.Username.value = ValidateText($event, validation_messages.login.username.value, 'Username', 'form-control form-control-lg')"
                             class="form-control form-control-lg" type="text" v-model="username" placeholder="Username"
                             required>
-                        <div ref="username_validation_message" class="ml-3 invalid-feedback" style="display: none;">
+                        <div :ref="validation_messages.login.username" class="ml-3 invalid-feedback"
+                            style="display: none;">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <input
-                            @input="isPasswordValid = ValidateText($event, password_validation_message, 'Password', 'mt-2 form-control form-control-lg')"
+                            @input="login_validation.Password.value = ValidateText($event, validation_messages.login.password.value, 'Password', 'mt-2 form-control form-control-lg')"
                             class="mt-2 form-control form-control-lg" type="password" v-model="password"
                             placeholder="Password" required>
-                        <div ref="password_validation_message" class="ml-3 mb-1 invalid-feedback"
+                        <div :ref="validation_messages.login.password" class="ml-3 mb-1 invalid-feedback"
                             style="display: none;"></div>
                     </div>
 
@@ -53,3 +51,12 @@ onMounted(async () => {
         </div>
     </div>
 </template>
+
+<style scoped>
+.centerDiv {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 20vh;
+}
+</style>

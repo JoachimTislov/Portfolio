@@ -1,17 +1,10 @@
 import router from '@/router'
-import {
-  initData,
-  isPasswordValid,
-  isUsernameValid,
-  login_alert,
-  password,
-  username
-} from '../initVariables'
+import { initData, login_validation, login_alert, password, username } from '../initVariables'
 import { token } from '../token'
 import { fetchResource } from './ajax'
 
 export async function login() {
-  if (isPasswordValid.value && isUsernameValid.value) {
+  if (login_validation.Password.value && login_validation.Username.value) {
     try {
       console.log('Loggin in')
 

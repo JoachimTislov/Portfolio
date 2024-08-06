@@ -10,7 +10,6 @@ import { fetchResource, getData } from './Ajax/ajax'
 import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
 import user_icon from '@/assets/Icons/user-icon.png'
 import { routeToPage } from './routeToPage'
-import { faR } from '@fortawesome/free-solid-svg-icons'
 
 // Init html div alert elements
 export const login_alert = ref<HTMLElement | null>(null)
@@ -20,23 +19,19 @@ const storedUsername = localStorage.getItem('username')
 export const username = ref<string>(storedUsername ? storedUsername : 'Peddi')
 export const password = ref<string>('peder@123')
 
-export const isUsernameValid = ref<boolean>(true)
-export const isPasswordValid = ref<boolean>(true)
-
-// login
-export const username_validation_message = ref<HTMLElement | null>(null)
-export const password_validation_message = ref<HTMLElement | null>(null)
-
-const HTMLElementORNull = ref<HTMLElement | null>(null)
+export const login_validation: { [key: string]: Ref<boolean> } = {
+  Username: ref<boolean>(true),
+  Password: ref<boolean>(true)
+}
 
 export const validation_messages: {
   [key: string]: {
-    [key: string]: typeof HTMLElementORNull
+    [key: string]: Ref<HTMLElement | null>
   }
 } = {
   login: {
-    username: HTMLElementORNull,
-    password: HTMLElementORNull
+    username: ref<HTMLElement | null>(null),
+    password: ref<HTMLElement | null>(null)
   },
   register: {
     username: ref<HTMLElement | null>(null),
@@ -51,24 +46,15 @@ export const validation_messages: {
     email: ref<HTMLElement | null>(null)
   },
   create_ingredient: {
-    name: HTMLElementORNull,
-    amount: HTMLElementORNull,
-    protein: HTMLElementORNull,
-    calories: HTMLElementORNull,
-    carbohydrates: HTMLElementORNull,
-    fat: HTMLElementORNull,
-    sugar: HTMLElementORNull
+    name: ref<HTMLElement | null>(null),
+    amount: ref<HTMLElement | null>(null),
+    protein: ref<HTMLElement | null>(null),
+    calories: ref<HTMLElement | null>(null),
+    carbohydrates: ref<HTMLElement | null>(null),
+    fat: ref<HTMLElement | null>(null),
+    sugar: ref<HTMLElement | null>(null)
   }
 }
-
-// Create Ingredient
-export const create_ingredient_name_validation_message = ref<HTMLElement | null>(null)
-export const create_ingredient_amount_validation_message = ref<HTMLElement | null>(null)
-export const create_ingredient_protein_validation_message = ref<HTMLElement | null>(null)
-export const create_ingredient_calories_validation_message = ref<HTMLElement | null>(null)
-export const create_ingredient_carbohydrates_validation_message = ref<HTMLElement | null>(null)
-export const create_ingredient_fat_validation_message = ref<HTMLElement | null>(null)
-export const create_ingredient_sugar_validation_message = ref<HTMLElement | null>(null)
 
 export const mealName_validation_message = ref<HTMLElement | null>(null)
 export const nutrient_validation_message = ref<HTMLElement | null>(null)
@@ -89,19 +75,6 @@ export function initAlertElements() {
   login_alert.value?.focus()
   profile_alert.value?.focus()
   create_ingredient_alert.value?.focus()
-
-  const el = username_validation_message.value
-  console.log(el)
-  el?.focus()
-  password_validation_message.value?.focus()
-
-  create_ingredient_name_validation_message.value?.focus()
-  create_ingredient_amount_validation_message.value?.focus()
-  create_ingredient_protein_validation_message.value?.focus()
-  create_ingredient_calories_validation_message.value?.focus()
-  create_ingredient_carbohydrates_validation_message.value?.focus()
-  create_ingredient_fat_validation_message.value?.focus()
-  create_ingredient_sugar_validation_message.value?.focus()
 
   mealName_validation_message.value?.focus()
   nutrient_validation_message.value?.focus()

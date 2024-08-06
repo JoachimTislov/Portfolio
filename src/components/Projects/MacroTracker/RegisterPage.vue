@@ -7,6 +7,7 @@ import {
     validation_messages
 } from '@/Logic/MacroTracker/initVariables';
 import { onMounted, ref } from 'vue';
+import { setElementReference } from '@/Logic/MacroTracker/setElementReference'
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 
 const register_alert = ref<HTMLElement | null>(null)
@@ -46,22 +47,22 @@ async function register() {
 }
 
 const _arr = [
-    { placeholder: 'Username', validate_type: 'Username', identifier: 'Username', class: 'form-group' },
-    { placeholder: 'Password', validate_type: 'Password', identifier: 'Password', class: 'form-group' },
-    { placeholder: 'Repeat Password', validate_type: 'Password', identifier: 'Confirm_Password', class: 'form-group' },
-    { placeholder: 'Name', validate_type: 'Name', identifier: 'Name', class: 'form-group' },
-    { placeholder: 'Email', validate_type: 'Email', identifier: 'Email', class: 'input-group', attachment: '@', type: 'prepend' },
-    { placeholder: 'Age', validate_type: 'Age', identifier: 'Age', class: 'input-group', attachment: 'years', type: 'append' },
-    { placeholder: 'Height', validate_type: 'Height', identifier: 'Height', class: 'input-group', attachment: 'cm', type: 'append' },
-    { placeholder: 'Weight', validate_type: 'Weight', identifier: 'Weight', class: 'input-group', attachment: 'kg', type: 'append' },
+    { inputType: 'text', placeholder: 'Username', validate_type: 'Username', identifier: 'Username', class: 'form-group' },
+    { inputType: 'text', placeholder: 'Password', validate_type: 'Password', identifier: 'Password', class: 'form-group' },
+    { inputType: 'text', placeholder: 'Repeat Password', validate_type: 'Password', identifier: 'Confirm_Password', class: 'form-group' },
+    { inputType: 'text', placeholder: 'Name', validate_type: 'Name', identifier: 'Name', class: 'form-group' },
+    { inputType: 'email', placeholder: 'Email', validate_type: 'Email', identifier: 'Email', class: 'input-group', attachment: '@', type: 'prepend' },
+    { inputType: 'number', placeholder: 'Age', validate_type: 'Age', identifier: 'Age', class: 'input-group', attachment: 'years old', type: 'append' },
+    { inputType: 'number', placeholder: 'Height', validate_type: 'Height', identifier: 'Height', class: 'input-group', attachment: 'cm', type: 'append' },
+    { inputType: 'number', placeholder: 'Weight', validate_type: 'Weight', identifier: 'Weight', class: 'input-group', attachment: 'kg', type: 'append' },
 ]
 
 </script>
 
 
 <template>
-    <div class="container">
-        <div class="card mx-auto" style="max-width: 550px">
+    <div class="centerDiv">
+        <div class="card" style="max-width: 550px">
             <div class="card-body">
                 <div ref="register_alert" class="alert alert-dismissible alert-success">
                     <h4> Welcome to the register page </h4>
@@ -70,23 +71,23 @@ const _arr = [
                 <form id="register_form" @submit.prevent>
 
                     <template v-for="entry in _arr" :key="entry.identifier">
-                        <div :class="entry.class">
+                        <div class="mt-1" :class="entry.class">
                             <div v-if="entry.type && entry.type == 'prepend'" :class="`input-group-${entry.type}`">
                                 <span class="input-group-text"> {{ entry.attachment }} </span>
                             </div>
                             <input
                                 @input="validation_arr[`is${entry.identifier}Valid`] = ValidateText($event, validation_messages.register[entry.identifier.toLocaleLowerCase()].value, entry.validate_type, 'form-control form-control-md')"
-                                class="form-control form-control-md" type="text" :placeholder="entry.placeholder"
-                                :name="entry.identifier" required>
+                                class="form-control form-control-md" :type="entry.inputType"
+                                :placeholder="entry.placeholder" :name="entry.identifier" required>
                             <div v-if="entry.type && entry.type == 'append'" :class="`input-group-${entry.type}`">
                                 <span class="input-group-text"> {{ entry.attachment }} </span>
                             </div>
                         </div>
-                        <div :ref="(validation_messages.register[entry.identifier.toLocaleLowerCase()] as any)[0]"
+                        <div :ref="el => setElementReference(el, validation_messages.register[entry.identifier.toLocaleLowerCase()])"
                             class="ml-2 invalid-feedback" style="display: none;"></div>
                     </template>
 
-                    <div class="input-group">
+                    <div class="input-group mt-1">
                         <select
                             @change="validation_arr['isGenderValid'] = validateGenderOrActivityLvl($event, validation_messages.register.gender.value, 'Gender', 'form-control form-control-md')"
                             class="form-control form-control-md" name="_gender" required>
@@ -103,7 +104,7 @@ const _arr = [
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mt-1">
                         <select
                             @change="validation_arr['isActivityLvlValid'] = validateGenderOrActivityLvl($event, validation_messages.register.activity_lvl.value, 'Activity Lvl', 'form-control form-control-md')"
                             class="form-control form-control-md" name="_activity_lvl" required>
@@ -131,3 +132,13 @@ const _arr = [
         </div>
     </div>
 </template>
+
+
+<style scoped>
+.centerDiv {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 15vh;
+}
+</style>

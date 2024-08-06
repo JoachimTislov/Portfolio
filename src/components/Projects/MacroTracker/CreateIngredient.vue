@@ -2,16 +2,11 @@
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 
 import {
-    create_ingredient_amount_validation_message,
-    create_ingredient_calories_validation_message,
-    create_ingredient_carbohydrates_validation_message,
-    create_ingredient_fat_validation_message,
-    create_ingredient_name_validation_message,
-    create_ingredient_protein_validation_message,
-    create_ingredient_sugar_validation_message,
-    create_ingredient_alert
-
+    create_ingredient_alert,
+    validation_messages
 } from '@/Logic/MacroTracker/initVariables';
+
+import { setElementReference } from '@/Logic/MacroTracker/setElementReference'
 
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import { fetchResource, getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/ajax';
@@ -29,22 +24,27 @@ const validation_arr: { [key: string]: boolean } = {
 
 
 const _arr: {
-    identifier: string,
-    div: HTMLElement | null
+    identifier: string
+    validation_type: string
+    inputType: string
+    value: string | number
+    class: string
+    unit?: string
 }[] = [
-        { identifier: 'Amount', div: create_ingredient_amount_validation_message.value },
-        { identifier: 'Calories', div: create_ingredient_calories_validation_message.value },
-        { identifier: 'Carbohydrates', div: create_ingredient_carbohydrates_validation_message.value },
-        { identifier: 'Fat', div: create_ingredient_fat_validation_message.value },
-        { identifier: 'Name', div: create_ingredient_name_validation_message.value },
-        { identifier: 'Protein', div: create_ingredient_protein_validation_message.value },
-        { identifier: 'Sugar', div: create_ingredient_sugar_validation_message.value },
+        { class: 'form-group', identifier: 'Name', validation_type: 'Name', inputType: 'text', value: '' },
+        { class: 'form-group', identifier: 'Amount', validation_type: 'Amount', inputType: 'text', value: '0' },
+        { class: 'input-group', identifier: 'Calories', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'kcal' },
+        { class: 'input-group', identifier: 'Carbohydrates', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
+        { class: 'input-group', identifier: 'Fat', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
+        { class: 'input-group', identifier: 'Protein', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
+        { class: 'input-group', identifier: 'Sugar', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
     ]
 
 function resetEditForm() {
     _arr.forEach(entry => {
         const input = document.getElementById(`create_ingredient_${entry.identifier}_input`) as HTMLInputElement | null
-        if (entry.div) entry.div.style.display = "none";
+        const div = validation_messages.create_ingredient[entry.identifier].value
+        if (div) div.style.display = "none";
         if (input) {
             input.className = "form-control form-control-md"
 
@@ -75,7 +75,7 @@ async function eventCreateIngredient() {
 </script>
 
 <template>
-    <div class="modal fade" id="create_ingredient_modal">
+    <div class="modal fade Modal" id="create_ingredient_modal">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -87,16 +87,23 @@ async function eventCreateIngredient() {
                         style="display: none;"></div>
                     <form id="create_ingredient_form">
 
-                        <div class="form-group mt-2" v-for="entry in _arr" :key="entry.identifier">
-                            <label class="form-label" :for="entry.identifier.toLowerCase()"> {{ entry.identifier }}:
+                        <template v-for="entry in _arr" :key="entry.identifier">
+                            <label class="m-0 mt-1 form-label" :for="entry.identifier.toLowerCase()"> {{
+                                entry.identifier }}:
                             </label>
-                            <input :id="`create_ingredient_${entry.identifier.toLowerCase()}_input`"
-                                @input="validation_arr[`is${entry.identifier}Valid`] = ValidateText($event, entry.div, entry.identifier, 'form-control form-control-md')"
-                                class="form-control form-control-md" :name="entry.identifier.toLowerCase()"
-                                type="number" step="any" value="0">
-                            <div :ref="`create_ingredient_${entry.identifier}_validation_message`"
+                            <div class="mt-2" :class="entry.class">
+                                <input :id="`create_ingredient_${entry.identifier.toLowerCase()}_input`"
+                                    @input="validation_arr[`is${entry.identifier}Valid`] = ValidateText($event, validation_messages.create_ingredient[entry.identifier.toLocaleLowerCase()].value, entry.validation_type, 'form-control form-control-md')"
+                                    class="form-control form-control-md" :name="entry.identifier.toLowerCase()"
+                                    :type="entry.inputType" step="any" :value="entry.value">
+                                <div v-if="entry.unit" class="input-group-append">
+                                    <span class="input-group-text"> {{ entry.unit }} </span>
+                                </div>
+                            </div>
+
+                            <div :ref="el => setElementReference(el, validation_messages.create_ingredient[entry.identifier.toLocaleLowerCase()])"
                                 class="ml-2 invalid-feedback"></div>
-                        </div>
+                        </template>
 
                     </form>
                 </div>
@@ -104,7 +111,8 @@ async function eventCreateIngredient() {
                     <button class="btn btn-danger btn-lg ml-1" data-bs-dismiss="modal" @click="resetEditForm()"> Cancel
                     </button>
                     <button type="button" data-bs-dismiss="modal" @click="eventCreateIngredient()"
-                        class="btn btn-success btn-lg ml-1"> Create
+                        class="btn btn-success btn-lg ml-1">
+                        Create
                         Ingredient </button>
                 </div>
             </div>

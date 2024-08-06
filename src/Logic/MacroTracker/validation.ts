@@ -97,9 +97,7 @@ type Text_validation_requirements = {
 
 const regNumbers = /^[0-9]+$/
 const regLettersAndNumbers = /^[a-zA-Z0-9]+$/
-const regPeriodAndNumbers = /^(0|[1-9]\d*)(\.\d+)?\s*[0-9]+(\.[0-9]+)?/
-const regPeriodAndNumbers2 = /^[0-9]+(0|[1-9]\d*)(\.\d+)?$/
-
+const regPeriodAndNumbers = /^(0|[1-9]\d*)(\.\d+)?\s*[1-9]\d*(\.\d+)?$/
 const regSpecialCharacter = /(?=.*[}{.@$£<>-_/)[(+¤%&;:*¨~`'^#])/
 
 const validation_requirements: Text_validation_requirements = {
@@ -163,7 +161,7 @@ const validation_requirements: Text_validation_requirements = {
     min: 12,
     max: 130,
     unit: 'years',
-    regExp: regPeriodAndNumbers2,
+    regExp: regPeriodAndNumbers,
     regMessage: 'Age can only be defined by numbers and a period'
   },
 
@@ -172,7 +170,7 @@ const validation_requirements: Text_validation_requirements = {
     min: 0,
     max: 1000,
     unit: undefined,
-    regExp: regPeriodAndNumbers2,
+    regExp: regPeriodAndNumbers,
     regMessage: 'Nutrient can only be defined by numbers and a period'
   },
 
