@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router';
 import { token } from '@/Logic/MacroTracker/token'
 import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
-import { login_alert } from '@/Logic/MacroTracker/initVariables';
+import { login_alert, username } from '@/Logic/MacroTracker/initVariables';
 
 const logout = async () => {
 
@@ -21,43 +21,39 @@ const logout = async () => {
     }
 }
 
-const username = localStorage.getItem('username')
+const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
 
 </script>
 
 <template>
-
     <nav class="navbar navbar-expand-md" data-bs-theme="dark">
+        <div class="container">
 
-        <h3 v-if="token"> Macro Tracker - {{ username }}
-        </h3>
 
-        <ul class="navbar-nav me-auto">
+            <h3 class="logo" v-if="token"> Macro Tracker - {{ username }} </h3>
 
-            <template v-if="token">
-                <li class="nav-item">
-                    <RouterLink class="nav-link" :to="{ name: 'macroHome' }">
-                        Home
-                    </RouterLink>
-                </li>
 
-                <li class="nav-item">
-                    <RouterLink class="nav-link" :to="{ name: 'macroProfile' }">
-                        Profile
-                    </RouterLink>
-                </li>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMacroTracker"
+                aria-controls="navbarMacroTracker" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                <li class="nav-item">
-                    <RouterLink class="nav-link" :to="{ name: 'macroMeals' }">
-                        Meals
-                    </RouterLink>
-                </li>
+            <div class="collapse navbar-collapse" id="navbarMacroTracker">
+                <ul class="navbar-nav me-auto">
+                    <template v-if="token">
+                        <li class="nav-item" v-for="route in routes" :key="route">
+                            <RouterLink class="nav-link" :to="{ name: `macro${route}` }">
+                                {{ route }}
+                            </RouterLink>
+                        </li>
+                    </template>
+                </ul>
 
-                <button @click="logout()" class="btn btn-outline-danger btn-lg float-right mt-2 text-light"> Log out
+                <button v-if="token" @click="logout()" class="btn btn-outline-danger btn-lg"> Log
+                    out
                 </button>
-            </template>
-
-        </ul>
+            </div>
+        </div>
     </nav>
 
     <div id="alert" class="m-4 alert alert-dismissible alert-success" style="display: none;"></div>
@@ -65,3 +61,15 @@ const username = localStorage.getItem('username')
     <RouterView />
 
 </template>
+
+
+<style scoped>
+.logo {
+    margin: 0;
+    margin-right: 2rem;
+}
+
+li {
+    font-size: x-large;
+}
+</style>

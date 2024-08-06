@@ -1,3 +1,5 @@
+import MealCalender from '@/components/Projects/MacroTracker/MealCalender.vue'
+
 export type Meal_and_calender_data = Meal_and_calender_data_entry[]
 
 export type Meal_and_calender_data_entry = {
@@ -21,8 +23,6 @@ export type Average_macros_this_week = { [key: string]: number }
 export type Meals = Meal[]
 
 export type Meal = {
-  [key: string]: string | number | Ingredients
-
   name: string
   calories: number
   carbohydrates: number
@@ -34,12 +34,15 @@ export type Meal = {
 }
 
 export interface Meal_with_ingredients extends Meal {
+  [key: string]: string | number | Ingredients
+
   ingredients: Ingredients
 }
 
 export type Meals_for_time_of_day = { [key: string]: Meal_and_calender_data }
 
 export type Ingredients = {
+  [key: string]: string | number
   ingredient_id: number
   name: string
   amount: number

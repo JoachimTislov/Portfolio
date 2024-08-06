@@ -76,9 +76,7 @@ export async function fetchResource(
       method: method,
       headers: {
         Authorization: auth,
-        ...(method !== 'GET' &&
-          method !== 'DELETE' &&
-          !(data instanceof FormData) && { 'Content-Type': 'application/json' })
+        ...(!(data instanceof FormData) && { 'Content-Type': 'application/json' })
       },
       ...(method !== 'GET' && method !== 'DELETE' && { body: data })
     }

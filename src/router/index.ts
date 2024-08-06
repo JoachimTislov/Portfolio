@@ -71,6 +71,18 @@ const router = createRouter({
           meta: { requiresAuth: true, authRedirect: macroLogin }
         },
         {
+          path: 'ingredients',
+          name: 'macroIngredients',
+          component: () => import('../views/MacroTracker/IngredientsView.vue'),
+          meta: { requiresAuth: true, authRedirect: macroLogin }
+        },
+        {
+          path: 'create-ingredient',
+          name: 'macroCreateIngredients',
+          component: () => import('../views/MacroTracker/CreateIngredientView.vue'),
+          meta: { requiresAuth: true, authRedirect: macroLogin }
+        },
+        {
           path: 'profile',
           name: 'macroProfile',
           component: () => import('../views/MacroTracker/ProfileView.vue'),

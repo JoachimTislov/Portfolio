@@ -13,8 +13,10 @@ import { routeToPage } from './routeToPage'
 
 // Init html div alert elements
 export const login_alert = ref<HTMLElement | null>(null)
+export const create_ingredient_alert = ref<HTMLElement | null>(null)
 
-export const username = ref<string>('Peddi')
+const storedUsername = localStorage.getItem('username')
+export const username = ref<string>(storedUsername ? storedUsername : 'Peddi')
 export const password = ref<string>('peder@123')
 
 export const isUsernameValid = ref<boolean>(true)
@@ -36,6 +38,15 @@ export const register_gender_validation_message = ref<HTMLElement | null>(null)
 export const register_activity_lvl_validation_message = ref<HTMLElement | null>(null)
 export const register_email_validation_message = ref<HTMLElement | null>(null)
 
+// Create Ingredient
+export const create_ingredient_name_validation_message = ref<HTMLElement | null>(null)
+export const create_ingredient_amount_validation_message = ref<HTMLElement | null>(null)
+export const create_ingredient_protein_validation_message = ref<HTMLElement | null>(null)
+export const create_ingredient_calories_validation_message = ref<HTMLElement | null>(null)
+export const create_ingredient_carbohydrates_validation_message = ref<HTMLElement | null>(null)
+export const create_ingredient_fat_validation_message = ref<HTMLElement | null>(null)
+export const create_ingredient_sugar_validation_message = ref<HTMLElement | null>(null)
+
 export const mealName_validation_message = ref<HTMLElement | null>(null)
 export const nutrient_validation_message = ref<HTMLElement | null>(null)
 export const ingredientName_validation_message = ref<HTMLElement | null>(null)
@@ -46,6 +57,7 @@ export const minutes_validation_message = ref<HTMLElement | null>(null)
 export function initAlertElements() {
   login_alert.value?.focus()
   profile_alert.value?.focus()
+  create_ingredient_alert.value?.focus()
 
   username_validation_message.value?.focus()
   password_validation_message.value?.focus()
@@ -60,6 +72,14 @@ export function initAlertElements() {
   register_gender_validation_message.value?.focus()
   register_activity_lvl_validation_message.value?.focus()
   register_email_validation_message.value?.focus()
+
+  create_ingredient_name_validation_message.value?.focus()
+  create_ingredient_amount_validation_message.value?.focus()
+  create_ingredient_protein_validation_message.value?.focus()
+  create_ingredient_calories_validation_message.value?.focus()
+  create_ingredient_carbohydrates_validation_message.value?.focus()
+  create_ingredient_fat_validation_message.value?.focus()
+  create_ingredient_sugar_validation_message.value?.focus()
 
   mealName_validation_message.value?.focus()
   nutrient_validation_message.value?.focus()
@@ -87,13 +107,10 @@ export const zero_meals_to_show = ref<boolean>(true)
 
 export const meals_for_given_date = ref<Meals_for_time_of_day | undefined>(undefined)
 
-export async function initData(user_id: number) {
+export async function initData(user_id: string) {
   userInfo.value = await getData(`/user_info/${user_id}`)
 
   meals_for_given_date.value = await get_meals_for_given_date()
-
-  const ingredients_response = await getData(`/personal_ingredients/${user_id}`)
-  ingredients.value = ingredients_response ? await ingredients_response.json() : undefined
 
   console.log(meals.value)
 }

@@ -23,12 +23,13 @@ export async function login() {
       const response = await fetchResource('POST', json, '/login', login_alert.value, 'api_key')
 
       if (response && response.ok) {
-        const result = await response.json()
+        const result: { token: string; user_id: string; username: string } = await response.json()
 
         console.log('successfully received token', result.token)
 
         token.value = result.token
-        localStorage.setItem('token', result.value)
+        username.value = result.username
+        localStorage.setItem('token', result.token)
         localStorage.setItem('user_id', result.user_id)
         localStorage.setItem('username', result.username)
 

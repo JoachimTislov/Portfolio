@@ -16,6 +16,7 @@ import {
     register_weight_validation_message
 } from '@/Logic/MacroTracker/initVariables';
 import { onMounted, ref } from 'vue';
+import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 
 const register_alert = ref<HTMLElement | null>(null)
 
@@ -39,10 +40,7 @@ const validation_arr: { [key: string]: boolean } = {
 async function register() {
     console.log('Attempting to register')
 
-    const validation = checkValidationArr()
-
-
-    console.log(validation_arr, validation)
+    const validation = checkValidationArr(validation_arr)
 
     if (validation) {
         const json = getFormDataInJSONFormat('register_form')
@@ -55,16 +53,6 @@ async function register() {
         }
     }
 }
-
-function checkValidationArr() {
-    for (const key of Object.keys(validation_arr)) {
-        if (validation_arr[key] === false) {
-            return false
-        }
-    }
-    return true
-}
-
 </script>
 
 
