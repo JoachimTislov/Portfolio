@@ -1,76 +1,67 @@
 <script setup lang="ts">
 
-import router from '@/router';
 import { RouterLink } from 'vue-router';
 
 import { token } from '@/Logic/MacroTracker/token'
+import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
+import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
+import { login_alert } from '@/Logic/MacroTracker/initVariables';
 
 const logout = async () => {
-    if (!token.value) {
-        router.push({name: 'macroLogin'})
-    } else {
-        const response = await fetch(`${import.meta.env.VITE_LOCAL_API_WEB_URL}/logout`, { headers: {'Authorization': token.value} })
 
-        console.log(token.value)
+    const response = await fetchResource('POST', '', '/logout', login_alert.value, 'token')
 
-        router.push({name: 'macroLogin'})
+    if (response && response.ok) {
+        routeToPage('macroLogin')
 
-        
         token.value = undefined
+        localStorage.removeItem('token')
         localStorage.removeItem('user_id')
-    
-        const message = (await response.json()).message
-        console.log('Error when loggin out', message)
-        
+        localStorage.removeItem('username')
     }
 }
+
+const username = localStorage.getItem('username')
 
 </script>
 
 <template>
 
-    <h1> Macro Tracker is coming, soon </h1>
     <nav class="navbar navbar-expand-md" data-bs-theme="dark">
-    
-        <ul class="navbar-nav me-auto"> 
-        
+
+        <h3 v-if="token"> Macro Tracker - {{ username }}
+        </h3>
+
+        <ul class="navbar-nav me-auto">
+
             <template v-if="token">
                 <li class="nav-item">
-                    <RouterLink class="nav-link" :to="{ name: 'macroHome' }"> 
+                    <RouterLink class="nav-link" :to="{ name: 'macroHome' }">
                         Home
                     </RouterLink>
-                </li> 
-                
-                <li class="nav-item">
-                    <RouterLink class="nav-link" :to="{ name: 'macroProfile' }"> 
-                        Profile 
-                    </RouterLink>
-                </li> 
+                </li>
 
-                <li class="ml-5 nav-item">
-                    <p @click="logout()" class="nav-link">
-                        Logout
-                    </p>
-                </li> 
+                <li class="nav-item">
+                    <RouterLink class="nav-link" :to="{ name: 'macroProfile' }">
+                        Profile
+                    </RouterLink>
+                </li>
+
+                <li class="nav-item">
+                    <RouterLink class="nav-link" :to="{ name: 'macroMeals' }">
+                        Meals
+                    </RouterLink>
+                </li>
+
+                <button @click="logout()" class="btn btn-outline-danger btn-lg float-right mt-2 text-light"> Log out
+                </button>
             </template>
 
-            <template v-else>
-                <li class="nav-item">
-                    <RouterLink class="nav-link" :to="{ name: 'macroLogin' }"> 
-                        Login
-                    </RouterLink>
-                </li> 
-            </template>
-            
         </ul>
     </nav>
+
+    <div id="alert" class="m-4 alert alert-dismissible alert-success" style="display: none;"></div>
 
     <RouterView />
 
 </template>
-
-<style scoped>
-
-
-
-</style>

@@ -1,4 +1,3 @@
-import { token } from '@/Logic/MacroTracker/token';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const macroLogin = 'macroLogin'
@@ -12,18 +11,18 @@ const router = createRouter({
       component: () => import('../views/Portfolio/HomeView.vue'),
       children: [
         {
-          path: '', 
-          name: 'about', 
+          path: '',
+          name: 'about',
           component: () => import('../views/Portfolio/AboutMeView.vue')
         },
         {
-          path: 'projects', 
-          name: 'projects', 
+          path: 'projects',
+          name: 'projects',
           component: () => import('../views/Portfolio/MyProjectsView.vue')
         }
       ]
     },
-    
+
     {
       path: '/about',
       name: 'mainAbout',
@@ -37,53 +36,71 @@ const router = createRouter({
     {
       path: '/four-in-a-row',
       name: 'fourInARow',
-      component: () => import('../views/Four-in-a-row/FourInARowView.vue'),
+      component: () => import('../views/Four-in-a-row/FourInARowView.vue')
     },
     {
       path: '/macro-tracker',
       name: 'macro-tracker',
       component: () => import('../views/MacroTracker/MacroTrackerView.vue'),
-      meta: { requiresAuth: false },
       children: [
         {
-          path: 'login', 
-          name: 'macroLogin', 
-          component: () => import('../views/MacroTracker/LoginView.vue'),
-          meta: { requiresAuth: false }
+          path: '',
+          name: 'Redirecting to home',
+          redirect: '/macro-tracker/home'
         },
         {
-          path: 'register', 
-          name: 'macroRegister', 
-          component: () => import('../views/MacroTracker/RegisterView.vue'),
-          meta: { requiresAuth: false }
+          path: 'login',
+          name: 'macroLogin',
+          component: () => import('../views/MacroTracker/LoginView.vue')
         },
         {
-          path: '', 
-          name: 'macroHome', 
+          path: 'register',
+          name: 'macroRegister',
+          component: () => import('../views/MacroTracker/RegisterView.vue')
+        },
+        {
+          path: 'home',
+          name: 'macroHome',
           component: () => import('../views/MacroTracker/HomeView.vue'),
-          meta: { requiresAuth: true, authRedirect: macroLogin}
+          meta: { requiresAuth: true, authRedirect: macroLogin }
         },
         {
-          path: 'profile', 
-          name: 'macroProfile', 
+          path: 'meals',
+          name: 'macroMeals',
+          component: () => import('../views/MacroTracker/MealsView.vue'),
+          meta: { requiresAuth: true, authRedirect: macroLogin }
+        },
+        {
+          path: 'profile',
+          name: 'macroProfile',
           component: () => import('../views/MacroTracker/ProfileView.vue'),
-          meta: { requiresAuth: true, authRedirect: macroLogin}
+          meta: { requiresAuth: true, authRedirect: macroLogin }
         }
       ]
-    },
-  ] 
+    }
+  ]
 })
 
-router.beforeEach((to, from, next) => {
-    if (to.meta.requiresAuth && !token.value) {
+function isAuthenticated() {
+  return (
+    localStorage.getItem('token') &&
+    localStorage.getItem('user_id') &&
+    localStorage.getItem('username')
+  )
+}
 
-      next({ name: to.meta.authRedirect as string });
-      
-    } else {
-      console.log('Routing to website')
-      next();
-    }
+router.beforeEach((to, from, next) => {
+  if (to.meta.requiresAuth && !isAuthenticated()) {
+    console.log('User is not authed, redirecting to:', to.meta.authRedirect)
+    next({ name: to.meta.authRedirect as string })
+  } else {
+    console.log('Routing to website: ', to.name, 'from: ', from.name)
+    next()
   }
-);
+})
+
+router.afterEach((to, from, failure) => {
+  console.log('After:', to, from, failure)
+})
 
 export default router

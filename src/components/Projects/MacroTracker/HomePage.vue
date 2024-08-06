@@ -1,16 +1,43 @@
 <script setup lang="ts">
+import AverageMacros from './AverageMacros.vue'
+import MealCalender from './MealCalender.vue';
+import { construct_dates_for_days_in_week } from '@/Logic/MacroTracker/dateSystem';
+import { onMounted } from 'vue';
+import MealsPage from './MealsPage.vue';
 
+onMounted(() => {
+    const date = new Date() // Init data
 
+    const dayOfWeek = date.getDay() == 0 ? 6 : date.getDay() - 1 // Day of week, minus one because index in js start with 0
+
+    const dayOfMonth = date.getDate() // Date of month
+
+    let month = date.getMonth() + 1 // Which month in number format
+
+    let year = date.getUTCFullYear()
+
+    // init with current week
+    construct_dates_for_days_in_week(dayOfWeek, dayOfMonth, month, year)
+})
 </script>
 
 <template>
 
-    <h1> User Home </h1>
+    <Suspense>
+        <template #default>
+            <AverageMacros />
+        </template>
+        <template #fallback>
+            <div>Loading average macros...</div>
+        </template>
+    </Suspense>
 
+    <Suspense>
+        <template #default>
+            <MealCalender />
+        </template>
+        <template #fallback>
+            <div>Loading meal calender...</div>
+        </template>
+    </Suspense>
 </template>
-
-<style scoped>
-
-
-
-</style>
