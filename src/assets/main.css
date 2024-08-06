@@ -28,3 +28,10 @@ p {
   display: flex;
   flex-wrap: wrap;
 }
+
+.Modal {
+  backdrop-filter: blur(20px);
+
+  display: flex;
+  align-self: center;
+}

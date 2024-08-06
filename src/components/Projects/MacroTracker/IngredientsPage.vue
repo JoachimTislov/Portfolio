@@ -7,6 +7,7 @@ import { filterArrayByName, sortArray } from '@/Logic/MacroTracker/sorting';
 import { ref } from 'vue';
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
+import CreateIngredient from './CreateIngredient.vue';
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = storedSortValue ? storedSortValue : 'Sort by'
@@ -21,10 +22,12 @@ ingredients.value = ingredients_response ? (await ingredients_response.json()) a
 </script>
 
 <template>
+
+    <CreateIngredient />
+
     <section class="card" style="height: 100vh">
         <div class="card-header">
             <h2 class="m-0"> Your ingredients </h2>
-
 
             <div id="personal_ingredient_alert" style="display: none;"
                 class="mt-5 alert alert-dismissible alert-success">
@@ -46,9 +49,10 @@ ingredients.value = ingredients_response ? (await ingredients_response.json()) a
                     <option value="sugar"> Sugar </option>
                 </select>
 
-                <RouterLink class="create_button btn-success btn btn-md" :to="{ name: 'macroCreateIngredient' }">
-                    Create Ingredient
-                </RouterLink>
+                <button type="button" class="btn-success btn btn-md" data-bs-toggle="modal"
+                    data-bs-target="#create_ingredient_modal">
+                    Create ingredient
+                </button>
             </div>
         </div>
 
@@ -95,9 +99,11 @@ ingredients.value = ingredients_response ? (await ingredients_response.json()) a
             <h4 v-if="search_value == ''"> You don't have any personal ingredients </h4>
             <h4 v-if="search_value != ''"> You don't have any personal ingredients with name: {{ search_value }}
             </h4>
-            <RouterLink class="create_button btn-success btn btn-md" :to="{ name: 'macroCreateIngredient' }">
-                Create Ingredient
-            </RouterLink>
+
+            <button type="button" class="btn-success btn btn-md" data-bs-toggle="modal"
+                data-bs-target="#create_ingredient_modal">
+                Create ingredient
+            </button>
         </div>
     </section>
 </template>
