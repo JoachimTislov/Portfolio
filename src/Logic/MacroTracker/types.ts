@@ -1,4 +1,5 @@
 import MealCalender from '@/components/Projects/MacroTracker/MealCalender.vue'
+import type { ComponentOptionsBase, ComponentPublicInstance } from 'vue'
 
 export type Meal_and_calender_data = Meal_and_calender_data_entry[]
 

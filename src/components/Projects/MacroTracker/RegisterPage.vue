@@ -4,16 +4,7 @@ import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
 import { ValidateText, validateGenderOrActivityLvl } from '@/Logic/MacroTracker/validation';
 
 import {
-    register_username_validation_message,
-    register_activity_lvl_validation_message,
-    register_age_validation_message,
-    register_confirm_password_validation_message,
-    register_email_validation_message,
-    register_gender_validation_message,
-    register_height_validation_message,
-    register_name_validation_message,
-    register_password_validation_message,
-    register_weight_validation_message
+    validation_messages
 } from '@/Logic/MacroTracker/initVariables';
 import { onMounted, ref } from 'vue';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
@@ -27,7 +18,7 @@ onMounted(() => {
 const validation_arr: { [key: string]: boolean } = {
     isUsernameValid: false,
     isPasswordValid: false,
-    isConfirmPasswordValid: false,
+    isConfirm_PasswordValid: false,
     isGenderValid: false,
     isActivityLvlValid: false,
     isEmailValid: false,
@@ -53,6 +44,18 @@ async function register() {
         }
     }
 }
+
+const _arr = [
+    { placeholder: 'Username', validate_type: 'Username', identifier: 'Username', class: 'form-group' },
+    { placeholder: 'Password', validate_type: 'Password', identifier: 'Password', class: 'form-group' },
+    { placeholder: 'Repeat Password', validate_type: 'Password', identifier: 'Confirm_Password', class: 'form-group' },
+    { placeholder: 'Name', validate_type: 'Name', identifier: 'Name', class: 'form-group' },
+    { placeholder: 'Email', validate_type: 'Email', identifier: 'Email', class: 'input-group', attachment: '@', type: 'prepend' },
+    { placeholder: 'Age', validate_type: 'Age', identifier: 'Age', class: 'input-group', attachment: 'years', type: 'append' },
+    { placeholder: 'Height', validate_type: 'Height', identifier: 'Height', class: 'input-group', attachment: 'cm', type: 'append' },
+    { placeholder: 'Weight', validate_type: 'Weight', identifier: 'Weight', class: 'input-group', attachment: 'kg', type: 'append' },
+]
+
 </script>
 
 
@@ -65,35 +68,27 @@ async function register() {
                 </div>
                 <h1 class="card-title"> Register: Macro Tracker </h1>
                 <form id="register_form" @submit.prevent>
-                    <div class="form-group">
-                        <input
-                            @input="validation_arr['isUsernameValid'] = ValidateText($event, register_username_validation_message, 'Username', 'form-control form-control-md')"
-                            class="form-control form-control-md" type="text" name="register_username"
-                            placeholder="Username" required>
-                        <div ref="register_username_validation_message" class="ml-2 invalid-feedback"
-                            style="display: none;"></div>
-                    </div>
-                    <div class="form-group">
-                        <input
-                            @input="validation_arr['isPasswordValid'] = ValidateText($event, register_password_validation_message, 'Password', 'form-control form-control-md')"
-                            class="form-control form-control-md" type="password" name="register_password"
-                            placeholder="Password" required>
-                        <div ref="register_password_validation_message" class="ml-2 invalid-feedback"
-                            style="display: none;"></div>
-                    </div>
-                    <div class="form-group">
-                        <input
-                            @input="validation_arr['isConfirmPasswordValid'] = ValidateText($event, register_confirm_password_validation_message, 'Password', 'form-control form-control-md')"
-                            class="form-control form-control-md" type="password" name="confirm_password"
-                            placeholder="Repeat password" required>
-                        <div ref="register_confirm_password_validation_message" class="ml-2 invalid-feedback"
-                            style="display: none;"></div>
-                    </div>
 
+                    <template v-for="entry in _arr" :key="entry.identifier">
+                        <div :class="entry.class">
+                            <div v-if="entry.type && entry.type == 'prepend'" :class="`input-group-${entry.type}`">
+                                <span class="input-group-text"> {{ entry.attachment }} </span>
+                            </div>
+                            <input
+                                @input="validation_arr[`is${entry.identifier}Valid`] = ValidateText($event, validation_messages.register[entry.identifier.toLocaleLowerCase()].value, entry.validate_type, 'form-control form-control-md')"
+                                class="form-control form-control-md" type="text" :placeholder="entry.placeholder"
+                                :name="entry.identifier" required>
+                            <div v-if="entry.type && entry.type == 'append'" :class="`input-group-${entry.type}`">
+                                <span class="input-group-text"> {{ entry.attachment }} </span>
+                            </div>
+                        </div>
+                        <div :ref="(validation_messages.register[entry.identifier.toLocaleLowerCase()] as any)[0]"
+                            class="ml-2 invalid-feedback" style="display: none;"></div>
+                    </template>
 
                     <div class="input-group">
                         <select
-                            @change="validation_arr['isGenderValid'] = validateGenderOrActivityLvl($event, register_gender_validation_message, 'Gender', 'form-control form-control-md')"
+                            @change="validation_arr['isGenderValid'] = validateGenderOrActivityLvl($event, validation_messages.register.gender.value, 'Gender', 'form-control form-control-md')"
                             class="form-control form-control-md" name="_gender" required>
                             <option value="0" selected> Choose Gender </option>
                             <option value="1"> Male </option>
@@ -103,14 +98,14 @@ async function register() {
                             <span class="input-group-text"><font-awesome-icon
                                     :icon="['fas', 'person-half-dress']" /></span>
                         </div>
-                        <div ref="register_gender_validation_message" class="ml-2 invalid-feedback"
+                        <div :ref="validation_messages.register.gender" class="ml-2 invalid-feedback"
                             style="display: none;">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <select
-                            @change="validation_arr['isActivityLvlValid'] = validateGenderOrActivityLvl($event, register_activity_lvl_validation_message, 'Activity Lvl', 'form-control form-control-md')"
+                            @change="validation_arr['isActivityLvlValid'] = validateGenderOrActivityLvl($event, validation_messages.register.activity_lvl.value, 'Activity Lvl', 'form-control form-control-md')"
                             class="form-control form-control-md" name="_activity_lvl" required>
                             <option value="0" selected> Choose Activity Lvl </option>
                             <option value="1"> Sedentary </option>
@@ -119,63 +114,8 @@ async function register() {
                             <option value="4"> Very Active </option>
                             <option value="5"> Super Active </option>
                         </select>
-                        <div ref="register_activity_lvl_validation_message" class="ml-2 invalid-feedback"
+                        <div :ref="validation_messages.register.activity_lvl" class="ml-2 invalid-feedback"
                             style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <input
-                            @input="validation_arr['isNameValid'] = ValidateText($event, register_name_validation_message, 'Name', 'form-control form-control-md')"
-                            class="form-control form-control-md" type="text" name="register_name" placeholder="Name"
-                            required>
-                        <div ref="register_name_validation_message" class="ml-2 invalid-feedback"
-                            style="display: none;"></div>
-                    </div>
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">@</span>
-                        </div>
-                        <input
-                            @input="validation_arr['isEmailValid'] = ValidateText($event, register_email_validation_message, 'Email', 'form-control form-control-md')"
-                            class="form-control form-control-md" type="email" name="register_email" placeholder="Email"
-                            required>
-                        <div ref="register_email_validation_message" class="ml-2 invalid-feedback"
-                            style="display: none;"></div>
-                    </div>
-                    <div class="input-group">
-                        <input
-                            @input="validation_arr['isAgeValid'] = ValidateText($event, register_age_validation_message, 'Age', 'form-control form-control-md')"
-                            class="form-control form-control-md" type="number" name="register_age" placeholder="Age"
-                            required>
-                        <div class="input-group-append">
-                            <span class="input-group-text">years</span>
-                        </div>
-                        <div ref="register_age_validation_message" class="ml-2 invalid-feedback" style="display: none;">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <input
-                            @input="validation_arr['isHeightValid'] = ValidateText($event, register_height_validation_message, 'Height', 'form-control form-control-md')"
-                            class="form-control form-control-md" type="number" name="register_height"
-                            placeholder="Height in cm" required>
-                        <div class="input-group-append">
-                            <span class="input-group-text">cm</span>
-                        </div>
-                        <div ref="register_height_validation_message" class="ml-2 invalid-feedback"
-                            style="display: none;">
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <input
-                            @input="validation_arr['isWeightValid'] = ValidateText($event, register_weight_validation_message, 'Weight', 'form-control form-control-md')"
-                            class="form-control form-control-md" type="number" name="register_weight"
-                            placeholder="Weight in kg" required>
-                        <div class="input-group-append">
-                            <span class="input-group-text">kg</span>
-                        </div>
-                        <div ref="register_weight_validation_message" class="ml-2 invalid-feedback"
-                            style="display: none;">
-                        </div>
                     </div>
 
                     <RouterLink class="m-2" :to="{ name: 'macroLogin' }">

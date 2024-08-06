@@ -26,11 +26,11 @@ const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
 </script>
 
 <template>
-    <nav class="navbar navbar-expand-md" data-bs-theme="dark">
+    <nav v-if="token" class="navbar navbar-expand-md" data-bs-theme="dark">
         <div class="container">
 
 
-            <h3 class="logo" v-if="token"> Macro Tracker - {{ username }} </h3>
+            <h3 class="logo"> Macro Tracker - {{ username }} </h3>
 
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMacroTracker"
@@ -40,16 +40,14 @@ const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
 
             <div class="collapse navbar-collapse" id="navbarMacroTracker">
                 <ul class="navbar-nav me-auto">
-                    <template v-if="token">
-                        <li class="nav-item" v-for="route in routes" :key="route">
-                            <RouterLink class="nav-link" :to="{ name: `macro${route}` }">
-                                {{ route }}
-                            </RouterLink>
-                        </li>
-                    </template>
+                    <li class="nav-item" v-for="route in routes" :key="route">
+                        <RouterLink class="nav-link" :to="{ name: `macro${route}` }">
+                            {{ route }}
+                        </RouterLink>
+                    </li>
                 </ul>
 
-                <button v-if="token" @click="logout()" class="btn btn-outline-danger btn-lg"> Log
+                <button @click="logout()" class="btn btn-outline-danger btn-lg"> Log
                     out
                 </button>
             </div>

@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import { ref, type Ref } from 'vue'
 import type {
   Average_macros_this_week,
   Ingredients,
@@ -10,6 +10,7 @@ import { fetchResource, getData } from './Ajax/ajax'
 import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
 import user_icon from '@/assets/Icons/user-icon.png'
 import { routeToPage } from './routeToPage'
+import { faR } from '@fortawesome/free-solid-svg-icons'
 
 // Init html div alert elements
 export const login_alert = ref<HTMLElement | null>(null)
@@ -26,17 +27,39 @@ export const isPasswordValid = ref<boolean>(true)
 export const username_validation_message = ref<HTMLElement | null>(null)
 export const password_validation_message = ref<HTMLElement | null>(null)
 
-// register
-export const register_username_validation_message = ref<HTMLElement | null>(null)
-export const register_password_validation_message = ref<HTMLElement | null>(null)
-export const register_confirm_password_validation_message = ref<HTMLElement | null>(null)
-export const register_name_validation_message = ref<HTMLElement | null>(null)
-export const register_weight_validation_message = ref<HTMLElement | null>(null)
-export const register_height_validation_message = ref<HTMLElement | null>(null)
-export const register_age_validation_message = ref<HTMLElement | null>(null)
-export const register_gender_validation_message = ref<HTMLElement | null>(null)
-export const register_activity_lvl_validation_message = ref<HTMLElement | null>(null)
-export const register_email_validation_message = ref<HTMLElement | null>(null)
+const HTMLElementORNull = ref<HTMLElement | null>(null)
+
+export const validation_messages: {
+  [key: string]: {
+    [key: string]: typeof HTMLElementORNull
+  }
+} = {
+  login: {
+    username: HTMLElementORNull,
+    password: HTMLElementORNull
+  },
+  register: {
+    username: ref<HTMLElement | null>(null),
+    password: ref<HTMLElement | null>(null),
+    confirm_password: ref<HTMLElement | null>(null),
+    name: ref<HTMLElement | null>(null),
+    weight: ref<HTMLElement | null>(null),
+    height: ref<HTMLElement | null>(null),
+    age: ref<HTMLElement | null>(null),
+    gender: ref<HTMLElement | null>(null),
+    activity_lvl: ref<HTMLElement | null>(null),
+    email: ref<HTMLElement | null>(null)
+  },
+  create_ingredient: {
+    name: HTMLElementORNull,
+    amount: HTMLElementORNull,
+    protein: HTMLElementORNull,
+    calories: HTMLElementORNull,
+    carbohydrates: HTMLElementORNull,
+    fat: HTMLElementORNull,
+    sugar: HTMLElementORNull
+  }
+}
 
 // Create Ingredient
 export const create_ingredient_name_validation_message = ref<HTMLElement | null>(null)
@@ -55,23 +78,22 @@ export const hour_validation_message = ref<HTMLElement | null>(null)
 export const minutes_validation_message = ref<HTMLElement | null>(null)
 
 export function initAlertElements() {
+  console.log('init elements')
+
+  for (const category of Object.keys(validation_messages)) {
+    for (const element of Object.keys(validation_messages[category])) {
+      validation_messages[category][element].value?.focus()
+    }
+  }
+
   login_alert.value?.focus()
   profile_alert.value?.focus()
   create_ingredient_alert.value?.focus()
 
-  username_validation_message.value?.focus()
+  const el = username_validation_message.value
+  console.log(el)
+  el?.focus()
   password_validation_message.value?.focus()
-
-  register_username_validation_message.value?.focus()
-  register_password_validation_message.value?.focus()
-  register_confirm_password_validation_message.value?.focus()
-  register_name_validation_message.value?.focus()
-  register_weight_validation_message.value?.focus()
-  register_height_validation_message.value?.focus()
-  register_age_validation_message.value?.focus()
-  register_gender_validation_message.value?.focus()
-  register_activity_lvl_validation_message.value?.focus()
-  register_email_validation_message.value?.focus()
 
   create_ingredient_name_validation_message.value?.focus()
   create_ingredient_amount_validation_message.value?.focus()
