@@ -1,7 +1,8 @@
 import router from '@/router'
-import { initData, login_validation, login_alert, password, username } from '../initVariables'
+import { initData, login_validation, password, username } from '../initVariables'
 import { token } from '../token'
 import { fetchResource } from './ajax'
+import { _alert, alertDanger, alertSuccess } from '../alertFunctions'
 
 export async function login() {
   if (login_validation.Password.value && login_validation.Username.value) {
@@ -16,9 +17,8 @@ export async function login() {
       const response = await fetchResource('POST', json, '/login', 'api_key')
 
       if (response && response.ok) {
-        const result: { token: string; user_id: string; username: string } = await response.json()
-
-        console.log('successfully received token', result.token)
+        const result: { message: string; token: string; user_id: string; username: string } =
+          await response.json()
 
         token.value = result.token
         username.value = result.username
@@ -28,11 +28,16 @@ export async function login() {
 
         await initData(result.user_id)
 
-        console.log('Moving to home')
+        alertSuccess()
+        _alert(result.message)
+
         router.push({ name: 'macroHome' })
       }
     } catch (error) {
       alert('Error loging in: ' + error)
     }
+  } else {
+    alertDanger()
+    _alert('Fill out the login fields correctly!')
   }
 }

@@ -8,6 +8,4 @@ export async function getMeals() {
   meals.value = meals_response
     ? ((await meals_response.json()) as Meal_with_ingredients[])
     : undefined
-
-  console.log(meals.value)
 }

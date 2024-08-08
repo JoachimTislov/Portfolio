@@ -88,7 +88,7 @@ export async function fetchResource(
         Authorization: auth,
         ...(!(data instanceof FormData) && { 'Content-Type': 'application/json' })
       },
-      ...(method !== 'GET' && method !== 'DELETE' && { body: data })
+      body: data
     }
     try {
       const response = await fetch(endpoint, fetchBody)

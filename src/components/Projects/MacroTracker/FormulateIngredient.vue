@@ -1,10 +1,5 @@
 <script setup lang="ts">
 import { ValidateText } from '@/Logic/MacroTracker/validation';
-import {
-    alertClassName,
-    alertMessage,
-    showAlert,
-} from '@/Logic/MacroTracker/initVariables';
 import { setElementReference } from '@/Logic/MacroTracker/setElementReference'
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import { fetchResource, getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/ajax';
@@ -14,6 +9,7 @@ import type { Form_configuration, Ingredient, Validation_array, ValidationRefs }
 import { onMounted, reactive, ref, watch } from 'vue';
 
 import AlertBox from './AlertBox.vue';
+import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 
 const validation: ValidationRefs = {
     name: ref<HTMLElement | null>(null),
@@ -91,9 +87,8 @@ async function IngredientEvent() {
             hideModal(modal_id)
         }
     } else {
-        showAlert.value = true
-        alertClassName.value = 'alert-danger'
-        alertMessage.value = "Fill out the required fields: 'Name' and 'Amount'. Nutrient values may be zero."
+        alertDanger()
+        _alert("Fill out the required fields: 'Name' and 'Amount'. Nutrient values may be zero.")
     }
 }
 

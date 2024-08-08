@@ -5,20 +5,15 @@ import type {
   Meal_with_ingredients,
   Meals_for_time_of_day
 } from './types'
-import { fetchResource, getData } from './Ajax/ajax'
+import { getData } from './Ajax/ajax'
 import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
 import user_icon from '@/assets/Icons/user-icon.png'
 import { routeToPage } from './routeToPage'
 import { days_of_the_week } from '@/Data/MacroTracker'
 
-export const showAlert = ref<boolean>(false)
+export const showAlert = ref<boolean>(true)
 export const alertMessage = ref<string>('Welcome to the login page')
-export const alertClassName = ref<string>('green')
-
-// Init html div alert elements
-export const ingredients_alert = ref<HTMLElement | null>(null)
-export const profile_alert = ref<HTMLElement | null>(null)
-export const login_alert = ref<HTMLElement | null>(null)
+export const alertClassName = ref<string>('alert-success')
 
 export const days_of_the_week_index = ref<number>(new Date().getDay())
 export const day_for_chosenDate = ref<string>(days_of_the_week.value[days_of_the_week_index.value])
@@ -55,32 +50,12 @@ export const validation_messages: {
   }
 }
 
-export const mealName_validation_message = ref<HTMLElement | null>(null)
-export const nutrient_validation_message = ref<HTMLElement | null>(null)
-export const ingredientName_validation_message = ref<HTMLElement | null>(null)
-export const amount_validation_message = ref<HTMLElement | null>(null)
-export const hour_validation_message = ref<HTMLElement | null>(null)
-export const minutes_validation_message = ref<HTMLElement | null>(null)
-
 export function initAlertElements() {
-  console.log('init elements')
-
   for (const category of Object.keys(validation_messages)) {
     for (const element of Object.keys(validation_messages[category])) {
       validation_messages[category][element].value?.focus()
     }
   }
-
-  login_alert.value?.focus()
-  profile_alert.value?.focus()
-  ingredients_alert.value?.focus()
-
-  mealName_validation_message.value?.focus()
-  nutrient_validation_message.value?.focus()
-  ingredientName_validation_message.value?.focus()
-  amount_validation_message.value?.focus()
-  hour_validation_message.value?.focus()
-  minutes_validation_message.value?.focus()
 }
 
 export const file = ref<File | undefined>(undefined)
@@ -98,13 +73,10 @@ export const calender_date = ref<string>(
   `${check_if_number_is_less_than_10(date.getDate())}-${check_if_number_is_less_than_10(date.getMonth() + 1)}-${date.getFullYear()}`
 )
 export const zero_meals_to_show = ref<boolean>(true)
-
 export const meals_for_given_date = ref<Meals_for_time_of_day | undefined>(undefined)
 
 export async function initData(user_id: string) {
   userInfo.value = await getData(`/user_info/${user_id}`)
-
-  console.log(meals.value)
 }
 
 // https://www.zhenghao.io/posts/verify-image-url
@@ -130,7 +102,7 @@ export async function initPicture() {
     console.log('Getting image from storage')
     profilePictureUrl.value = imageUrl
   } else {
-    const response = await fetchResource('GET', '', `/user_picture/${user_id}`, 'token')
+    const response = await getData(`/user_picture/${user_id}`)
 
     if (response && response.ok && response.headers.get('Content-Type') == 'image/png') {
       const blob = await response.blob()

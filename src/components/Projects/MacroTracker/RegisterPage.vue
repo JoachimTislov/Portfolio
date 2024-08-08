@@ -10,6 +10,7 @@ import { onMounted, ref } from 'vue';
 import { setElementReference } from '@/Logic/MacroTracker/setElementReference'
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import AlertBox from './AlertBox.vue';
+import { _alert, alertDanger, alertSuccess } from '@/Logic/MacroTracker/alertFunctions';
 
 const register_alert = ref<HTMLElement | null>(null)
 
@@ -31,8 +32,6 @@ const validation_arr: { [key: string]: boolean } = {
 }
 
 async function register() {
-    console.log('Attempting to register')
-
     const validation = checkValidationArr(validation_arr)
 
     if (validation) {
@@ -40,10 +39,11 @@ async function register() {
         const response = await fetchResource('POST', json, '/register', 'api_key')
 
         if (response && response.ok) {
-            console.log('successfully registered account')
-            console.log('Moving to login')
+            alertSuccess(); _alert('Successfully registered account')
             return routeToPage('macroLogin')
         }
+    } else {
+        alertDanger(); _alert('Fill out the required fields correctly!')
     }
 }
 

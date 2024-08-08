@@ -3,21 +3,13 @@
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import { calender_date, meals_for_given_date, zero_meals_to_show, day_for_chosenDate, days_of_the_week_index } from '@/Logic/MacroTracker/initVariables';
 import { get_meals_for_given_date } from '@/Logic/MacroTracker/Ajax/get/getMealsForGivenDate';
-import { onMounted, ref } from 'vue';
+import { ref } from 'vue';
 import { get_average_macros } from '@/Logic/MacroTracker/Ajax/get/getAverageMacros';
 import { construct_dates_for_days_in_week } from '@/Logic/MacroTracker/dateSystem';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import SelectMeal from './selectMeal.vue';
-import AlertBox from './AlertBox.vue';
 
-const select_meal_alert = ref<HTMLElement | null>(null)
-
-onMounted(async () => {
-
-    select_meal_alert.value?.focus()
-
-    if (!meals_for_given_date.value) { await get_meals_for_given_date() }
-})
+if (!meals_for_given_date.value) { await get_meals_for_given_date() }
 
 // Have to edit it to format yyyy-mm-dd
 const chosenDate = ref<string>(`${calender_date.value.split('-')[2]}-${calender_date.value.split('-')[1]}-${calender_date.value.split('-')[0]}`)
@@ -60,8 +52,6 @@ async function update_calender_info(event: Event) {
         </div>
 
         <div class="card-body">
-            <AlertBox />
-
             <div class="card-header">
 
                 <div class="ml-1 d-flex gap-2">

@@ -23,8 +23,8 @@ onMounted(async () => {
                 <h5 style="width: 200px;" class="border border-info border-1 p-2"
                     v-for="(value, name) in average_macros_this_week" :key="name">
                     <strong>
-                        <template v-if="name == 'Calories'">{{ name }}: {{ value }} kcal </template>
-                        <template v-if="name != 'Calories'">{{ name }}: {{ value }} g </template>
+                        <template v-if="name == 'calories'">{{ name }}: {{ value }} kcal </template>
+                        <template v-if="name != 'calories'">{{ name }}: {{ value }} g </template>
                     </strong>
                 </h5>
             </div>

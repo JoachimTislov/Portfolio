@@ -3,6 +3,7 @@ import AverageMacros from './AverageMacros.vue'
 import MealCalender from './MealCalender.vue';
 import { construct_dates_for_days_in_week } from '@/Logic/MacroTracker/dateSystem';
 import { onMounted } from 'vue';
+import AlertBox from './AlertBox.vue';
 
 const date = new Date() // Init data
 const dayOfWeek = date.getDay() == 0 ? 6 : date.getDay() - 1 // Day of week, minus one because index in js start with 0
@@ -16,6 +17,8 @@ onMounted(() => {
 </script>
 
 <template>
+    <AlertBox />
+
     <Suspense>
         <template #default>
             <AverageMacros />

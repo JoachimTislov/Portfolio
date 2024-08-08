@@ -9,7 +9,7 @@ import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitAr
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
 import FormulateIngredient from './FormulateIngredient.vue';
 import AlertBox from './AlertBox.vue';
-import { hideAlert } from '@/Logic/MacroTracker/hideAlert';
+import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')

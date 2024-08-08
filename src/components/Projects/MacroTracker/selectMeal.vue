@@ -9,6 +9,7 @@ import { day_for_chosenDate, calender_date, meals } from '@/Logic/MacroTracker/i
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 import { onMounted, ref, type Ref } from 'vue';
 import AlertBox from './AlertBox.vue';
+import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 
 const minutes = ref<number>(0)
 const hour = ref<number>(0)
@@ -73,31 +74,21 @@ async function addMealToGivenDate(meal_id: number) {
             const dayOfWeek = (new Date().getDay())
             const index = dayOfWeek == 6 ? 0 : dayOfWeek - 1
             const date = days_of_the_week_with_date.value[index].Date
+
             const json = JSON.stringify({ "id": meal_id, "date": date, "time": time })
             const response = await fetchResource('POST', json, '/calender', 'token')
 
-            if (response) {
-                if (response.status != 200) {
-                    console.log("Error adding meal to given date: " + calender_date)
-                    //this.$root.alertUserWithMessage('add_meal_alert', this.$root.cookie['Message'], "red")
-                    return false;
-                }
+            if (response && response.ok) {
 
-                if (response.ok) {
-                    // Update information
-                    //this.$root.showSelectMeal = false
+                await get_meals_for_given_date()
+                hideModal(modal_id)
 
-                    await get_meals_for_given_date()
-                    hideModal(modal_id)
-
-                    //this.$root.alertUserWithMessage('select_meal_alert', this.$root.cookie['Message'], "green")
-                }
             }
         } catch (error) {
             alert(`Network error: ${error}`)
         }
     } else {
-        //alertUserWithMessage('add_meal_alert', "Time input is invalid", "red")
+        alertDanger(); _alert('Time input is invalid')
     }
 }
 
@@ -174,9 +165,6 @@ async function addMealToGivenDate(meal_id: number) {
 
                     <div class="ml-5" v-if="meals && meals.length == 0">
                         <h5> You don't have any personal meals </h5>
-                        <!--<button class="btn-success btn btn-sm" @click="showCreateMeal = true">
-                            <h5> Create a meal </h5>
-                        </button>-->
                     </div>
                 </div>
                 <div class="modal-footer">

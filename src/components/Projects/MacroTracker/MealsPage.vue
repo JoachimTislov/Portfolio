@@ -9,7 +9,7 @@ import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals'
 import FormulateIngredient from './FormulateIngredient.vue';
 import type { Ingredient } from '@/Logic/MacroTracker/types'
 import AlertBox from './AlertBox.vue'
-import { hideAlert } from '@/Logic/MacroTracker/hideAlert'
+import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')
@@ -87,7 +87,7 @@ function editIngredient(_ingredient: Ingredient) {
                                         }}kcal</small>
                                     <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
                                         meal['carbohydrates']
-                                    }}g</small>
+                                        }}g</small>
                                     <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
                                         }}g</small>
                                     <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
@@ -111,7 +111,7 @@ function editIngredient(_ingredient: Ingredient) {
                                                 </li>
                                                 <li class="list-group-item mr-3">Calories: {{
                                                     ingredient['calories']
-                                                }}kcal</li>
+                                                    }}kcal</li>
                                                 <li class="list-group-item mr-3">
                                                     Carbohydrates: {{ ingredient['carbohydrates'] }}g
                                                 </li>

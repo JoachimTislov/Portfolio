@@ -24,7 +24,6 @@ export async function get_average_macros() {
   }
 
   if (average_macros_data) {
-    console.log(average_macros_data)
     // Adding all of the nutrients for the given week
     days_of_the_week_with_date.value.forEach((entry) => {
       average_macros_data.forEach((line: Average_macros_data_entry) => {
@@ -41,8 +40,6 @@ export async function get_average_macros() {
       average_macros[key] = Math.round(average_macros[key] / 7)
     }
   }
-
-  console.log(average_macros)
 
   average_macros_this_week.value = average_macros
 }

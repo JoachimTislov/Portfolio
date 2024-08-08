@@ -11,7 +11,7 @@ import AlertBox from './AlertBox.vue';
 
 <template>
     <div class="centerDiv">
-        <div class="card mx-auto" style="max-width: 500px">
+        <div class="card mx-auto" style="max-width: 700px; min-width: 300px;">
             <div class="card-body">
                 <AlertBox />
                 <h1 class="card-title">Macro Tracker </h1>
@@ -56,6 +56,6 @@ import AlertBox from './AlertBox.vue';
     display: flex;
     justify-content: center;
 
-    margin-top: 20vh;
+    margin-top: 10vh;
 }
 </style>

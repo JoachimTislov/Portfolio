@@ -10,7 +10,7 @@ function hideAlert() { showAlert.value = false }
 
     <div v-if="showAlert" :class="alertClassName" class="mb-3 alert">
 
-        <button type="button" class="btn btn-success btn-outline-secondary float-end" @click.prevent="hideAlert">
+        <button type="button" class="btn btn-md btn-outline-light float-end" @click.prevent="hideAlert">
             Close <font-awesome-icon :icon="['fas', 'x']" />
         </button>
 
@@ -26,7 +26,14 @@ button {
 }
 
 h4 {
-    color: rgb(241, 241, 241);
+    color: rgb(255, 221, 221);
     font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+}
+
+div {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 5px;
+    z-index: 1;
 }
 </style>

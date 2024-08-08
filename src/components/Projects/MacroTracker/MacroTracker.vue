@@ -5,20 +5,26 @@ import { RouterLink } from 'vue-router';
 import { token } from '@/Logic/MacroTracker/token'
 import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
-import { username } from '@/Logic/MacroTracker/initVariables';
+import { alertClassName, alertMessage, showAlert, username } from '@/Logic/MacroTracker/initVariables';
+
+import { onMounted } from 'vue';
+
+
+onMounted(() => {
+    console.log(showAlert.value, alertClassName.value, alertMessage.value)
+
+})
 
 const logout = async () => {
 
-    const response = await fetchResource('POST', '', '/logout', 'token')
+    token.value = undefined
+    localStorage.removeItem('token')
+    localStorage.removeItem('user_id')
+    localStorage.removeItem('username')
 
-    if (response && response.ok) {
-        routeToPage('macroLogin')
+    await fetchResource('POST', '', '/logout', 'token')
 
-        token.value = undefined
-        localStorage.removeItem('token')
-        localStorage.removeItem('user_id')
-        localStorage.removeItem('username')
-    }
+    routeToPage('macroLogin')
 }
 
 const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
@@ -51,8 +57,6 @@ const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
             </div>
         </div>
     </nav>
-
-    <div id="alert" class="m-4 alert alert-dismissible alert-success" style="display: none;"></div>
 
     <RouterView />
 
