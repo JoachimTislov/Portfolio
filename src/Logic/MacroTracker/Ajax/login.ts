@@ -13,7 +13,7 @@ export async function login() {
         password: password.value
       })
 
-      const response = await fetchResource('POST', json, '/login', login_alert.value, 'api_key')
+      const response = await fetchResource('POST', json, '/login', 'api_key')
 
       if (response && response.ok) {
         const result: { token: string; user_id: string; username: string } = await response.json()

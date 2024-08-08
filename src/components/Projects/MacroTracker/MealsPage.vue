@@ -1,41 +1,58 @@
 <script setup lang="ts">
-import { getData, deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax'
+import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax'
 import { meals } from '@/Logic/MacroTracker/initVariables'
-import type { Meal_with_ingredients } from '@/Logic/MacroTracker/types'
-import { ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
-import { filterArrayByName, sortArray } from '@/Logic/MacroTracker/sorting'
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
+import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals'
+import FormulateIngredient from './FormulateIngredient.vue';
+import type { Ingredient } from '@/Logic/MacroTracker/types'
+import AlertBox from './AlertBox.vue'
+import { hideAlert } from '@/Logic/MacroTracker/hideAlert'
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
-const sort_value = storedSortValue ? storedSortValue : 'Sort by'
-const search_value = ''
+const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')
+const search_value = ref<string>('')
 
-const filtered_meals = ref<Meal_with_ingredients[] | undefined>([])
 
-const user_id = localStorage.getItem('user_id')
-const meals_response = await getData(`/personal_meals/${user_id}`)
-meals.value = meals_response
-    ? ((await meals_response.json()) as Meal_with_ingredients[])
-    : undefined
+const personal_meal_alert = ref<HTMLElement | null>(null)
+
+onMounted(async () => {
+    personal_meal_alert.value?.focus()
+})
+
+// loading meals if they have not been loaded 
+if (!meals.value) { await getMeals() }
+
+const list_of_meals = computed(() => {
+    return splitArrayWithRespectToSortedArray(checkFilterForArray(meals.value, search_value.value, sort_value.value))
+})
+
+
+const ingredient = ref<Ingredient | undefined>(undefined)
+
+function editIngredient(_ingredient: Ingredient) {
+    hideAlert()
+    ingredient.value = _ingredient
+}
 </script>
 
 <template>
-    <section class="card" style="height: 100vh">
+
+    <FormulateIngredient formulate_type="edit" :ingredient="ingredient" />
+
+    <section class="card">
         <div class="card-header">
             <h2 class="m-0">Your meals</h2>
 
-            <div id="personal_meal_alert" style="display: none" class="mt-5 alert alert-dismissible alert-success">
-            </div>
-
             <div class="m-2 input-group">
-                <input class="form-control form-control-lg" id="search_meal"
-                    @input="filtered_meals = filterArrayByName(meals, search_value)" type="text" placeholder="Search"
-                    v-model="search_value" />
 
-                <select class="form-control form-control-lg" id="select_sort_meals"
-                    @change="filtered_meals = sortArray(meals, sort_value)" v-model="sort_value">
+                <button class="create_button btn-success btn btn-lg">Create Meal</button>
+
+                <input class="form-control form-control-lg" type="text" placeholder="Search" v-model="search_value" />
+
+                <select class="form-control form-control-lg" @change="search_value = ''" v-model="sort_value">
                     <option disabled selected>Sort by</option>
                     <option value="name">Name</option>
                     <option value="protein">Protein</option>
@@ -45,14 +62,13 @@ meals.value = meals_response
                     <option value="sugar">Sugar</option>
                 </select>
 
-                <button class="create_button btn-success btn btn-md">Create Meal</button>
             </div>
         </div>
 
         <div class="card-body">
+            <AlertBox />
             <div class="mealsList">
-                <div v-for="mealChunk in splitArrayWithRespectToSortedArray(checkFilterForArray(meals, search_value, sort_value))"
-                    :key="mealChunk[0].meal_id" style="width: 100%">
+                <div v-for="(mealChunk, index) in list_of_meals" :key="index" style="width: 100%">
                     <CAccordion flush>
                         <CAccordionItem v-for="meal in mealChunk" :id="`meal-${meal['meal_id']}`" :key="meal['meal_id']"
                             class="m-2 mt-0 border border-3 border-secondary">
@@ -78,7 +94,7 @@ meals.value = meals_response
                                         }}g</small>
                                 </div>
 
-                                <h5>Ingredients:</h5>
+                                <h5 v-if="meal['ingredients'].length > 0">Ingredients:</h5>
                                 <div class="wrap">
                                     <template v-if="meal['ingredients'].length > 0">
                                         <div class="m-1" v-for="ingredient in meal['ingredients']"
@@ -107,25 +123,27 @@ meals.value = meals_response
                                             <div class="mt-2 btn-group-md btn-group d-flex">
                                                 <button @click="
                                                     deleteEntity(
-                                                        `/meal/${ingredient['ingredient_id']}/${meal['meal_id']}`,
-                                                        'removing ingredient from meal',
-                                                        'personal_meal_alert'
+                                                        `/meal/${ingredient['ingredient_id']}/${meal['meal_id']}`, getMeals
                                                     )
                                                     " class="btn-outline-danger btn btn-md">
                                                     Remove <font-awesome-icon :icon="['fas', 'trash']" />
                                                 </button>
-                                                <button class="btn btn-outline-info btn-md">
+                                                <button class="btn btn-outline-info btn-md" data-bs-toggle="modal"
+                                                    data-bs-target="#edit_ingredient_modal"
+                                                    @click="editIngredient(ingredient)">
                                                     Edit <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                                                 </button>
                                             </div>
                                         </div>
                                     </template>
                                     <template v-if="meal['ingredients'].length == 0">
-                                        <h6>The meal: {{ meal['name'] }} has zero ingredients</h6>
-                                        <button class="btn-outline-info btn btn-lg">
-                                            <font-awesome-icon :icon="['fas', 'pen-to-square']" /> {{
-                                                meal['name'] }}
-                                        </button>
+                                        <div class="mt-2">
+                                            <h5> {{ meal['name'] }} has zero ingredients</h5>
+                                            <button class="btn-outline-info btn btn-lg">
+                                                <font-awesome-icon :icon="['fas', 'pen-to-square']" /> {{
+                                                    meal['name'] }}
+                                            </button>
+                                        </div>
                                     </template>
                                 </div>
                             </CAccordionBody>
@@ -133,16 +151,16 @@ meals.value = meals_response
                     </CAccordion>
                 </div>
             </div>
-        </div>
 
-        <div class="ml-5 mb-2 mt-2" v-if="meals && meals.length == 0">
-            <h4 v-if="search_value == ''">You don't have any personal meals</h4>
-            <h4 v-if="search_value != ''">
-                You don't have any personal meals with name: {{ search_value }}
-            </h4>
-            <button class="create_button btn-success btn btn-sm">
-                <h5>Create a meal</h5>
-            </button>
+            <div v-if="list_of_meals[0].length == 0" class="ml-5 mb-2 mt-2">
+                <h4 v-if="search_value == ''">You don't have any personal meals</h4>
+                <h4 v-if="search_value != ''">
+                    You don't have any personal meals with name: {{ search_value }}
+                </h4>
+                <button class="btn-success btn btn-lg ml-2">
+                    <h5>Create a meal</h5>
+                </button>
+            </div>
         </div>
     </section>
 </template>

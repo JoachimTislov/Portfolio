@@ -20,13 +20,7 @@ export async function uploadProfilePicture(file: Blob | undefined) {
         console.log(key[0], ', ', key[1])
       }
 
-      const response = await fetchResource(
-        'POST',
-        form_data,
-        '/profile_picture',
-        profile_alert.value,
-        'token'
-      )
+      const response = await fetchResource('POST', form_data, '/profile_picture', 'token')
 
       if (response) {
         if (response.status != 200) {

@@ -1,20 +1,26 @@
 <script setup lang="ts">
 
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
-import { average_macros_this_week, calender_date, meals_for_given_date, zero_meals_to_show } from '@/Logic/MacroTracker/initVariables';
-import { get_meals_for_given_date } from '@/Logic/MacroTracker/Ajax/getMealsForGivenDate';
-import { ref } from 'vue';
-import { days_of_the_week, days_of_the_week_with_date } from '@/Data/MacroTracker';
-import { get_average_macros } from '@/Logic/MacroTracker/Ajax/getAverageMacros';
+import { calender_date, meals_for_given_date, zero_meals_to_show, day_for_chosenDate, days_of_the_week_index } from '@/Logic/MacroTracker/initVariables';
+import { get_meals_for_given_date } from '@/Logic/MacroTracker/Ajax/get/getMealsForGivenDate';
+import { onMounted, ref } from 'vue';
+import { get_average_macros } from '@/Logic/MacroTracker/Ajax/get/getAverageMacros';
 import { construct_dates_for_days_in_week } from '@/Logic/MacroTracker/dateSystem';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
+import SelectMeal from './selectMeal.vue';
+import AlertBox from './AlertBox.vue';
 
+const select_meal_alert = ref<HTMLElement | null>(null)
 
-const days_of_the_week_index = ref<number>((new Date()).getDay())
-const day_for_chosenDate = days_of_the_week.value[days_of_the_week_index.value]
+onMounted(async () => {
+
+    select_meal_alert.value?.focus()
+
+    if (!meals_for_given_date.value) { await get_meals_for_given_date() }
+})
 
 // Have to edit it to format yyyy-mm-dd
-const chosenDate = ref<string>(`${calender_date.value.split('-')[2]}-${calender_date.value.split('-')[0]}-${calender_date.value.split('-')[1]}`)
+const chosenDate = ref<string>(`${calender_date.value.split('-')[2]}-${calender_date.value.split('-')[1]}-${calender_date.value.split('-')[0]}`)
 
 async function update_calender_info(event: Event) {
     const value = (event.target as HTMLInputElement).value
@@ -27,30 +33,24 @@ async function update_calender_info(event: Event) {
     // dd-mm-yyyy
     calender_date.value = `${check_if_number_is_less_than_10(dayOfMonth)}-${check_if_number_is_less_than_10(month)}-${year}`
 
-    const new_data = await get_meals_for_given_date()
-
     const dayOfWeek = (new Date(chosenDate.value)).getDay() == 0 ? 6 : (new Date(chosenDate.value)).getDay() - 1
     // Recalculate week and update average macros
     construct_dates_for_days_in_week(dayOfWeek, dayOfMonth, month, year)
 
     days_of_the_week_index.value = dayOfWeek
 
-    console.log(days_of_the_week_with_date.value)
-
-    average_macros_this_week.value = await get_average_macros()
-
-    if (new_data) meals_for_given_date.value = new_data
+    await get_meals_for_given_date()
+    await get_average_macros()
 }
 
 </script>
 
 <template>
+
+    <SelectMeal />
+
     <section class="card" id="meals_for_given_date">
         <div class="card-header">
-            <!--<button class="btn-outline-danger btn-md btn float-right">
-                <font-awesome-icon :icon="['fas', 'x']" />
-            </button>-->
-
             <div class="d-flex gap-2">
                 <h4 class="mt-1"> Meal Calender - </h4>
                 <div><input type="date" class="form-control form-control-md" v-model="chosenDate"
@@ -60,14 +60,15 @@ async function update_calender_info(event: Event) {
         </div>
 
         <div class="card-body">
-            <div id="select_meal_alert" style="display: none;" class="m-3 alert alert-dismissible alert-success"></div>
+            <AlertBox />
 
             <div class="card-header">
 
                 <div class="ml-1 d-flex gap-2">
                     <h5 class="mt-2"> {{ day_for_chosenDate }} {{ calender_date }} </h5>
 
-                    <button class="ml-2 btn-success btn btn-sm">
+                    <button class="ml-2 btn-success btn btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#select_meal_modal">
                         Add Meal
                     </button>
                 </div>
@@ -83,14 +84,14 @@ async function update_calender_info(event: Event) {
                         <div v-for="meal in meals_for_given_time" :key="meal['calender_id']"
                             :id="`calender_meal_${meal['calender_id']}`">
                             <div class="d-flex gap-2">
-                                <h5> {{ meal['meal_name'] }}, {{ meal['time_of_day'] }}
+                                <h5 class="border border-1 p-3 rounded"> {{ meal['meal_name'] }}, {{ meal['time_of_day']
+                                    }}
 
                                     <button class="float-right btn-danger btn btn-sm"
-                                        @click="deleteEntity('/calender/' + meal['calender_id'], 'a calender entry', 'select_meal_alert')">
-                                        <font-awesome-icon :icon="['fas', 'trash']" />
+                                        @click="deleteEntity('/calender/' + meal['calender_id'], get_meals_for_given_date)">
+                                        Delete <font-awesome-icon :icon="['fas', 'trash']" />
                                     </button>
                                 </h5>
-
                             </div>
                         </div>
                     </div>

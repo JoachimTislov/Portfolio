@@ -5,15 +5,23 @@ import type {
   Meal_with_ingredients,
   Meals_for_time_of_day
 } from './types'
-import { get_meals_for_given_date } from './Ajax/getMealsForGivenDate'
 import { fetchResource, getData } from './Ajax/ajax'
 import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
 import user_icon from '@/assets/Icons/user-icon.png'
 import { routeToPage } from './routeToPage'
+import { days_of_the_week } from '@/Data/MacroTracker'
+
+export const showAlert = ref<boolean>(false)
+export const alertMessage = ref<string>('Welcome to the login page')
+export const alertClassName = ref<string>('green')
 
 // Init html div alert elements
+export const ingredients_alert = ref<HTMLElement | null>(null)
+export const profile_alert = ref<HTMLElement | null>(null)
 export const login_alert = ref<HTMLElement | null>(null)
-export const create_ingredient_alert = ref<HTMLElement | null>(null)
+
+export const days_of_the_week_index = ref<number>(new Date().getDay())
+export const day_for_chosenDate = ref<string>(days_of_the_week.value[days_of_the_week_index.value])
 
 const storedUsername = localStorage.getItem('username')
 export const username = ref<string>(storedUsername ? storedUsername : 'Peddi')
@@ -44,15 +52,6 @@ export const validation_messages: {
     gender: ref<HTMLElement | null>(null),
     activity_lvl: ref<HTMLElement | null>(null),
     email: ref<HTMLElement | null>(null)
-  },
-  create_ingredient: {
-    name: ref<HTMLElement | null>(null),
-    amount: ref<HTMLElement | null>(null),
-    protein: ref<HTMLElement | null>(null),
-    calories: ref<HTMLElement | null>(null),
-    carbohydrates: ref<HTMLElement | null>(null),
-    fat: ref<HTMLElement | null>(null),
-    sugar: ref<HTMLElement | null>(null)
   }
 }
 
@@ -74,7 +73,7 @@ export function initAlertElements() {
 
   login_alert.value?.focus()
   profile_alert.value?.focus()
-  create_ingredient_alert.value?.focus()
+  ingredients_alert.value?.focus()
 
   mealName_validation_message.value?.focus()
   nutrient_validation_message.value?.focus()
@@ -96,7 +95,7 @@ export const ingredients = ref<Ingredients | undefined>(undefined)
 
 const date = new Date()
 export const calender_date = ref<string>(
-  `${check_if_number_is_less_than_10(date.getMonth() + 1)}-${check_if_number_is_less_than_10(date.getDate())}-${date.getFullYear()}`
+  `${check_if_number_is_less_than_10(date.getDate())}-${check_if_number_is_less_than_10(date.getMonth() + 1)}-${date.getFullYear()}`
 )
 export const zero_meals_to_show = ref<boolean>(true)
 
@@ -104,8 +103,6 @@ export const meals_for_given_date = ref<Meals_for_time_of_day | undefined>(undef
 
 export async function initData(user_id: string) {
   userInfo.value = await getData(`/user_info/${user_id}`)
-
-  meals_for_given_date.value = await get_meals_for_given_date()
 
   console.log(meals.value)
 }
@@ -120,7 +117,6 @@ function canFindImage(url: string) {
   })
 }
 
-export const profile_alert = ref<HTMLElement | null>(null)
 export const profilePictureUrl = ref<string>(user_icon)
 
 export async function initPicture() {
@@ -134,13 +130,7 @@ export async function initPicture() {
     console.log('Getting image from storage')
     profilePictureUrl.value = imageUrl
   } else {
-    const response = await fetchResource(
-      'GET',
-      '',
-      `/user_picture/${user_id}`,
-      profile_alert.value,
-      'token'
-    )
+    const response = await fetchResource('GET', '', `/user_picture/${user_id}`, 'token')
 
     if (response && response.ok && response.headers.get('Content-Type') == 'image/png') {
       const blob = await response.blob()

@@ -5,11 +5,11 @@ import { RouterLink } from 'vue-router';
 import { token } from '@/Logic/MacroTracker/token'
 import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
-import { login_alert, username } from '@/Logic/MacroTracker/initVariables';
+import { username } from '@/Logic/MacroTracker/initVariables';
 
 const logout = async () => {
 
-    const response = await fetchResource('POST', '', '/logout', login_alert.value, 'token')
+    const response = await fetchResource('POST', '', '/logout', 'token')
 
     if (response && response.ok) {
         routeToPage('macroLogin')
@@ -29,9 +29,7 @@ const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
     <nav v-if="token" class="navbar navbar-expand-md" data-bs-theme="dark">
         <div class="container">
 
-
             <h3 class="logo"> Macro Tracker - {{ username }} </h3>
-
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMacroTracker"
                 aria-controls="navbarMacroTracker" aria-expanded="false" aria-label="Toggle navigation">

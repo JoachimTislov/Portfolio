@@ -97,7 +97,8 @@ type Text_validation_requirements = {
 
 const regNumbers = /^[0-9]+$/
 const regLettersAndNumbers = /^[a-zA-Z0-9]+$/
-const regPeriodAndNumbers = /^(0|[1-9]\d*)(\.\d+)?\s*[1-9]\d*(\.\d+)?$/
+
+const regPeriodAndNumbers = /^(0|[1-9]\d*)(\.\d+)?$/
 const regSpecialCharacter = /(?=.*[}{.@$£<>-_/)[(+¤%&;:*¨~`'^#])/
 
 const validation_requirements: Text_validation_requirements = {

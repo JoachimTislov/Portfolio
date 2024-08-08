@@ -9,6 +9,7 @@ import {
 import { onMounted, ref } from 'vue';
 import { setElementReference } from '@/Logic/MacroTracker/setElementReference'
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
+import AlertBox from './AlertBox.vue';
 
 const register_alert = ref<HTMLElement | null>(null)
 
@@ -36,7 +37,7 @@ async function register() {
 
     if (validation) {
         const json = getFormDataInJSONFormat('register_form')
-        const response = await fetchResource('POST', json, '/register', register_alert.value, 'api_key')
+        const response = await fetchResource('POST', json, '/register', 'api_key')
 
         if (response && response.ok) {
             console.log('successfully registered account')
@@ -64,9 +65,9 @@ const _arr = [
     <div class="centerDiv">
         <div class="card" style="max-width: 550px">
             <div class="card-body">
-                <div ref="register_alert" class="alert alert-dismissible alert-success">
-                    <h4> Welcome to the register page </h4>
-                </div>
+
+                <AlertBox />
+
                 <h1 class="card-title"> Register: Macro Tracker </h1>
                 <form id="register_form" @submit.prevent>
 

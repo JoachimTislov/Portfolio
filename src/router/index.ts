@@ -1,3 +1,4 @@
+import { hideAlert } from '@/Logic/MacroTracker/hideAlert'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const macroLogin = 'macroLogin'
@@ -96,6 +97,8 @@ function isAuthenticated() {
 }
 
 router.beforeEach((to, from, next) => {
+  hideAlert()
+
   if (to.meta.requiresAuth && !isAuthenticated()) {
     console.log('User is not authed, redirecting to:', to.meta.authRedirect)
     next({ name: to.meta.authRedirect as string })

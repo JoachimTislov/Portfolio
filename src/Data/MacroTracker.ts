@@ -16,13 +16,13 @@ export const number_of_days_in_each_month = [
 ]
 
 // Personal schedule, might store this in the database
-export const schedule: Array<{ name: string; time: { Start: number; End: number } }> = [
-  { name: 'Breakfast', time: { Start: 6, End: 11 } },
-  { name: 'Lunch', time: { Start: 12, End: 15 } },
-  { name: 'Dinner', time: { Start: 16, End: 20 } },
-  { name: 'Supper', time: { Start: 21, End: 24 } },
-  { name: 'Night', time: { Start: 0, End: 5 } }
-]
+export const schedule: { [key: string]: { Start: number; End: number } } = {
+  Breakfast: { Start: 6, End: 11 },
+  Lunch: { Start: 12, End: 15 },
+  Dinner: { Start: 16, End: 20 },
+  Supper: { Start: 21, End: 24 },
+  Night: { Start: 0, End: 5 }
+}
 
 export const days_of_the_week_with_date = ref<{ Day: string; Date: string }[]>([
   { Day: 'Monday', Date: '' },

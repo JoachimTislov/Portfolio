@@ -1,10 +1,11 @@
 <script setup lang="ts">
 
 import { RouterLink } from 'vue-router'
-import { validation_messages, login_alert, login_validation, username, password } from '@/Logic/MacroTracker/initVariables'
+import { validation_messages, login_validation, username, password } from '@/Logic/MacroTracker/initVariables'
 import { ValidateText } from '@/Logic/MacroTracker/validation'
 
 import { login } from '@/Logic/MacroTracker/Ajax/login'
+import AlertBox from './AlertBox.vue';
 
 </script>
 
@@ -12,9 +13,7 @@ import { login } from '@/Logic/MacroTracker/Ajax/login'
     <div class="centerDiv">
         <div class="card mx-auto" style="max-width: 500px">
             <div class="card-body">
-                <div ref="login_alert" class="alert alert-success">
-                    <h4> Welcome to the login page </h4>
-                </div>
+                <AlertBox />
                 <h1 class="card-title">Macro Tracker </h1>
 
                 <form @submit.prevent>

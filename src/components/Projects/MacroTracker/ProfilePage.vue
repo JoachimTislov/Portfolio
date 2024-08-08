@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import user_icon from '@/assets/Icons/user-icon.png'
-import { initPicture, profile_alert, profilePictureUrl, file } from '@/Logic/MacroTracker/initVariables'
+import { initPicture, profilePictureUrl, file } from '@/Logic/MacroTracker/initVariables'
 
 import { deleteProfilePicture } from '@/Logic/MacroTracker/Ajax/deleteProfilePicture'
 import { uploadProfilePicture } from '@/Logic/MacroTracker/Ajax/uploadProfilePicture'
+import AlertBox from './AlertBox.vue';
 
 onMounted(async () => {
     initPicture()
@@ -29,7 +30,9 @@ function handleFileUpload(event: Event) {
 </script>
 
 <template>
-    <div ref="profile_alert"></div>
+
+    <AlertBox />
+
     <section class="card-body">
         <label for="pictureInput" class="form-label">
             <h5 class="card-title"> Your Profile Picture </h5>

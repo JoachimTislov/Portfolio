@@ -4,13 +4,7 @@ import user_icon from '@/assets/Icons/user-icon.png'
 
 export async function deleteProfilePicture() {
   try {
-    const response = await fetchResource(
-      'DELETE',
-      '',
-      '/profile_picture',
-      profile_alert.value,
-      'token'
-    )
+    const response = await fetchResource('DELETE', '', '/profile_picture', 'token')
 
     if (response) {
       if (!response.ok) {

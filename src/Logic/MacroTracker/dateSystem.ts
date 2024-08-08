@@ -7,7 +7,6 @@ export function construct_dates_for_days_in_week(
   month: number,
   year: number
 ) {
-  console.log(dayOfWeek, dayOfMonth, month, year)
   /*We want to start at the beginning of the week*/
   let start_of_week_date = dayOfMonth - dayOfWeek
 
