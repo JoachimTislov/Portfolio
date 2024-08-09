@@ -7,8 +7,6 @@ import { _alert, alertDanger, alertSuccess } from '../alertFunctions'
 export async function login() {
   if (login_validation.Password.value && login_validation.Username.value) {
     try {
-      console.log('Loggin in')
-
       const json = JSON.stringify({
         username: username.value,
         password: password.value
@@ -17,12 +15,22 @@ export async function login() {
       const response = await fetchResource('POST', json, '/login', 'api_key')
 
       if (response && response.ok) {
-        const result: { message: string; token: string; user_id: string; username: string } =
-          await response.json()
+        const result: {
+          message: string
+          token: string
+          user_id: string
+          username: string
+        } = await response.json()
+
+        // Probably rework this underneath
 
         token.value = result.token
         username.value = result.username
+
         localStorage.setItem('token', result.token)
+
+        router.push({ name: 'macroHome' })
+
         localStorage.setItem('user_id', result.user_id)
         localStorage.setItem('username', result.username)
 
@@ -30,8 +38,6 @@ export async function login() {
 
         alertSuccess()
         _alert(result.message)
-
-        router.push({ name: 'macroHome' })
       }
     } catch (error) {
       alert('Error loging in: ' + error)

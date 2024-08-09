@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax'
-import { meals } from '@/Logic/MacroTracker/initVariables'
-import { computed, onMounted, ref } from 'vue'
+import { createOrEditIngredient, createOrEditMeal, meals } from '@/Logic/MacroTracker/initVariables'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals'
 import FormulateIngredient from './FormulateIngredient.vue';
-import type { Ingredient } from '@/Logic/MacroTracker/types'
+import type { Ingredient, Meal_with_ingredients, mealModal } from '@/Logic/MacroTracker/types'
 import AlertBox from './AlertBox.vue'
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
+import FormulateMeal from './FormulateMeal.vue'
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')
@@ -34,11 +35,40 @@ const ingredient = ref<Ingredient | undefined>(undefined)
 
 function editIngredient(_ingredient: Ingredient) {
     hideAlert()
+    createOrEditIngredient.value = 'Edit'
     ingredient.value = _ingredient
 }
+
+function createMeal() {
+    hideAlert()
+    createOrEditMeal.value = 'Create'
+}
+
+const mealModalInformation: mealModal = reactive({
+    Create: {
+        formulate_type: 'create'
+    },
+    Edit: {
+        formulate_type: 'edit',
+        meal: undefined,
+    },
+})
+
+function editMeal(meal: Meal_with_ingredients) {
+    hideAlert()
+    createOrEditMeal.value = 'Edit'
+    mealModalInformation.Edit.meal = meal
+}
+
 </script>
 
 <template>
+
+    <template v-for="mealModal in mealModalInformation" :key="mealModal.formulate_type">
+
+        <FormulateMeal :formulate_type="mealModal.formulate_type" :meal="mealModal.meal" />
+
+    </template>
 
     <FormulateIngredient formulate_type="edit" :ingredient="ingredient" />
 
@@ -48,7 +78,8 @@ function editIngredient(_ingredient: Ingredient) {
 
             <div class="m-2 input-group">
 
-                <button class="create_button btn-success btn btn-lg">Create Meal</button>
+                <button class="create_button btn-success btn btn-lg" data-bs-toggle="modal"
+                    data-bs-target="#create_meal_modal" @click="createMeal()">Create Meal</button>
 
                 <input class="form-control form-control-lg" type="text" placeholder="Search" v-model="search_value" />
 
@@ -139,8 +170,9 @@ function editIngredient(_ingredient: Ingredient) {
                                     <template v-if="meal['ingredients'].length == 0">
                                         <div class="mt-2">
                                             <h5> {{ meal['name'] }} has zero ingredients</h5>
-                                            <button class="btn-outline-info btn btn-lg">
-                                                <font-awesome-icon :icon="['fas', 'pen-to-square']" /> {{
+                                            <button class="btn-outline-info btn btn-lg" data-bs-toggle="modal"
+                                                data-bs-target="#edit_meal_modal" @click="editMeal(meal)">
+                                                Edit <font-awesome-icon :icon="['fas', 'pen-to-square']" /> {{
                                                     meal['name'] }}
                                             </button>
                                         </div>
@@ -157,7 +189,8 @@ function editIngredient(_ingredient: Ingredient) {
                 <h4 v-if="search_value != ''">
                     You don't have any personal meals with name: {{ search_value }}
                 </h4>
-                <button class="btn-success btn btn-lg ml-2">
+                <button class="btn-success btn btn-lg ml-2" data-bs-toggle="modal" data-bs-target="#create_meal_modal"
+                    @click="createMeal()">
                     <h5>Create a meal</h5>
                 </button>
             </div>

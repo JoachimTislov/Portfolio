@@ -64,8 +64,6 @@ export function ValidateText(
         ? parseFloat(value)
         : parseInt(value)
 
-  console.log(inputValue)
-
   const min = requirements.min ? inputValue < requirements.min : undefined
   const max = requirements.max ? inputValue > requirements.max : undefined
   const regex = requirements.regExp ? !requirements.regExp.test(value) : undefined

@@ -6,16 +6,15 @@ import { ValidateText, validateGenderOrActivityLvl } from '@/Logic/MacroTracker/
 import {
     validation_messages
 } from '@/Logic/MacroTracker/initVariables';
-import { onMounted, ref } from 'vue';
+import { onMounted } from 'vue';
 import { setElementReference } from '@/Logic/MacroTracker/setElementReference'
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import AlertBox from './AlertBox.vue';
-import { _alert, alertDanger, alertSuccess } from '@/Logic/MacroTracker/alertFunctions';
-
-const register_alert = ref<HTMLElement | null>(null)
+import { _alert, alertDanger, alertSecondary, alertSuccess } from '@/Logic/MacroTracker/alertFunctions';
 
 onMounted(() => {
-    register_alert.value?.focus()
+    _alert('Welcome to register page')
+    alertSecondary()
 })
 
 const validation_arr: { [key: string]: boolean } = {
@@ -63,16 +62,16 @@ const _arr = [
 
 <template>
     <div class="centerDiv">
-        <div class="card" style="max-width: 550px">
+        <div class="card p-3 border border-1 shadow-lg">
             <div class="card-body">
 
                 <AlertBox />
 
-                <h1 class="card-title"> Register: Macro Tracker </h1>
+                <h2 class="card-title"> Macro Tracker - Register: </h2>
                 <form id="register_form" @submit.prevent>
 
                     <template v-for="entry in _arr" :key="entry.identifier">
-                        <div class="mt-1" :class="entry.class">
+                        <div class="mt-2" :class="entry.class">
                             <div v-if="entry.type && entry.type == 'prepend'" :class="`input-group-${entry.type}`">
                                 <span class="input-group-text"> {{ entry.attachment }} </span>
                             </div>
@@ -84,11 +83,11 @@ const _arr = [
                                 <span class="input-group-text"> {{ entry.attachment }} </span>
                             </div>
                         </div>
-                        <div :ref="el => setElementReference(el, validation_messages.register[entry.identifier.toLocaleLowerCase()])"
+                        <div :ref="el => setElementReference(el, validation_messages.register[entry.identifier.toLocaleLowerCase()].value)"
                             class="ml-2 invalid-feedback" style="display: none;"></div>
                     </template>
 
-                    <div class="input-group mt-1">
+                    <div class="input-group mt-2">
                         <select
                             @change="validation_arr['isGenderValid'] = validateGenderOrActivityLvl($event, validation_messages.register.gender.value, 'Gender', 'form-control form-control-md')"
                             class="form-control form-control-md" name="_gender" required>
@@ -105,7 +104,7 @@ const _arr = [
                         </div>
                     </div>
 
-                    <div class="form-group mt-1">
+                    <div class="form-group mt-2">
                         <select
                             @change="validation_arr['isActivityLvlValid'] = validateGenderOrActivityLvl($event, validation_messages.register.activity_lvl.value, 'Activity Lvl', 'form-control form-control-md')"
                             class="form-control form-control-md" name="_activity_lvl" required>
@@ -120,14 +119,16 @@ const _arr = [
                             style="display: none;"></div>
                     </div>
 
-                    <RouterLink class="m-2" :to="{ name: 'macroLogin' }">
-                        Login
-                    </RouterLink>
 
-                    <br>
-
-                    <button type="submit" class="btn btn-lg btn-outline-primary btn-block" @click="register()"> Register
+                    <button type="submit" class="btn btn-lg btn-outline-primary float-end m-2" @click="register()">
+                        Register
                     </button>
+
+                    <h4 class="mt-3">
+                        <RouterLink :to="{ name: 'macroLogin' }">
+                            Login
+                        </RouterLink>
+                    </h4>
                 </form>
             </div>
         </div>
@@ -140,6 +141,6 @@ const _arr = [
     display: flex;
     justify-content: center;
 
-    margin-top: 15vh;
+    margin-top: 7vh;
 }
 </style>

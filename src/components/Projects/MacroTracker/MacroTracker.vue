@@ -5,15 +5,7 @@ import { RouterLink } from 'vue-router';
 import { token } from '@/Logic/MacroTracker/token'
 import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
-import { alertClassName, alertMessage, showAlert, username } from '@/Logic/MacroTracker/initVariables';
-
-import { onMounted } from 'vue';
-
-
-onMounted(() => {
-    console.log(showAlert.value, alertClassName.value, alertMessage.value)
-
-})
+import { username } from '@/Logic/MacroTracker/initVariables';
 
 const logout = async () => {
 

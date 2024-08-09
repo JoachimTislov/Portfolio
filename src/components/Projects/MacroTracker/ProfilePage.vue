@@ -1,29 +1,32 @@
 <script setup lang="ts">
 import { onMounted } from 'vue';
 import user_icon from '@/assets/Icons/user-icon.png'
-import { initPicture, profilePictureUrl, file } from '@/Logic/MacroTracker/initVariables'
+import { initPicture, profilePictureUrl, _file, uploadedPicture } from '@/Logic/MacroTracker/initVariables'
+
 
 import { deleteProfilePicture } from '@/Logic/MacroTracker/Ajax/deleteProfilePicture'
 import { uploadProfilePicture } from '@/Logic/MacroTracker/Ajax/uploadProfilePicture'
 import AlertBox from './AlertBox.vue';
+import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 
 onMounted(async () => {
     initPicture()
 })
 
 function handleFileUpload(event: Event) {
-    console.log('Handling file upload')
     const input = event.target as HTMLInputElement
 
-    file.value = input && input.files && input.files.length > 0 ? input.files[0] : undefined
+    _file.value = input && input.files && input.files.length > 0 ? input.files[0] : null
 
-    if ((window.URL || window.webkitURL) && file.value && URL.createObjectURL(file.value)) {
+    if ((window.URL || window.webkitURL) && _file.value && URL.createObjectURL(_file.value)) {
 
-        profilePictureUrl.value = URL.createObjectURL(file.value)
+        profilePictureUrl.value = URL.createObjectURL(_file.value)
 
     }
 
     if (!profilePictureUrl.value) {
+        _alert("URL.createObjectURL is not supported in this browser.")
+        alertDanger()
         console.error("URL.createObjectURL is not supported in this browser.")
     }
 }
@@ -39,17 +42,16 @@ function handleFileUpload(event: Event) {
         </label>
         <div class="mb-4">
             <img :src="profilePictureUrl" alt="Could not load your picture" class="rounded"
-                style="width: 150px; height: 150px; object-fit: cover;">
+                style="width: 300px; height: 300px; object-fit: cover;">
         </div>
-        <div class="mt-2">
-            <input type="file" class="input-group input-group-sm" id="pictureInput" @change="handleFileUpload">
-            <div class="input-group-append mt-2">
-                <h6> Select a picture </h6>
-                <button type="button" class="btn btn-sm btn-outline-success"
-                    @click="uploadProfilePicture(file)">Upload</button>
-                <button v-if="profilePictureUrl != user_icon" type="button" class="btn btn-sm btn-outline-danger"
-                    @click="deleteProfilePicture()">Delete</button>
-            </div>
+        <div class="mt-2 input-group" style="max-width: 300px;">
+            <input type="file" class="form-control" id="pictureInput" @change="handleFileUpload">
+
+            <button v-if="profilePictureUrl != user_icon && !uploadedPicture" type="button"
+                class="btn btn-md btn-outline-success" @click="uploadProfilePicture(_file)">Upload</button>
+
+            <button v-if="profilePictureUrl != user_icon && uploadedPicture" type="button"
+                class="btn btn-md btn-outline-danger" @click="deleteProfilePicture()">Delete</button>
         </div>
     </section>
 </template>

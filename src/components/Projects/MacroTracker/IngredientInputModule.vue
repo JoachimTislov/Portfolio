@@ -1,0 +1,40 @@
+<script setup lang="ts">
+import type { Form_configuration, Ingredient } from '@/Logic/MacroTracker/types';
+import { reactive, watch } from 'vue';
+import IngredientBlueprint from './IngredientBlueprint.vue';
+
+const props = defineProps<({
+    food_type: string
+    ingredient?: Ingredient
+})>()
+
+const form_configurations: Form_configuration = reactive([
+    { class: 'form-group', identifier: 'Name', validation_type: 'Name', inputType: 'text', value: '' },
+    { class: 'form-group', identifier: 'Amount', validation_type: 'Amount', inputType: 'text', value: 0 },
+    { class: 'input-group', identifier: 'Calories', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'kcal' },
+    { class: 'input-group', identifier: 'Carbohydrates', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
+    { class: 'input-group', identifier: 'Fat', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
+    { class: 'input-group', identifier: 'Protein', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
+    { class: 'input-group', identifier: 'Sugar', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
+])
+
+watch(() => props.ingredient, (newIngredient) => {
+    if (newIngredient) {
+        for (const configuration of form_configurations) {
+            const key = configuration.identifier.toLocaleLowerCase()
+            configuration.value = newIngredient[key]
+        }
+    }
+})
+
+</script>
+
+<template>
+
+    <template v-for="entry in form_configurations" :key="entry.identifier">
+
+        <IngredientBlueprint :ingredient-info="entry" :food_type="food_type" />
+
+    </template>
+
+</template>

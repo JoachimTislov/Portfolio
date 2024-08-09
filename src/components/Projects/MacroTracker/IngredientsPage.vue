@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
-import { ingredients } from '@/Logic/MacroTracker/initVariables';
+import { ingredients, createOrEditIngredient } from '@/Logic/MacroTracker/initVariables';
 import type { Ingredient, IngredientModal } from '@/Logic/MacroTracker/types';
 import { computed, reactive, ref } from 'vue';
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
@@ -20,7 +20,7 @@ if (!ingredients.value) {
     await getIngredients()
 }
 
-const ingredientModalsInformation: IngredientModal = reactive({
+const ingredientModalInformation: IngredientModal = reactive({
     Create: {
         formulate_type: 'create'
     },
@@ -32,7 +32,8 @@ const ingredientModalsInformation: IngredientModal = reactive({
 
 function handleEditEvent(ingredient: Ingredient) {
     hideAlert()
-    ingredientModalsInformation.Edit.ingredient = ingredient
+    createOrEditIngredient.value = 'Edit'
+    ingredientModalInformation.Edit.ingredient = ingredient
 }
 
 const list_of_ingredients = computed(() => {
@@ -43,7 +44,7 @@ const list_of_ingredients = computed(() => {
 
 <template>
 
-    <template v-for="(ingredientModal, index) in ingredientModalsInformation" :key="index">
+    <template v-for="(ingredientModal, index) in ingredientModalInformation" :key="index">
 
         <FormulateIngredient :formulate_type="ingredientModal.formulate_type"
             :ingredient="ingredientModal.ingredient" />
@@ -56,7 +57,7 @@ const list_of_ingredients = computed(() => {
 
             <div class="m-2 input-group">
                 <button type="button" class="btn-success btn btn-lg" data-bs-toggle="modal"
-                    data-bs-target="#create_ingredient_modal">
+                    data-bs-target="#create_ingredient_modal" @click="createOrEditIngredient = 'Create'">
                     Create ingredient
                 </button>
                 <input class="form-control form-control-lg" type="text" placeholder="Search" v-model="search_value">

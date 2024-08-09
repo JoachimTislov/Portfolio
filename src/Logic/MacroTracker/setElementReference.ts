@@ -1,4 +1,4 @@
-import type { ComponentOptionsBase, ComponentPublicInstance, Ref } from 'vue'
+import type { ComponentOptionsBase, ComponentPublicInstance } from 'vue'
 
 type vueElement =
   | Element
@@ -18,7 +18,7 @@ type vueElement =
     >
   | null
 
-export function setElementReference(element: vueElement, divRef: Ref<HTMLElement | null>) {
-  divRef.value = element as HTMLElement
+export function setElementReference(element: vueElement, divRef: HTMLElement | null) {
+  divRef = element as HTMLElement
   return divRef
 }

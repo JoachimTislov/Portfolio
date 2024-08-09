@@ -8,6 +8,7 @@ import { get_average_macros } from '@/Logic/MacroTracker/Ajax/get/getAverageMacr
 import { construct_dates_for_days_in_week } from '@/Logic/MacroTracker/dateSystem';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import SelectMeal from './selectMeal.vue';
+import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 
 if (!meals_for_given_date.value) { await get_meals_for_given_date() }
 
@@ -58,7 +59,7 @@ async function update_calender_info(event: Event) {
                     <h5 class="mt-2"> {{ day_for_chosenDate }} {{ calender_date }} </h5>
 
                     <button class="ml-2 btn-success btn btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#select_meal_modal">
+                        data-bs-target="#select_meal_modal" @click="hideAlert">
                         Add Meal
                     </button>
                 </div>

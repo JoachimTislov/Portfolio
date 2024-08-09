@@ -20,8 +20,6 @@ export type Average_macros_data_entry = {
 
 export type Average_macros_this_week = { [key: string]: number }
 
-export type Meals = Meal[]
-
 export type Meal = {
   [key: string]: string | number
   name: string
@@ -63,14 +61,23 @@ export type IngredientModal = {
   }
 }
 
-export type Form_configuration = {
+export type mealModal = {
+  [key: string]: {
+    formulate_type: string
+    meal?: Meal_with_ingredients | undefined
+  }
+}
+
+export type Form_configuration = IngredientInfo[]
+
+export type IngredientInfo = {
   identifier: string
   validation_type: string
   inputType: string
   value: string | number
   class: string
   unit?: string
-}[]
+}
 
 export type Validation_array = { [key: string]: boolean }
 

@@ -6,12 +6,20 @@ import { ValidateText } from '@/Logic/MacroTracker/validation'
 
 import { login } from '@/Logic/MacroTracker/Ajax/login'
 import AlertBox from './AlertBox.vue';
+import { onMounted } from 'vue';
+import { _alert, alertSecondary } from '@/Logic/MacroTracker/alertFunctions';
+
+
+onMounted(() => {
+    _alert('Welcome to the login page')
+    alertSecondary()
+})
 
 </script>
 
 <template>
     <div class="centerDiv">
-        <div class="card mx-auto" style="max-width: 700px; min-width: 300px;">
+        <div class="card p-3 border border-1 shadow-lg" style="max-width: 700px; min-width: 400px;">
             <div class="card-body">
                 <AlertBox />
                 <h1 class="card-title">Macro Tracker </h1>
@@ -43,7 +51,7 @@ import AlertBox from './AlertBox.vue';
 
                     <br>
 
-                    <button type="submit" class="btn btn-lg btn-outline-primary btn-block" @click="login()"> Login
+                    <button type="submit" class="btn btn-lg btn-outline-primary float-end" @click="login()"> Login
                     </button>
                 </form>
             </div>

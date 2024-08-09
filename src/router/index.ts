@@ -1,3 +1,5 @@
+import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
+import { token } from '@/Logic/MacroTracker/token'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const macroLogin = 'macroLogin'
@@ -88,25 +90,21 @@ const router = createRouter({
 })
 
 function isAuthenticated() {
-  return (
-    localStorage.getItem('token') &&
-    localStorage.getItem('user_id') &&
-    localStorage.getItem('username')
-  )
+  return token.value
 }
 
 router.beforeEach((to, from, next) => {
+  if (to.name != 'macroLogin' && to.name != 'macroHome' && to.name != 'macroProfile') {
+    hideAlert()
+  }
+
   if (to.meta.requiresAuth && !isAuthenticated()) {
     //console.log('User is not authed, redirecting to:', to.meta.authRedirect)
     next({ name: to.meta.authRedirect as string })
   } else {
-    //console.log('Routing to website: ', to.name, 'from: ', from.name)
+    console.log('Routing to website: ', to.name, 'from: ', from.name)
     next()
   }
-})
-
-router.afterEach((to, from, failure) => {
-  //console.log('After:', to, from, failure)
 })
 
 export default router

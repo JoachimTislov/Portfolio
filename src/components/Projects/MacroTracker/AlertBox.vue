@@ -28,6 +28,8 @@ button {
 h4 {
     color: rgb(255, 221, 221);
     font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+
+    margin-top: 0.3rem;
 }
 
 div {

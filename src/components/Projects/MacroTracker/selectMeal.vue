@@ -11,11 +11,13 @@ import { onMounted, ref, type Ref } from 'vue';
 import AlertBox from './AlertBox.vue';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 
-const minutes = ref<number>(0)
-const hour = ref<number>(0)
-const selectedMealTime = ref<string>("Choose meal time")
-const isHourValid = ref<boolean>(false)
-const isMinutesValid = ref<boolean>(false)
+const date = new Date()
+
+const minutes = ref<number>(date.getMinutes())
+const hour = ref<number>(date.getHours())
+const selectedMealTime = ref<string>("Choose meal period")
+const isHourValid = ref<boolean>(true)
+const isMinutesValid = ref<boolean>(true)
 
 const modal_id = 'select_meal_modal'
 
@@ -110,7 +112,7 @@ async function addMealToGivenDate(meal_id: number) {
 
                         <form id="meal_date_info">
 
-                            <h5> Please provide the time when you had the meal </h5>
+                            <h5> Input the time when you had the meal </h5>
 
                             <div class="mt-1 input-group">
                                 <input id="hourInput"
@@ -118,7 +120,7 @@ async function addMealToGivenDate(meal_id: number) {
                                     class="form-control form-control-md" type="number" min="0" max="23" name="hour"
                                     v-model="hour" placeholder="hour">
                                 <div class="input-group-append">
-                                    <span class="input-group-text"> hours </span>
+                                    <span class="input-group-text"> hour </span>
                                 </div>
                             </div>
                             <div :ref="timeValidation.hour" class="ml-2 invalid-feedback" style="display: none;">
@@ -137,10 +139,9 @@ async function addMealToGivenDate(meal_id: number) {
                             </div>
 
                             <div class="mt-1">
-                                <label for="meal_time"> Meal periods </label>
                                 <select class="form-control form-control-md" name="meal_time" @change="modifyTime()"
                                     v-model="selectedMealTime">
-                                    <option disabled selected> Choose meal time </option>
+                                    <option disabled selected> Choose meal period </option>
                                     <option value="Breakfast"> Breakfast </option>
                                     <option value="Lunch"> Lunch </option>
                                     <option value="Dinner"> Dinner </option>
@@ -150,8 +151,8 @@ async function addMealToGivenDate(meal_id: number) {
                             </div>
                         </form>
 
-                        <div class="mt-3 border border-1 rounded p-2">
-                            <h5> Select and click the meal you want to add </h5>
+                        <div class="mt-3 p-2">
+                            <h5> Click the meal you'd like to add to the date: </h5>
                             <div class="wrap">
                                 <div v-for="meal in meals" :key="meal.meal_id">
                                     <button @click="addMealToGivenDate(meal['meal_id'])"

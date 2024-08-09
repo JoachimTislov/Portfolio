@@ -3,7 +3,7 @@ import { token } from '../token'
 
 import { showAlert, alertMessage, alertClassName } from '../initVariables'
 
-function alertUser(message: string, response: Response) {
+export function alertUser(message: string, response: Response) {
   alertMessage.value = message
 
   if (!response.ok) {
@@ -39,7 +39,7 @@ export async function getData(url: string) {
   }
 }
 
-export async function deleteEntity(url: string, func: () => Promise<void>) {
+export async function deleteEntity(url: string, func?: () => Promise<void>) {
   if (!token.value) {
     routeToPage('macroLogin')
   } else {
@@ -53,14 +53,14 @@ export async function deleteEntity(url: string, func: () => Promise<void>) {
           }
         })
 
-        if (response.ok) {
+        if (response.ok && func) {
           await func()
         }
 
         const message = (await response.json()).message
         alertUser(message, response)
 
-        checkIfUserIsUnAuthorized(response)
+        return checkIfUserIsUnAuthorized(response)
       } catch (error) {
         console.log(error)
         alert(`Network error: ${error}`)
