@@ -8,12 +8,15 @@ import AlertBox from './AlertBox.vue';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 import ChangePassword from './ChangePassword.vue';
+import EditProfileInformation from './EditProfileInformation.vue';
 
 onMounted(async () => {
     initPicture()
 })
 
-if (!userInfo.value) await getUserInfo()
+if (!userInfo.value) {
+    await getUserInfo()
+}
 
 function handleFileUpload(event: Event) {
     const input = event.target as HTMLInputElement
@@ -32,6 +35,7 @@ function handleFileUpload(event: Event) {
         console.error("URL.createObjectURL is not supported in this browser.")
     }
 }
+
 </script>
 
 <template>
@@ -39,6 +43,8 @@ function handleFileUpload(event: Event) {
     <AlertBox />
 
     <ChangePassword />
+
+    <EditProfileInformation />
 
     <div class="card">
 
@@ -67,9 +73,11 @@ function handleFileUpload(event: Event) {
                             <h3> {{ key }}: </h3>
                         </em>
 
-                        <h4 class="ms-auto"> {{ value }} <template v-if="key == 'Weight'"> kg </template> <template
-                                v-if="key == 'Height'"> cm </template> <template v-if="key == 'Age'"> years old
-                            </template>
+                        <h4 class="ms-auto">
+                            {{ value }}
+                            <template v-if="key == 'Weight'"> kg </template>
+                            <template v-if="key == 'Height'"> cm </template>
+                            <template v-if="key == 'Age'"> years old </template>
                         </h4>
                     </div>
                 </div>

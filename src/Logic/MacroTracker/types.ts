@@ -86,3 +86,14 @@ export type Validation_array = { [key: string]: boolean }
 export type ValidationRefs = { [key: string]: Ref<HTMLElement | null> }
 
 export type UserInfo = { [key: string]: string }
+
+export type User_input_field = {
+  inputType: string
+  placeholder: string
+  validate_type: string
+  identifier: string
+  class: string
+  attachment?: string
+  type?: string
+  value?: string
+}

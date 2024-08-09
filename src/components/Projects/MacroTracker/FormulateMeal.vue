@@ -69,15 +69,30 @@ function check_meal_validation() {
 
 function addIngredientToMeal(ingredient: Ingredient) {
 
-    ingredientsData.value.push(ingredient)
+    if (!checkIfIngredientIsAlreadyAdded(ingredient.ingredient_id)) {
+        ingredientsData.value.push(ingredient)
 
-    const validation = ingredient_validation
-    validation.amount = true
-    validation.name = true
+        const validation = ingredient_validation
+        validation.amount = true
+        validation.name = true
 
-    meal_validation.value.push(validation)
+        meal_validation.value.push(validation)
+    } else {
+        _alert('You can not add the same ingredient. Instead change the amount')
+        alertDanger()
+    }
 
-    console.log(ingredient, ingredientsData.value)
+}
+
+function checkIfIngredientIsAlreadyAdded(id_to_compare: number) {
+    if (ingredients.value) {
+        for (const ingredient of ingredients.value) {
+            if (ingredient.ingredient_id == id_to_compare) {
+                return true;
+            }
+        }
+    }
+    return false
 }
 
 function addEmptyIngredient() {

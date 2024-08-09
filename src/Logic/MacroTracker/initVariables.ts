@@ -72,6 +72,19 @@ export const login_validation = reactive({
   Password: true
 })
 
+export const user_validation_arr: { [key: string]: boolean } = reactive({
+  isUsernameValid: false,
+  isPasswordValid: false,
+  isConfirm_PasswordValid: false,
+  isGenderValid: false,
+  isActivityLvlValid: false,
+  isEmailValid: false,
+  isWeightValid: false,
+  isHeightValid: false,
+  isAgeValid: false,
+  isNameValid: false
+})
+
 export const validation_messages: {
   [key: string]: {
     [key: string]: Ref<HTMLElement | null>
@@ -82,16 +95,8 @@ export const validation_messages: {
     password: ref<HTMLElement | null>(null)
   },
   register: {
-    username: ref<HTMLElement | null>(null),
-    password: ref<HTMLElement | null>(null),
-    confirm_password: ref<HTMLElement | null>(null),
-    name: ref<HTMLElement | null>(null),
-    weight: ref<HTMLElement | null>(null),
-    height: ref<HTMLElement | null>(null),
-    age: ref<HTMLElement | null>(null),
     gender: ref<HTMLElement | null>(null),
-    activity_lvl: ref<HTMLElement | null>(null),
-    email: ref<HTMLElement | null>(null)
+    activity_lvl: ref<HTMLElement | null>(null)
   }
 }
 
