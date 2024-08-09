@@ -8,18 +8,20 @@ const props = defineProps<({
     ingredient?: Ingredient
 })>()
 
+const i = props.ingredient
 const form_configurations: Form_configuration = reactive([
-    { class: 'form-group', identifier: 'Name', validation_type: 'Name', inputType: 'text', value: '' },
-    { class: 'form-group', identifier: 'Amount', validation_type: 'Amount', inputType: 'text', value: 0 },
-    { class: 'input-group', identifier: 'Calories', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'kcal' },
-    { class: 'input-group', identifier: 'Carbohydrates', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
-    { class: 'input-group', identifier: 'Fat', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
-    { class: 'input-group', identifier: 'Protein', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
-    { class: 'input-group', identifier: 'Sugar', validation_type: 'Nutrient', inputType: 'number', value: 0, unit: 'g' },
+    { class: 'form-group', identifier: 'Name', validation_type: 'Name', inputType: 'text', value: i ? i.name : '' },
+    { class: 'form-group', identifier: 'Amount', validation_type: 'Amount', inputType: 'text', value: i ? i.amount : 0 },
+    { class: 'input-group', identifier: 'Calories', validation_type: 'Nutrient', inputType: 'number', value: i ? i.calories : 0, unit: 'kcal' },
+    { class: 'input-group', identifier: 'Carbohydrates', validation_type: 'Nutrient', inputType: 'number', value: i ? i.carbohydrates : 0, unit: 'g' },
+    { class: 'input-group', identifier: 'Fat', validation_type: 'Nutrient', inputType: 'number', value: i ? i.fat : 0, unit: 'g' },
+    { class: 'input-group', identifier: 'Protein', validation_type: 'Nutrient', inputType: 'number', value: i ? i.protein : 0, unit: 'g' },
+    { class: 'input-group', identifier: 'Sugar', validation_type: 'Nutrient', inputType: 'number', value: i ? i.sugar : 0, unit: 'g' },
 ])
 
 watch(() => props.ingredient, (newIngredient) => {
     if (newIngredient) {
+        console.log(newIngredient)
         for (const configuration of form_configurations) {
             const key = configuration.identifier.toLocaleLowerCase()
             configuration.value = newIngredient[key]

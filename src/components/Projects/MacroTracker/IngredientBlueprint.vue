@@ -40,7 +40,7 @@ const validation_array = props.food_type == 'ingredient' ? createOrEdit_ingredie
     <label class="m-0 mt-1 form-label" :for="ingredientInfo.identifier.toLowerCase()"> {{
         ingredientInfo.identifier }}:
     </label>
-    <div class="mt-2" :class="ingredientInfo.class">
+    <div :class="ingredientInfo.class">
         <input ref="input_element"
             @input="validation_array[`is${ingredientInfo.identifier}Valid`] = ValidateText($event, ingredient_validation, ingredientInfo.validation_type, inputClass)"
             :class="inputClass" :name="ingredientInfo.identifier.toLowerCase()" :type="ingredientInfo.inputType"

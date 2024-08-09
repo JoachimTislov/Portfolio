@@ -53,7 +53,7 @@ async function IngredientEvent() {
 </script>
 
 <template>
-    <div class="modal fade Modal" :id="modal_id">
+    <div class="modal modal-sm fade Modal" :id="modal_id">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -71,8 +71,8 @@ async function IngredientEvent() {
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger btn-lg ml-1" @click="hideModal(modal_id)"> Cancel </button>
-                    <button type="submit" @click="IngredientEvent()" class="btn btn-success btn-lg ml-1">
+                    <button class="btn btn-danger btn-md ml-1" @click="hideModal(modal_id)"> Cancel </button>
+                    <button type="submit" @click="IngredientEvent()" class="btn btn-success btn-md ml-1">
                         {{ _formulate_type }}
                         Ingredient
                     </button>

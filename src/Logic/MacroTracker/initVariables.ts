@@ -13,27 +13,26 @@ import { routeToPage } from './routeToPage'
 import { days_of_the_week } from '@/Data/MacroTracker'
 
 export const createOrEditIngredient = ref<string>('Create')
-const ingredientStatement = ref<boolean>(false)
-
-watch(
-  () => createOrEditIngredient.value,
-  () => {
-    ingredientStatement.value = !computed(() => {
-      console.log('Updating isCreate', createOrEditIngredient.value)
-      return createOrEditIngredient.value == 'Create'
-    }).value
-  }
-)
-
 export const createOrEdit_ingredient_validation_arr: Validation_array = reactive({
-  isNameValid: ingredientStatement.value,
-  isAmountValid: ingredientStatement.value,
+  isNameValid: false,
+  isAmountValid: false,
   isProteinValid: true,
   isCaloriesValid: true,
   isCarbohydratesValid: true,
   isFatValid: true,
   isSugarValid: true
 })
+
+watch(
+  () => createOrEditIngredient.value,
+  (newValue) => {
+    const value = newValue !== 'Create'
+    const arr = createOrEdit_ingredient_validation_arr
+
+    arr.isNameValid = value
+    arr.isAmountValid = value
+  }
+)
 
 export const createOrEditMeal = ref<string>('Create')
 const mealStatement = ref<boolean>(false)
@@ -42,7 +41,7 @@ watch(
   () => createOrEditMeal.value,
   () => {
     mealStatement.value = !computed(() => {
-      console.log('Updating isCreate', createOrEditMeal.value)
+      console.log('Updating meal isCreate', createOrEditMeal.value)
       return createOrEditMeal.value == 'Create'
     }).value
   }
