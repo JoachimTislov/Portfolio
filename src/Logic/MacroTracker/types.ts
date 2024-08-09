@@ -54,6 +54,8 @@ export type Ingredient = {
   sugar: number
 }
 
+export type validation_Object = { [key: string]: boolean }
+
 export type IngredientModal = {
   [key: string]: {
     formulate_type: string

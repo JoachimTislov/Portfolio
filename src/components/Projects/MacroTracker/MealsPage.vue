@@ -167,16 +167,17 @@ function editMeal(meal: Meal_with_ingredients) {
                                             </div>
                                         </div>
                                     </template>
-                                    <template v-if="meal['ingredients'].length == 0">
-                                        <div class="mt-2">
-                                            <h5> {{ meal['name'] }} has zero ingredients</h5>
-                                            <button class="btn-outline-info btn btn-lg" data-bs-toggle="modal"
-                                                data-bs-target="#edit_meal_modal" @click="editMeal(meal)">
-                                                Edit <font-awesome-icon :icon="['fas', 'pen-to-square']" /> {{
-                                                    meal['name'] }}
-                                            </button>
-                                        </div>
-                                    </template>
+                                    <div v-if="meal['ingredients'].length == 0" class="mt-2">
+                                        <h5> {{ meal['name'] }} has zero ingredients</h5>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex mt-2">
+                                    <button class="btn-primary btn btn-lg ms-auto" data-bs-toggle="modal"
+                                        data-bs-target="#edit_meal_modal" @click="editMeal(meal)">
+                                        Edit {{ meal['name'] }}
+                                        <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+                                    </button>
                                 </div>
                             </CAccordionBody>
                         </CAccordionItem>

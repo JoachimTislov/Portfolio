@@ -1,10 +1,11 @@
-import { computed, reactive, ref, watch, type Ref } from 'vue'
+import { reactive, ref, watch, type Ref } from 'vue'
 import type {
   Average_macros_this_week,
   Ingredients,
   Meal_with_ingredients,
   Meals_for_time_of_day,
-  Validation_array
+  Validation_array,
+  validation_Object
 } from './types'
 import { alertUser, getData } from './Ajax/ajax'
 import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
@@ -12,53 +13,41 @@ import user_icon from '@/assets/Icons/user-icon.png'
 import { routeToPage } from './routeToPage'
 import { days_of_the_week } from '@/Data/MacroTracker'
 
+export const ingredient_validation = {
+  name: false,
+  amount: false,
+  protein: true,
+  calories: true,
+  carbohydrates: true,
+  fat: true,
+  sugar: true
+}
+
 export const createOrEditIngredient = ref<string>('Create')
-export const createOrEdit_ingredient_validation_arr: Validation_array = reactive({
-  isNameValid: false,
-  isAmountValid: false,
-  isProteinValid: true,
-  isCaloriesValid: true,
-  isCarbohydratesValid: true,
-  isFatValid: true,
-  isSugarValid: true
-})
+export const createOrEdit_ingredient_validation_arr: Validation_array =
+  reactive(ingredient_validation)
 
 watch(
   () => createOrEditIngredient.value,
   (newValue) => {
     const value = newValue !== 'Create'
-    const arr = createOrEdit_ingredient_validation_arr
 
-    arr.isNameValid = value
-    arr.isAmountValid = value
+    createOrEdit_ingredient_validation_arr.isNameValid = value
+    createOrEdit_ingredient_validation_arr.isAmountValid = value
   }
 )
 
 export const createOrEditMeal = ref<string>('Create')
-const mealStatement = ref<boolean>(false)
+export const meal_name_validation = ref<boolean>(false)
+export const meal_validation = ref<validation_Object[]>([])
 
 watch(
   () => createOrEditMeal.value,
-  () => {
-    mealStatement.value = !computed(() => {
-      console.log('Updating meal isCreate', createOrEditMeal.value)
-      return createOrEditMeal.value == 'Create'
-    }).value
+  (newValue) => {
+    const value = newValue !== 'Create'
+    meal_name_validation.value = value
   }
 )
-
-export const meal_name_validation = ref<boolean>(mealStatement.value)
-export const meal_validation: { [key: string]: { [key: string]: boolean } } = {
-  ingredient: {
-    name: mealStatement.value,
-    amount: mealStatement.value,
-    protein: true,
-    calories: true,
-    carbohydrates: true,
-    fat: true,
-    sugar: true
-  }
-}
 
 export const showAlert = ref<boolean>(false)
 export const alertMessage = ref<string>('')

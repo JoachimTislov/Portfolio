@@ -6,6 +6,7 @@ import IngredientBlueprint from './IngredientBlueprint.vue';
 const props = defineProps<({
     food_type: string
     ingredient?: Ingredient
+    index?: number
 })>()
 
 const i = props.ingredient
@@ -35,7 +36,7 @@ watch(() => props.ingredient, (newIngredient) => {
 
     <template v-for="entry in form_configurations" :key="entry.identifier">
 
-        <IngredientBlueprint :ingredient-info="entry" :food_type="food_type" />
+        <IngredientBlueprint :ingredient-info="entry" :food_type="food_type" :index="index" />
 
     </template>
 

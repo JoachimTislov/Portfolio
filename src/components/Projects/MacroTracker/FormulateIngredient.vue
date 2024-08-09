@@ -9,6 +9,7 @@ import AlertBox from './AlertBox.vue';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import IngredientInputModule from './IngredientInputModule.vue';
 import { createOrEdit_ingredient_validation_arr } from '@/Logic/MacroTracker/initVariables';
+import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
 
 const props = defineProps<({
     formulate_type: string
@@ -41,6 +42,7 @@ async function IngredientEvent() {
         if (response && response.ok) {
             // update list of ingredients
             await getIngredients()
+            await getMeals()
 
             hideModal(modal_id)
         }

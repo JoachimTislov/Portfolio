@@ -2,13 +2,13 @@
 import { onMounted, ref, watch } from 'vue';
 import AlertBox from './AlertBox.vue';
 import { ValidateText } from '@/Logic/MacroTracker/validation';
-import type { Ingredient, Ingredients, Meal_with_ingredients } from '@/Logic/MacroTracker/types';
+import type { validation_Object, Ingredient, Ingredients, Meal_with_ingredients } from '@/Logic/MacroTracker/types';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
 import { fetchResource, getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/ajax';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
-import { meal_name_validation, meal_validation, ingredients, createOrEditIngredient } from '@/Logic/MacroTracker/initVariables';
+import { meal_name_validation, meal_validation, ingredients, createOrEditIngredient, ingredient_validation } from '@/Logic/MacroTracker/initVariables';
 import FormulateIngredient from './FormulateIngredient.vue';
 import IngredientInputModule from './IngredientInputModule.vue';
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
@@ -35,19 +35,32 @@ const modal_id = `${props.formulate_type}_meal_modal`
 const _formulate_type = ref<string>('Create')
 
 watch(() => props.meal, (newMeal) => {
+    const ingredientValidation = ref<validation_Object>(ingredient_validation)
+
     if (newMeal) {
         _formulate_type.value = 'Edit'
         http_method.value = 'PUT'
         url.value = `/meal/${newMeal.meal_id}`
 
+        ingredientValidation.value.name = true
+        ingredientValidation.value.amount = true
+
         ingredientsData.value = newMeal.ingredients
+    }
+    meal_validation.value = []
+
+    for (let i = 0; i < ingredientsData.value.length; i++) {
+        meal_validation.value.push(ingredientValidation.value)
     }
 })
 
+
 function check_meal_validation() {
 
-    for (const ingredient of Object.keys(meal_validation)) {
-        const result = checkValidationArr(meal_validation[ingredient])
+    if (!meal_name_validation.value) return false
+
+    for (const ingredient of meal_validation.value) {
+        const result = checkValidationArr(ingredient)
         if (!result) return result
     }
 
@@ -57,6 +70,13 @@ function check_meal_validation() {
 function addIngredientToMeal(ingredient: Ingredient) {
 
     ingredientsData.value.push(ingredient)
+
+    const validation = ingredient_validation
+    validation.amount = true
+    validation.name = true
+
+    meal_validation.value.push(validation)
+
     console.log(ingredient, ingredientsData.value)
 }
 
@@ -71,6 +91,7 @@ function addEmptyIngredient() {
         fat: 0,
         sugar: 0
     })
+    meal_validation.value.push(ingredient_validation)
 }
 
 function removeEntry(index: number) {
@@ -80,8 +101,10 @@ function removeEntry(index: number) {
 async function triggerMealEvent() {
     console.log('creating meal')
 
+    console.log(meal_validation.value)
+
     if (check_meal_validation()) {
-        const json = getFormDataInJSONFormat(`${props.formulate_type}_ingredient_form`)
+        const json = getFormDataInJSONFormat(`${props.formulate_type}_meal_form`)
         const response = await fetchResource(http_method.value, json, url.value, 'token')
 
         if (response && response.ok) {
@@ -96,6 +119,8 @@ async function triggerMealEvent() {
     }
 }
 
+const meal_name = props.meal?.name
+
 </script>
 
 <template>
@@ -106,14 +131,14 @@ async function triggerMealEvent() {
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title"> {{ _formulate_type }} A Meal </h3>
+                    <h3 class="modal-title"> {{ _formulate_type }} a meal </h3>
                     <button class="btn btn-lg ms-auto" data-bs-dismiss="modal">
                         <font-awesome-icon :icon="['fas', 'x']" />
                     </button>
                 </div>
 
                 <div class="modal-body">
-                    <form id="create_meal_form">
+                    <form :id="`${formulate_type}_meal_form`">
 
                         <AlertBox />
 
@@ -121,7 +146,7 @@ async function triggerMealEvent() {
 
                         <input style="width: 80%;"
                             @input="meal_name_validation = ValidateText($event, meal_name_message_validation, 'MealName', 'form-control form-control-md')"
-                            class="form-control form-control-md" name="meal_name" type="text">
+                            class="form-control form-control-md" name="meal_name" type="text" v-model="meal_name">
 
                         <div ref="meal_name_message_validation" class="ml-2 invalid-feedback">
                         </div>
@@ -135,17 +160,23 @@ async function triggerMealEvent() {
                             <div class="row">
                                 <template v-if="ingredientsData.length > 0">
                                     <div class="column form-group ml-4" v-for="(ingredient, index) in ingredientsData"
-                                        :id="'create_meal_ingredient_' + index" :key="index" style="max-width: 200px;">
+                                        :key="index" style="max-width: 200px;">
 
-                                        <IngredientInputModule :ingredient="ingredient" food_type="meal" />
+                                        <input :name="index + '-ingredient_id'" type="text"
+                                            :value="ingredient.ingredient_id" style="display: none;">
+
+                                        <IngredientInputModule :ingredient="ingredient" food_type="meal"
+                                            :index="index" />
 
                                         <div class="mt-2 btn-group-md btn-group d-flex">
-                                            <!-- @click="
-                                                deleteEntity(
-                                                    `/meal/${ingredient['ingredient_id']}/${meal['meal_id']}`, getMeals
-                                                )
-                                                "-->
-                                            <button class="btn-outline-danger btn btn-md" @click="removeEntry(index)">
+                                            <button v-if="meal?.meal_id" type="button"
+                                                class="btn-outline-danger btn btn-md"
+                                                @click="
+                                                    deleteEntity(`/meal/${ingredient.ingredient_id}/${meal.meal_id}`), removeEntry(index)">
+                                                Remove <font-awesome-icon :icon="['fas', 'trash']" />
+                                            </button>
+                                            <button v-else type="button" class="btn-outline-danger btn btn-md"
+                                                @click="removeEntry(index)">
                                                 Remove <font-awesome-icon :icon="['fas', 'trash']" />
                                             </button>
                                         </div>
@@ -164,7 +195,7 @@ async function triggerMealEvent() {
                                     </div>
                                 </div>
                                 <div class="ml-3" v-if="ingredients && ingredients.length == 0">
-                                    <h6> You don't have any personal ingredients </h6>
+                                    <h6> You don't have any ingredients </h6>
                                     <button type="button" class="btn-success btn btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#create_ingredient_modal"
                                         @click="createOrEditIngredient = 'Edit'">
