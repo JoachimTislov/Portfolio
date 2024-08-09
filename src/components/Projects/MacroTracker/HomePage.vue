@@ -19,21 +19,7 @@ onMounted(() => {
 <template>
     <AlertBox />
 
-    <Suspense>
-        <template #default>
-            <AverageMacros />
-        </template>
-        <template #fallback>
-            <div>Loading average macros...</div>
-        </template>
-    </Suspense>
+    <AverageMacros />
 
-    <Suspense>
-        <template #default>
-            <MealCalender />
-        </template>
-        <template #fallback>
-            <div>Loading meal calender...</div>
-        </template>
-    </Suspense>
+    <MealCalender />
 </template>

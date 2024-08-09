@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import AlertBox from './AlertBox.vue';
-import PasswordInput from './PasswordInput.vue';
+import PasswordInput from './Modules/PasswordInput.vue';
 import { change_password_validation } from '@/Logic/MacroTracker/initVariables';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import { fetchResource, getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/ajax';
@@ -64,7 +64,8 @@ async function changePassword() {
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" @click="changePassword()" class="btn btn-success btn-lg ml-1"> Change Password
+                    <button type="submit" @click="changePassword()" class="btn btn-success btn-lg ml-1">
+                        Change Password
                     </button>
                 </div>
             </div>

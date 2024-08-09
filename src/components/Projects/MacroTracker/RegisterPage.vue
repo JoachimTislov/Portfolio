@@ -8,7 +8,7 @@ import { onMounted } from 'vue';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import AlertBox from './AlertBox.vue';
 import { _alert, alertDanger, alertSecondary, alertSuccess } from '@/Logic/MacroTracker/alertFunctions';
-import RegisterModule from './RegisterModule.vue';
+import RegisterModule from './Modules/RegisterModule.vue';
 
 onMounted(() => {
     _alert('Welcome to register page')

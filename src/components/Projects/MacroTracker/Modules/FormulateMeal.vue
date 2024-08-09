@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import AlertBox from './AlertBox.vue';
+import AlertBox from '../AlertBox.vue';
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 import type { validation_Object, Ingredient, Ingredients, Meal_with_ingredients } from '@/Logic/MacroTracker/types';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';

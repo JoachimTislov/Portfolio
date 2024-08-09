@@ -6,11 +6,11 @@ import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitAr
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals'
-import FormulateIngredient from './FormulateIngredient.vue';
+import FormulateIngredient from './Modules/FormulateIngredient.vue';
 import type { Ingredient, Meal_with_ingredients, mealModal } from '@/Logic/MacroTracker/types'
 import AlertBox from './AlertBox.vue'
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
-import FormulateMeal from './FormulateMeal.vue'
+import FormulateMeal from './Modules/FormulateMeal.vue'
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')
@@ -23,13 +23,9 @@ onMounted(async () => {
     personal_meal_alert.value?.focus()
 })
 
-// loading meals if they have not been loaded 
-if (!meals.value) { await getMeals() }
-
 const list_of_meals = computed(() => {
     return splitArrayWithRespectToSortedArray(checkFilterForArray(meals.value, search_value.value, sort_value.value))
 })
-
 
 const ingredient = ref<Ingredient | undefined>(undefined)
 
@@ -118,7 +114,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                         }}kcal</small>
                                     <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
                                         meal['carbohydrates']
-                                        }}g</small>
+                                    }}g</small>
                                     <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
                                         }}g</small>
                                     <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
@@ -142,7 +138,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                 </li>
                                                 <li class="list-group-item mr-3">Calories: {{
                                                     ingredient['calories']
-                                                    }}kcal</li>
+                                                }}kcal</li>
                                                 <li class="list-group-item mr-3">
                                                     Carbohydrates: {{ ingredient['carbohydrates'] }}g
                                                 </li>
@@ -151,7 +147,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                 <li class="list-group-item mr-3">Sugar: {{ ingredient['sugar']
                                                     }}g</li>
                                             </ul>
-                                            <div class="mt-2 btn-group-md btn-group d-flex">
+                                            <div type="button" class="mt-2 btn-group-md btn-group d-flex">
                                                 <button @click="
                                                     deleteEntity(
                                                         `/meal/${ingredient['ingredient_id']}/${meal['meal_id']}`, getMeals
@@ -159,8 +155,8 @@ function editMeal(meal: Meal_with_ingredients) {
                                                     " class="btn-outline-danger btn btn-md">
                                                     Remove <font-awesome-icon :icon="['fas', 'trash']" />
                                                 </button>
-                                                <button class="btn btn-outline-info btn-md" data-bs-toggle="modal"
-                                                    data-bs-target="#edit_ingredient_modal"
+                                                <button type="button" class="btn btn-outline-info btn-md"
+                                                    data-bs-toggle="modal" data-bs-target="#edit_ingredient_modal"
                                                     @click="editIngredient(ingredient)">
                                                     Edit <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                                                 </button>
@@ -190,8 +186,8 @@ function editMeal(meal: Meal_with_ingredients) {
                 <h4 v-if="search_value != ''">
                     You don't have any personal meals with name: {{ search_value }}
                 </h4>
-                <button class="btn-success btn btn-lg ml-2" data-bs-toggle="modal" data-bs-target="#create_meal_modal"
-                    @click="createMeal()">
+                <button type="button" class="btn-success btn btn-lg ml-2" data-bs-toggle="modal"
+                    data-bs-target="#create_meal_modal" @click="hideAlert(), createMeal()">
                     <h5>Create a meal</h5>
                 </button>
             </div>

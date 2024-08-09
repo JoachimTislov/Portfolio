@@ -5,7 +5,7 @@ import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import type { Ingredient } from '@/Logic/MacroTracker/types';
 import { ref, watch } from 'vue';
-import AlertBox from './AlertBox.vue';
+import AlertBox from '../AlertBox.vue';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import IngredientInputModule from './IngredientInputModule.vue';
 import { createOrEdit_ingredient_validation_arr } from '@/Logic/MacroTracker/initVariables';

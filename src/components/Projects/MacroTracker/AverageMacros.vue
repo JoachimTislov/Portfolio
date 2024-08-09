@@ -1,13 +1,7 @@
 <script setup lang="ts">
 
 import { days_of_the_week_with_date } from '@/Data/MacroTracker';
-import { get_average_macros } from '@/Logic/MacroTracker/Ajax/get/getAverageMacros';
 import { average_macros_this_week } from '@/Logic/MacroTracker/initVariables'
-import { onMounted } from 'vue';
-
-onMounted(async () => {
-    if (!average_macros_this_week.value) await get_average_macros()
-})
 
 </script>
 

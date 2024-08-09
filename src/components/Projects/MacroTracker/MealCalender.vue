@@ -10,8 +10,6 @@ import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic
 import SelectMeal from './selectMeal.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 
-if (!meals_for_given_date.value) { await get_meals_for_given_date() }
-
 // Have to edit it to format yyyy-mm-dd
 const chosenDate = ref<string>(`${calender_date.value.split('-')[2]}-${calender_date.value.split('-')[1]}-${calender_date.value.split('-')[0]}`)
 

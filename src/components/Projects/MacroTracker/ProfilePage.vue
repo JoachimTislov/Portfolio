@@ -9,6 +9,7 @@ import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 import ChangePassword from './ChangePassword.vue';
 import EditProfileInformation from './EditProfileInformation.vue';
+import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 
 onMounted(async () => {
     initPicture()
@@ -89,10 +90,10 @@ function handleFileUpload(event: Event) {
                 <div class="btn-group btn-group-lg mt-4 ms-auto">
 
                     <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                        data-bs-target="#change_password_modal">
+                        data-bs-target="#change_password_modal" @click="hideAlert()">
                         Change password </button>
                     <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                        data-bs-target="#edit_profile_information_modal"> Edit
+                        data-bs-target="#edit_profile_information_modal" @click="hideAlert()"> Edit
                         profile information </button>
 
                 </div>

@@ -2,7 +2,7 @@
 
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import AlertBox from './AlertBox.vue';
-import RegisterModule from './RegisterModule.vue';
+import RegisterModule from './Modules/RegisterModule.vue';
 import { userInfo } from '@/Logic/MacroTracker/initVariables';
 
 const modal_id = 'edit_profile_information_modal'

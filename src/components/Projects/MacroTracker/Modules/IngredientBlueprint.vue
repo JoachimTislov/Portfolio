@@ -36,12 +36,7 @@ const validation_array = props.food_type == 'ingredient' ? createOrEdit_ingredie
 const ingredient_name = props.index || props.index == 0 ? `${props.index}-ingredientInfo.identifier.toLowerCase()` : props.ingredientInfo.identifier.toLowerCase()
 
 function validateNutrient(event: Event) {
-
-
     validation_array[props.ingredientInfo.identifier.toLocaleLowerCase()] = ValidateText(event, ingredient_validation.value, props.ingredientInfo.validation_type, inputClass)
-
-    console.log('nutrient validation', validation_array, ValidateText(event, ingredient_validation.value, props.ingredientInfo.validation_type, inputClass))
-
 }
 
 </script>

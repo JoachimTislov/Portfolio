@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { RouterLink } from 'vue-router'
-import { validation_messages, login_validation, username, password } from '@/Logic/MacroTracker/initVariables'
+import { validation_messages, login_validation, username, password, initData } from '@/Logic/MacroTracker/initVariables'
 import { ValidateText } from '@/Logic/MacroTracker/validation'
 
 import AlertBox from './AlertBox.vue';
@@ -43,6 +43,8 @@ async function login() {
                     username.value = result.username
 
                     localStorage.setItem('token', result.token)
+
+                    initData()
 
                     router.push({ name: 'macroHome' })
 

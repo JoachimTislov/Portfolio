@@ -7,18 +7,13 @@ import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@c
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
-import FormulateIngredient from './FormulateIngredient.vue';
+import FormulateIngredient from './Modules/FormulateIngredient.vue';
 import AlertBox from './AlertBox.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')
 const search_value = ref<string>('')
-
-// loading ingredients if they have not been loaded 
-if (!ingredients.value) {
-    await getIngredients()
-}
 
 const ingredientModalInformation: IngredientModal = reactive({
     Create: {
@@ -34,6 +29,11 @@ function handleEditEvent(ingredient: Ingredient) {
     hideAlert()
     createOrEditIngredient.value = 'Edit'
     ingredientModalInformation.Edit.ingredient = ingredient
+}
+
+function handleCreateIngredientEvent() {
+    hideAlert()
+    createOrEditIngredient.value = 'Create'
 }
 
 const list_of_ingredients = computed(() => {
@@ -57,7 +57,7 @@ const list_of_ingredients = computed(() => {
 
             <div class="m-2 input-group">
                 <button type="button" class="btn-success btn btn-lg" data-bs-toggle="modal"
-                    data-bs-target="#create_ingredient_modal" @click="createOrEditIngredient = 'Create'">
+                    data-bs-target="#create_ingredient_modal" @click="handleCreateIngredientEvent()">
                     Create ingredient
                 </button>
                 <input class="form-control form-control-lg" type="text" placeholder="Search" v-model="search_value">
@@ -99,11 +99,11 @@ const list_of_ingredients = computed(() => {
                                 </ul>
 
                                 <div class="d-flex btn-group mt-2">
-                                    <button class="btn btn-info" @click="handleEditEvent(ingredient)"
+                                    <button type="button" class="btn btn-info" @click="handleEditEvent(ingredient)"
                                         data-bs-toggle="modal" data-bs-target="#edit_ingredient_modal">
                                         Edit <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                                     </button>
-                                    <button
+                                    <button type="button"
                                         @click="deleteEntity(`/ingredient/${ingredient['ingredient_id']}`, getIngredients)"
                                         class="btn btn-danger">
                                         Delete <font-awesome-icon :icon="['fas', 'trash']" />
@@ -120,7 +120,7 @@ const list_of_ingredients = computed(() => {
                 </h4>
 
                 <button type="button" class="btn-success btn btn-md" data-bs-toggle="modal"
-                    data-bs-target="#create_ingredient_modal">
+                    data-bs-target="#create_ingredient_modal" @click="handleCreateIngredientEvent()">
                     Create ingredient
                 </button>
             </div>
