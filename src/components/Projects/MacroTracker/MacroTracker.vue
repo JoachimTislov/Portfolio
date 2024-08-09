@@ -27,7 +27,7 @@ const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
     <nav v-if="token" class="navbar navbar-expand-md" data-bs-theme="dark">
         <div class="container">
 
-            <h3 class="logo"> Macro Tracker - {{ username }} </h3>
+            <h4 class="logo"> Macro Tracker - {{ username }} </h4>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMacroTracker"
                 aria-controls="navbarMacroTracker" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,6 +62,6 @@ const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
 }
 
 li {
-    font-size: x-large;
+    font-size: large;
 }
 </style>

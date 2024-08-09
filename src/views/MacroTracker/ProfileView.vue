@@ -3,5 +3,12 @@ import ProfilePage from '../../components/Projects/MacroTracker/ProfilePage.vue'
 </script>
 
 <template>
-    <ProfilePage />
+    <Suspense>
+        <template #default>
+            <ProfilePage />
+        </template>
+        <template #fallback>
+            <div>Loading user profile...</div>
+        </template>
+    </Suspense>
 </template>

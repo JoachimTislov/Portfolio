@@ -4,6 +4,7 @@ import type {
   Ingredients,
   Meal_with_ingredients,
   Meals_for_time_of_day,
+  UserInfo,
   Validation_array,
   validation_Object
 } from './types'
@@ -60,10 +61,16 @@ const storedUsername = localStorage.getItem('username')
 export const username = ref<string>(storedUsername ? storedUsername : 'Peddi')
 export const password = ref<string>('peder@123')
 
-export const login_validation: { [key: string]: Ref<boolean> } = {
-  Username: ref<boolean>(true),
-  Password: ref<boolean>(true)
-}
+export const change_password_validation: Validation_array = reactive({
+  old_password: false,
+  new_password: false,
+  new_confirm_password: false
+})
+
+export const login_validation = reactive({
+  Username: true,
+  Password: true
+})
 
 export const validation_messages: {
   [key: string]: {
@@ -96,7 +103,9 @@ export function initAlertElements() {
   }
 }
 
-export const userInfo = ref<any | undefined>(undefined)
+//////////////// Data init //////////////////////
+
+export const userInfo = ref<UserInfo | undefined>(undefined)
 
 export const average_macros_this_week = ref<Average_macros_this_week | undefined>(undefined)
 
@@ -111,9 +120,7 @@ export const calender_date = ref<string>(
 export const zero_meals_to_show = ref<boolean>(true)
 export const meals_for_given_date = ref<Meals_for_time_of_day | undefined>(undefined)
 
-export async function initData(user_id: string) {
-  userInfo.value = await getData(`/user_info/${user_id}`)
-}
+/////////////////////////////////////////////////
 
 // https://www.zhenghao.io/posts/verify-image-url
 function canFindImage(url: string) {

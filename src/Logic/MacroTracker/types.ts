@@ -84,3 +84,5 @@ export type IngredientInfo = {
 export type Validation_array = { [key: string]: boolean }
 
 export type ValidationRefs = { [key: string]: Ref<HTMLElement | null> }
+
+export type UserInfo = { [key: string]: string }

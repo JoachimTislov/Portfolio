@@ -4,16 +4,64 @@ import { RouterLink } from 'vue-router'
 import { validation_messages, login_validation, username, password } from '@/Logic/MacroTracker/initVariables'
 import { ValidateText } from '@/Logic/MacroTracker/validation'
 
-import { login } from '@/Logic/MacroTracker/Ajax/login'
 import AlertBox from './AlertBox.vue';
 import { onMounted } from 'vue';
-import { _alert, alertSecondary } from '@/Logic/MacroTracker/alertFunctions';
-
+import { _alert, alertDanger, alertSecondary, alertSuccess } from '@/Logic/MacroTracker/alertFunctions';
+import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
+import { token } from '@/Logic/MacroTracker/token';
+import router from '@/router';
 
 onMounted(() => {
     _alert('Welcome to the login page')
     alertSecondary()
 })
+
+async function login() {
+    if (login_validation.Password && login_validation.Username) {
+        try {
+            const json = JSON.stringify({
+                username: username.value,
+                password: password.value
+            })
+
+            const response = await fetchResource('POST', json, '/login', 'api_key')
+
+            if (response) {
+                const result: {
+                    message: string
+                    token: string
+                    user_id: string
+                    username: string
+                } = await response.json()
+
+                // Probably rework this underneath
+
+                _alert(result.message)
+
+                if (response.ok) {
+                    token.value = result.token
+                    username.value = result.username
+
+                    localStorage.setItem('token', result.token)
+
+                    router.push({ name: 'macroHome' })
+
+                    localStorage.setItem('user_id', result.user_id)
+                    localStorage.setItem('username', result.username)
+
+                    alertSuccess()
+                } else {
+                    alertDanger()
+                }
+            }
+        } catch (error) {
+            alert('Error loging in: ' + error)
+        }
+    } else {
+        alertDanger()
+        _alert('Fill out the login fields correctly!')
+    }
+}
 
 </script>
 
@@ -28,7 +76,7 @@ onMounted(() => {
 
                     <div class="form-group">
                         <input
-                            @input="login_validation.Username.value = ValidateText($event, validation_messages.login.username.value, 'Username', 'form-control form-control-lg')"
+                            @input="login_validation.Username = ValidateText($event, validation_messages.login.username.value, 'Username', 'form-control form-control-lg')"
                             class="form-control form-control-lg" type="text" v-model="username" placeholder="Username"
                             required>
                         <div :ref="validation_messages.login.username" class="ml-3 invalid-feedback"
@@ -38,7 +86,7 @@ onMounted(() => {
 
                     <div class="form-group">
                         <input
-                            @input="login_validation.Password.value = ValidateText($event, validation_messages.login.password.value, 'Password', 'mt-2 form-control form-control-lg')"
+                            @input="login_validation.Password = ValidateText($event, validation_messages.login.password.value, 'Password', 'mt-2 form-control form-control-lg')"
                             class="mt-2 form-control form-control-lg" type="password" v-model="password"
                             placeholder="Password" required>
                         <div :ref="validation_messages.login.password" class="ml-3 mb-1 invalid-feedback"
