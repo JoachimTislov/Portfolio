@@ -6,7 +6,8 @@ import type { validation_Object, Ingredient, Ingredients, Meal_with_ingredients 
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
-import { fetchResource, getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/ajax';
+import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
+import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import { meal_name_validation, meal_validation, ingredients, createOrEditIngredient, ingredient_validation } from '@/Logic/MacroTracker/initVariables';
 import FormulateIngredient from './FormulateIngredient.vue';
@@ -26,7 +27,7 @@ const props = defineProps<({
     meal?: Meal_with_ingredients
 })>()
 
-const ingredientsData = ref<Ingredients>(props.meal ? props.meal.ingredients : [])
+const ingredientsData = ref<Ingredients>([])
 
 const http_method = ref<string>('POST')
 const url = ref<string>('/meal')
@@ -45,7 +46,9 @@ watch(() => props.meal, (newMeal) => {
         ingredientValidation.value.name = true
         ingredientValidation.value.amount = true
 
-        ingredientsData.value = newMeal.ingredients
+        // Deep copy, preventing un wanted features
+        const copy = JSON.parse(JSON.stringify(newMeal.ingredients))
+        ingredientsData.value = copy
     }
     meal_validation.value = []
 
@@ -85,13 +88,13 @@ function addIngredientToMeal(ingredient: Ingredient) {
 }
 
 function checkIfIngredientIsAlreadyAdded(id_to_compare: number) {
-    if (ingredients.value) {
-        for (const ingredient of ingredients.value) {
-            if (ingredient.ingredient_id == id_to_compare) {
-                return true;
-            }
+
+    for (const ingredient of ingredientsData.value) {
+        if (ingredient.ingredient_id == id_to_compare) {
+            return true;
         }
     }
+
     return false
 }
 
@@ -111,6 +114,15 @@ function addEmptyIngredient() {
 
 function removeEntry(index: number) {
     ingredientsData.value.splice(index, 1)
+    meal_validation.value.splice(index, 1)
+}
+
+async function handleDeleteIngredientFromMeal(ingredient_id: number, meal_id: number, arr_index: number) {
+    const response = await deleteEntity(`/meal/${ingredient_id}/${meal_id}`)
+
+    if (response && response.ok) {
+        removeEntry(arr_index)
+    }
 }
 
 async function triggerMealEvent() {
@@ -134,8 +146,6 @@ async function triggerMealEvent() {
     }
 }
 
-const meal_name = props.meal?.name
-
 </script>
 
 <template>
@@ -153,7 +163,7 @@ const meal_name = props.meal?.name
                 </div>
 
                 <div class="modal-body">
-                    <form :id="`${formulate_type}_meal_form`">
+                    <form :id="`${formulate_type}_meal_form`" @submit.prevent>
 
                         <AlertBox />
 
@@ -161,7 +171,7 @@ const meal_name = props.meal?.name
 
                         <input style="width: 80%;"
                             @input="meal_name_validation = ValidateText($event, meal_name_message_validation, 'MealName', 'form-control form-control-md')"
-                            class="form-control form-control-md" name="meal_name" type="text" v-model="meal_name">
+                            class="form-control form-control-md" name="meal_name" type="text" :value="props.meal?.name">
 
                         <div ref="meal_name_message_validation" class="ml-2 invalid-feedback">
                         </div>
@@ -184,10 +194,9 @@ const meal_name = props.meal?.name
                                             :index="index" />
 
                                         <div class="mt-2 btn-group-md btn-group d-flex">
-                                            <button v-if="meal?.meal_id" type="button"
+                                            <button v-if="ingredient.meal_id" type="button"
                                                 class="btn-outline-danger btn btn-md"
-                                                @click="
-                                                    deleteEntity(`/meal/${ingredient.ingredient_id}/${meal.meal_id}`), removeEntry(index)">
+                                                @click="handleDeleteIngredientFromMeal(ingredient.ingredient_id, ingredient.meal_id, index)">
                                                 Remove <font-awesome-icon :icon="['fas', 'trash']" />
                                             </button>
                                             <button v-else type="button" class="btn-outline-danger btn btn-md"

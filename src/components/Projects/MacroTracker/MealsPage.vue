@@ -1,16 +1,20 @@
 <script setup lang="ts">
-import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax'
-import { createOrEditIngredient, createOrEditMeal, meals } from '@/Logic/MacroTracker/initVariables'
+import { createOrEditMeal, meals } from '@/Logic/MacroTracker/initVariables'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals'
-import FormulateIngredient from './Modules/FormulateIngredient.vue';
-import type { Ingredient, Meal_with_ingredients, mealModal } from '@/Logic/MacroTracker/types'
+import type { Meal_with_ingredients, mealModal } from '@/Logic/MacroTracker/types'
 import AlertBox from './AlertBox.vue'
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
 import FormulateMeal from './Modules/FormulateMeal.vue'
+
+onMounted(async () => {
+    await getMeals()
+
+    console.log(meals.value)
+})
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')
@@ -26,14 +30,6 @@ onMounted(async () => {
 const list_of_meals = computed(() => {
     return splitArrayWithRespectToSortedArray(checkFilterForArray(meals.value, search_value.value, sort_value.value))
 })
-
-const ingredient = ref<Ingredient | undefined>(undefined)
-
-function editIngredient(_ingredient: Ingredient) {
-    hideAlert()
-    createOrEditIngredient.value = 'Edit'
-    ingredient.value = _ingredient
-}
 
 function createMeal() {
     hideAlert()
@@ -53,7 +49,14 @@ const mealModalInformation: mealModal = reactive({
 function editMeal(meal: Meal_with_ingredients) {
     hideAlert()
     createOrEditMeal.value = 'Edit'
+
     mealModalInformation.Edit.meal = meal
+
+    // Assigning the respected meal id to the ingredient
+    // Later to separate from ingredients which aren't added to the meal
+    for (const ingredient of meal.ingredients) {
+        ingredient.meal_id = meal.meal_id
+    }
 }
 
 </script>
@@ -65,8 +68,6 @@ function editMeal(meal: Meal_with_ingredients) {
         <FormulateMeal :formulate_type="mealModal.formulate_type" :meal="mealModal.meal" />
 
     </template>
-
-    <FormulateIngredient formulate_type="edit" :ingredient="ingredient" />
 
     <section class="card">
         <div class="card-header">
@@ -114,7 +115,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                         }}kcal</small>
                                     <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
                                         meal['carbohydrates']
-                                    }}g</small>
+                                        }}g</small>
                                     <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
                                         }}g</small>
                                     <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
@@ -138,7 +139,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                 </li>
                                                 <li class="list-group-item mr-3">Calories: {{
                                                     ingredient['calories']
-                                                }}kcal</li>
+                                                    }}kcal</li>
                                                 <li class="list-group-item mr-3">
                                                     Carbohydrates: {{ ingredient['carbohydrates'] }}g
                                                 </li>
@@ -147,20 +148,6 @@ function editMeal(meal: Meal_with_ingredients) {
                                                 <li class="list-group-item mr-3">Sugar: {{ ingredient['sugar']
                                                     }}g</li>
                                             </ul>
-                                            <div type="button" class="mt-2 btn-group-md btn-group d-flex">
-                                                <button @click="
-                                                    deleteEntity(
-                                                        `/meal/${ingredient['ingredient_id']}/${meal['meal_id']}`, getMeals
-                                                    )
-                                                    " class="btn-outline-danger btn btn-md">
-                                                    Remove <font-awesome-icon :icon="['fas', 'trash']" />
-                                                </button>
-                                                <button type="button" class="btn btn-outline-info btn-md"
-                                                    data-bs-toggle="modal" data-bs-target="#edit_ingredient_modal"
-                                                    @click="editIngredient(ingredient)">
-                                                    Edit <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                                                </button>
-                                            </div>
                                         </div>
                                     </template>
                                     <div v-if="meal['ingredients'].length == 0" class="mt-2">

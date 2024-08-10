@@ -26,7 +26,7 @@ button {
 }
 
 h4 {
-    color: rgb(255, 221, 221);
+    color: rgb(236, 223, 223);
     font-size: clamp(1.1rem, 2.5vw, 1.5rem);
 
     margin-top: 0.3rem;

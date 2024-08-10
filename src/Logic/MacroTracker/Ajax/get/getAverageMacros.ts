@@ -1,15 +1,11 @@
 import { days_of_the_week_with_date } from '@/Data/MacroTracker'
-import { routeToPage } from '../../routeToPage'
 import type { Average_macros_data, Average_macros_data_entry } from '../../types'
 import { getData } from '../ajax'
 import { average_macros_this_week } from '../../initVariables'
 
 export async function get_average_macros() {
   const user_id = localStorage.getItem('user_id')
-  if (!user_id) routeToPage('macroLogin')
-
   const url = `/average_macros/${user_id}`
-
   const response = await getData(url)
 
   const average_macros_data: Average_macros_data = await response?.json()

@@ -1,23 +1,20 @@
 <script setup lang="ts">
-import { onMounted } from 'vue';
 import user_icon from '@/assets/Icons/user-icon.png'
-import { initPicture, profilePictureUrl, _file, uploadedPicture, userInfo } from '@/Logic/MacroTracker/initVariables'
+import { profilePictureUrl, _file, uploadedPicture, userInfo, initPicture } from '@/Logic/MacroTracker/initVariables'
 import { deleteProfilePicture } from '@/Logic/MacroTracker/Ajax/deleteProfilePicture'
 import { uploadProfilePicture } from '@/Logic/MacroTracker/Ajax/uploadProfilePicture'
 import AlertBox from './AlertBox.vue';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
-import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 import ChangePassword from './ChangePassword.vue';
 import EditProfileInformation from './EditProfileInformation.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
+import { onMounted } from 'vue';
+import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 
 onMounted(async () => {
-    initPicture()
-})
-
-if (!userInfo.value) {
     await getUserInfo()
-}
+    await initPicture()
+})
 
 function handleFileUpload(event: Event) {
     const input = event.target as HTMLInputElement
@@ -132,7 +129,6 @@ img,
         margin: 0
     }
 }
-
 
 h3,
 h4 {

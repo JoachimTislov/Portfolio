@@ -43,8 +43,9 @@ export type Meals_for_time_of_day = { [key: string]: Meal_and_calender_data }
 export type Ingredients = Ingredient[]
 
 export type Ingredient = {
-  [key: string]: string | number
+  [key: string]: string | number | undefined
   ingredient_id: number
+  meal_id?: number
   name: string
   amount: number
   protein: number

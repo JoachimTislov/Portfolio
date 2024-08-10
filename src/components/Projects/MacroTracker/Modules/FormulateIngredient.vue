@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
-import { fetchResource, getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/ajax';
+import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
+import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import type { Ingredient } from '@/Logic/MacroTracker/types';

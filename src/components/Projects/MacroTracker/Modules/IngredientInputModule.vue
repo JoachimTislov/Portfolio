@@ -22,10 +22,10 @@ const form_configurations: Form_configuration = reactive([
 
 watch(() => props.ingredient, (newIngredient) => {
     if (newIngredient) {
-        console.log(newIngredient)
         for (const configuration of form_configurations) {
             const key = configuration.identifier.toLocaleLowerCase()
-            configuration.value = newIngredient[key]
+            const value = newIngredient[key]
+            if (value) configuration.value = value
         }
     }
 })

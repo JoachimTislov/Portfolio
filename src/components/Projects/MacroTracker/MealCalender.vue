@@ -3,17 +3,25 @@
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import { calender_date, meals_for_given_date, zero_meals_to_show, day_for_chosenDate, days_of_the_week_index } from '@/Logic/MacroTracker/initVariables';
 import { get_meals_for_given_date } from '@/Logic/MacroTracker/Ajax/get/getMealsForGivenDate';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { get_average_macros } from '@/Logic/MacroTracker/Ajax/get/getAverageMacros';
 import { construct_dates_for_days_in_week } from '@/Logic/MacroTracker/dateSystem';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import SelectMeal from './selectMeal.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 
+onMounted(async () => {
+    await get_meals_for_given_date()
+
+    console.log(meals_for_given_date.value)
+})
+
 // Have to edit it to format yyyy-mm-dd
 const chosenDate = ref<string>(`${calender_date.value.split('-')[2]}-${calender_date.value.split('-')[1]}-${calender_date.value.split('-')[0]}`)
 
 async function update_calender_info(event: Event) {
+    console.log('Getting date info')
+
     const value = (event.target as HTMLInputElement).value
     chosenDate.value = value
 
@@ -57,7 +65,7 @@ async function update_calender_info(event: Event) {
                     <h5 class="mt-2"> {{ day_for_chosenDate }} {{ calender_date }} </h5>
 
                     <button class="ml-2 btn-success btn btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#select_meal_modal" @click="hideAlert">
+                        data-bs-target="#select_meal_modal" @click="hideAlert()">
                         Add Meal
                     </button>
                 </div>

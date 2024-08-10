@@ -13,11 +13,6 @@ import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is
 import user_icon from '@/assets/Icons/user-icon.png'
 import { routeToPage } from './routeToPage'
 import { days_of_the_week } from '@/Data/MacroTracker'
-import { get_average_macros } from './Ajax/get/getAverageMacros'
-import { getMeals } from './Ajax/get/getMeals'
-import { getIngredients } from './Ajax/get/getIngredients'
-import { getUserInfo } from './Ajax/get/getUserInfo'
-import { get_meals_for_given_date } from './Ajax/get/getMealsForGivenDate'
 
 export const ingredient_validation = {
   name: false,
@@ -78,16 +73,16 @@ export const login_validation = reactive({
 })
 
 export const user_validation_arr: { [key: string]: boolean } = reactive({
-  isUsernameValid: false,
-  isPasswordValid: false,
-  isConfirm_PasswordValid: false,
-  isGenderValid: false,
-  isActivityLvlValid: false,
-  isEmailValid: false,
-  isWeightValid: false,
-  isHeightValid: false,
-  isAgeValid: false,
-  isNameValid: false
+  username: false,
+  password: false,
+  confirm_password: false,
+  gender: false,
+  activityLvl: false,
+  email: false,
+  weight: false,
+  height: false,
+  age: false,
+  name: false
 })
 
 export const validation_messages: {
@@ -131,15 +126,6 @@ export const zero_meals_to_show = ref<boolean>(true)
 export const meals_for_given_date = ref<Meals_for_time_of_day | undefined>(undefined)
 
 /////////////////////////////////////////////////
-
-// Getting all needed data, instead of loading them for each page..
-export async function initData() {
-  await get_average_macros()
-  await getMeals()
-  await getIngredients()
-  await getUserInfo()
-  await get_meals_for_given_date()
-}
 
 //////////////////////// Image find picture ////////////////////////////////////////
 

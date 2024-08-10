@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { fetchResource, getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/ajax';
+import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
+import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
 import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
 import {
     user_validation_arr
@@ -18,13 +19,15 @@ onMounted(() => {
 async function register() {
     const validation = checkValidationArr(user_validation_arr)
 
+    console.log(user_validation_arr)
+
     if (validation) {
         const json = getFormDataInJSONFormat('register_form')
         const response = await fetchResource('POST', json, '/register', 'api_key')
 
         if (response && response.ok) {
             alertSuccess(); _alert('Successfully registered account')
-            return routeToPage('macroLogin')
+            routeToPage('macroLogin')
         }
     } else {
         alertDanger(); _alert('Fill out the required fields correctly!')

@@ -19,7 +19,7 @@ defineProps<({
             <span class="input-group-text"> {{ user_input_field.attachment }} </span>
         </div>
         <input
-            @input="user_validation_arr[`is${user_input_field.identifier}Valid`] = ValidateText($event, input_validation_message, user_input_field.validate_type, 'form-control form-control-md')"
+            @input="user_validation_arr[user_input_field.identifier] = ValidateText($event, input_validation_message, user_input_field.validate_type, 'form-control form-control-md')"
             class="form-control form-control-md" :type="user_input_field.inputType"
             :placeholder="user_input_field.placeholder" :value="user_input_field.value"
             :name="user_input_field.identifier" required>

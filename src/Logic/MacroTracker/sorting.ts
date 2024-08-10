@@ -1,9 +1,8 @@
 import type { Ingredients } from './types'
 
-export function sortArray<Type extends { [key: string]: number | string | Ingredients }>(
-  arr: Type[] | undefined,
-  filterObject: string
-): Type[] | undefined {
+export function sortArray<
+  Type extends { [key: string]: number | string | Ingredients | undefined }
+>(arr: Type[] | undefined, filterObject: string): Type[] | undefined {
   if (arr) {
     if (filterObject != 'name') {
       //Descending order
@@ -15,10 +14,9 @@ export function sortArray<Type extends { [key: string]: number | string | Ingred
   return arr
 }
 
-export function filterArrayByName<Type extends { [key: string]: number | string | Ingredients }>(
-  arr: Type[] | undefined,
-  searchInput: string
-): Type[] | undefined {
+export function filterArrayByName<
+  Type extends { [key: string]: number | string | Ingredients | undefined }
+>(arr: Type[] | undefined, searchInput: string): Type[] | undefined {
   console.log('sorting....')
   if (arr) {
     console.log('past if sorting....')

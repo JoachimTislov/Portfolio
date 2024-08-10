@@ -2,7 +2,7 @@
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import { ingredients, createOrEditIngredient } from '@/Logic/MacroTracker/initVariables';
 import type { Ingredient, IngredientModal } from '@/Logic/MacroTracker/types';
-import { computed, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
@@ -10,6 +10,10 @@ import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilter
 import FormulateIngredient from './Modules/FormulateIngredient.vue';
 import AlertBox from './AlertBox.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
+
+onMounted(async () => {
+    await getIngredients()
+})
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')
@@ -82,7 +86,7 @@ const list_of_ingredients = computed(() => {
                 <div v-for="(ingredientChunk, index) in list_of_ingredients" :key="index" style="width: 100%">
                     <CAccordion flush>
                         <CAccordionItem v-for="ingredient in ingredientChunk"
-                            :id="'ingredient' + ingredient['ingredient_id']" :key="ingredient['ingredient_id']"
+                            :id="'ingredient' + ingredient['ingredient_id']" :key="ingredient.ingredient_id"
                             class="border border-3 border-secondary">
                             <CAccordionHeader>
                                 <h4>{{ ingredient['name'] }} </h4>

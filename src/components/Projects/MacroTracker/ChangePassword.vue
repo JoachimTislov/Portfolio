@@ -4,7 +4,8 @@ import AlertBox from './AlertBox.vue';
 import PasswordInput from './Modules/PasswordInput.vue';
 import { change_password_validation } from '@/Logic/MacroTracker/initVariables';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
-import { fetchResource, getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/ajax';
+import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
+import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 
 const password_inputs = [

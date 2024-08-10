@@ -3,12 +3,5 @@ import IngredientsPage from '../../components/Projects/MacroTracker/IngredientsP
 </script>
 
 <template>
-    <Suspense>
-        <template #default>
-            <IngredientsPage />
-        </template>
-        <template #fallback>
-            <div>Loading ingredients...</div>
-        </template>
-    </Suspense>
+    <IngredientsPage />
 </template>

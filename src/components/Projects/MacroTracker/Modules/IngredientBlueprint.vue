@@ -33,7 +33,7 @@ const inputClass = 'form-control form-control-md'
 
 const validation_array = props.food_type == 'ingredient' ? createOrEdit_ingredient_validation_arr : props.index != undefined ? meal_validation.value[props.index] : {}
 
-const ingredient_name = props.index || props.index == 0 ? `${props.index}-ingredientInfo.identifier.toLowerCase()` : props.ingredientInfo.identifier.toLowerCase()
+const ingredient_name = props.index || props.index == 0 ? `${props.index}-${props.ingredientInfo.identifier.toLowerCase()}` : props.ingredientInfo.identifier.toLowerCase()
 
 function validateNutrient(event: Event) {
     validation_array[props.ingredientInfo.identifier.toLocaleLowerCase()] = ValidateText(event, ingredient_validation.value, props.ingredientInfo.validation_type, inputClass)

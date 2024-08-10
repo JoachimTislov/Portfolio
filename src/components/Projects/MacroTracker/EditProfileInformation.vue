@@ -3,12 +3,30 @@
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import AlertBox from './AlertBox.vue';
 import RegisterModule from './Modules/RegisterModule.vue';
-import { userInfo } from '@/Logic/MacroTracker/initVariables';
+import { user_validation_arr, userInfo } from '@/Logic/MacroTracker/initVariables';
+import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
+import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
+import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
+import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
+import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 
 const modal_id = 'edit_profile_information_modal'
 
 async function edit_profile_information() {
 
+    const validation = checkValidationArr(user_validation_arr)
+
+    if (validation) {
+        const json = getFormDataInJSONFormat('edit_profile_information_form')
+        const response = await fetchResource('PUT', json, '/user_info', 'token')
+
+        if (response && response.ok) {
+            await getUserInfo()
+            hideModal(modal_id)
+        }
+    } else {
+        alertDanger(); _alert('Fill out the required fields correctly!')
+    }
 }
 
 </script>
@@ -25,7 +43,7 @@ async function edit_profile_information() {
 
                     <AlertBox />
 
-                    <form id="edit_profile_information_form">
+                    <form id="edit_profile_information_form" @submit.prevent>
 
                         <RegisterModule :user_info="userInfo" />
 
