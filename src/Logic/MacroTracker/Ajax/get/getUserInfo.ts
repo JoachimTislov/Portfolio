@@ -1,4 +1,4 @@
-import { userInfo } from '../../initVariables'
+import { recommended_nutrient_data, userInfo } from '../../initVariables'
 import type { UserInfo } from '../../types'
 import { getData } from '../ajax'
 

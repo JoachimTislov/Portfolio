@@ -4,7 +4,6 @@ import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import { calender_date, meals_for_given_date, zero_meals_to_show, day_for_chosenDate, days_of_the_week_index } from '@/Logic/MacroTracker/initVariables';
 import { get_meals_for_given_date } from '@/Logic/MacroTracker/Ajax/get/getMealsForGivenDate';
 import { ref, onMounted } from 'vue';
-import { get_average_macros } from '@/Logic/MacroTracker/Ajax/get/getAverageMacros';
 import { construct_dates_for_days_in_week } from '@/Logic/MacroTracker/dateSystem';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import SelectMeal from './selectMeal.vue';
@@ -39,7 +38,6 @@ async function update_calender_info(event: Event) {
     days_of_the_week_index.value = dayOfWeek
 
     await get_meals_for_given_date()
-    await get_average_macros()
 }
 
 </script>

@@ -9,6 +9,7 @@ import type { Meal_with_ingredients, mealModal } from '@/Logic/MacroTracker/type
 import AlertBox from './AlertBox.vue'
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
 import FormulateMeal from './Modules/FormulateMeal.vue'
+import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 
 onMounted(async () => {
     await getMeals()
@@ -115,7 +116,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                         }}kcal</small>
                                     <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
                                         meal['carbohydrates']
-                                        }}g</small>
+                                    }}g</small>
                                     <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
                                         }}g</small>
                                     <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
@@ -139,7 +140,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                 </li>
                                                 <li class="list-group-item mr-3">Calories: {{
                                                     ingredient['calories']
-                                                    }}kcal</li>
+                                                }}kcal</li>
                                                 <li class="list-group-item mr-3">
                                                     Carbohydrates: {{ ingredient['carbohydrates'] }}g
                                                 </li>
@@ -155,8 +156,13 @@ function editMeal(meal: Meal_with_ingredients) {
                                     </div>
                                 </div>
 
-                                <div class="d-flex mt-2">
-                                    <button class="btn-primary btn btn-lg ms-auto" data-bs-toggle="modal"
+                                <div class="d-flex mt-2 btn-group btn-group-md">
+                                    <button class="btn-danger btn"
+                                        @click="deleteEntity(`/meal/${meal['meal_id']}`, getMeals)">
+                                        Delete {{ meal['name'] }}
+                                        <font-awesome-icon :icon="['fas', 'trash']" />
+                                    </button>
+                                    <button class="btn-primary btn" data-bs-toggle="modal"
                                         data-bs-target="#edit_meal_modal" @click="editMeal(meal)">
                                         Edit {{ meal['name'] }}
                                         <font-awesome-icon :icon="['fas', 'pen-to-square']" />

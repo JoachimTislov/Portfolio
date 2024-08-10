@@ -18,7 +18,12 @@ export type Average_macros_data_entry = {
   time_of_day: string
 }
 
-export type Average_macros_this_week = { [key: string]: number }
+export type macros_statistics = {
+  series: number[]
+  options: {
+    [key: string]: string[]
+  }
+}
 
 export type Meal = {
   [key: string]: string | number

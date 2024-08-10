@@ -1,6 +1,5 @@
 import { reactive, ref, watch, type Ref } from 'vue'
 import type {
-  Average_macros_this_week,
   Ingredients,
   Meal_with_ingredients,
   Meals_for_time_of_day,
@@ -110,9 +109,8 @@ export function initAlertElements() {
 
 //////////////// Data init //////////////////////
 
+export const recommended_nutrient_data = reactive([])
 export const userInfo = ref<UserInfo | undefined>(undefined)
-
-export const average_macros_this_week = ref<Average_macros_this_week | undefined>(undefined)
 
 export const meals = ref<Meal_with_ingredients[] | undefined>(undefined)
 

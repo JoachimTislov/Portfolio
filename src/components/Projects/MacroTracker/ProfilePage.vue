@@ -8,12 +8,13 @@ import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import ChangePassword from './ChangePassword.vue';
 import EditProfileInformation from './EditProfileInformation.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
-import { onMounted } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 
 onMounted(async () => {
     await getUserInfo()
     await initPicture()
+    calc_recommended_nutrient()
 })
 
 function handleFileUpload(event: Event) {
@@ -33,6 +34,108 @@ function handleFileUpload(event: Event) {
         console.error("URL.createObjectURL is not supported in this browser.")
     }
 }
+
+
+const recommended_nutrient_data: number[] = reactive([])
+
+//Source: https://mohap.gov.ae/en/more/awareness-center/calories-calculation#:~:text=If%20you%20are%20sedentary%20(little,Calorie%2DCalculation%20%3D%20BMR%20x%201.55
+//https://www.k-state.edu/paccats/Contents/Nutrition/PDF/Needs.pdf
+function calc_recommended_nutrient() {
+    if (userInfo.value) {
+        const weight = parseInt(userInfo.value.Weight)
+        const gender = userInfo.value.Gender
+
+        let BMR = 10 * +weight
+        6.25 * parseInt(userInfo.value.Height) - 5 * parseInt(userInfo.value.Age)
+
+        if (gender == 'Male') {
+            BMR += 5
+        } else {
+            BMR -= 161
+        }
+
+        const caloriesMapping: { [key: string]: number } = {
+            Sedentary: Math.round(BMR * 1.2),
+            'Lightly Active': Math.round(BMR * 1.375),
+            'Moderately Active': Math.round(BMR * 1.55),
+            'Very Active': Math.round(BMR * 1.725),
+            'Super Active': Math.round(BMR * 1.9)
+        }
+        const calories = caloriesMapping[userInfo.value['Activity lvl']]
+
+        const protein = Math.round(weight * 0.9)
+        const carbohydrates = Math.round((calories * 0.55) / 4)
+        const fat = Math.round((calories * 0.3) / 9)
+
+        const sugar = gender == 'Male' ? 36 : 25
+
+        const arr = [calories, protein, carbohydrates, fat, sugar]
+
+        for (let i = 0; i < arr.length; i++) {
+            recommended_nutrient_data[i] = arr[i]
+        }
+    }
+}
+
+
+const macros_recommendation_data = reactive({
+    series: [{
+        name: 'Recommended nutrient/macro consumption',
+        data: recommended_nutrient_data
+    }],
+    options: {
+        chart: {
+            type: 'bar',
+            foreColor: '#fff'
+        },
+        xaxis: {
+            categories: ['Calories', 'Protein', 'Carbohydrates', 'Fat', 'Sugar'],
+            labels: {
+                style: {
+                    fontSize: '12px',
+                }
+            }
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 8,
+                borderRadiusApplication: 'end',
+                horizontal: true,
+            }
+        },
+        tooltip: {
+            theme: 'dark'  // Tooltip theme set to dark
+        },
+        dataLabels: {
+            enabled: true,
+            total: {
+                enabled: true,
+                style: {
+                    color: '#373d3f',
+                    fontSize: '40px',
+                    fontFamily: undefined,
+                    fontWeight: 600
+                }
+            }
+        },
+        title: {
+            style: {
+                fontSize: '15px'
+            },
+            text: 'Daily Recommended Nutrient Intake',
+            align: 'center',
+        },
+        toolbar: {
+            show: false,
+            menu: {
+                item: {
+                    colors: ''
+                }
+            }
+        },
+    }
+})
+
 
 </script>
 
@@ -82,8 +185,14 @@ function handleFileUpload(event: Event) {
 
             </div>
 
-            <div class="d-flex">
+            <div class="mt-3">
 
+                <apexchart :options="macros_recommendation_data.options" :series="macros_recommendation_data.series">
+                </apexchart>
+
+            </div>
+
+            <div class="d-flex">
                 <div class="btn-group btn-group-lg mt-4 ms-auto">
 
                     <button type="button" class="btn btn-info" data-bs-toggle="modal"

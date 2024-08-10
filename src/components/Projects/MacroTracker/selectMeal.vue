@@ -4,7 +4,7 @@ import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { get_meals_for_given_date } from '@/Logic/MacroTracker/Ajax/get/getMealsForGivenDate';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
-import { day_for_chosenDate, calender_date, meals, ingredients } from '@/Logic/MacroTracker/initVariables';
+import { day_for_chosenDate, calender_date, meals } from '@/Logic/MacroTracker/initVariables';
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 import { onMounted, ref, type Ref } from 'vue';
 import AlertBox from './AlertBox.vue';
@@ -38,10 +38,7 @@ const elementsToUpdate = [
 ];
 
 onMounted(async () => {
-
     await getMeals()
-
-    console.log(ingredients.value)
 
     for (const key of Object.keys(timeValidation)) {
         timeValidation[key].value?.focus()
