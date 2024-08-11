@@ -67,6 +67,12 @@ const router = createRouter({
           meta: { requiresAuth: true, authRedirect: macroLogin }
         },
         {
+          path: 'calender',
+          name: 'macroCalender',
+          component: () => import('../views/MacroTracker/CalenderView.vue'),
+          meta: { requiresAuth: true, authRedirect: macroLogin }
+        },
+        {
           path: 'meals',
           name: 'macroMeals',
           component: () => import('../views/MacroTracker/MealsView.vue'),

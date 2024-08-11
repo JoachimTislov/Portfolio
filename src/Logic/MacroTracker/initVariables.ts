@@ -9,10 +9,13 @@ import {
   type validation_Object
 } from './types'
 import { alertUser, getData } from './Ajax/ajax'
-import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
 import user_icon from '@/assets/Icons/user-icon.png'
 import { routeToPage } from './routeToPage'
-import { days_of_the_week } from '@/Data/MacroTracker'
+import {
+  getDate,
+  getDayOfTheWeek_Monday_to_Sunday,
+  getTodaysDate_FriendlyFormatDateInput
+} from './dateSystem'
 
 export const ingredient_validation = {
   name: false,
@@ -53,9 +56,6 @@ watch(
 export const showAlert = ref<boolean>(false)
 export const alertMessage = ref<string>('')
 export const alertClassName = ref<string>('')
-
-export const days_of_the_week_index = ref<number>(new Date().getDay())
-export const day_for_chosenDate = ref<string>(days_of_the_week.value[days_of_the_week_index.value])
 
 const storedUsername = localStorage.getItem('username')
 export const username = ref<string>(storedUsername ? storedUsername : 'Peddi')
@@ -110,28 +110,51 @@ export function initAlertElements() {
 
 //////////////// Data init //////////////////////
 
-export const zero_meals_to_show = ref<boolean>(true)
-export const meals_for_time_of_day = ref<Meals_for_time_of_day>({
-  Breakfast: [],
-  Lunch: [],
-  Dinner: [],
-  Supper: [],
-  Night: []
+export const days_of_the_week_with_date = ref<{ Day: string; Date: string }[]>([
+  { Day: 'Monday', Date: '' },
+  { Day: 'Tuesday', Date: '' },
+  { Day: 'Wednesday', Date: '' },
+  { Day: 'Thursday', Date: '' },
+  { Day: 'Friday', Date: '' },
+  { Day: 'Saturday', Date: '' },
+  { Day: 'Sunday', Date: '' }
+])
+
+export const days_of_the_week_index = ref<number>(getDayOfTheWeek_Monday_to_Sunday())
+export const day_for_chosenDate = ref<string>(
+  days_of_the_week_with_date.value[days_of_the_week_index.value].Day
+)
+export const calender_date = ref<string>(getDate())
+
+export const selectedDate = ref<string>(getTodaysDate_FriendlyFormatDateInput())
+
+export const meals_for_time_of_day = ref<Meals_for_time_of_day>({})
+
+// Used in statistics
+export const StatsToShow = ref<boolean>(false)
+
+export const labels = ['Protein', 'Carbohydrates', 'Fat', 'Sugar']
+export const stats = reactive({
+  total_macros: [0, 0, 0, 0],
+  average_macros: [0, 0, 0, 0]
 })
+
+export const eaten_nutrient_progression: { [key: string]: number[] } = reactive({
+  calories: [0],
+  protein: [0],
+  carbohydrates: [0],
+  fat: [0],
+  sugar: [0]
+})
+
+////////////////////////////////////////
 
 export const recommended_nutrient_data: number[] = reactive([])
 export const userInfo = ref<UserInfo | undefined>(undefined)
 
-export const calender_data = ref<Calender_data | undefined>(undefined)
-
-export const meals = ref<Meal_with_ingredients[] | undefined>(undefined)
-
-export const ingredients = ref<Ingredients | undefined>(undefined)
-
-const date = new Date()
-export const calender_date = ref<string>(
-  `${check_if_number_is_less_than_10(date.getDate())}-${check_if_number_is_less_than_10(date.getMonth() + 1)}-${date.getFullYear()}`
-)
+export const calender_data = ref<Calender_data>({})
+export const meals = ref<Meal_with_ingredients[]>([])
+export const ingredients = ref<Ingredients>([])
 
 /////////////////////////////////////////////////
 

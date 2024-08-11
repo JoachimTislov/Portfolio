@@ -1,28 +1,55 @@
-import { days_of_the_week_with_date, number_of_days_in_each_month } from '@/Data/MacroTracker'
+import { number_of_days_in_each_month } from '@/Data/MacroTracker'
 import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
+import {
+  calender_date,
+  days_of_the_week_index,
+  selectedDate,
+  days_of_the_week_with_date
+} from './initVariables'
 
-export function getTodaysDate() {
-  const date = new Date()
-  return `${check_if_number_is_less_than_10(date.getDate())}-${check_if_number_is_less_than_10(date.getMonth() + 1)}-${date.getFullYear()}`
+const determineDateObject = (date?: string) => {
+  return date ? new Date(date) : new Date()
 }
 
-export function getTodaysDate_AmericanFormat() {
-  const date = new Date()
-  return `${check_if_number_is_less_than_10(date.getMonth() + 1)}-${check_if_number_is_less_than_10(date.getDate())}-${date.getFullYear()}`
+export function getDate(date?: string) {
+  const dateObject = determineDateObject(date)
+  return `${check_if_number_is_less_than_10(dateObject.getDate())}-${check_if_number_is_less_than_10(dateObject.getMonth() + 1)}-${dateObject.getFullYear()}`
 }
 
-export function getTodaysDate_FriendlyFormatDateInput() {
+export function getDate_AmericanFormat(date?: string) {
+  const dateObject = determineDateObject(date)
+  return `${check_if_number_is_less_than_10(dateObject.getMonth() + 1)}-${check_if_number_is_less_than_10(dateObject.getDate())}-${dateObject.getFullYear()}`
+}
+
+export function getTodaysDate_FriendlyFormatDateInput(date?: string) {
   // Have to edit it to format yyyy-mm-dd
-  const date = new Date()
-  return `${date.getFullYear()}-${check_if_number_is_less_than_10(date.getMonth() + 1)}-${check_if_number_is_less_than_10(date.getDate())}`
+  const dateObject = determineDateObject(date)
+  return `${dateObject.getFullYear()}-${check_if_number_is_less_than_10(dateObject.getMonth() + 1)}-${check_if_number_is_less_than_10(dateObject.getDate())}`
 }
 
-export function construct_dates_for_days_in_week(
-  dayOfWeek: number,
-  dayOfMonth: number,
-  month: number,
-  year: number
-) {
+export function getDayOfTheWeek_Monday_to_Sunday(date?: string) {
+  const dateObject = determineDateObject(date)
+  return dateObject.getDay() == 0 ? 6 : dateObject.getDay() - 1
+}
+
+export function getDayOf_Week_and_Month_year_and_monthOfYear(date?: string) {
+  const dateObject = determineDateObject(date)
+
+  const dayOfWeek = getDayOfTheWeek_Monday_to_Sunday(date)
+
+  const dayOfMonth = dateObject.getDate()
+  const month = dateObject.getMonth() + 1
+  const year = dateObject.getFullYear()
+
+  return [dayOfWeek, dayOfMonth, month, year]
+}
+
+export function construct_dates_for_days_in_week(date?: string) {
+  const [dayOfWeek, dayOfMonth, ...rest] = getDayOf_Week_and_Month_year_and_monthOfYear(date)
+  let [month, year] = rest
+
+  console.log(dayOfMonth, dayOfWeek)
+
   /*We want to start at the beginning of the week*/
   let start_of_week_date = dayOfMonth - dayOfWeek
 
@@ -62,4 +89,16 @@ export function construct_dates_for_days_in_week(
 
     start_of_week_date += 1
   }
+}
+
+export function update_calender_info(event: Event) {
+  const value = (event.target as HTMLInputElement).value
+  selectedDate.value = value
+
+  // Recalculate week
+  construct_dates_for_days_in_week(value)
+
+  // dd-mm-yyyy
+  calender_date.value = getDate(value)
+  days_of_the_week_index.value = getDayOfTheWeek_Monday_to_Sunday(value)
 }

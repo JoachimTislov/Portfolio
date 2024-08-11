@@ -1,33 +1,18 @@
 <script setup lang="ts">
 
-import { calender_date, day_for_chosenDate, days_of_the_week_index, meals_for_time_of_day, zero_meals_to_show } from '@/Logic/MacroTracker/initVariables';
-import { ref } from 'vue';
-import { construct_dates_for_days_in_week, getTodaysDate_FriendlyFormatDateInput } from '@/Logic/MacroTracker/dateSystem';
-import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
+import { meals_for_time_of_day, selectedDate, days_of_the_week_with_date } from '@/Logic/MacroTracker/initVariables';
+import { onMounted } from 'vue';
+import { construct_dates_for_days_in_week, update_calender_info } from '@/Logic/MacroTracker/dateSystem';
 import SelectMeal from './selectMeal.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
+import { get_calender_data } from '@/Logic/MacroTracker/Ajax/get/get_calender_data';
 
-const chosenDate = ref<string>(getTodaysDate_FriendlyFormatDateInput())
+onMounted(async () => {
+    construct_dates_for_days_in_week()
 
-async function update_calender_info(event: Event) {
-    console.log('Getting date info')
-
-    const value = (event.target as HTMLInputElement).value; chosenDate.value = value
-
-    const dayOfMonth = parseInt(value.split('-')[2])
-    const month = parseInt(value.split('-')[1])
-    const year = parseInt(value.split('-')[0])
-
-    // dd-mm-yyyy
-    calender_date.value = `${check_if_number_is_less_than_10(dayOfMonth)}-${check_if_number_is_less_than_10(month)}-${year}`
-
-    const dayOfWeek = (new Date(chosenDate.value)).getDay() == 0 ? 6 : (new Date(chosenDate.value)).getDay() - 1
-    // Recalculate week and update average macros
-    construct_dates_for_days_in_week(dayOfWeek, dayOfMonth, month, year)
-
-    days_of_the_week_index.value = dayOfWeek
-}
+    await get_calender_data()
+})
 </script>
 
 <template>
@@ -35,44 +20,44 @@ async function update_calender_info(event: Event) {
     <SelectMeal />
 
     <section class="card" id="meals_for_given_date">
-        <div class="card-header">
-            <div class="d-flex gap-2">
-                <h4 class="mt-1"> Meal Calender - </h4>
-                <div><input type="date" class="form-control form-control-md" v-model="chosenDate"
-                        @change="update_calender_info($event)">
+        <div class="card-header d-flex flex-wrap">
+            <div class="d-flex gap-1">
+                <div class="d-flex flex-column">
+                    <h2 class="mt-1"> Meal Calender </h2>
+                    <div>
+                        <input type="date" class="form-control form-control-md" v-model="selectedDate"
+                            @change="update_calender_info($event)">
+                    </div>
                 </div>
+            </div>
+            <div class="m-2 ms-auto">
+                <button class="btn-success btn btn-md" data-bs-toggle="modal" data-bs-target="#select_meal_modal"
+                    @click="hideAlert()">
+                    Add a meal
+                </button>
             </div>
         </div>
 
         <div class="card-body">
-            <div class="card-header">
-
-                <div class="ml-1 d-flex gap-2">
-                    <h5 class="mt-2"> {{ day_for_chosenDate }} {{ calender_date }} </h5>
-
-                    <button class="ml-2 btn-success btn btn-sm" data-bs-toggle="modal"
-                        data-bs-target="#select_meal_modal" @click="hideAlert()">
-                        Add Meal
-                    </button>
+            <template v-for="(entry, index) in days_of_the_week_with_date" :key="index">
+                <div class="card-header">
+                    <h5 class="mt-2"> {{ entry.Day }} {{ entry.Date }} </h5>
                 </div>
-
-            </div>
-            <div class="wrap gap-3 mt-1">
-                <div v-for="(meals_for_given_time, meal_time) in meals_for_time_of_day" :key="meal_time">
-                    <template v-if="meals_for_given_time.length > 0">
-                        <div class="list-group-item list-group-item-info">
-                            <h3> {{ meal_time }} </h3>
+                <div class="d-flex flex-wrap gap-3 mt-1">
+                    <template v-for="(meals_for_given_time, meal_time) in meals_for_time_of_day[entry.Date]"
+                        :key="meal_time">
+                        <div class="list-group-item list-group-item-secondary p-1 rounded border border-1">
+                            <h4> {{ meal_time }} </h4>
                         </div>
-                        <div class="wrap">
-                            <div v-for="entry in meals_for_given_time" :key="entry.meal['calender_id']"
-                                :id="`calender_meal_${entry.meal['calender_id']}`">
-                                <div class="d-flex gap-2">
-                                    <h5 class="border border-1 p-3 rounded"> {{ entry.meal['Name'] }}, {{
-                                        entry['time_of_day']
-                                        }}
+                        <div class="d-flex flex-column">
+                            <div v-for="(item, index) in meals_for_given_time" :key="index"
+                                :id="`calender_meal_${item['calender_id']}`">
+                                <div class="d-flex mt-2 gap-2">
+                                    <h5 class="border border-1 p-3 rounded"> {{ item.meal['Name'] }}, {{
+                                        item['time_of_day'] }}
 
                                         <button class="float-right btn-danger btn btn-sm"
-                                            @click="deleteEntity('/calender/' + entry.meal['calender_id'])">
+                                            @click="deleteEntity('/calender/' + item['calender_id'])">
                                             Delete <font-awesome-icon :icon="['fas', 'trash']" />
                                         </button>
                                     </h5>
@@ -81,10 +66,11 @@ async function update_calender_info(event: Event) {
                         </div>
                     </template>
                 </div>
-            </div>
-            <div v-if="zero_meals_to_show">
-                <h4> Go to meals tab and make A FUKIN MEAL MATE </h4>
-            </div>
+                <!--<div class="m-3" v-if="zero_meals_to_show">
+                    <h4> There are zero meals for this date </h4>
+                </div>-->
+
+            </template>
         </div>
     </section>
 

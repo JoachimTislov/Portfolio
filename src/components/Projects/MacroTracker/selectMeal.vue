@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { days_of_the_week_with_date, schedule } from '@/Data/MacroTracker';
+import { schedule } from '@/Data/MacroTracker';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
-import { day_for_chosenDate, calender_date, meals } from '@/Logic/MacroTracker/initVariables';
+import { day_for_chosenDate, calender_date, meals, days_of_the_week_with_date } from '@/Logic/MacroTracker/initVariables';
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 import { onMounted, ref, type Ref } from 'vue';
 import AlertBox from './AlertBox.vue';

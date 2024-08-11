@@ -78,7 +78,7 @@ const macros_recommendation_data = reactive({
             style: {
                 fontSize: '15px'
             },
-            text: 'Daily Recommended Nutrient Intake',
+            text: 'Recommended Daily Nutrient Intake',
             align: 'center',
         },
         toolbar: {

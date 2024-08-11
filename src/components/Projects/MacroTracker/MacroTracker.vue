@@ -19,15 +19,15 @@ const logout = async () => {
     routeToPage('macroLogin')
 }
 
-const routes = ['Home', 'Meals', 'Ingredients', 'Profile']
+const routes = ['Home', 'Calender', 'Meals', 'Ingredients', 'Profile']
 
 </script>
 
 <template>
-    <nav v-if="token" class="navbar navbar-expand-md" data-bs-theme="dark">
+    <nav v-if="token" class="navbar navbar-expand-lg" data-bs-theme="dark">
         <div class="container">
 
-            <h4 class="logo"> Macro Tracker - {{ username }} </h4>
+            <h4 class="logo"> {{ username }} </h4>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMacroTracker"
                 aria-controls="navbarMacroTracker" aria-expanded="false" aria-label="Toggle navigation">

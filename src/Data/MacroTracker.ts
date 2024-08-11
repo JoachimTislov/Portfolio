@@ -1,5 +1,3 @@
-import { ref } from 'vue'
-
 export const number_of_days_in_each_month = [
   { Month: 'January', Days: 31 },
   { Month: 'February', Days: 29 } /* 2024 is a leap year */,
@@ -23,23 +21,3 @@ export const schedule: { [key: string]: { Start: number; End: number } } = {
   Supper: { Start: 21, End: 24 },
   Night: { Start: 0, End: 5 }
 }
-
-export const days_of_the_week_with_date = ref<{ Day: string; Date: string }[]>([
-  { Day: 'Monday', Date: '' },
-  { Day: 'Tuesday', Date: '' },
-  { Day: 'Wednesday', Date: '' },
-  { Day: 'Thursday', Date: '' },
-  { Day: 'Friday', Date: '' },
-  { Day: 'Saturday', Date: '' },
-  { Day: 'Sunday', Date: '' }
-])
-
-export const days_of_the_week = ref<string[]>([
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
-])
