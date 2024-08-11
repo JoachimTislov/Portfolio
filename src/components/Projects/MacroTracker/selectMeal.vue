@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { days_of_the_week_with_date, schedule } from '@/Data/MacroTracker';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
-import { get_meals_for_given_date } from '@/Logic/MacroTracker/Ajax/get/getMealsForGivenDate';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { day_for_chosenDate, calender_date, meals } from '@/Logic/MacroTracker/initVariables';
@@ -74,17 +73,15 @@ async function addMealToGivenDate(meal_id: number) {
         try {
             const time = `${check_if_number_is_less_than_10(hour.value)}:${check_if_number_is_less_than_10(minutes.value)}`
             const dayOfWeek = (new Date().getDay())
-            const index = dayOfWeek == 6 ? 5 : dayOfWeek - 1
+            const index = dayOfWeek == 0 ? 6 : dayOfWeek - 1
             const date = days_of_the_week_with_date.value[index].Date
 
-            console.log(days_of_the_week_with_date)
 
             const json = JSON.stringify({ "id": meal_id, "date": date, "time": time })
             const response = await fetchResource('POST', json, '/calender', 'token')
 
             if (response && response.ok) {
 
-                await get_meals_for_given_date()
                 hideModal(modal_id)
 
             }

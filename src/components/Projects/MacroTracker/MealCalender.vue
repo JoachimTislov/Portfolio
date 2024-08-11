@@ -1,28 +1,19 @@
 <script setup lang="ts">
 
-import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
-import { calender_date, meals_for_given_date, zero_meals_to_show, day_for_chosenDate, days_of_the_week_index } from '@/Logic/MacroTracker/initVariables';
-import { get_meals_for_given_date } from '@/Logic/MacroTracker/Ajax/get/getMealsForGivenDate';
-import { ref, onMounted } from 'vue';
-import { construct_dates_for_days_in_week } from '@/Logic/MacroTracker/dateSystem';
+import { calender_date, day_for_chosenDate, days_of_the_week_index, meals_for_time_of_day, zero_meals_to_show } from '@/Logic/MacroTracker/initVariables';
+import { ref } from 'vue';
+import { construct_dates_for_days_in_week, getTodaysDate_FriendlyFormatDateInput } from '@/Logic/MacroTracker/dateSystem';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import SelectMeal from './selectMeal.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
+import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 
-onMounted(async () => {
-    await get_meals_for_given_date()
-
-    console.log(meals_for_given_date.value)
-})
-
-// Have to edit it to format yyyy-mm-dd
-const chosenDate = ref<string>(`${calender_date.value.split('-')[2]}-${calender_date.value.split('-')[1]}-${calender_date.value.split('-')[0]}`)
+const chosenDate = ref<string>(getTodaysDate_FriendlyFormatDateInput())
 
 async function update_calender_info(event: Event) {
     console.log('Getting date info')
 
-    const value = (event.target as HTMLInputElement).value
-    chosenDate.value = value
+    const value = (event.target as HTMLInputElement).value; chosenDate.value = value
 
     const dayOfMonth = parseInt(value.split('-')[2])
     const month = parseInt(value.split('-')[1])
@@ -36,10 +27,7 @@ async function update_calender_info(event: Event) {
     construct_dates_for_days_in_week(dayOfWeek, dayOfMonth, month, year)
 
     days_of_the_week_index.value = dayOfWeek
-
-    await get_meals_for_given_date()
 }
-
 </script>
 
 <template>
@@ -70,31 +58,32 @@ async function update_calender_info(event: Event) {
 
             </div>
             <div class="wrap gap-3 mt-1">
-                <div v-for="(meals_for_given_time, meal_time) in meals_for_given_date" :key="meal_time"
-                    v-show="meals_for_given_time.length > 0">
-                    <div class="list-group-item list-group-item-info">
-                        <h3> {{ meal_time }} </h3>
-                    </div>
-                    <div class="wrap">
-                        <div v-for="meal in meals_for_given_time" :key="meal['calender_id']"
-                            :id="`calender_meal_${meal['calender_id']}`">
-                            <div class="d-flex gap-2">
-                                <h5 class="border border-1 p-3 rounded"> {{ meal['meal_name'] }}, {{ meal['time_of_day']
-                                    }}
+                <div v-for="(meals_for_given_time, meal_time) in meals_for_time_of_day" :key="meal_time">
+                    <template v-if="meals_for_given_time.length > 0">
+                        <div class="list-group-item list-group-item-info">
+                            <h3> {{ meal_time }} </h3>
+                        </div>
+                        <div class="wrap">
+                            <div v-for="entry in meals_for_given_time" :key="entry.meal['calender_id']"
+                                :id="`calender_meal_${entry.meal['calender_id']}`">
+                                <div class="d-flex gap-2">
+                                    <h5 class="border border-1 p-3 rounded"> {{ entry.meal['Name'] }}, {{
+                                        entry['time_of_day']
+                                        }}
 
-                                    <button class="float-right btn-danger btn btn-sm"
-                                        @click="deleteEntity('/calender/' + meal['calender_id'], get_meals_for_given_date)">
-                                        Delete <font-awesome-icon :icon="['fas', 'trash']" />
-                                    </button>
-                                </h5>
+                                        <button class="float-right btn-danger btn btn-sm"
+                                            @click="deleteEntity('/calender/' + entry.meal['calender_id'])">
+                                            Delete <font-awesome-icon :icon="['fas', 'trash']" />
+                                        </button>
+                                    </h5>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
                 </div>
-
-                <div v-if="zero_meals_to_show" class="ml-3">
-                    <h5 class="mt-2"> You don't have any meals for the this date </h5>
-                </div>
+            </div>
+            <div v-if="zero_meals_to_show">
+                <h4> Go to meals tab and make A FUKIN MEAL MATE </h4>
             </div>
         </div>
     </section>

@@ -1,11 +1,12 @@
 import { reactive, ref, watch, type Ref } from 'vue'
-import type {
-  Ingredients,
-  Meal_with_ingredients,
-  Meals_for_time_of_day,
-  UserInfo,
-  Validation_array,
-  validation_Object
+import {
+  type Calender_data,
+  type Ingredients,
+  type Meal_with_ingredients,
+  type Meals_for_time_of_day,
+  type UserInfo,
+  type Validation_array,
+  type validation_Object
 } from './types'
 import { alertUser, getData } from './Ajax/ajax'
 import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
@@ -109,8 +110,19 @@ export function initAlertElements() {
 
 //////////////// Data init //////////////////////
 
-export const recommended_nutrient_data = reactive([])
+export const zero_meals_to_show = ref<boolean>(true)
+export const meals_for_time_of_day = ref<Meals_for_time_of_day>({
+  Breakfast: [],
+  Lunch: [],
+  Dinner: [],
+  Supper: [],
+  Night: []
+})
+
+export const recommended_nutrient_data: number[] = reactive([])
 export const userInfo = ref<UserInfo | undefined>(undefined)
+
+export const calender_data = ref<Calender_data | undefined>(undefined)
 
 export const meals = ref<Meal_with_ingredients[] | undefined>(undefined)
 
@@ -120,8 +132,6 @@ const date = new Date()
 export const calender_date = ref<string>(
   `${check_if_number_is_less_than_10(date.getDate())}-${check_if_number_is_less_than_10(date.getMonth() + 1)}-${date.getFullYear()}`
 )
-export const zero_meals_to_show = ref<boolean>(true)
-export const meals_for_given_date = ref<Meals_for_time_of_day | undefined>(undefined)
 
 /////////////////////////////////////////////////
 

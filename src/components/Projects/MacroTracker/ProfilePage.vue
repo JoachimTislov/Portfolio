@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import user_icon from '@/assets/Icons/user-icon.png'
-import { profilePictureUrl, _file, uploadedPicture, userInfo, initPicture } from '@/Logic/MacroTracker/initVariables'
+import { profilePictureUrl, _file, uploadedPicture, userInfo, initPicture, recommended_nutrient_data } from '@/Logic/MacroTracker/initVariables'
 import { deleteProfilePicture } from '@/Logic/MacroTracker/Ajax/deleteProfilePicture'
 import { uploadProfilePicture } from '@/Logic/MacroTracker/Ajax/uploadProfilePicture'
 import AlertBox from './AlertBox.vue';
@@ -14,7 +14,6 @@ import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 onMounted(async () => {
     await getUserInfo()
     await initPicture()
-    calc_recommended_nutrient()
 })
 
 function handleFileUpload(event: Event) {
@@ -34,49 +33,6 @@ function handleFileUpload(event: Event) {
         console.error("URL.createObjectURL is not supported in this browser.")
     }
 }
-
-
-const recommended_nutrient_data: number[] = reactive([])
-
-//Source: https://mohap.gov.ae/en/more/awareness-center/calories-calculation#:~:text=If%20you%20are%20sedentary%20(little,Calorie%2DCalculation%20%3D%20BMR%20x%201.55
-//https://www.k-state.edu/paccats/Contents/Nutrition/PDF/Needs.pdf
-function calc_recommended_nutrient() {
-    if (userInfo.value) {
-        const weight = parseInt(userInfo.value.Weight)
-        const gender = userInfo.value.Gender
-
-        let BMR = 10 * +weight
-        6.25 * parseInt(userInfo.value.Height) - 5 * parseInt(userInfo.value.Age)
-
-        if (gender == 'Male') {
-            BMR += 5
-        } else {
-            BMR -= 161
-        }
-
-        const caloriesMapping: { [key: string]: number } = {
-            Sedentary: Math.round(BMR * 1.2),
-            'Lightly Active': Math.round(BMR * 1.375),
-            'Moderately Active': Math.round(BMR * 1.55),
-            'Very Active': Math.round(BMR * 1.725),
-            'Super Active': Math.round(BMR * 1.9)
-        }
-        const calories = caloriesMapping[userInfo.value['Activity lvl']]
-
-        const protein = Math.round(weight * 0.9)
-        const carbohydrates = Math.round((calories * 0.55) / 4)
-        const fat = Math.round((calories * 0.3) / 9)
-
-        const sugar = gender == 'Male' ? 36 : 25
-
-        const arr = [calories, protein, carbohydrates, fat, sugar]
-
-        for (let i = 0; i < arr.length; i++) {
-            recommended_nutrient_data[i] = arr[i]
-        }
-    }
-}
-
 
 const macros_recommendation_data = reactive({
     series: [{

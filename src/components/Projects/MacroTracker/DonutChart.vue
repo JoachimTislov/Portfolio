@@ -41,8 +41,8 @@ const macros = reactive({
             }
         },
         legend: {
-            show: false,
-            position: 'left',
+            show: true,
+            position: 'bottom',
             labels: {
                 fontSize: '1px',
                 colors: 'white'

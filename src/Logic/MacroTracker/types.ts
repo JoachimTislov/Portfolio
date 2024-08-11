@@ -1,17 +1,10 @@
 import type { Ref } from 'vue'
 
-export type Meal_and_calender_data = Meal_and_calender_data_entry[]
-
-export type Meal_and_calender_data_entry = {
-  calender_id: number
-  date: string
-  meal_name: string
-  time_of_day: string
+export type Calender_data = {
+  [key: string]: calender_data_entry[]
 }
 
-export type Average_macros_data = Average_macros_data_entry[]
-
-export type Average_macros_data_entry = {
+export type calender_data_entry = {
   calender_id: number
   date: string
   meal: Meal
@@ -43,7 +36,9 @@ export type Meal_with_ingredients = Meal & {
   ingredients: Ingredients
 }
 
-export type Meals_for_time_of_day = { [key: string]: Meal_and_calender_data }
+export type Meals_for_time_of_day = { 
+  [key: string]: calender_data_entry[] 
+}
 
 export type Ingredients = Ingredient[]
 

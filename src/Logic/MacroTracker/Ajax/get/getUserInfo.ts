@@ -1,4 +1,5 @@
-import { recommended_nutrient_data, userInfo } from '../../initVariables'
+import { calc_recommended_nutrient } from '../../calc_recommended_nutrient'
+import { userInfo } from '../../initVariables'
 import type { UserInfo } from '../../types'
 import { getData } from '../ajax'
 
@@ -25,6 +26,8 @@ export async function getUserInfo() {
     // Mapping correct values
     user_info['Activity lvl'] = activity_Levels[parseInt(user_info['Activity lvl']) - 1]
     user_info['Gender'] = genders[parseInt(user_info['Gender']) - 1]
+
+    calc_recommended_nutrient()
 
     userInfo.value = user_info
   }
