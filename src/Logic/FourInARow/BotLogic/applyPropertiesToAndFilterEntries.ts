@@ -62,20 +62,5 @@ export const applyPropertiesToEntry = async (
       targetArr[key][entry.coordinates[1]].push(entry)
     }
   }
-
-  if (firstIsTwo) {
-    entry.losing = true
-  }
-
-  if (secondIsThree) {
-    entry.losing = false
-  }
-
-  if (key == 'One_in_a_row') {
-    remainingChoices.value.push(entry)
-  } else if (key == 'Two_in_a_row') {
-    targetArr[key][entry.coordinates[1]].push(entry)
-  }
-
   return true
 }
