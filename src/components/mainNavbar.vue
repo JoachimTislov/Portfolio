@@ -22,13 +22,13 @@ import { RouterLink } from 'vue-router';
                     </li> 
 
                     <li class="nav-item">
-                        <RouterLink class="nav-link" to="/about-me"> 
+                        <RouterLink class="nav-link" :to="{ name: 'mainAbout' }"> 
                             About me
                         </RouterLink>
                     </li> 
                     
                     <li class="nav-item">
-                        <RouterLink class="nav-link" to="/-projects"> 
+                        <RouterLink class="nav-link" :to="{ name: 'mainProjects' }"> 
                             Projects 
                         </RouterLink>
                     </li> 
@@ -36,6 +36,12 @@ import { RouterLink } from 'vue-router';
                     <li class="nav-item">
                         <RouterLink class="nav-link" to="/four-in-a-row"> 
                             Four in a row
+                        </RouterLink>
+                    </li> 
+
+                    <li class="nav-item">
+                        <RouterLink class="nav-link" to="/macro-tracker"> 
+                            Macro Tracker
                         </RouterLink>
                     </li> 
                     

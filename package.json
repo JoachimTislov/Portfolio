@@ -23,11 +23,14 @@
     "@fortawesome/vue-fontawesome": "^3.0.8",
     "@popperjs/core": "^2.11.8",
     "@vue/language-plugin-pug": "^2.0.24",
+    "apexcharts": "^3.52.0",
     "bootstrap": "^5.3.3",
     "bootswatch": "^5.3.3",
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
-    "vue-router": "^4.3.3"
+    "vue-cli-service": "^5.0.10",
+    "vue-router": "^4.3.3",
+    "vue3-apexcharts": "^1.5.3"
   },
   "devDependencies": {
     "@pinia/testing": "^0.1.3",
@@ -36,7 +39,7 @@
     "@tsconfig/node20": "^20.1.4",
     "@types/bootstrap": "^5.2.10",
     "@types/jsdom": "^21.1.7",
-    "@types/node": "^20.14.11",
+    "@types/node": "^20.14.13",
     "@vitejs/plugin-vue": "^5.0.5",
     "@vitejs/plugin-vue-jsx": "^4.0.0",
     "@vue/eslint-config-prettier": "^9.0.0",

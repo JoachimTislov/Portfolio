@@ -7,7 +7,7 @@ import {
   getNameOfSlot,
   getNumber
   
-} from '../Logic/FourInARow/GameLogic/functions'  
+} from '../../../Logic/FourInARow/GameLogic/functions'  
 
 import { resetGame } from '@/Logic/FourInARow/GameLogic/resetGame';
 
@@ -34,7 +34,7 @@ import {
   droppingPiece,
   playerStatus
 
-} from '../Logic/FourInARow/GameLogic/variables'  
+} from '../../../Logic/FourInARow/GameLogic/variables'  
 
 </script>
  
