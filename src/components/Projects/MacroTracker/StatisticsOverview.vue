@@ -38,7 +38,6 @@ onMounted(async () => {
         </header>
         <section class="card-body">
 
-
             <template v-if="StatsToShow">
 
                 <div class="border border-3 rounded p-3">
@@ -65,10 +64,12 @@ onMounted(async () => {
                     <template v-if="Object.keys(stats_for_dates).length != 1">
                         <OverallStatsDonut
                             :stats="{ total: stats_for_dates[date].total, average: stats_for_dates[date].average }" />
-
                     </template>
 
-                    <div v-for="(meal_name, index) in Object.keys(stats_for_dates[date])" :key="index">
+                    <div class="m-4 ms-0" v-for="(meal_name, index) in Object.keys(stats_for_dates[date].meals)"
+                        :key="index">
+
+                        {{ meal_name }}, {{ stats_for_dates[date].meals[meal_name].data }}
 
                         <BarChart :data="stats_for_dates[date].meals[meal_name].data" :name="meal_name" />
 

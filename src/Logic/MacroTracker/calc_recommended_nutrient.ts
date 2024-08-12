@@ -3,6 +3,8 @@ import { recommended_nutrient_data, userInfo } from './initVariables'
 //Source: https://mohap.gov.ae/en/more/awareness-center/calories-calculation#:~:text=If%20you%20are%20sedentary%20(little,Calorie%2DCalculation%20%3D%20BMR%20x%201.55
 //https://www.k-state.edu/paccats/Contents/Nutrition/PDF/Needs.pdf
 export function calc_recommended_nutrient() {
+  console.log('calcing recommended nuntrient', userInfo.value)
+
   if (userInfo.value) {
     const weight = parseInt(userInfo.value.Weight)
     const gender = userInfo.value.Gender
@@ -14,7 +16,6 @@ export function calc_recommended_nutrient() {
       parseInt(userInfo.value.Age),
       userInfo.value['Activity lvl']
     )
-
     const protein = Math.round(weight * 0.9)
     const carbohydrates = Math.round((calories * 0.55) / 4)
     const fat = Math.round((calories * 0.3) / 9)

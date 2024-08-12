@@ -25,6 +25,8 @@ export function calcNutrientStatsForGivenPeriod() {
   // Adding all of the nutrients for the given week
 
   if (!calender_data.value[dates_within_selected_period.value[0]]) {
+    console.log(dates_within_selected_period.value)
+    console.log('nothing to show')
     StatsToShow.value = false
     return
   }
@@ -47,7 +49,6 @@ export function calcNutrientStatsForGivenPeriod() {
         const meal = calender_entry.meal
         if (!stats_for_dates[date].meals[meal.name]) {
           stats_for_dates[date].meals[meal.name] = {
-            name: meal.name,
             data: [meal.calories, meal.protein, meal.carbohydrates, meal.fat, meal.sugar]
           }
         }
@@ -99,12 +100,10 @@ export function setupNutrientProgressChartsData() {
       eaten_nutrient_progression.sugar[0] += entry.meal.sugar
     }
 
-    for (let i = 0; i < recommended_nutrient_data.length; i++) {
-      if (eaten_nutrient_progression[i] && recommended_nutrient_data[i]) {
-        eaten_nutrient_progression[i][0] = Math.round(
-          (eaten_nutrient_progression[i][0] / recommended_nutrient_data[i]) * 100
-        )
+    Object.entries(eaten_nutrient_progression).forEach(([, value], index) => {
+      if (value && recommended_nutrient_data[index]) {
+        value[0] = Math.round((value[0] / recommended_nutrient_data[index]) * 100)
       }
-    }
+    })
   }
 }

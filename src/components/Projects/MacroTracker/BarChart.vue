@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 
 
 const props = defineProps<({
@@ -52,7 +52,7 @@ const bar_chart_data = reactive({
             style: {
                 fontSize: '15px'
             },
-            text: 'Recommended Daily Nutrient Intake',
+            text: props.name,
             align: 'center',
         },
         toolbar: {
@@ -66,11 +66,21 @@ const bar_chart_data = reactive({
     }
 })
 
+watch(() => props.data, (newData) => {
+    bar_chart_data.series[0].data = newData;
+}), { deep: true };
+
+watch(() => props.name, (newName) => {
+    bar_chart_data.series[0].name = newName;
+    bar_chart_data.options.title.text = newName
+}), { deep: true };
 
 </script>
 
 
 <template>
+
+    {{ data }}, {{ name }}
 
     <apexchart :options="bar_chart_data.options" :series="bar_chart_data.series">
     </apexchart>

@@ -26,8 +26,8 @@ export async function getUserInfo() {
     user_info['Activity lvl'] = activity_Levels[parseInt(user_info['Activity lvl']) - 1]
     user_info['Gender'] = genders[parseInt(user_info['Gender']) - 1]
 
-    calc_recommended_nutrient()
-
     userInfo.value = user_info
+
+    calc_recommended_nutrient()
   }
 }

@@ -148,6 +148,10 @@ function findRangeOfDates(
       return [start_date, end_date]
     }
 
+    if (a == b) {
+      return [arr[a]]
+    }
+
     return arr.slice(a, b)
   }
 }
