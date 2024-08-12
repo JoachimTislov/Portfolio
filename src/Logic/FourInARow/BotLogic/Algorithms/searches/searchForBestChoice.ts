@@ -1,6 +1,6 @@
 import { ref } from "vue"
 import { arraysEqual } from "../../ArrayLogic"
-import { botChoices, botValue, playerChoices, remainingChoices } from "../../../GameLogic/variables"
+import { botChoices, playerChoices, playerStatus, remainingChoices } from "../../../GameLogic/variables"
 import { botMove } from "../../botMove"
 import { handleLosingChoices } from "../handleLosingChoices"
 
@@ -11,7 +11,11 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of doubleChoices) {
     if(entry.length > 0) {
       const [x,y] = entry[0].coordinates
-      //console.log('double in a row')
+      if(entry[0].participant == playerStatus.value) {
+        console.log('Blocked double in a row')
+      } else {
+        console.log('double in a row')
+      }
       return await botMove(board, x, y)
     }
   }
@@ -20,35 +24,9 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of potentiallyDoubleChoices) {
     if(entry.length > 0) {
       const [x,y] = entry[0].coordinates
-      //console.log('Potential double in a row')
       return await botMove(board, x, y)
     }
   }
-
-  const arr = [botChoices.value['Two_in_a_row'], playerChoices.value['Two_in_a_row']]
-  
-  for (const entry of arr) {
-    for (const column of entry) {
-      for (const lvl of column) {
-        const columnIndex = lvl.coordinates[1]
-        let bool = true
-        for (let i = 0; i < columnIndex; i++) {
-          // Prioritizing blocking the lowest threats, instead building above them
-          if (playerChoices.value['Two_in_a_row'][i].length > 0 && lvl.participant == botValue) {
-            bool = false
-          }
-
-        }
-        if (lvl.winning && bool) {
-          const [x, y] = lvl.coordinates
-          return await botMove(board, x, y)
-        }
-      }
-    }
-  }
-
-/*
-  This chooses two in a row with lowest column index value*/
 
   const loopThroughTwoInARow = () => {
     for (let i = 0; i < botChoices.value['Two_in_a_row'].length; i++) {
@@ -58,19 +36,12 @@ export const searchForBestChoice = async (board: number[][]) => {
 
       const playerHasMoreTwoInARow = botTwoInARows.length <= playerTwoInARows.length
       const targetArr = playerHasMoreTwoInARow ? playerTwoInARows : botTwoInARows 
-      //const participant = botHasMoreTwoInARow ? botValue : playerStatus.value
 
       const amountOfEach: { [key: string]: {count: number, coordinates: number[]} } = {}
     
       for (const item of targetArr) {
 
           const coordKey: string = JSON.stringify(item.coordinates);
-
-          /*if (participant == botValue) {
-            console.log('Blocking two in a row: ', item)
-          } else {
-            console.log('Building two in a row: ', item)
-          }*/
 
           // Assign an empty object if the key doesn't exist
           if (!amountOfEach[coordKey]) {
@@ -100,26 +71,6 @@ export const searchForBestChoice = async (board: number[][]) => {
     return await botMove(board, x, y)
   }
 
-
-  /*
-
-  // This makes the game vary, not optimal for 
-
-  function getRandomCoords(max: number, patterns: possible_Coordinates[]) {
-    const randomIndex =  Math.floor(Math.random() * max);
-    const [row, slot] = patterns[randomIndex].coordinates
-    return [row, slot]
-  }
-  
-  
-  
-  
-  
-  if (pieces.value < 3 && patterns.length > 0) {
-      const [x, y] = getRandomCoords(patterns.length, patterns)
-      return await botMove(board, x, y)
-  } */
-
   const patterns = remainingChoices.value
 
 
@@ -127,14 +78,6 @@ export const searchForBestChoice = async (board: number[][]) => {
   const storedCoordinates = []
   for (const entry of patterns) {
     
-    // Handle vertical cases  first
-    /*if (entry.direction == 'vertical' && pieces.value < 2 && !process.env.TEST_ENV === true) {
-      // console.log('played base case vertically')
-      return await botMove(board, entry.coordinates[0], entry.coordinates[1])
-    }*/
-
-    // This checks if any of the patterns have chosen the same coordinates
-    //base case
     if (entry.losing == false) {
       if (storedCoordinates.length == 0) {
         storedCoordinates.push({ coordinates: entry.coordinates, counter: 0 })
@@ -158,12 +101,10 @@ export const searchForBestChoice = async (board: number[][]) => {
       }
     }
     if (winner.value[0] != -1) {
-      //console.log('Move with highest amount of votes: ', winner.value, 'votes: ', maxNumber.value, entry)
       return await botMove(board, winner.value[0], winner.value[1])
     }
   }
 
   /// No more choices left
-  console.log('handling losing choices')
   return handleLosingChoices(board)
 }

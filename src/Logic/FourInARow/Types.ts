@@ -43,9 +43,9 @@ export type filterObject = {
 }
 
 export type relatedMovesObject = { 
-  first: columnInformation
+  zero: columnInformation
+  first: columnInformation | undefined
   second: columnInformation | undefined
-  third: columnInformation | undefined
 }
 
 export type possible_Coordinates = {

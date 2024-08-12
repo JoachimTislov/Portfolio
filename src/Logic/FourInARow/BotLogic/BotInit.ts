@@ -51,7 +51,6 @@ export const initiateAlgorithms = async (board: number[][]) => {
     searchForLosingPatterns(board, participant.scan, participant.id)
   }
 
-
   for (const participant of participants) {
     for (const structure of participant.scan) {
       for (const sequence of structure.sequence) {
@@ -72,7 +71,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
 
             const secondOtherZeroOrAsteriskCoordinatesIndex = firstOtherZeroOrAsteriskCoordinatesIndex != null ? getOtherZeroCoordinatesIndex(sequence.pattern, [index, firstOtherZeroOrAsteriskCoordinatesIndex]) : null
             const moves_related_to_secondOtherZeroCoordinatesIndex = secondOtherZeroOrAsteriskCoordinatesIndex != null ? find_all_related_moves_to_given_pattern(coordinates[secondOtherZeroOrAsteriskCoordinatesIndex]) : undefined
-              
+            
             const entry: possible_Coordinates = {
               pattern: pattern,
               coordinates: coordinates[index],
@@ -80,9 +79,9 @@ export const initiateAlgorithms = async (board: number[][]) => {
               direction: direction,
               losing: false, 
               relatedMoves: { 
-                first: moves_related_to_pattern,
-                second: moves_related_to_firstOtherZeroCoordinatesIndex,
-                third: moves_related_to_secondOtherZeroCoordinatesIndex,
+                zero: moves_related_to_pattern,
+                first: moves_related_to_firstOtherZeroCoordinatesIndex,
+                second: moves_related_to_secondOtherZeroCoordinatesIndex,
               },
               winning: false,
               participant: participant.id,
@@ -111,10 +110,6 @@ export const initiateAlgorithms = async (board: number[][]) => {
       }
     }
   }
-
-  //console.log('BotChoices:', botChoices.value, 'PlayerChoices: ', playerChoices.value, 'RemainingChoices: ', remainingChoices.value)
-  //console.log('LosingChoices: ', losing_Coordinates.value)
-
   return await searchForBestChoice(board)
 }
 
