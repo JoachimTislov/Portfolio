@@ -7,8 +7,24 @@ import {
   days_of_the_week_with_date
 } from './initVariables'
 
+// Object date friendly
+const days_in_a_week = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+]
+
 const determineDateObject = (date?: string) => {
   return date ? new Date(date) : new Date()
+}
+
+export function getDayForDate(date: string) {
+  const dateObject = new Date(convertNODateToAmerican(date))
+  return days_in_a_week[dateObject.getDay()]
 }
 
 export function getDate(date?: string) {
@@ -28,12 +44,16 @@ export function getTodaysDate_FriendlyFormatDateInput(date?: string) {
 }
 
 export function getDayOfTheWeek_Monday_to_Sunday(date?: string) {
-  const dateObject = determineDateObject(date)
+  const dateObject = date
+    ? determineDateObject(convertNODateToAmerican(date))
+    : determineDateObject()
   return dateObject.getDay() == 0 ? 6 : dateObject.getDay() - 1
 }
 
 export function getDayOf_Week_and_Month_year_and_monthOfYear(date?: string) {
-  const dateObject = determineDateObject(date)
+  const dateObject = date
+    ? determineDateObject(convertNODateToAmerican(date))
+    : determineDateObject()
 
   const dayOfWeek = getDayOfTheWeek_Monday_to_Sunday(date)
 
@@ -44,11 +64,24 @@ export function getDayOf_Week_and_Month_year_and_monthOfYear(date?: string) {
   return [dayOfWeek, dayOfMonth, month, year]
 }
 
+function convertNODateToAmerican(date: string): string {
+  const [day, month, year] = date.split('-')
+  return `${month}-${day}-${year}`
+}
+
+export function reverseInputDateFormat(date: string): string {
+  const [year, month, day] = date.split('-')
+  return `${day}-${month}-${year}`
+}
+
+export function convertToInputDateFormat(date: string): string {
+  const [day, month, year] = date.split('-')
+  return `${year}-${month}-${day}`
+}
+
 export function construct_dates_for_days_in_week(date?: string) {
   const [dayOfWeek, dayOfMonth, ...rest] = getDayOf_Week_and_Month_year_and_monthOfYear(date)
   let [month, year] = rest
-
-  console.log(dayOfMonth, dayOfWeek)
 
   /*We want to start at the beginning of the week*/
   let start_of_week_date = dayOfMonth - dayOfWeek

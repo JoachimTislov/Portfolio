@@ -39,7 +39,11 @@ export async function getData(url: string) {
   }
 }
 
-export async function deleteEntity(url: string, func?: () => Promise<void>) {
+export async function deleteEntity(
+  url: string,
+  func?: () => Promise<void>,
+  calenderFunc?: (identifier?: string) => void
+) {
   if (!token.value) {
     routeToPage('macroLogin')
   } else {
@@ -53,8 +57,14 @@ export async function deleteEntity(url: string, func?: () => Promise<void>) {
           }
         })
 
-        if (response.ok && func) {
-          await func()
+        if (response.ok) {
+          if (func) {
+            await func()
+          }
+
+          if (calenderFunc) {
+            calenderFunc()
+          }
         }
 
         const message = (await response.json()).message

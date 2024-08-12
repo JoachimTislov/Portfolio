@@ -4,18 +4,18 @@ import {
   recommended_nutrient_data,
   stats,
   days_of_the_week_with_date,
-  StatsToShow
+  StatsToShow,
+  calender_data
 } from './initVariables'
-import type { Calender_data } from './types'
 import { getDate } from './dateSystem'
 
-export function calcNutrientStatsForTheWeek(calender_data: Calender_data) {
+export function calcNutrientStatsForTheWeek() {
   // Adding all of the nutrients for the given week
   days_of_the_week_with_date.value.forEach((entry) => {
     const date = entry['Date']
 
-    if (calender_data[date] && calender_data[date].length > 0) {
-      for (const entry of calender_data[date]) {
+    if (calender_data.value[date] && calender_data.value[date].length > 0) {
+      for (const entry of calender_data.value[date]) {
         for (let i = 0; i < labels.length; i++) {
           stats.total_macros[i] += entry.meal[labels[i].toLocaleLowerCase()] as number
 
@@ -32,12 +32,10 @@ export function calcNutrientStatsForTheWeek(calender_data: Calender_data) {
       stats.average_macros[i] = Math.round(stats.total_macros[i] / 7)
     }
   }
-
-  console.log(stats)
 }
 
-export function setupNutrientProgressChartsData(calender_data: Calender_data) {
-  const mealsEatenToday = calender_data[getDate()]
+export function setupNutrientProgressChartsData() {
+  const mealsEatenToday = calender_data.value[getDate()]
 
   if (mealsEatenToday) {
     for (const entry of mealsEatenToday) {

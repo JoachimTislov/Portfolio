@@ -22,7 +22,6 @@ export async function getUserInfo() {
   if (userInfo_response && userInfo_response.ok) {
     const user_info = (await userInfo_response.json()) as UserInfo
 
-    console.log(user_info)
     // Mapping correct values
     user_info['Activity lvl'] = activity_Levels[parseInt(user_info['Activity lvl']) - 1]
     user_info['Gender'] = genders[parseInt(user_info['Gender']) - 1]

@@ -126,9 +126,14 @@ export const day_for_chosenDate = ref<string>(
 )
 export const calender_date = ref<string>(getDate())
 
+export const zero_meals_for_time_period = ref<boolean>(false)
+
+export const selected_start_date = ref<string>(getTodaysDate_FriendlyFormatDateInput())
+export const selected_end_date = ref<string>(getTodaysDate_FriendlyFormatDateInput())
+
 export const selectedDate = ref<string>(getTodaysDate_FriendlyFormatDateInput())
 
-export const meals_for_time_of_day = ref<Meals_for_time_of_day>({})
+export const meals_for_time_of_day = ref<Meals_for_time_of_day | {}>({})
 
 // Used in statistics
 export const StatsToShow = ref<boolean>(false)

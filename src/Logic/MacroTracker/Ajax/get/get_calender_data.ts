@@ -1,4 +1,5 @@
 import { calender_data } from '../../initVariables'
+import { structureCalenderData } from '../../structure_calender_data'
 import type { Calender_data } from '../../types'
 import { getData } from '../ajax'
 
@@ -11,5 +12,5 @@ export async function get_calender_data() {
 
   calender_data.value = calender_data_response
 
-  return calender_data_response
+  structureCalenderData()
 }

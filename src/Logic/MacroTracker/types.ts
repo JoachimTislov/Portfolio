@@ -36,9 +36,19 @@ export type Meal_with_ingredients = Meal & {
   ingredients: Ingredients
 }
 
+type MealPeriods = {
+  [key: string]: calender_data_entry[]
+  Breakfast: calender_data_entry[]
+  Lunch: calender_data_entry[]
+  Dinner: calender_data_entry[]
+  Supper: calender_data_entry[]
+  Night: calender_data_entry[]
+}
+
 export type Meals_for_time_of_day = {
-  [key: string]: {
-    [key: string]: calender_data_entry[]
+  [date: string]: {
+    meal_periods: MealPeriods
+    zero_meals_to_show: boolean
   }
 }
 

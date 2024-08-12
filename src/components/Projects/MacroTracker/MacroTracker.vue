@@ -24,7 +24,7 @@ const routes = ['Home', 'Calender', 'Meals', 'Ingredients', 'Profile']
 </script>
 
 <template>
-    <nav v-if="token" class="navbar navbar-expand-lg" data-bs-theme="dark">
+    <nav v-if="token" class="navbar navbar-expand-md" data-bs-theme="dark">
         <div class="container">
 
             <h4 class="logo"> {{ username }} </h4>
