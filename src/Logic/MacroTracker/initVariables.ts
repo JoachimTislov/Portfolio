@@ -4,6 +4,7 @@ import {
   type Ingredients,
   type Meal_with_ingredients,
   type Meals_for_time_of_day,
+  type Stats_for_dates,
   type UserInfo,
   type Validation_array,
   type validation_Object
@@ -12,7 +13,6 @@ import { alertUser, getData } from './Ajax/ajax'
 import user_icon from '@/assets/Icons/user-icon.png'
 import { routeToPage } from './routeToPage'
 import {
-  getDate,
   getDayOfTheWeek_Monday_to_Sunday,
   getTodaysDate_FriendlyFormatDateInput
 } from './dateSystem'
@@ -124,7 +124,6 @@ export const days_of_the_week_index = ref<number>(getDayOfTheWeek_Monday_to_Sund
 export const day_for_chosenDate = ref<string>(
   days_of_the_week_with_date.value[days_of_the_week_index.value].Day
 )
-export const calender_date = ref<string>(getDate())
 
 export const zero_meals_for_time_period = ref<boolean>(false)
 
@@ -134,15 +133,18 @@ export const selected_end_date = ref<string>(getTodaysDate_FriendlyFormatDateInp
 export const selectedDate = ref<string>(getTodaysDate_FriendlyFormatDateInput())
 
 export const meals_for_time_of_day = ref<Meals_for_time_of_day | {}>({})
+export const dates_within_selected_period = ref<string[]>([])
 
 // Used in statistics
 export const StatsToShow = ref<boolean>(false)
 
-export const labels = ['Protein', 'Carbohydrates', 'Fat', 'Sugar']
-export const stats = reactive({
-  total_macros: [0, 0, 0, 0],
-  average_macros: [0, 0, 0, 0]
+export const labels = ['Calories', 'Protein', 'Carbohydrates', 'Fat', 'Sugar']
+export const overall_stats = reactive({
+  total: [0, 0, 0, 0, 0],
+  average: [0, 0, 0, 0, 0]
 })
+
+export const stats_for_dates: Stats_for_dates = reactive({})
 
 export const eaten_nutrient_progression: { [key: string]: number[] } = reactive({
   calories: [0],

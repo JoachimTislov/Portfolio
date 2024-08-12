@@ -2,40 +2,93 @@ import {
   eaten_nutrient_progression,
   labels,
   recommended_nutrient_data,
-  stats,
-  days_of_the_week_with_date,
+  overall_stats,
   StatsToShow,
-  calender_data
+  calender_data,
+  dates_within_selected_period,
+  stats_for_dates
 } from './initVariables'
 import { getDate } from './dateSystem'
 
-export function calcNutrientStatsForTheWeek() {
+function resetOverallStats() {
+  const arr = [overall_stats.average, overall_stats.total]
+
+  for (const stats of arr) {
+    for (let i = 0; i < stats.length; i++) {
+      stats[i] = 0
+    }
+  }
+}
+
+export function calcNutrientStatsForGivenPeriod() {
+  resetOverallStats()
   // Adding all of the nutrients for the given week
-  days_of_the_week_with_date.value.forEach((entry) => {
-    const date = entry['Date']
 
+  if (!calender_data.value[dates_within_selected_period.value[0]]) {
+    StatsToShow.value = false
+    return
+  }
+
+  console.log(
+    dates_within_selected_period.value,
+    calender_data.value[dates_within_selected_period.value[0]]
+  )
+
+  let meal_amount = 0
+  for (const date of dates_within_selected_period.value) {
+    stats_for_dates[date] = {
+      total: [0, 0, 0, 0, 0],
+      average: [0, 0, 0, 0, 0],
+      meals: {}
+    }
     if (calender_data.value[date] && calender_data.value[date].length > 0) {
-      for (const entry of calender_data.value[date]) {
-        for (let i = 0; i < labels.length; i++) {
-          stats.total_macros[i] += entry.meal[labels[i].toLocaleLowerCase()] as number
+      meal_amount += calender_data.value[date].length
+      for (const calender_entry of calender_data.value[date]) {
+        const meal = calender_entry.meal
+        if (!stats_for_dates[date].meals[meal.name]) {
+          stats_for_dates[date].meals[meal.name] = {
+            name: meal.name,
+            data: [meal.calories, meal.protein, meal.carbohydrates, meal.fat, meal.sugar]
+          }
+        }
 
-          if (stats.total_macros[i] > 0) {
+        for (let i = 0; i < labels.length; i++) {
+          const arr = [stats_for_dates[date], overall_stats]
+          for (let j = 0; j < arr.length; j++) {
+            arr[j].total[i] += calender_entry.meal[labels[i].toLocaleLowerCase()] as number
+          }
+
+          if (overall_stats.total[i] > 0) {
             StatsToShow.value = true
           }
         }
       }
+
+      for (let i = 0; i < labels.length; i++) {
+        if (stats_for_dates[date].total[i] != 0) {
+          stats_for_dates[date].average[i] = Math.round(
+            stats_for_dates[date].total[i] / Object.keys(stats_for_dates[date].meals).length
+          )
+        }
+      }
     }
-  })
+  }
+
+  console.log(stats_for_dates)
 
   for (let i = 0; i < labels.length; i++) {
-    if (stats.average_macros[i] != 0) {
-      stats.average_macros[i] = Math.round(stats.total_macros[i] / 7)
+    if (overall_stats.total[i] != 0) {
+      overall_stats.average[i] = Math.round(overall_stats.total[i] / meal_amount)
     }
   }
 }
 
 export function setupNutrientProgressChartsData() {
   const mealsEatenToday = calender_data.value[getDate()]
+
+  for (const key of Object.keys(eaten_nutrient_progression)) {
+    eaten_nutrient_progression[key] = [0]
+  }
 
   if (mealsEatenToday) {
     for (const entry of mealsEatenToday) {
@@ -47,10 +100,11 @@ export function setupNutrientProgressChartsData() {
     }
 
     for (let i = 0; i < recommended_nutrient_data.length; i++) {
-      console.log(eaten_nutrient_progression, recommended_nutrient_data)
-      eaten_nutrient_progression[i] = [
-        Math.round((eaten_nutrient_progression[i][0] / recommended_nutrient_data[i]) * 100)
-      ]
+      if (eaten_nutrient_progression[i] && recommended_nutrient_data[i]) {
+        eaten_nutrient_progression[i][0] = Math.round(
+          (eaten_nutrient_progression[i][0] / recommended_nutrient_data[i]) * 100
+        )
+      }
     }
   }
 }

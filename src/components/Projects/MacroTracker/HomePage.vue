@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import AverageMacros from './AverageMacros.vue'
+import StatisticsOverview from './StatisticsOverview.vue'
 import AlertBox from './AlertBox.vue';
 </script>
 
 <template>
     <AlertBox />
 
-    <AverageMacros />
+    <StatisticsOverview />
 </template>

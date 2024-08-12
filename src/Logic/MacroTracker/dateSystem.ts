@@ -1,11 +1,6 @@
 import { number_of_days_in_each_month } from '@/Data/MacroTracker'
 import { check_if_number_is_less_than_10 } from './checkLogic/check_if_number_is_less_than_10'
-import {
-  calender_date,
-  days_of_the_week_index,
-  selectedDate,
-  days_of_the_week_with_date
-} from './initVariables'
+import { days_of_the_week_with_date } from './initVariables'
 
 // Object date friendly
 const days_in_a_week = [
@@ -122,16 +117,4 @@ export function construct_dates_for_days_in_week(date?: string) {
 
     start_of_week_date += 1
   }
-}
-
-export function update_calender_info(event: Event) {
-  const value = (event.target as HTMLInputElement).value
-  selectedDate.value = value
-
-  // Recalculate week
-  construct_dates_for_days_in_week(value)
-
-  // dd-mm-yyyy
-  calender_date.value = getDate(value)
-  days_of_the_week_index.value = getDayOfTheWeek_Monday_to_Sunday(value)
 }

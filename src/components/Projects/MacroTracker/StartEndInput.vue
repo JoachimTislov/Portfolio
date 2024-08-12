@@ -3,6 +3,20 @@
 import { selected_end_date, selected_start_date } from '@/Logic/MacroTracker/initVariables';
 import { structureCalenderData } from '@/Logic/MacroTracker/structure_calender_data';
 
+const props = defineProps<({
+    calc_nutrient_stats_for_given_period?: () => void
+})>()
+
+
+function handleChangedDateEvent(identifier: string) {
+
+    structureCalenderData(identifier)
+
+    if (props.calc_nutrient_stats_for_given_period) {
+        props.calc_nutrient_stats_for_given_period()
+    }
+}
+
 </script>
 
 
@@ -12,12 +26,12 @@ import { structureCalenderData } from '@/Logic/MacroTracker/structure_calender_d
     <div class="d-flex align-items-center">
         <label for="start" class="me-2"> Start: </label>
         <input name="start" type="date" class="form-control form-control-md" v-model="selected_start_date"
-            @change="structureCalenderData('start')">
+            @change="handleChangedDateEvent('start')">
     </div>
     <div class="d-flex align-items-center mt-1">
         <label for="end" class="me-3"> End: </label>
         <input name="end" type="date" class="form-control form-control-md" v-model="selected_end_date"
-            @change="structureCalenderData('end')">
+            @change="handleChangedDateEvent('end')">
     </div>
 
 

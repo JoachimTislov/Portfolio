@@ -3,12 +3,14 @@ import { schedule } from '@/Data/MacroTracker';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
-import { day_for_chosenDate, calender_date, meals, days_of_the_week_with_date } from '@/Logic/MacroTracker/initVariables';
+import { meals, selectedDate } from '@/Logic/MacroTracker/initVariables';
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 import { onMounted, ref, type Ref } from 'vue';
 import AlertBox from './AlertBox.vue';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
+import { get_calender_data } from '@/Logic/MacroTracker/Ajax/get/get_calender_data';
+import { reverseInputDateFormat } from '@/Logic/MacroTracker/dateSystem';
 
 const date = new Date()
 
@@ -72,16 +74,13 @@ async function addMealToGivenDate(meal_id: number) {
     if (isHourValid.value && isMinutesValid.value) {
         try {
             const time = `${check_if_number_is_less_than_10(hour.value)}:${check_if_number_is_less_than_10(minutes.value)}`
-            const dayOfWeek = (new Date().getDay())
-            const index = dayOfWeek == 0 ? 6 : dayOfWeek - 1
-            const date = days_of_the_week_with_date.value[index].Date
 
-
-            const json = JSON.stringify({ "id": meal_id, "date": date, "time": time })
+            const json = JSON.stringify({ "id": meal_id, "date": reverseInputDateFormat(selectedDate.value), "time": time })
             const response = await fetchResource('POST', json, '/calender', 'token')
 
             if (response && response.ok) {
 
+                await get_calender_data()
                 hideModal(modal_id)
 
             }
@@ -100,7 +99,7 @@ async function addMealToGivenDate(meal_id: number) {
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title ml-1 mt-2"> Select meal for {{ day_for_chosenDate }}, {{ calender_date }}:
+                    <h4 class="modal-title ml-1 mt-2"> Select meal
                     </h4>
                 </div>
 
@@ -108,7 +107,11 @@ async function addMealToGivenDate(meal_id: number) {
 
                     <AlertBox />
 
-                    <form id="meal_date_info">
+                    <label for="date"> Date: </label>
+                    <input type="date" name=date class="form-control form-control-md" style="width: 150px;"
+                        v-model="selectedDate">
+
+                    <form class="mt-3" id="meal_date_info">
 
                         <h5> Input the time when you had the meal </h5>
 

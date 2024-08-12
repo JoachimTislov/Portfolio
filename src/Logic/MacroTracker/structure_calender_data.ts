@@ -1,6 +1,7 @@
 import { schedule } from '@/Data/MacroTracker'
 import {
   calender_data,
+  dates_within_selected_period,
   meals_for_time_of_day,
   selected_end_date,
   selected_start_date,
@@ -19,7 +20,7 @@ export function structureCalenderData(identifier?: string) {
   const start_index = keys.indexOf(start_date)
   const end_index = keys.indexOf(end_date)
 
-  const wished_keys = findRangeOfDates(
+  dates_within_selected_period.value = findRangeOfDates(
     keys,
     start_index,
     start_date,
@@ -28,10 +29,8 @@ export function structureCalenderData(identifier?: string) {
     identifier
   )
 
-  console.log(keys, wished_keys, start_index, end_index)
-
   meals_for_time_of_day.value = {}
-  for (const date of wished_keys) {
+  for (const date of dates_within_selected_period.value) {
     const typedMealsForTimeOfDay = meals_for_time_of_day.value as Meals_for_time_of_day
     typedMealsForTimeOfDay[date] = {
       zero_meals_to_show: true,
@@ -56,8 +55,6 @@ export function structureCalenderData(identifier?: string) {
       }
     }
   }
-
-  console.log('meals_for_time_of_day', meals_for_time_of_day.value)
 }
 
 function sortArrayToAscendingOrder(arr: string[]) {
@@ -96,7 +93,14 @@ function findRangeOfDates(
     return [start_date]
   }
 
-  if (start_date > end_date) {
+  const [s_o_day, s_o_month, s_o_year] = start_date.split('-')
+  const [e_o_day, e_o_month, e_o_year] = end_date.split('-')
+
+  if (
+    (s_o_day > e_o_day && s_o_month == e_o_month && s_o_year == e_o_year) ||
+    (s_o_month > e_o_month && s_o_year == e_o_year) ||
+    s_o_year > e_o_year
+  ) {
     if (identifier == 'start') {
       selected_end_date.value = convertToInputDateFormat(start_date)
       return [start_date]
@@ -112,9 +116,6 @@ function findRangeOfDates(
     const keys = JSON.parse(JSON.stringify(arr))
 
     let a, b
-
-    const [s_o_day, s_o_month, s_o_year] = start_date.split('-')
-    const [e_o_day, e_o_month, e_o_year] = end_date.split('-')
 
     for (const value of keys) {
       const [day, month, year] = value.split('-')

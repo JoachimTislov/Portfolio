@@ -18,6 +18,18 @@ export type macros_statistics = {
   }
 }
 
+export type Stats_for_dates = {
+  [key: string]: {
+    total: number[]
+    average: number[]
+    meals: {
+      [key: string]: {
+        data: number[]
+      }
+    }
+  }
+}
+
 export type Meal = {
   [key: string]: string | number
   name: string

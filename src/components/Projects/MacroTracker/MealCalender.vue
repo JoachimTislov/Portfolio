@@ -9,6 +9,7 @@ import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import { get_calender_data } from '@/Logic/MacroTracker/Ajax/get/get_calender_data';
 import StartEndInput from './StartEndInput.vue';
 import type { Meals_for_time_of_day } from '@/Logic/MacroTracker/types';
+import AlertBox from './AlertBox.vue';
 
 onMounted(async () => {
     await get_calender_data()
@@ -18,6 +19,8 @@ onMounted(async () => {
 </script>
 
 <template>
+
+    <AlertBox />
 
     <SelectMeal />
 
@@ -29,7 +32,7 @@ onMounted(async () => {
                     <StartEndInput />
                 </div>
             </div>
-            <div class="mt-2 ms-auto">
+            <div class="m-2 mt-2 me-auto">
                 <button class="btn-success btn btn-md" data-bs-toggle="modal" data-bs-target="#select_meal_modal"
                     @click="hideAlert()">
                     Add a meal
@@ -61,7 +64,7 @@ onMounted(async () => {
                                 <div class="mt-2 d-flex gap-5">
 
                                     <div class="d-flex flex-column">
-                                        <h5 class="fw-bold"> {{ item.meal['Name'] }} </h5>
+                                        <h5 class="fw-bold"> {{ item.meal.name }} </h5>
                                         <h5> {{ item['time_of_day'] }} </h5>
                                     </div>
                                     <div class="ms-auto">

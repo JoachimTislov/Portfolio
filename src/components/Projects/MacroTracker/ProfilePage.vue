@@ -8,8 +8,9 @@ import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import ChangePassword from './ChangePassword.vue';
 import EditProfileInformation from './EditProfileInformation.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
-import { onMounted, reactive } from 'vue';
+import { onMounted } from 'vue';
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
+import BarChart from './BarChart.vue';
 
 onMounted(async () => {
     await getUserInfo()
@@ -33,65 +34,6 @@ function handleFileUpload(event: Event) {
         console.error("URL.createObjectURL is not supported in this browser.")
     }
 }
-
-const macros_recommendation_data = reactive({
-    series: [{
-        name: 'Recommended nutrient/macro consumption',
-        data: recommended_nutrient_data
-    }],
-    options: {
-        chart: {
-            type: 'bar',
-            foreColor: '#fff'
-        },
-        xaxis: {
-            categories: ['Calories', 'Protein', 'Carbohydrates', 'Fat', 'Sugar'],
-            labels: {
-                style: {
-                    fontSize: '12px',
-                }
-            }
-        },
-        plotOptions: {
-            bar: {
-                borderRadius: 8,
-                borderRadiusApplication: 'end',
-                horizontal: true,
-            }
-        },
-        tooltip: {
-            theme: 'dark'  // Tooltip theme set to dark
-        },
-        dataLabels: {
-            enabled: true,
-            total: {
-                enabled: true,
-                style: {
-                    color: '#373d3f',
-                    fontSize: '40px',
-                    fontFamily: undefined,
-                    fontWeight: 600
-                }
-            }
-        },
-        title: {
-            style: {
-                fontSize: '15px'
-            },
-            text: 'Recommended Daily Nutrient Intake',
-            align: 'center',
-        },
-        toolbar: {
-            show: false,
-            menu: {
-                item: {
-                    colors: ''
-                }
-            }
-        },
-    }
-})
-
 
 </script>
 
@@ -143,8 +85,7 @@ const macros_recommendation_data = reactive({
 
             <div class="mt-3">
 
-                <apexchart :options="macros_recommendation_data.options" :series="macros_recommendation_data.series">
-                </apexchart>
+                <BarChart :data="recommended_nutrient_data" name="Recommended nutrient/macro consumption" />
 
             </div>
 

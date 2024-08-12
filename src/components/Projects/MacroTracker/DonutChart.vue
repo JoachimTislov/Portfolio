@@ -14,6 +14,9 @@ const macros = reactive({
         chart: {
             type: 'donut'
         },
+        tooltip: {
+            enabled: false
+        },
         plotOptions: {
             pie: {
                 donut: {
@@ -23,17 +26,26 @@ const macros = reactive({
                         name: {
                             show: true,
                             fontSize: 'clamp(0.8rem, 1vw, 1.5rem)',
-                            color: undefined,  // Change this to the desired text color
+                            color: undefined,
                         },
                         value: {
                             show: true,
+                            formatter: function (val: string) {
+                                const valueInt = parseInt(val)
+                                const index = props.series.indexOf(valueInt)
+                                if (index === 0) {
+                                    return Math.round(valueInt) + " kcal";
+                                } else {
+                                    return Math.round(valueInt) + " g";
+                                }
+                            },
                             fontSize: 'clamp(1rem, 2vw, 1.5rem)',
-                            color: 'white',  // Change this to the desired text color
+                            color: 'white',
                         },
                         total: {
                             show: false,
                             label: 'Total',
-                            color: '#FFFFFF',  // Change this to the desired text color
+                            color: '#FFFFFF',
                             fontSize: '18px',
                         },
                     }
