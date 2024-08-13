@@ -60,8 +60,8 @@ export const alertMessage = ref<string>('')
 export const alertClassName = ref<string>('')
 
 const storedUsername = localStorage.getItem('username')
-export const username = ref<string>(storedUsername ? storedUsername : 'Peddi')
-export const password = ref<string>('peder@123')
+export const username = ref<string>(storedUsername ? storedUsername : '')
+export const password = ref<string>('')
 
 export const change_password_validation: Validation_array = reactive({
   old_password: false,
