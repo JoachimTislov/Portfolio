@@ -108,7 +108,7 @@ router.beforeEach((to, from, next) => {
     //console.log('User is not authed, redirecting to:', to.meta.authRedirect)
     next({ name: to.meta.authRedirect as string })
   } else {
-    console.log('Routing to website: ', to.name, 'from: ', from.name)
+    //console.log('Routing to website: ', to.name, 'from: ', from.name)
     next()
   }
 })

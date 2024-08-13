@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createOrEditMeal, meals } from '@/Logic/MacroTracker/initVariables'
+import { createOrEditMeal, fetchingResource, meals } from '@/Logic/MacroTracker/initVariables'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
@@ -10,11 +10,10 @@ import AlertBox from './AlertBox.vue'
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
 import FormulateMeal from './Modules/FormulateMeal.vue'
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
+import RequestLoader from './RequestLoader.vue';
 
 onMounted(async () => {
     await getMeals()
-
-    console.log(meals.value)
 })
 
 const storedSortValue = localStorage.getItem('meal_sort_value')
@@ -96,94 +95,103 @@ function editMeal(meal: Meal_with_ingredients) {
 
         <div class="card-body">
             <AlertBox />
-            <div class="mealsList">
-                <div v-for="(mealChunk, index) in list_of_meals" :key="index" style="width: 100%">
-                    <CAccordion flush>
-                        <CAccordionItem v-for="meal in mealChunk" :id="`meal-${meal['meal_id']}`" :key="meal['meal_id']"
-                            class="m-2 mt-0 border border-3 border-secondary">
-                            <CAccordionHeader>
 
-                                <h4> {{ meal['name'] }}</h4>
+            <template v-if="fetchingResource && !meals">
+                <RequestLoader />
+            </template>
 
-                            </CAccordionHeader>
-                            <CAccordionBody>
+            <template v-else>
 
-                                <label for="total_macros"> Total Macros </label>
-                                <div class="d-flex flex-wrap" id="total_macros">
-                                    <small class="rounded border border-1 p-2 m-1">Protein: {{ meal['protein']
-                                        }}g</small>
-                                    <small class="rounded border border-1 p-2 m-1">Calories: {{ meal['calories']
-                                        }}kcal</small>
-                                    <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
-                                        meal['carbohydrates']
-                                    }}g</small>
-                                    <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
-                                        }}g</small>
-                                    <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
-                                        }}g</small>
-                                </div>
+                <div class="mealsList">
+                    <div v-for="(mealChunk, index) in list_of_meals" :key="index" style="width: 100%">
+                        <CAccordion flush>
+                            <CAccordionItem v-for="meal in mealChunk" :id="`meal-${meal['meal_id']}`"
+                                :key="meal['meal_id']" class="m-2 mt-0 border border-3 border-secondary">
+                                <CAccordionHeader>
 
-                                <h5 v-if="meal['ingredients'].length > 0">Ingredients:</h5>
-                                <div class="wrap">
-                                    <template v-if="meal['ingredients'].length > 0">
-                                        <div class="m-1" v-for="ingredient in meal['ingredients']"
-                                            :key="ingredient['name']">
-                                            <ul class="list-group">
-                                                <li class="list-group-item list-group-item-info mr-3">
-                                                    {{ ingredient['name'] }}
-                                                </li>
-                                                <li class="list-group-item">
-                                                    Amount: {{ ingredient['amount'] }}
-                                                </li>
-                                                <li class="list-group-item mr-3">Protein: {{
-                                                    ingredient['protein'] }}g
-                                                </li>
-                                                <li class="list-group-item mr-3">Calories: {{
-                                                    ingredient['calories']
-                                                }}kcal</li>
-                                                <li class="list-group-item mr-3">
-                                                    Carbohydrates: {{ ingredient['carbohydrates'] }}g
-                                                </li>
-                                                <li class="list-group-item mr-3">Fat: {{ ingredient['fat'] }}g
-                                                </li>
-                                                <li class="list-group-item mr-3">Sugar: {{ ingredient['sugar']
-                                                    }}g</li>
-                                            </ul>
-                                        </div>
-                                    </template>
-                                    <div v-if="meal['ingredients'].length == 0" class="mt-2">
-                                        <h5> {{ meal['name'] }} has zero ingredients</h5>
+                                    <h4> {{ meal['name'] }}</h4>
+
+                                </CAccordionHeader>
+                                <CAccordionBody>
+
+                                    <label for="total_macros"> Total Macros </label>
+                                    <div class="d-flex flex-wrap" id="total_macros">
+                                        <small class="rounded border border-1 p-2 m-1">Protein: {{ meal['protein']
+                                            }}g</small>
+                                        <small class="rounded border border-1 p-2 m-1">Calories: {{ meal['calories']
+                                            }}kcal</small>
+                                        <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
+                                            meal['carbohydrates']
+                                            }}g</small>
+                                        <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
+                                            }}g</small>
+                                        <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
+                                            }}g</small>
                                     </div>
-                                </div>
 
-                                <div class="d-flex mt-2 btn-group btn-group-md">
-                                    <button class="btn-danger btn"
-                                        @click="deleteEntity(`/meal/${meal['meal_id']}`, getMeals)">
-                                        Delete {{ meal['name'] }}
-                                        <font-awesome-icon :icon="['fas', 'trash']" />
-                                    </button>
-                                    <button class="btn-primary btn" data-bs-toggle="modal"
-                                        data-bs-target="#edit_meal_modal" @click="editMeal(meal)">
-                                        Edit {{ meal['name'] }}
-                                        <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                                    </button>
-                                </div>
-                            </CAccordionBody>
-                        </CAccordionItem>
-                    </CAccordion>
+                                    <h5 v-if="meal['ingredients'].length > 0">Ingredients:</h5>
+                                    <div class="wrap">
+                                        <template v-if="meal['ingredients'].length > 0">
+                                            <div class="m-1" v-for="ingredient in meal['ingredients']"
+                                                :key="ingredient['name']">
+                                                <ul class="list-group">
+                                                    <li class="list-group-item list-group-item-info mr-3">
+                                                        {{ ingredient['name'] }}
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        Amount: {{ ingredient['amount'] }}
+                                                    </li>
+                                                    <li class="list-group-item mr-3">Protein: {{
+                                                        ingredient['protein'] }}g
+                                                    </li>
+                                                    <li class="list-group-item mr-3">Calories: {{
+                                                        ingredient['calories']
+                                                        }}kcal</li>
+                                                    <li class="list-group-item mr-3">
+                                                        Carbohydrates: {{ ingredient['carbohydrates'] }}g
+                                                    </li>
+                                                    <li class="list-group-item mr-3">Fat: {{ ingredient['fat'] }}g
+                                                    </li>
+                                                    <li class="list-group-item mr-3">Sugar: {{ ingredient['sugar']
+                                                        }}g</li>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                        <div v-if="meal['ingredients'].length == 0" class="mt-2">
+                                            <h5> {{ meal['name'] }} has zero ingredients</h5>
+                                        </div>
+                                    </div>
+
+                                    <div class="d-flex mt-2 btn-group btn-group-md">
+                                        <button class="btn-danger btn"
+                                            @click="deleteEntity(`/meal/${meal['meal_id']}`, getMeals)">
+                                            Delete {{ meal['name'] }}
+                                            <font-awesome-icon :icon="['fas', 'trash']" />
+                                        </button>
+                                        <button class="btn-primary btn" data-bs-toggle="modal"
+                                            data-bs-target="#edit_meal_modal" @click="editMeal(meal)">
+                                            Edit {{ meal['name'] }}
+                                            <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+                                        </button>
+                                    </div>
+                                </CAccordionBody>
+                            </CAccordionItem>
+                        </CAccordion>
+                    </div>
                 </div>
-            </div>
 
-            <div v-if="list_of_meals[0].length == 0" class="ml-5 mb-2 mt-2">
-                <h4 v-if="search_value == ''">You don't have any personal meals</h4>
-                <h4 v-if="search_value != ''">
-                    You don't have any personal meals with name: {{ search_value }}
-                </h4>
-                <button type="button" class="btn-success btn btn-lg ml-2" data-bs-toggle="modal"
-                    data-bs-target="#create_meal_modal" @click="hideAlert(), createMeal()">
-                    <h5>Create a meal</h5>
-                </button>
-            </div>
+                <div v-if="list_of_meals[0].length == 0" class="ml-5 mb-2 mt-2">
+                    <h4 v-if="search_value == ''">You don't have any personal meals</h4>
+                    <h4 v-if="search_value != ''">
+                        You don't have any personal meals with name: {{ search_value }}
+                    </h4>
+                    <button type="button" class="btn-success btn btn-lg ml-2" data-bs-toggle="modal"
+                        data-bs-target="#create_meal_modal" @click="hideAlert(), createMeal()">
+                        <h5>Create a meal</h5>
+                    </button>
+                </div>
+
+            </template>
         </div>
     </section>
 </template>

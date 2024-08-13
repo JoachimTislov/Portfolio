@@ -17,9 +17,7 @@ export function sortArray<
 export function filterArrayByName<
   Type extends { [key: string]: number | string | Ingredients | undefined }
 >(arr: Type[] | undefined, searchInput: string): Type[] | undefined {
-  console.log('sorting....')
   if (arr) {
-    console.log('past if sorting....')
     const filtered_arr = arr.filter(function (entry): boolean {
       return (entry.name as string).toLowerCase().includes(searchInput.toLowerCase())
     })

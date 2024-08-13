@@ -5,7 +5,7 @@ import { RouterLink } from 'vue-router';
 import { token } from '@/Logic/MacroTracker/token'
 import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
-import { username } from '@/Logic/MacroTracker/initVariables';
+import { fetchingResource, username } from '@/Logic/MacroTracker/initVariables';
 
 const logout = async () => {
 
@@ -15,6 +15,8 @@ const logout = async () => {
     localStorage.removeItem('username')
 
     await fetchResource('POST', '', '/logout', 'token')
+
+    fetchingResource.value = false
 
     routeToPage('macroLogin')
 }

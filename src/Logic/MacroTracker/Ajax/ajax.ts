@@ -1,7 +1,11 @@
 import { routeToPage } from '../routeToPage'
 import { token } from '../token'
 
-import { showAlert, alertMessage, alertClassName } from '../initVariables'
+import { showAlert, alertMessage, alertClassName, fetchingResource } from '../initVariables'
+
+function load() {
+  fetchingResource.value = true
+}
 
 export function alertUser(message: string, response: Response) {
   alertMessage.value = message
@@ -17,6 +21,7 @@ export function alertUser(message: string, response: Response) {
 
 function checkIfUserIsUnAuthorized(response: Response) {
   if (response.status == 401) {
+    token.value = undefined
     localStorage.removeItem('token')
     routeToPage('macroLogin')
   } else {
@@ -28,7 +33,9 @@ export async function getData(url: string) {
   if (!token.value) {
     routeToPage('macroLogin')
   } else {
-    const endpoint = `${import.meta.env.VITE_Local_API_WEB_URL}${url}`
+    load()
+
+    const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
     const response = await fetch(endpoint, {
       method: 'GET',
       headers: {
@@ -49,7 +56,9 @@ export async function deleteEntity(
   } else {
     if (confirm('Are you sure?')) {
       try {
-        const endpoint = `${import.meta.env.VITE_Local_API_WEB_URL}${url}`
+        load()
+
+        const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
         const response = await fetch(endpoint, {
           method: 'DELETE',
           headers: {
@@ -90,7 +99,9 @@ export async function fetchResource(
   if (!auth) {
     routeToPage('macroLogin')
   } else {
-    const endpoint = `${import.meta.env.VITE_Local_API_WEB_URL}${url}`
+    load()
+
+    const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
 
     const fetchBody = {
       method: method,
@@ -102,7 +113,6 @@ export async function fetchResource(
     }
     try {
       const response = await fetch(endpoint, fetchBody)
-
       if (response.headers.get('Content-Type') == 'application/json' && url !== '/login') {
         const message = (await response.json()).message
 

@@ -1,5 +1,5 @@
 import { calc_recommended_nutrient } from '../../calc_recommended_nutrient'
-import { userInfo } from '../../initVariables'
+import { fetchingResource, userInfo } from '../../initVariables'
 import type { UserInfo } from '../../types'
 import { getData } from '../ajax'
 
@@ -14,12 +14,12 @@ const activity_Levels = [
 const genders = ['Male', 'Female']
 
 export async function getUserInfo() {
-  console.log('Getting userInfo')
-
   const user_id = localStorage.getItem('user_id')
   const userInfo_response = await getData(`/user_info/${user_id}`)
 
   if (userInfo_response && userInfo_response.ok) {
+    fetchingResource.value = false
+
     const user_info = (await userInfo_response.json()) as UserInfo
 
     // Mapping correct values

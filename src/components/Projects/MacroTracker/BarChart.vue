@@ -80,8 +80,6 @@ watch(() => props.name, (newName) => {
 
 <template>
 
-    {{ data }}, {{ name }}
-
     <apexchart :options="bar_chart_data.options" :series="bar_chart_data.series">
     </apexchart>
 

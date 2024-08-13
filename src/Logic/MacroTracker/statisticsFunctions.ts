@@ -25,16 +25,9 @@ export function calcNutrientStatsForGivenPeriod() {
   // Adding all of the nutrients for the given week
 
   if (!calender_data.value[dates_within_selected_period.value[0]]) {
-    console.log(dates_within_selected_period.value)
-    console.log('nothing to show')
     StatsToShow.value = false
     return
   }
-
-  console.log(
-    dates_within_selected_period.value,
-    calender_data.value[dates_within_selected_period.value[0]]
-  )
 
   let meal_amount = 0
   for (const date of dates_within_selected_period.value) {
@@ -74,8 +67,6 @@ export function calcNutrientStatsForGivenPeriod() {
       }
     }
   }
-
-  console.log(stats_for_dates)
 
   for (let i = 0; i < labels.length; i++) {
     if (overall_stats.total[i] != 0) {

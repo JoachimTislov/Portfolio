@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 import { RouterLink } from 'vue-router'
-import { validation_messages, login_validation, username, password } from '@/Logic/MacroTracker/initVariables'
+import { validation_messages, login_validation, username, password, fetchingResource } from '@/Logic/MacroTracker/initVariables'
 import { ValidateText } from '@/Logic/MacroTracker/validation'
 
 import AlertBox from './AlertBox.vue';
@@ -10,6 +10,7 @@ import { _alert, alertDanger, alertSecondary, alertSuccess } from '@/Logic/Macro
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { token } from '@/Logic/MacroTracker/token';
 import router from '@/router';
+import RequestLoader from './RequestLoader.vue';
 
 onMounted(() => {
     _alert('Welcome to the login page')
@@ -25,6 +26,8 @@ async function login() {
             })
 
             const response = await fetchResource('POST', json, '/login', 'api_key')
+
+            fetchingResource.value = false
 
             if (response) {
                 const result: {
@@ -70,7 +73,7 @@ async function login() {
         <div class="card p-3 border border-1 shadow-lg" style="max-width: 700px; min-width: 400px;">
             <div class="card-body">
                 <AlertBox />
-                <h1 class="card-title">Macro Tracker </h1>
+                <h1 class="card-title"> Macro Tracker </h1>
 
                 <form @submit.prevent>
 
@@ -99,8 +102,20 @@ async function login() {
 
                     <br>
 
-                    <button type="submit" class="btn btn-lg btn-outline-primary float-end" @click="login()"> Login
-                    </button>
+                    <div class="d-flex flex-row float-end">
+
+                        <template v-if="fetchingResource">
+
+                            <RequestLoader />
+
+                        </template>
+
+                        <button type="submit" class="btn btn-lg btn-outline-primary" @click="login()">
+                            Login
+                        </button>
+                    </div>
+
+
                 </form>
             </div>
         </div>

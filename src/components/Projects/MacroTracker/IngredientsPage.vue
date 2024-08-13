@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
-import { ingredients, createOrEditIngredient } from '@/Logic/MacroTracker/initVariables';
+import { ingredients, createOrEditIngredient, fetchingResource } from '@/Logic/MacroTracker/initVariables';
 import type { Ingredient, IngredientModal } from '@/Logic/MacroTracker/types';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
@@ -10,6 +10,7 @@ import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilter
 import FormulateIngredient from './Modules/FormulateIngredient.vue';
 import AlertBox from './AlertBox.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
+import RequestLoader from './RequestLoader.vue';
 
 onMounted(async () => {
     await getIngredients()
@@ -82,52 +83,64 @@ const list_of_ingredients = computed(() => {
 
             <AlertBox />
 
-            <div class="ingredientsList">
-                <div v-for="(ingredientChunk, index) in list_of_ingredients" :key="index" style="width: 100%">
-                    <CAccordion flush>
-                        <CAccordionItem v-for="ingredient in ingredientChunk"
-                            :id="'ingredient' + ingredient['ingredient_id']" :key="ingredient.ingredient_id"
-                            class="border border-3 border-secondary">
-                            <CAccordionHeader>
-                                <h4>{{ ingredient['name'] }} </h4>
-                            </CAccordionHeader>
-                            <CAccordionBody>
+            <template v-if="fetchingResource && !ingredients">
 
-                                <ul class="list-group">
-                                    <li class="list-group-item"> Amount: {{ ingredient['amount'] }} </li>
-                                    <li class="list-group-item"> Protein: {{ ingredient['protein'] }}g </li>
-                                    <li class="list-group-item"> Calories: {{ ingredient['calories'] }}kcal </li>
-                                    <li class="list-group-item"> Carbohydrates: {{ ingredient['carbohydrates'] }}g </li>
-                                    <li class="list-group-item"> Fat: {{ ingredient['fat'] }}g </li>
-                                    <li class="list-group-item"> Sugar: {{ ingredient['sugar'] }}g </li>
-                                </ul>
-
-                                <div class="d-flex btn-group mt-2">
-                                    <button type="button" class="btn btn-info" @click="handleEditEvent(ingredient)"
-                                        data-bs-toggle="modal" data-bs-target="#edit_ingredient_modal">
-                                        Edit <font-awesome-icon :icon="['fas', 'pen-to-square']" />
-                                    </button>
-                                    <button type="button"
-                                        @click="deleteEntity(`/ingredient/${ingredient['ingredient_id']}`, getIngredients)"
-                                        class="btn btn-danger">
-                                        Delete <font-awesome-icon :icon="['fas', 'trash']" />
-                                    </button>
-                                </div>
-                            </CAccordionBody>
-                        </CAccordionItem>
-                    </CAccordion>
-                </div>
-            </div>
-            <div v-if="list_of_ingredients[0].length == 0" class="ml-5 mb-2 mt-2">
-                <h4 v-if="search_value == ''"> You don't have any personal ingredients </h4>
-                <h4 v-if="search_value != ''"> You don't have any personal ingredients with name: {{ search_value }}
+                <h4>
+                    <RequestLoader /> FetchingResource
                 </h4>
 
-                <button type="button" class="btn-success btn btn-md" data-bs-toggle="modal"
-                    data-bs-target="#create_ingredient_modal" @click="handleCreateIngredientEvent()">
-                    Create ingredient
-                </button>
-            </div>
+            </template>
+
+            <template v-else>
+
+                <div class="ingredientsList">
+                    <div v-for="(ingredientChunk, index) in list_of_ingredients" :key="index" style="width: 100%">
+                        <CAccordion flush>
+                            <CAccordionItem v-for="ingredient in ingredientChunk"
+                                :id="'ingredient' + ingredient['ingredient_id']" :key="ingredient.ingredient_id"
+                                class="border border-3 border-secondary">
+                                <CAccordionHeader>
+                                    <h4>{{ ingredient['name'] }} </h4>
+                                </CAccordionHeader>
+                                <CAccordionBody>
+
+                                    <ul class="list-group">
+                                        <li class="list-group-item"> Amount: {{ ingredient['amount'] }} </li>
+                                        <li class="list-group-item"> Protein: {{ ingredient['protein'] }}g </li>
+                                        <li class="list-group-item"> Calories: {{ ingredient['calories'] }}kcal </li>
+                                        <li class="list-group-item"> Carbohydrates: {{ ingredient['carbohydrates'] }}g
+                                        </li>
+                                        <li class="list-group-item"> Fat: {{ ingredient['fat'] }}g </li>
+                                        <li class="list-group-item"> Sugar: {{ ingredient['sugar'] }}g </li>
+                                    </ul>
+
+                                    <div class="d-flex btn-group mt-2">
+                                        <button type="button" class="btn btn-info" @click="handleEditEvent(ingredient)"
+                                            data-bs-toggle="modal" data-bs-target="#edit_ingredient_modal">
+                                            Edit <font-awesome-icon :icon="['fas', 'pen-to-square']" />
+                                        </button>
+                                        <button type="button"
+                                            @click="deleteEntity(`/ingredient/${ingredient['ingredient_id']}`, getIngredients)"
+                                            class="btn btn-danger">
+                                            Delete <font-awesome-icon :icon="['fas', 'trash']" />
+                                        </button>
+                                    </div>
+                                </CAccordionBody>
+                            </CAccordionItem>
+                        </CAccordion>
+                    </div>
+                </div>
+                <div v-if="list_of_ingredients[0].length == 0" class="ml-5 mb-2 mt-2">
+                    <h4 v-if="search_value == ''"> You don't have any personal ingredients </h4>
+                    <h4 v-if="search_value != ''"> You don't have any personal ingredients with name: {{ search_value }}
+                    </h4>
+
+                    <button type="button" class="btn-success btn btn-md" data-bs-toggle="modal"
+                        data-bs-target="#create_ingredient_modal" @click="handleCreateIngredientEvent()">
+                        Create ingredient
+                    </button>
+                </div>
+            </template>
         </div>
     </section>
 </template>

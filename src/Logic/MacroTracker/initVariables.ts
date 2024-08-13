@@ -17,6 +17,8 @@ import {
   getTodaysDate_FriendlyFormatDateInput
 } from './dateSystem'
 
+export const fetchingResource = ref<boolean>(false)
+
 export const ingredient_validation = {
   name: false,
   amount: false,
@@ -160,8 +162,8 @@ export const recommended_nutrient_data: number[] = reactive([])
 export const userInfo = ref<UserInfo | undefined>(undefined)
 
 export const calender_data = ref<Calender_data>({})
-export const meals = ref<Meal_with_ingredients[]>([])
-export const ingredients = ref<Ingredients>([])
+export const meals = ref<Meal_with_ingredients[] | undefined>(undefined)
+export const ingredients = ref<Ingredients | undefined>(undefined)
 
 /////////////////////////////////////////////////
 
@@ -191,8 +193,6 @@ export async function initPicture() {
     profilePictureUrl.value = imageUrl
     uploadedPicture.value = true
   } else {
-    console.log('Getting image')
-
     const response = await getData(`/user_picture/${user_id}`)
 
     if (response && response.ok) {

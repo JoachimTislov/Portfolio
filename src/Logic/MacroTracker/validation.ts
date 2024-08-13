@@ -14,8 +14,6 @@ function checkValidation(
     alert_div.innerHTML = 'Valid ' + identifier
     ;(event.target as HTMLElement).className = inputClassName + ' is-valid'
 
-    console.log((event.target as HTMLElement).className)
-
     return true
   } else {
     return false
