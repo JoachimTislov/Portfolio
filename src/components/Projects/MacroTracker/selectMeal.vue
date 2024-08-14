@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import { schedule } from '@/Data/MacroTracker';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
-import { hideModal } from '@/Logic/MacroTracker/hideModal';
-import { meals, selectedDate } from '@/Logic/MacroTracker/initVariables';
+import { meals, selectedDate, schedule } from '@/Logic/MacroTracker/initVariables';
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 import { onMounted, ref, type Ref } from 'vue';
-import AlertBox from './AlertBox.vue';
-import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
+import AlertBox from './Modules/AlertBox.vue';
+import { _alert, alertDanger, hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
 import { get_calender_data } from '@/Logic/MacroTracker/Ajax/get/get_calender_data';
 import { reverseInputDateFormat } from '@/Logic/MacroTracker/dateSystem';
@@ -76,13 +74,10 @@ async function addMealToGivenDate(meal_id: number) {
             const time = `${check_if_number_is_less_than_10(hour.value)}:${check_if_number_is_less_than_10(minutes.value)}`
 
             const json = JSON.stringify({ "id": meal_id, "date": reverseInputDateFormat(selectedDate.value), "time": time })
-            const response = await fetchResource('POST', json, '/calender', 'token')
+            const response = await fetchResource('POST', json, '/calender', 'token', modal_id)
 
             if (response && response.ok) {
-
                 await get_calender_data()
-                hideModal(modal_id)
-
             }
         } catch (error) {
             alert(`Network error: ${error}`)
@@ -99,8 +94,11 @@ async function addMealToGivenDate(meal_id: number) {
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title ml-1 mt-2"> Select meal
-                    </h4>
+                    <h4 class="modal-title ml-1 mt-2"> Select meal </h4>
+                    <button class="btn btn-lg ms-auto" @click="hideAlert()" data-bs-dismiss="modal">
+                        <font-awesome-icon :icon="['fas', 'x']" />
+                    </button>
+
                 </div>
 
                 <div class="modal-body">

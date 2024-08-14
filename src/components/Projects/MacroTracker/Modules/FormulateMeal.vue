@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
-import AlertBox from '../AlertBox.vue';
+import AlertBox from './AlertBox.vue';
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 import type { validation_Object, Ingredient, Ingredients, Meal_with_ingredients } from '@/Logic/MacroTracker/types';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
-import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
+import { _alert, alertDanger, alertSuccess, hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
@@ -46,7 +46,7 @@ watch(() => props.meal, (newMeal) => {
         ingredientValidation.value.name = true
         ingredientValidation.value.amount = true
 
-        // Deep copy, preventing un wanted features
+        // Deep copy, preventing unwanted features
         const copy = JSON.parse(JSON.stringify(newMeal.ingredients))
         ingredientsData.value = copy
     }
@@ -80,6 +80,10 @@ function addIngredientToMeal(ingredient: Ingredient) {
         validation.name = true
 
         meal_validation.value.push(validation)
+
+        _alert(`Successfully added ${ingredient.name}`)
+        alertSuccess()
+
     } else {
         _alert('You can not add the same ingredient. Instead change the amount')
         alertDanger()
@@ -110,11 +114,19 @@ function addEmptyIngredient() {
         sugar: 0
     })
     meal_validation.value.push(ingredient_validation)
+
+    _alert(`Successfully added an empty ingredient`)
+    alertSuccess()
 }
 
 function removeEntry(index: number) {
+    const ingredient_name = ingredientsData.value[index].name == '' ? 'the empty ingredient' : ingredientsData.value[index].name
+
     ingredientsData.value.splice(index, 1)
     meal_validation.value.splice(index, 1)
+
+    _alert(`Successfully removed ${ingredient_name}`)
+    alertSuccess()
 }
 
 async function handleDeleteIngredientFromMeal(ingredient_id: number, meal_id: number, arr_index: number) {
@@ -132,14 +144,22 @@ async function triggerMealEvent() {
 
     if (check_meal_validation()) {
         const json = getFormDataInJSONFormat(`${props.formulate_type}_meal_form`)
-        const response = await fetchResource(http_method.value, json, url.value, 'token')
+        const response = await fetchResource(http_method.value, json, url.value, 'token', modal_id)
 
-        if (response && response.ok) {
+        if (response) {
             // update list of meals
-            await getMeals()
 
-            hideModal(modal_id)
+            if (response.ok) {
+                await getMeals()
+            }
+
+            if (response.status == 401 || response.ok) {
+                hideModal(modal_id)
+            }
         }
+
+
+
     } else {
         alertDanger()
         _alert("Fill out the required fields: 'Meal Name'. 'Name' and 'Amount' for each ingredient is required. Nutrient values may be zero.")
@@ -157,7 +177,7 @@ async function triggerMealEvent() {
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title"> {{ _formulate_type }} a meal </h3>
-                    <button class="btn btn-lg ms-auto" data-bs-dismiss="modal">
+                    <button class="btn btn-lg ms-auto" @click="hideAlert()" data-bs-dismiss="modal">
                         <font-awesome-icon :icon="['fas', 'x']" />
                     </button>
                 </div>

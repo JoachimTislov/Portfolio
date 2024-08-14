@@ -1,37 +1,45 @@
-import { routeToPage } from '../routeToPage'
 import { token } from '../token'
-
-import { showAlert, alertMessage, alertClassName, fetchingResource } from '../initVariables'
+import { fetchingResource } from '../initVariables'
+import { _alert, alertDanger, alertSecondary, alertSuccess } from '../alertFunctions'
+import router from '@/router'
+import { hideModal } from '../hideModal'
 
 function load() {
   fetchingResource.value = true
 }
 
-export function alertUser(message: string, response: Response) {
-  alertMessage.value = message
-
-  if (!response.ok) {
-    alertClassName.value = 'alert-danger'
-  } else {
-    alertClassName.value = 'alert-success'
-  }
-
-  showAlert.value = true
+function unLoad() {
+  fetchingResource.value = false
 }
 
-function checkIfUserIsUnAuthorized(response: Response) {
+export function removeLocalData() {
+  token.value = undefined
+  localStorage.removeItem('token')
+  localStorage.removeItem('user_id')
+  localStorage.removeItem('username')
+}
+
+function checkIfUserIsUnAuthorized(response: Response, modal_id?: string) {
   if (response.status == 401) {
-    token.value = undefined
-    localStorage.removeItem('token')
-    routeToPage('macroLogin')
+    if (modal_id) {
+      hideModal(modal_id)
+    }
+    forceFullyLogTheUserOut()
   } else {
     return response
   }
 }
 
+function forceFullyLogTheUserOut() {
+  removeLocalData()
+  _alert('Your session has expired as another person has logged into your account')
+  alertSecondary()
+  router.push({ name: 'macroLogin' })
+}
+
 export async function getData(url: string) {
   if (!token.value) {
-    routeToPage('macroLogin')
+    forceFullyLogTheUserOut()
   } else {
     load()
 
@@ -42,6 +50,9 @@ export async function getData(url: string) {
         Authorization: token.value
       }
     })
+
+    unLoad()
+
     return checkIfUserIsUnAuthorized(response)
   }
 }
@@ -52,7 +63,7 @@ export async function deleteEntity(
   calenderFunc?: (identifier?: string) => void
 ) {
   if (!token.value) {
-    routeToPage('macroLogin')
+    forceFullyLogTheUserOut()
   } else {
     if (confirm('Are you sure?')) {
       try {
@@ -66,6 +77,8 @@ export async function deleteEntity(
           }
         })
 
+        unLoad()
+
         if (response.ok) {
           if (func) {
             await func()
@@ -77,7 +90,13 @@ export async function deleteEntity(
         }
 
         const message = (await response.json()).message
-        alertUser(message, response)
+        _alert(message)
+
+        if (response.ok) {
+          alertSuccess()
+        } else {
+          alertDanger()
+        }
 
         return checkIfUserIsUnAuthorized(response)
       } catch (error) {
@@ -92,15 +111,14 @@ export async function fetchResource(
   method: string,
   data: string | FormData,
   url: string,
-  typeOfAuth: string | undefined
+  typeOfAuth: string | undefined,
+  modal_id?: string
 ): Promise<Response | undefined> {
   const api_key: string = import.meta.env.VITE_API_KEY
   const auth = typeOfAuth == 'api_key' ? api_key : token.value
   if (!auth) {
-    routeToPage('macroLogin')
+    forceFullyLogTheUserOut()
   } else {
-    load()
-
     const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
 
     const fetchBody = {
@@ -111,15 +129,30 @@ export async function fetchResource(
       },
       body: data
     }
+
     try {
+      load()
+
       const response = await fetch(endpoint, fetchBody)
+
       if (response.headers.get('Content-Type') == 'application/json' && url !== '/login') {
         const message = (await response.json()).message
 
-        alertUser(message, response)
+        _alert(message)
+
+        if (response.ok) {
+          if (modal_id) {
+            hideModal(modal_id)
+          }
+          alertSuccess()
+        } else {
+          alertDanger()
+        }
       }
 
-      return checkIfUserIsUnAuthorized(response)
+      unLoad()
+
+      return checkIfUserIsUnAuthorized(response, modal_id)
     } catch (Error) {
       console.log('Fetch failed: ', Error)
     }

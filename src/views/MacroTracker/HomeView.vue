@@ -1,7 +1,10 @@
 <script setup lang="ts">
-import HomePage from '../../components/Projects/MacroTracker/HomePage.vue' 
+import StatisticsOverview from '../../components/Projects/MacroTracker/StatisticsOverview.vue'
+import AlertBox from '../../components/Projects/MacroTracker/Modules/AlertBox.vue';
 </script>
 
 <template>
-    <HomePage />
+    <AlertBox />
+
+    <StatisticsOverview />
 </template>

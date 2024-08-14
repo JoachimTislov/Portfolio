@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
-import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
 import {
     fetchingResource,
-    user_validation_arr
+    user_validation_arr, warningMessage
 } from '@/Logic/MacroTracker/initVariables';
 import { onMounted } from 'vue';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
-import AlertBox from './AlertBox.vue';
+import AlertBox from './Modules/AlertBox.vue';
 import { _alert, alertDanger, alertSecondary, alertSuccess } from '@/Logic/MacroTracker/alertFunctions';
 import RegisterModule from './Modules/RegisterModule.vue';
 import RequestLoader from './RequestLoader.vue';
+import router from '@/router';
+import WarningModule from './Modules/WarningModule.vue';
 
 onMounted(() => {
     _alert('Welcome to register page')
@@ -28,8 +29,9 @@ async function register() {
         fetchingResource.value = false
 
         if (response && response.ok) {
-            alertSuccess(); _alert('Successfully registered account')
-            routeToPage('macroLogin')
+            _alert('Successfully registered account')
+            alertSuccess()
+            router.push({ name: 'macroLogin' })
         }
     } else {
         alertDanger(); _alert('Fill out the required fields correctly!')
@@ -41,37 +43,39 @@ async function register() {
 
 <template>
 
-
     <div class="centerDiv">
-        <div class="card p-3 border border-1 shadow-lg">
-            <div class="card-body">
+        <div class="d-flex flex-column" style="max-width: 400px; min-width: 260px;">
+            <WarningModule :message="warningMessage" />
+            <div class="card p-3 border border-1 shadow-lg" style="max-width: 500px; min-width: 300px">
+                <div class="card-body">
 
-                <AlertBox />
+                    <AlertBox />
 
-                <h2 class="card-title"> Macro Tracker - Register: </h2>
-                <form id="register_form" @submit.prevent>
+                    <h2 class="card-title"> Macro Tracker - Register: </h2>
+                    <form id="register_form" @submit.prevent>
 
-                    <RegisterModule />
+                        <RegisterModule />
 
-                    <div class="d-flex flex-row float-end">
+                        <div class="d-flex flex-row float-end">
 
-                        <template v-if="fetchingResource">
+                            <template v-if="fetchingResource">
 
-                            <RequestLoader />
+                                <RequestLoader />
 
-                        </template>
+                            </template>
 
-                        <button type="submit" class="btn btn-lg btn-outline-primary m-2" @click="register()">
-                            Register
-                        </button>
-                    </div>
+                            <button type="submit" class="btn btn-lg btn-outline-primary m-2 me-0" @click="register()">
+                                Register
+                            </button>
+                        </div>
 
-                    <h4 class="mt-3">
-                        <RouterLink :to="{ name: 'macroLogin' }">
-                            Login
-                        </RouterLink>
-                    </h4>
-                </form>
+                        <h4 class="mt-4 ms-1">
+                            <RouterLink :to="{ name: 'macroLogin' }">
+                                Login
+                            </RouterLink>
+                        </h4>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -84,5 +88,9 @@ async function register() {
     justify-content: center;
 
     margin-top: 7vh;
+}
+
+h2 {
+    font-size: clamp(1.5rem, 1.5vw, 2rem);
 }
 </style>

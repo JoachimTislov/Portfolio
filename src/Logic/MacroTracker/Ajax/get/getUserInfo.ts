@@ -1,5 +1,5 @@
 import { calc_recommended_nutrient } from '../../calc_recommended_nutrient'
-import { fetchingResource, userInfo } from '../../initVariables'
+import { userInfo } from '../../initVariables'
 import type { UserInfo } from '../../types'
 import { getData } from '../ajax'
 
@@ -18,8 +18,6 @@ export async function getUserInfo() {
   const userInfo_response = await getData(`/user_info/${user_id}`)
 
   if (userInfo_response && userInfo_response.ok) {
-    fetchingResource.value = false
-
     const user_info = (await userInfo_response.json()) as UserInfo
 
     // Mapping correct values

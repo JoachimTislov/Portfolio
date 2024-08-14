@@ -1,11 +1,11 @@
-import { schedule } from '@/Data/MacroTracker'
 import {
   calender_data,
   dates_within_selected_period,
   meals_for_time_of_day,
   selected_end_date,
   selected_start_date,
-  zero_meals_for_time_period
+  zero_meals_for_time_period,
+  schedule
 } from './initVariables'
 import type { Meals_for_time_of_day } from './types'
 import { convertToInputDateFormat, reverseInputDateFormat } from './dateSystem'

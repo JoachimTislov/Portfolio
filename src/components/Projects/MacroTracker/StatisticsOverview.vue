@@ -4,12 +4,12 @@ import { onMounted } from 'vue';
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 import { calcNutrientStatsForGivenPeriod, setupNutrientProgressChartsData } from '@/Logic/MacroTracker/statisticsFunctions';
 import { get_calender_data } from '@/Logic/MacroTracker/Ajax/get/get_calender_data';
-import { stats_for_dates, StatsToShow, selected_start_date, selected_end_date, overall_stats, fetchingResource, calender_data, userInfo } from '@/Logic/MacroTracker/initVariables';
+import { stats_for_dates, StatsToShow, selected_start_date, selected_end_date, overall_stats, fetchingResource, calender_data } from '@/Logic/MacroTracker/initVariables';
 import { getDayForDate, reverseInputDateFormat } from '@/Logic/MacroTracker/dateSystem';
 import StartEndInput from './StartEndInput.vue';
 import TodaysNutrientProgression from './TodaysNutrientProgression.vue';
 import OverallStatsDonut from './OverallStatsDonut.vue';
-import BarChart from './BarChart.vue';
+import BarChart from './Modules/BarChart.vue';
 import RequestLoader from './RequestLoader.vue';
 
 onMounted(async () => {
@@ -27,32 +27,25 @@ onMounted(async () => {
 <template>
     <section class="card mb-2">
 
-        <template v-if="fetchingResource && !userInfo">
-            <RequestLoader />
-        </template>
-
-        <template v-else>
-            <TodaysNutrientProgression />
-        </template>
+        <TodaysNutrientProgression />
 
         <header class="card-header p-3 d-flex">
             <div class="d-flex flex-column">
-                <h3 class="m-2"> Statistics - Total, average and nutrient stats for each meal </h3>
-                <div class="d-flex flex-column m-3" style="width: 200px;">
-                    <template v-if="fetchingResource && Object.keys(calender_data).length == 0">
-                        <RequestLoader />
-                    </template>
+                <h3 class="m-2"> Statistics <h6> Total, average and nutrient stats for each meal </h6>
+                </h3>
+                <div class="d-flex flex-column m-3 mt-0" style="width: 200px;">
 
-                    <template v-else>
-                        <StartEndInput :calc_nutrient_stats_for_given_period="calcNutrientStatsForGivenPeriod" />
-                    </template>
+                    <StartEndInput :calc_nutrient_stats_for_given_period="calcNutrientStatsForGivenPeriod" />
+
                 </div>
             </div>
         </header>
         <section class="card-body">
 
             <template v-if="fetchingResource && Object.keys(calender_data).length == 0">
-                <RequestLoader />
+                <div class="d-flex justify-content-center">
+                    <RequestLoader />
+                </div>
             </template>
 
             <template v-else>
@@ -98,7 +91,9 @@ onMounted(async () => {
                 </template>
 
                 <template v-else>
-                    <h4> Zero data to visualize, add meals to your calender inside of given period </h4>
+                    <h4 class="ms-2"> No data to visualize, add meals to your calender inside of given period to view
+                        statistics
+                    </h4>
                 </template>
 
             </template>
@@ -116,5 +111,9 @@ onMounted(async () => {
 .nutrient-container {
     flex: 1;
     min-width: clamp(200px, 10vw, 500px);
+}
+
+h4 {
+    font-size: clamp(0.9rem, 1vw, 1.5rem);
 }
 </style>

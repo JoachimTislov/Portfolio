@@ -50,12 +50,13 @@ const bar_chart_data = reactive({
         },
         title: {
             style: {
-                fontSize: '15px'
+                fontSize: '12px'
             },
             text: props.name,
             align: 'center',
         },
         toolbar: {
+            enabled: false,
             show: false,
             menu: {
                 item: {

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
-import AlertBox from './AlertBox.vue';
+import AlertBox from './Modules/AlertBox.vue';
 import RegisterModule from './Modules/RegisterModule.vue';
 import { user_validation_arr, userInfo } from '@/Logic/MacroTracker/initVariables';
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
-import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
+import { _alert, alertDanger, hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
 
 const modal_id = 'edit_profile_information_modal'
@@ -18,11 +18,10 @@ async function edit_profile_information() {
 
     if (validation) {
         const json = getFormDataInJSONFormat('edit_profile_information_form')
-        const response = await fetchResource('PUT', json, '/user_info', 'token')
+        const response = await fetchResource('PUT', json, '/user_info', 'token', modal_id)
 
         if (response && response.ok) {
             await getUserInfo()
-            hideModal(modal_id)
         }
     } else {
         alertDanger(); _alert('Fill out the required fields correctly!')
@@ -32,11 +31,14 @@ async function edit_profile_information() {
 </script>
 
 <template>
-    <div class="modal modal-md fade Modal" :id="modal_id">
+    <div class="modal modal-sm fade Modal" :id="modal_id">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title mr-2"> Edit Profile Information </h3>
+                    <h5 class="modal-title mr-2"> Edit Profile Information </h5>
+                    <button class="btn btn-lg ms-auto" @click="hideAlert()" data-bs-dismiss="modal">
+                        <font-awesome-icon :icon="['fas', 'x']" />
+                    </button>
                 </div>
 
                 <div class="modal-body">
@@ -50,9 +52,7 @@ async function edit_profile_information() {
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger btn-lg ml-1" @click="hideModal(modal_id)"> Cancel </button>
-                    <button type="submit" @click="edit_profile_information()" class="btn btn-success btn-lg ml-1">
-
+                    <button type="submit" @click="edit_profile_information()" class="btn btn-success btn-lg">
                         Edit
                     </button>
                 </div>

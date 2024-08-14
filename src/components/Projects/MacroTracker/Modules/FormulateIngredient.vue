@@ -6,8 +6,8 @@ import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import type { Ingredient } from '@/Logic/MacroTracker/types';
 import { ref, watch } from 'vue';
-import AlertBox from '../AlertBox.vue';
-import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
+import AlertBox from './AlertBox.vue';
+import { _alert, alertDanger, hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import IngredientInputModule from './IngredientInputModule.vue';
 import { createOrEdit_ingredient_validation_arr } from '@/Logic/MacroTracker/initVariables';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
@@ -38,14 +38,20 @@ async function IngredientEvent() {
     console.log(createOrEdit_ingredient_validation_arr)
     if (checkValidationArr(createOrEdit_ingredient_validation_arr)) {
         const json = getFormDataInJSONFormat(`${props.formulate_type}_ingredient_form`)
-        const response = await fetchResource(http_method.value, json, url.value, 'token')
+        const response = await fetchResource(http_method.value, json, url.value, 'token', modal_id)
 
-        if (response && response.ok) {
+        if (response) {
             // update list of ingredients
-            await getIngredients()
-            await getMeals()
 
-            hideModal(modal_id)
+            if (response.ok) {
+                await getIngredients()
+                await getMeals()
+            }
+
+            if (response.status == 401 || response.ok) {
+                hideModal(modal_id)
+            }
+
         }
     } else {
         alertDanger()
@@ -61,6 +67,9 @@ async function IngredientEvent() {
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title mr-2"> {{ _formulate_type }} Ingredient: </h3>
+                    <button class="btn btn-lg ms-auto" @click="hideAlert()" data-bs-dismiss="modal">
+                        <font-awesome-icon :icon="['fas', 'x']" />
+                    </button>
                 </div>
 
                 <div class="modal-body">
@@ -74,7 +83,6 @@ async function IngredientEvent() {
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger btn-md ml-1" @click="hideModal(modal_id)"> Cancel </button>
                     <button type="submit" @click="IngredientEvent()" class="btn btn-success btn-md ml-1">
                         {{ _formulate_type }}
                         Ingredient

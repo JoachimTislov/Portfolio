@@ -2,19 +2,17 @@
 
 import { meals_for_time_of_day, selected_end_date, selected_start_date, zero_meals_for_time_period } from '@/Logic/MacroTracker/initVariables';
 import { onMounted } from 'vue';
-import { construct_dates_for_days_in_week, getDayForDate, reverseInputDateFormat } from '@/Logic/MacroTracker/dateSystem';
+import { getDayForDate, reverseInputDateFormat } from '@/Logic/MacroTracker/dateSystem';
 import SelectMeal from './selectMeal.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import { get_calender_data } from '@/Logic/MacroTracker/Ajax/get/get_calender_data';
 import StartEndInput from './StartEndInput.vue';
 import type { Meals_for_time_of_day } from '@/Logic/MacroTracker/types';
-import AlertBox from './AlertBox.vue';
+import AlertBox from './Modules/AlertBox.vue';
 
 onMounted(async () => {
     await get_calender_data()
-
-    construct_dates_for_days_in_week()
 })
 </script>
 
@@ -35,7 +33,7 @@ onMounted(async () => {
             <div class="m-2 mt-2 me-auto">
                 <button class="btn-success btn btn-md" data-bs-toggle="modal" data-bs-target="#select_meal_modal"
                     @click="hideAlert()">
-                    Add a meal
+                    Add a meal to the calender
                 </button>
             </div>
         </div>

@@ -6,7 +6,7 @@ import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilter
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals'
 import type { Meal_with_ingredients, mealModal } from '@/Logic/MacroTracker/types'
-import AlertBox from './AlertBox.vue'
+import AlertBox from './Modules/AlertBox.vue'
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
 import FormulateMeal from './Modules/FormulateMeal.vue'
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
@@ -73,22 +73,26 @@ function editMeal(meal: Meal_with_ingredients) {
         <div class="card-header">
             <h2 class="m-0">Your meals</h2>
 
-            <div class="m-2 input-group">
+            <div class="d-flex flex-wrap">
+                <div class="m-2 input-group" style="min-width: 150px; max-width: 500px;">
 
-                <button class="create_button btn-success btn btn-lg" data-bs-toggle="modal"
-                    data-bs-target="#create_meal_modal" @click="createMeal()">Create Meal</button>
+                    <input class="form-control form-control-lg" type="text" placeholder="Search"
+                        v-model="search_value" />
 
-                <input class="form-control form-control-lg" type="text" placeholder="Search" v-model="search_value" />
+                    <select class="form-control form-control-lg" @change="search_value = ''" v-model="sort_value">
+                        <option disabled selected>Sort by</option>
+                        <option value="name">Name</option>
+                        <option value="protein">Protein</option>
+                        <option value="calories">Calories</option>
+                        <option value="carbohydrates">Carbohydrates</option>
+                        <option value="fat">Fat</option>
+                        <option value="sugar">Sugar</option>
+                    </select>
 
-                <select class="form-control form-control-lg" @change="search_value = ''" v-model="sort_value">
-                    <option disabled selected>Sort by</option>
-                    <option value="name">Name</option>
-                    <option value="protein">Protein</option>
-                    <option value="calories">Calories</option>
-                    <option value="carbohydrates">Carbohydrates</option>
-                    <option value="fat">Fat</option>
-                    <option value="sugar">Sugar</option>
-                </select>
+                </div>
+
+                <button class="m-2 create_button btn-success btn btn-lg" data-bs-toggle="modal"
+                    data-bs-target="#create_meal_modal" @click="createMeal()">Create a meal</button>
 
             </div>
         </div>
@@ -97,7 +101,9 @@ function editMeal(meal: Meal_with_ingredients) {
             <AlertBox />
 
             <template v-if="fetchingResource && !meals">
-                <RequestLoader />
+                <div class="d-flex justify-content-center">
+                    <RequestLoader />
+                </div>
             </template>
 
             <template v-else>
@@ -114,20 +120,24 @@ function editMeal(meal: Meal_with_ingredients) {
                                 </CAccordionHeader>
                                 <CAccordionBody>
 
-                                    <label for="total_macros"> Total Macros </label>
-                                    <div class="d-flex flex-wrap" id="total_macros">
-                                        <small class="rounded border border-1 p-2 m-1">Protein: {{ meal['protein']
+                                    <template v-if="meal.ingredients.length > 1">
+
+                                        <label for="total_macros"> Total Macros </label>
+                                        <div class="d-flex flex-wrap" id="total_macros">
+                                            <small class="rounded border border-1 p-2 m-1">Protein: {{ meal['protein']
+                                                }}g</small>
+                                            <small class="rounded border border-1 p-2 m-1">Calories: {{ meal['calories']
+                                                }}kcal</small>
+                                            <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
+                                                meal['carbohydrates']
                                             }}g</small>
-                                        <small class="rounded border border-1 p-2 m-1">Calories: {{ meal['calories']
-                                            }}kcal</small>
-                                        <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
-                                            meal['carbohydrates']
-                                            }}g</small>
-                                        <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
-                                            }}g</small>
-                                        <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
-                                            }}g</small>
-                                    </div>
+                                            <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
+                                                }}g</small>
+                                            <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
+                                                }}g</small>
+                                        </div>
+
+                                    </template>
 
                                     <h5 v-if="meal['ingredients'].length > 0">Ingredients:</h5>
                                     <div class="wrap">
@@ -146,7 +156,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                     </li>
                                                     <li class="list-group-item mr-3">Calories: {{
                                                         ingredient['calories']
-                                                        }}kcal</li>
+                                                    }}kcal</li>
                                                     <li class="list-group-item mr-3">
                                                         Carbohydrates: {{ ingredient['carbohydrates'] }}g
                                                     </li>
@@ -165,12 +175,12 @@ function editMeal(meal: Meal_with_ingredients) {
                                     <div class="d-flex mt-2 btn-group btn-group-md">
                                         <button class="btn-danger btn"
                                             @click="deleteEntity(`/meal/${meal['meal_id']}`, getMeals)">
-                                            Delete {{ meal['name'] }}
+                                            Delete
                                             <font-awesome-icon :icon="['fas', 'trash']" />
                                         </button>
                                         <button class="btn-primary btn" data-bs-toggle="modal"
                                             data-bs-target="#edit_meal_modal" @click="editMeal(meal)">
-                                            Edit {{ meal['name'] }}
+                                            Edit
                                             <font-awesome-icon :icon="['fas', 'pen-to-square']" />
                                         </button>
                                     </div>
@@ -181,9 +191,9 @@ function editMeal(meal: Meal_with_ingredients) {
                 </div>
 
                 <div v-if="list_of_meals[0].length == 0" class="ml-5 mb-2 mt-2">
-                    <h4 v-if="search_value == ''">You don't have any personal meals</h4>
+                    <h4 v-if="search_value == ''">You don't have any meals</h4>
                     <h4 v-if="search_value != ''">
-                        You don't have any personal meals with name: {{ search_value }}
+                        You don't have any meals with name: {{ search_value }}
                     </h4>
                     <button type="button" class="btn-success btn btn-lg ml-2" data-bs-toggle="modal"
                         data-bs-target="#create_meal_modal" @click="hideAlert(), createMeal()">

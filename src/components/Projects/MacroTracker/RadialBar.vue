@@ -14,14 +14,14 @@ const progressChartOptions = {
         radialBar: {
             hollow: {
                 margin: 0,
-                size: '70%',
+                size: '65%',
                 background: "#293450"
             },
             dataLabels: {
                 showOn: 'always',
                 name: {
                     offsetY: -10,
-                    fontSize: 'clamp(0.8rem, 1vw, 1.15rem)',
+                    fontSize: 'clamp(0.5rem, 1.1vw, 1.15rem)',
                 },
                 value: {
                     offsetY: 2,

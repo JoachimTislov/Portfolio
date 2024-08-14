@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
-import AlertBox from './AlertBox.vue';
+import AlertBox from './Modules/AlertBox.vue';
 import PasswordInput from './Modules/PasswordInput.vue';
 import { change_password_validation } from '@/Logic/MacroTracker/initVariables';
-import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
+import { _alert, alertDanger, hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
-import { hideModal } from '@/Logic/MacroTracker/hideModal';
 
 const password_inputs = [
     { name: 'old_password', label: 'Old' },
@@ -22,11 +21,8 @@ async function changePassword() {
         try {
             const json = getFormDataInJSONFormat('passwords')
             const user_id = localStorage.getItem('user_id')
-            const response = await fetchResource('PUT', json, `/password/${user_id}`, 'token')
 
-            if (response && response.ok) {
-                hideModal(modal_id)
-            }
+            await fetchResource('PUT', json, `/password/${user_id}`, 'token', modal_id)
 
         } catch (error) {
             console.log(error)
@@ -42,12 +38,12 @@ async function changePassword() {
 
 
 <template>
-    <div class="modal fade Modal" :id="modal_id">
+    <div class="modal modal-sm fade Modal" :id="modal_id">
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title m-2"> Change Password: </h3>
-                    <button class="btn btn-lg ms-auto" data-bs-dismiss="modal">
+                    <h4 class="modal-title m-2"> Change Password </h4>
+                    <button class="btn btn-lg ms-auto" @click="hideAlert()" data-bs-dismiss="modal">
                         <font-awesome-icon :icon="['fas', 'x']" />
                     </button>
                 </div>
@@ -65,7 +61,7 @@ async function changePassword() {
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" @click="changePassword()" class="btn btn-success btn-lg ml-1">
+                    <button type="submit" @click="changePassword()" class="btn btn-success">
                         Change Password
                     </button>
                 </div>

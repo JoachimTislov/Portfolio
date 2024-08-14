@@ -9,15 +9,15 @@ import {
   type Validation_array,
   type validation_Object
 } from './types'
-import { alertUser, getData } from './Ajax/ajax'
+import { getData } from './Ajax/ajax'
 import user_icon from '@/assets/Icons/user-icon.png'
-import { routeToPage } from './routeToPage'
-import {
-  getDayOfTheWeek_Monday_to_Sunday,
-  getTodaysDate_FriendlyFormatDateInput
-} from './dateSystem'
+import { getTodaysDate_FriendlyFormatDateInput } from './dateSystem'
+import { _alert, alertSuccess } from './alertFunctions'
 
 export const fetchingResource = ref<boolean>(false)
+
+export const warningMessage = `The initial login or registration request might take some time because the service 
+hosted on Render.com shuts down when there hasn't been recent activity.`
 
 export const ingredient_validation = {
   name: false,
@@ -60,18 +60,18 @@ export const alertMessage = ref<string>('')
 export const alertClassName = ref<string>('')
 
 const storedUsername = localStorage.getItem('username')
-export const username = ref<string>(storedUsername ? storedUsername : '')
-export const password = ref<string>('')
+export const username = ref<string>(storedUsername ? storedUsername : 'Peddi')
+export const password = ref<string>('peder@123')
+
+export const login_validation = reactive({
+  Username: true,
+  Password: true
+})
 
 export const change_password_validation: Validation_array = reactive({
   old_password: false,
   new_password: false,
   new_confirm_password: false
-})
-
-export const login_validation = reactive({
-  Username: true,
-  Password: true
 })
 
 export const user_validation_arr: { [key: string]: boolean } = reactive({
@@ -112,21 +112,6 @@ export function initAlertElements() {
 
 //////////////// Data init //////////////////////
 
-export const days_of_the_week_with_date = ref<{ Day: string; Date: string }[]>([
-  { Day: 'Monday', Date: '' },
-  { Day: 'Tuesday', Date: '' },
-  { Day: 'Wednesday', Date: '' },
-  { Day: 'Thursday', Date: '' },
-  { Day: 'Friday', Date: '' },
-  { Day: 'Saturday', Date: '' },
-  { Day: 'Sunday', Date: '' }
-])
-
-export const days_of_the_week_index = ref<number>(getDayOfTheWeek_Monday_to_Sunday())
-export const day_for_chosenDate = ref<string>(
-  days_of_the_week_with_date.value[days_of_the_week_index.value].Day
-)
-
 export const zero_meals_for_time_period = ref<boolean>(false)
 
 export const selected_start_date = ref<string>(getTodaysDate_FriendlyFormatDateInput())
@@ -158,6 +143,15 @@ export const eaten_nutrient_progression: { [key: string]: number[] } = reactive(
 
 ////////////////////////////////////////
 
+// Personal schedule, might store this in the database
+export const schedule: { [key: string]: { Start: number; End: number } } = {
+  Breakfast: { Start: 6, End: 11 },
+  Lunch: { Start: 12, End: 15 },
+  Dinner: { Start: 16, End: 20 },
+  Supper: { Start: 21, End: 24 },
+  Night: { Start: 0, End: 5 }
+}
+
 export const recommended_nutrient_data: number[] = reactive([])
 export const userInfo = ref<UserInfo | undefined>(undefined)
 
@@ -187,8 +181,6 @@ export async function initPicture() {
   const imageUrl = localStorage.getItem('imageUrl')
   const user_id = localStorage.getItem('user_id')
 
-  if (!user_id) return routeToPage('macroLogin')
-
   if (imageUrl && (await canFindImage(imageUrl))) {
     profilePictureUrl.value = imageUrl
     uploadedPicture.value = true
@@ -205,7 +197,8 @@ export async function initPicture() {
         uploadedPicture.value = true
       } else {
         const result = await response.json()
-        alertUser(result.message, response)
+        _alert(result.message)
+        alertSuccess()
       }
     }
   }

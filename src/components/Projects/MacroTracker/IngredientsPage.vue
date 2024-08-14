@@ -8,7 +8,7 @@ import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
 import FormulateIngredient from './Modules/FormulateIngredient.vue';
-import AlertBox from './AlertBox.vue';
+import AlertBox from './Modules/AlertBox.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import RequestLoader from './RequestLoader.vue';
 
@@ -60,23 +60,28 @@ const list_of_ingredients = computed(() => {
         <div class="card-header">
             <h2 class="m-0"> Your ingredients </h2>
 
-            <div class="m-2 input-group">
-                <button type="button" class="btn-success btn btn-lg" data-bs-toggle="modal"
+            <div class="d-flex flex-wrap">
+                <div class="m-2 input-group" style="min-width: 150px; max-width: 500px;">
+                    <input class="form-control form-control-lg" type="text" placeholder="Search" v-model="search_value">
+
+                    <select class="form-control form-control-lg" @change="search_value = ''" v-model="sort_value">
+                        <option disabled selected> Sort by </option>
+                        <option value="name"> Name </option>
+                        <option value="protein"> Protein </option>
+                        <option value="calories"> Calories </option>
+                        <option value="carbohydrates"> Carbohydrates </option>
+                        <option value="fat"> Fat </option>
+                        <option value="sugar"> Sugar </option>
+                    </select>
+                </div>
+
+
+                <button type="button" class="m-2 btn-success btn btn-lg" data-bs-toggle="modal"
                     data-bs-target="#create_ingredient_modal" @click="handleCreateIngredientEvent()">
                     Create ingredient
                 </button>
-                <input class="form-control form-control-lg" type="text" placeholder="Search" v-model="search_value">
-
-                <select class="form-control form-control-lg" @change="search_value = ''" v-model="sort_value">
-                    <option disabled selected> Sort by </option>
-                    <option value="name"> Name </option>
-                    <option value="protein"> Protein </option>
-                    <option value="calories"> Calories </option>
-                    <option value="carbohydrates"> Carbohydrates </option>
-                    <option value="fat"> Fat </option>
-                    <option value="sugar"> Sugar </option>
-                </select>
             </div>
+
         </div>
 
         <div class="card-body">
@@ -85,9 +90,9 @@ const list_of_ingredients = computed(() => {
 
             <template v-if="fetchingResource && !ingredients">
 
-                <h4>
-                    <RequestLoader /> FetchingResource
-                </h4>
+                <div class="d-flex justify-content-center">
+                    <RequestLoader />
+                </div>
 
             </template>
 
@@ -107,8 +112,10 @@ const list_of_ingredients = computed(() => {
                                     <ul class="list-group">
                                         <li class="list-group-item"> Amount: {{ ingredient['amount'] }} </li>
                                         <li class="list-group-item"> Protein: {{ ingredient['protein'] }}g </li>
-                                        <li class="list-group-item"> Calories: {{ ingredient['calories'] }}kcal </li>
-                                        <li class="list-group-item"> Carbohydrates: {{ ingredient['carbohydrates'] }}g
+                                        <li class="list-group-item"> Calories: {{ ingredient['calories'] }}kcal
+                                        </li>
+                                        <li class="list-group-item"> Carbohydrates: {{ ingredient['carbohydrates']
+                                            }}g
                                         </li>
                                         <li class="list-group-item"> Fat: {{ ingredient['fat'] }}g </li>
                                         <li class="list-group-item"> Sugar: {{ ingredient['sugar'] }}g </li>
@@ -131,8 +138,8 @@ const list_of_ingredients = computed(() => {
                     </div>
                 </div>
                 <div v-if="list_of_ingredients[0].length == 0" class="ml-5 mb-2 mt-2">
-                    <h4 v-if="search_value == ''"> You don't have any personal ingredients </h4>
-                    <h4 v-if="search_value != ''"> You don't have any personal ingredients with name: {{ search_value }}
+                    <h4 v-if="search_value == ''"> You don't have any ingredients </h4>
+                    <h4 v-if="search_value != ''"> You don't have any ingredients with name: {{ search_value }}
                     </h4>
 
                     <button type="button" class="btn-success btn btn-md" data-bs-toggle="modal"

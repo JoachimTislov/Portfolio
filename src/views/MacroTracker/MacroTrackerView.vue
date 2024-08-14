@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import MacroTracker from '../../components/Projects/MacroTracker/MacroTracker.vue' 
+import Navbar from '../../components/Projects/MacroTracker/NavbarPage.vue' 
 </script>
 
 <template>
-    <MacroTracker />
+    <Navbar />
 </template>

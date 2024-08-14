@@ -3,14 +3,14 @@ import user_icon from '@/assets/Icons/user-icon.png'
 import { profilePictureUrl, _file, uploadedPicture, userInfo, initPicture, recommended_nutrient_data, fetchingResource } from '@/Logic/MacroTracker/initVariables'
 import { deleteProfilePicture } from '@/Logic/MacroTracker/Ajax/deleteProfilePicture'
 import { uploadProfilePicture } from '@/Logic/MacroTracker/Ajax/uploadProfilePicture'
-import AlertBox from './AlertBox.vue';
+import AlertBox from './Modules/AlertBox.vue';
 import { _alert, alertDanger } from '@/Logic/MacroTracker/alertFunctions';
 import ChangePassword from './ChangePassword.vue';
 import EditProfileInformation from './EditProfileInformation.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { onMounted } from 'vue';
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
-import BarChart from './BarChart.vue';
+import BarChart from './Modules/BarChart.vue';
 import RequestLoader from './RequestLoader.vue';
 
 onMounted(async () => {
@@ -51,7 +51,9 @@ function handleFileUpload(event: Event) {
         <section class="card-body">
 
             <template v-if="fetchingResource && !userInfo">
-                <RequestLoader />
+                <div class="d-flex justify-content-center">
+                    <RequestLoader />
+                </div>
             </template>
 
             <template v-else>
@@ -74,11 +76,11 @@ function handleFileUpload(event: Event) {
                     </div>
 
 
-                    <div class="marginBox p-3 d-flex flex-column bg-secondary rounded" style="width: 100%">
+                    <div class="marginBox p-3 d-flex flex-column bg- rounded" style="width: 100%">
                         <div class="d-flex p-1" v-for="(value, key) in userInfo" :key="key">
-                            <em>
-                                <h3> {{ key }}: </h3>
-                            </em>
+
+                            <h3> {{ key }}: </h3>
+
 
                             <h4 class="ms-auto">
                                 {{ value }}
@@ -146,9 +148,13 @@ img,
     }
 }
 
-h3,
+
 h4 {
-    color: rgb(206, 199, 192);
+    font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+h3 {
+    font-weight: bolder;
     font-size: clamp(1.2rem, 2.2vw, 2rem);
 }
 </style>

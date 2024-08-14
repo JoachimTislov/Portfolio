@@ -3,22 +3,21 @@
 import { RouterLink } from 'vue-router';
 
 import { token } from '@/Logic/MacroTracker/token'
-import { routeToPage } from '@/Logic/MacroTracker/routeToPage';
-import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
-import { fetchingResource, username } from '@/Logic/MacroTracker/initVariables';
+import { removeLocalData, fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
+import { username } from '@/Logic/MacroTracker/initVariables';
+import { _alert, alertSecondary } from '@/Logic/MacroTracker/alertFunctions';
+import router from '@/router';
 
 const logout = async () => {
-
-    token.value = undefined
-    localStorage.removeItem('token')
-    localStorage.removeItem('user_id')
-    localStorage.removeItem('username')
-
+    removeLocalData()
     await fetchResource('POST', '', '/logout', 'token')
 
-    fetchingResource.value = false
+    // assuming the logout is successful, backend deletes the token or session key from the database, preventing
+    // third party member to exploit the token
 
-    routeToPage('macroLogin')
+    _alert('Successfully logged you out')
+    alertSecondary()
+    router.push({ name: 'macroLogin' })
 }
 
 const routes = ['Home', 'Calender', 'Meals', 'Ingredients', 'Profile']
@@ -45,9 +44,11 @@ const routes = ['Home', 'Calender', 'Meals', 'Ingredients', 'Profile']
                     </li>
                 </ul>
 
+
                 <button @click="logout()" class="btn btn-outline-danger btn-lg"> Log
                     out
                 </button>
+
             </div>
         </div>
     </nav>
