@@ -15,8 +15,9 @@ const logout = async () => {
     // assuming the logout is successful, backend deletes the token or session key from the database, preventing
     // third party member to exploit the token
 
-    _alert('Successfully logged you out')
     alertSecondary()
+    _alert('Successfully logged you out')
+
     router.push({ name: 'macroLogin' })
 }
 

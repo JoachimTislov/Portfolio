@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
-import { ingredients, createOrEditIngredient, fetchingResource } from '@/Logic/MacroTracker/initVariables';
+import { ingredients, fetchingResource } from '@/Logic/MacroTracker/initVariables';
 import type { Ingredient, IngredientModal } from '@/Logic/MacroTracker/types';
 import { computed, onMounted, reactive, ref } from 'vue';
 import { CAccordion, CAccordionItem, CAccordionHeader, CAccordionBody } from '@coreui/vue';
@@ -11,6 +11,7 @@ import FormulateIngredient from './Modules/FormulateIngredient.vue';
 import AlertBox from './Modules/AlertBox.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import RequestLoader from './RequestLoader.vue';
+import { changeValidationForNameAndAmount } from '@/Logic/MacroTracker/validation';
 
 onMounted(async () => {
     await getIngredients()
@@ -32,13 +33,13 @@ const ingredientModalInformation: IngredientModal = reactive({
 
 function handleEditEvent(ingredient: Ingredient) {
     hideAlert()
-    createOrEditIngredient.value = 'Edit'
+    changeValidationForNameAndAmount(true)
     ingredientModalInformation.Edit.ingredient = ingredient
 }
 
 function handleCreateIngredientEvent() {
     hideAlert()
-    createOrEditIngredient.value = 'Create'
+    changeValidationForNameAndAmount(false)
 }
 
 const list_of_ingredients = computed(() => {

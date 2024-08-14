@@ -9,7 +9,7 @@ import { getDayForDate, reverseInputDateFormat } from '@/Logic/MacroTracker/date
 import StartEndInput from './StartEndInput.vue';
 import TodaysNutrientProgression from './TodaysNutrientProgression.vue';
 import OverallStatsDonut from './OverallStatsDonut.vue';
-import BarChart from './Modules/BarChart.vue';
+import BarChart from './BarChart.vue';
 import RequestLoader from './RequestLoader.vue';
 
 onMounted(async () => {

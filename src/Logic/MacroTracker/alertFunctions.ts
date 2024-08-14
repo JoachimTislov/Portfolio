@@ -1,3 +1,4 @@
+import { delay } from '../FourInARow/delay'
 import { alertClassName, alertMessage, showAlert } from './initVariables'
 
 export function hideAlert() {
@@ -9,20 +10,25 @@ export function revealAlert() {
 }
 
 export function alertDanger() {
-  revealAlert()
   alertClassName.value = 'alert-danger'
 }
 
 export function alertSuccess() {
-  revealAlert()
   alertClassName.value = 'alert-success'
 }
 
 export function alertSecondary() {
-  revealAlert()
   alertClassName.value = 'alert-secondary'
 }
 
-export function _alert(message: string) {
+export async function _alert(message: string) {
+  revealAlert()
   alertMessage.value = message
+
+  const oldClassName = alertClassName.value
+  alertClassName.value = oldClassName + ' smoothIn'
+  console.log(alertClassName.value)
+  await delay(500)
+  alertClassName.value = oldClassName
+  console.log(alertClassName.value)
 }

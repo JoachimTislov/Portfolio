@@ -28,8 +28,6 @@ const selectedActivity_lvl = ref<string>('0')
 
 watch(() => props.user_info, (newValue) => {
 
-    console.log('Mounted edit profile information', newValue)
-
     if (newValue) {
         for (const key of Object.keys(user_validation_arr)) {
             user_validation_arr[key] = true

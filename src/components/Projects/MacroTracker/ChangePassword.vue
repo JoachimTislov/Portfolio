@@ -29,8 +29,8 @@ async function changePassword() {
             alert(`Network error: ${error}`)
         }
     } else {
-        _alert('Fill out the password fields correctly')
         alertDanger()
+        _alert('Fill out the password fields correctly')
     }
 }
 

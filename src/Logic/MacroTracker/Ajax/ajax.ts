@@ -32,8 +32,8 @@ function checkIfUserIsUnAuthorized(response: Response, modal_id?: string) {
 
 function forceFullyLogTheUserOut() {
   removeLocalData()
-  _alert('Your session has expired as another person has logged into your account')
   alertSecondary()
+  _alert('Your session has expired as another person has logged into your account')
   router.push({ name: 'macroLogin' })
 }
 
@@ -89,14 +89,14 @@ export async function deleteEntity(
           }
         }
 
-        const message = (await response.json()).message
-        _alert(message)
-
         if (response.ok) {
           alertSuccess()
         } else {
           alertDanger()
         }
+
+        const message = (await response.json()).message
+        _alert(message)
 
         return checkIfUserIsUnAuthorized(response)
       } catch (error) {
@@ -138,8 +138,6 @@ export async function fetchResource(
       if (response.headers.get('Content-Type') == 'application/json' && url !== '/login') {
         const message = (await response.json()).message
 
-        _alert(message)
-
         if (response.ok) {
           if (modal_id) {
             hideModal(modal_id)
@@ -148,6 +146,8 @@ export async function fetchResource(
         } else {
           alertDanger()
         }
+
+        _alert(message)
       }
 
       unLoad()

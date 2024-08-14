@@ -16,8 +16,8 @@ import WarningModule from './Modules/WarningModule.vue';
 onMounted(() => {
 
     if (!showAlert.value) {
-        _alert('Welcome to the login page')
         alertSecondary()
+        _alert('Welcome to the login page')
     }
 
 })
@@ -42,8 +42,6 @@ async function login() {
 
                 // Probably rework this underneath
 
-                _alert(result.message)
-
                 if (response.ok) {
 
                     token.value = result.token
@@ -58,6 +56,8 @@ async function login() {
                 } else {
                     alertDanger()
                 }
+
+                _alert(result.message)
             }
         } catch (error) {
             alert('Error loging in: ' + error)

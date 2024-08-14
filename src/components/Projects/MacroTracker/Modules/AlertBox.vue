@@ -8,7 +8,7 @@ function hideAlert() { showAlert.value = false }
 
 <template>
 
-    <div v-if="showAlert" :class="alertClassName" class="mb-3 alert">
+    <div v-if="showAlert" ref="alertBox" :class="alertClassName" class="mb-3 alert">
 
         <button type="button" class="btn btn-md btn-outline-light float-end" @click.prevent="hideAlert">
             Close <font-awesome-icon :icon="['fas', 'x']" />
@@ -37,5 +37,19 @@ div {
     position: sticky;
     top: 5px;
     z-index: 1;
+}
+
+@keyframes alert {
+    0% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.smoothIn {
+    animation: alert 0.5s;
 }
 </style>

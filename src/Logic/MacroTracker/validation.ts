@@ -1,3 +1,10 @@
+import { createOrEdit_ingredient_validation_arr } from './initVariables'
+
+export function changeValidationForNameAndAmount(value: boolean) {
+  createOrEdit_ingredient_validation_arr.name = value
+  createOrEdit_ingredient_validation_arr.amount = value
+}
+
 function changeAlertDivToInvalid(event: Event, alert_div: HTMLElement, inputClassName: string) {
   alert_div.className = 'ml-2 invalid-feedback'
   ;(event.target as HTMLElement).className = inputClassName + ' is-invalid'
@@ -73,7 +80,7 @@ export function ValidateText(
       alert_div.innerHTML = `<small> Enter ${identifier} between ${requirements.min} and ${requirements.max} ${requirements.unit} <small> <br>`
     }
 
-    if (regex || inputValue >= 0) {
+    if (regex && inputValue >= 0) {
       alert_div.innerHTML += `<small> ${requirements.regMessage} </small>`
     }
   }
@@ -83,11 +90,11 @@ export function ValidateText(
 type Text_validation_requirements = {
   [key: string]: {
     type: string
-    min: number | undefined
-    max: number | undefined
-    unit: string | undefined
-    regExp: RegExp | undefined
-    regMessage: string | undefined
+    min?: number
+    max?: number
+    unit?: string
+    regExp?: RegExp
+    regMessage?: string
   }
 }
 
@@ -127,9 +134,6 @@ const validation_requirements: Text_validation_requirements = {
 
   Email: {
     type: 'string',
-    min: undefined,
-    max: undefined,
-    unit: undefined,
     regExp:
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     regMessage: 'Email is invalid'
@@ -166,7 +170,6 @@ const validation_requirements: Text_validation_requirements = {
     type: 'float',
     min: 0,
     max: 1000,
-    unit: undefined,
     regExp: regPeriodAndNumbers,
     regMessage: 'Nutrient can only be defined by numbers and a period'
   },
@@ -175,25 +178,20 @@ const validation_requirements: Text_validation_requirements = {
     type: 'string',
     min: 8,
     max: 40,
-    unit: 'characters',
-    regExp: undefined,
-    regMessage: undefined
+    unit: 'characters'
   },
 
   IngredientName: {
     type: 'string',
     min: 3,
     max: 40,
-    unit: 'characters',
-    regExp: undefined,
-    regMessage: undefined
+    unit: 'characters'
   },
 
   Amount: {
     type: 'float',
     min: 1,
     max: 1000,
-    unit: undefined,
     regExp: /^(0|[1-9]\d*)(\.\d+)?\s*(g|kg|pounds|tsp|tbsp|oz|ml|L|cup)?$/,
     regMessage: 'Amount can only be defined by numbers, a period and a unit'
   },
@@ -202,7 +200,6 @@ const validation_requirements: Text_validation_requirements = {
     type: 'int',
     min: 0,
     max: 23,
-    unit: undefined,
     regExp: regNumbers,
     regMessage: 'Hour can only contain numbers'
   },
@@ -211,7 +208,6 @@ const validation_requirements: Text_validation_requirements = {
     type: 'int',
     min: 0,
     max: 59,
-    unit: undefined,
     regExp: regNumbers,
     regMessage: 'Minutes can only contain numbers'
   }

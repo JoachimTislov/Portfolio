@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import AlertBox from './Modules/AlertBox.vue';
 import RegisterModule from './Modules/RegisterModule.vue';
 import { user_validation_arr, userInfo } from '@/Logic/MacroTracker/initVariables';
@@ -24,7 +23,8 @@ async function edit_profile_information() {
             await getUserInfo()
         }
     } else {
-        alertDanger(); _alert('Fill out the required fields correctly!')
+        alertDanger()
+        _alert('Fill out the required fields correctly!')
     }
 }
 

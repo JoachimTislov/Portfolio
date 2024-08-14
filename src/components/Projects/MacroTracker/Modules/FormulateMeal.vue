@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import AlertBox from './AlertBox.vue';
-import { ValidateText } from '@/Logic/MacroTracker/validation';
+import { changeValidationForNameAndAmount, ValidateText } from '@/Logic/MacroTracker/validation';
 import type { validation_Object, Ingredient, Ingredients, Meal_with_ingredients } from '@/Logic/MacroTracker/types';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { _alert, alertDanger, alertSuccess, hideAlert } from '@/Logic/MacroTracker/alertFunctions';
@@ -9,11 +9,12 @@ import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
-import { meal_name_validation, meal_validation, ingredients, createOrEditIngredient, ingredient_validation } from '@/Logic/MacroTracker/initVariables';
+import { meal_name_validation, meal_validation, ingredients, ingredient_validation, fetchingResource } from '@/Logic/MacroTracker/initVariables';
 import FormulateIngredient from './FormulateIngredient.vue';
 import IngredientInputModule from './IngredientInputModule.vue';
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
+import RequestLoader from '../RequestLoader.vue';
 
 const meal_name_message_validation = ref<HTMLElement | null>(null)
 
@@ -26,6 +27,8 @@ const props = defineProps<({
     formulate_type: string
     meal?: Meal_with_ingredients
 })>()
+
+const meal_name = ref<string | undefined>(props.meal?.name)
 
 const ingredientsData = ref<Ingredients>([])
 
@@ -42,6 +45,8 @@ watch(() => props.meal, (newMeal) => {
         _formulate_type.value = 'Edit'
         http_method.value = 'PUT'
         url.value = `/meal/${newMeal.meal_id}`
+
+        meal_name.value = newMeal.name
 
         ingredientValidation.value.name = true
         ingredientValidation.value.amount = true
@@ -81,12 +86,12 @@ function addIngredientToMeal(ingredient: Ingredient) {
 
         meal_validation.value.push(validation)
 
-        _alert(`Successfully added ${ingredient.name}`)
         alertSuccess()
+        _alert(`Successfully added ${ingredient.name}`)
 
     } else {
-        _alert('You can not add the same ingredient. Instead change the amount')
         alertDanger()
+        _alert('You can not add the same ingredient. Instead change the amount')
     }
 
 }
@@ -115,8 +120,8 @@ function addEmptyIngredient() {
     })
     meal_validation.value.push(ingredient_validation)
 
-    _alert(`Successfully added an empty ingredient`)
     alertSuccess()
+    _alert(`Successfully added an empty ingredient`)
 }
 
 function removeEntry(index: number) {
@@ -125,8 +130,8 @@ function removeEntry(index: number) {
     ingredientsData.value.splice(index, 1)
     meal_validation.value.splice(index, 1)
 
-    _alert(`Successfully removed ${ingredient_name}`)
     alertSuccess()
+    _alert(`Successfully removed ${ingredient_name}`)
 }
 
 async function handleDeleteIngredientFromMeal(ingredient_id: number, meal_id: number, arr_index: number) {
@@ -137,11 +142,13 @@ async function handleDeleteIngredientFromMeal(ingredient_id: number, meal_id: nu
     }
 }
 
+
+function handleCreateIngredientEvent() {
+    hideAlert()
+    changeValidationForNameAndAmount(false)
+}
+
 async function triggerMealEvent() {
-    console.log('creating meal')
-
-    console.log(meal_validation.value)
-
     if (check_meal_validation()) {
         const json = getFormDataInJSONFormat(`${props.formulate_type}_meal_form`)
         const response = await fetchResource(http_method.value, json, url.value, 'token', modal_id)
@@ -157,9 +164,7 @@ async function triggerMealEvent() {
                 hideModal(modal_id)
             }
         }
-
-
-
+        
     } else {
         alertDanger()
         _alert("Fill out the required fields: 'Meal Name'. 'Name' and 'Amount' for each ingredient is required. Nutrient values may be zero.")
@@ -191,7 +196,7 @@ async function triggerMealEvent() {
 
                         <input style="width: 80%;"
                             @input="meal_name_validation = ValidateText($event, meal_name_message_validation, 'MealName', 'form-control form-control-md')"
-                            class="form-control form-control-md" name="meal_name" type="text" :value="props.meal?.name">
+                            class="form-control form-control-md" name="meal_name" type="text" v-model="meal_name">
 
                         <div ref="meal_name_message_validation" class="ml-2 invalid-feedback">
                         </div>
@@ -242,7 +247,7 @@ async function triggerMealEvent() {
                                     <h6> You don't have any ingredients </h6>
                                     <button type="button" class="btn-success btn btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#create_ingredient_modal"
-                                        @click="createOrEditIngredient = 'Edit'">
+                                        @click="handleCreateIngredientEvent()">
                                         <h6> Create ingredient </h6>
                                     </button>
                                 </div>
@@ -294,8 +299,13 @@ async function triggerMealEvent() {
                     <button type="button" class="btn btn-primary btn-lg ml-1" @click="addEmptyIngredient()">
                         <font-awesome-icon :icon="['fas', 'plus']" /> Empty Ingredient
                     </button>
-                    <button type="button" @click="triggerMealEvent()" class="btn btn-success btn-lg ml-1"> {{
-                        _formulate_type }} Meal
+                    <div v-if="fetchingResource">
+                        <RequestLoader />
+                    </div>
+                    <button :disabled="fetchingResource" type="button" @click="triggerMealEvent()"
+                        class="btn btn-success btn-lg ml-1">
+                        {{
+                            _formulate_type }} Meal
                     </button>
                 </div>
             </div>

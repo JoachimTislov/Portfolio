@@ -2,15 +2,15 @@
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
-import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import type { Ingredient } from '@/Logic/MacroTracker/types';
 import { ref, watch } from 'vue';
 import AlertBox from './AlertBox.vue';
 import { _alert, alertDanger, hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import IngredientInputModule from './IngredientInputModule.vue';
-import { createOrEdit_ingredient_validation_arr } from '@/Logic/MacroTracker/initVariables';
+import { createOrEdit_ingredient_validation_arr, fetchingResource } from '@/Logic/MacroTracker/initVariables';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
+import RequestLoader from '../RequestLoader.vue';
 
 const props = defineProps<({
     formulate_type: string
@@ -25,33 +25,20 @@ const _formulate_type = ref<string>('Create')
 
 watch(() => props.ingredient, (newIngredient) => {
     if (newIngredient) {
-
         _formulate_type.value = 'Edit'
         http_method.value = 'PUT'
         url.value = `/ingredient/${newIngredient.ingredient_id}`
-
     }
 })
 
 async function IngredientEvent() {
-
-    console.log(createOrEdit_ingredient_validation_arr)
     if (checkValidationArr(createOrEdit_ingredient_validation_arr)) {
         const json = getFormDataInJSONFormat(`${props.formulate_type}_ingredient_form`)
         const response = await fetchResource(http_method.value, json, url.value, 'token', modal_id)
 
-        if (response) {
-            // update list of ingredients
-
-            if (response.ok) {
-                await getIngredients()
-                await getMeals()
-            }
-
-            if (response.status == 401 || response.ok) {
-                hideModal(modal_id)
-            }
-
+        if (response && response.ok) {
+            await getIngredients()
+            await getMeals()
         }
     } else {
         alertDanger()
@@ -66,7 +53,7 @@ async function IngredientEvent() {
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title mr-2"> {{ _formulate_type }} Ingredient: </h3>
+                    <h4 class="modal-title mr-2"> {{ _formulate_type }} Ingredient: </h4>
                     <button class="btn btn-lg ms-auto" @click="hideAlert()" data-bs-dismiss="modal">
                         <font-awesome-icon :icon="['fas', 'x']" />
                     </button>
@@ -83,7 +70,11 @@ async function IngredientEvent() {
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" @click="IngredientEvent()" class="btn btn-success btn-md ml-1">
+                    <div v-if="fetchingResource">
+                        <RequestLoader />
+                    </div>
+                    <button :disabled="fetchingResource" type="submit" @click="IngredientEvent()"
+                        class="btn btn-success btn-lg">
                         {{ _formulate_type }}
                         Ingredient
                     </button>

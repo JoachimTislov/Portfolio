@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { createOrEditMeal, fetchingResource, meals } from '@/Logic/MacroTracker/initVariables'
+import { fetchingResource, meal_name_validation, meals } from '@/Logic/MacroTracker/initVariables'
 import { computed, onMounted, reactive, ref } from 'vue'
 import { splitArrayWithRespectToSortedArray } from '@/Logic/MacroTracker/splitArrayWithRespectToSortedArray'
 import { checkFilterForArray } from '@/Logic/MacroTracker/checkLogic/checkFilterForArray'
@@ -33,7 +33,7 @@ const list_of_meals = computed(() => {
 
 function createMeal() {
     hideAlert()
-    createOrEditMeal.value = 'Create'
+    changeMealNameValidation(false)
 }
 
 const mealModalInformation: mealModal = reactive({
@@ -46,10 +46,13 @@ const mealModalInformation: mealModal = reactive({
     },
 })
 
+function changeMealNameValidation(value: boolean) {
+    meal_name_validation.value = value
+}
+
 function editMeal(meal: Meal_with_ingredients) {
     hideAlert()
-    createOrEditMeal.value = 'Edit'
-
+    changeMealNameValidation(true)
     mealModalInformation.Edit.meal = meal
 
     // Assigning the respected meal id to the ingredient
@@ -130,7 +133,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                 }}kcal</small>
                                             <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
                                                 meal['carbohydrates']
-                                            }}g</small>
+                                                }}g</small>
                                             <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
                                                 }}g</small>
                                             <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
@@ -156,7 +159,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                     </li>
                                                     <li class="list-group-item mr-3">Calories: {{
                                                         ingredient['calories']
-                                                    }}kcal</li>
+                                                        }}kcal</li>
                                                     <li class="list-group-item mr-3">
                                                         Carbohydrates: {{ ingredient['carbohydrates'] }}g
                                                     </li>

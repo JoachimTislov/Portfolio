@@ -15,8 +15,8 @@ import router from '@/router';
 import WarningModule from './Modules/WarningModule.vue';
 
 onMounted(() => {
-    _alert('Welcome to register page')
     alertSecondary()
+    _alert('Welcome to register page')
 })
 
 async function register() {
@@ -29,12 +29,14 @@ async function register() {
         fetchingResource.value = false
 
         if (response && response.ok) {
-            _alert('Successfully registered account')
             alertSuccess()
+            _alert('Successfully registered account')
+
             router.push({ name: 'macroLogin' })
         }
     } else {
-        alertDanger(); _alert('Fill out the required fields correctly!')
+        _alert('Fill out the required fields correctly!')
+        alertDanger()
     }
 }
 

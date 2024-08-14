@@ -10,7 +10,7 @@ import EditProfileInformation from './EditProfileInformation.vue';
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { onMounted } from 'vue';
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo';
-import BarChart from './Modules/BarChart.vue';
+import BarChart from './BarChart.vue';
 import RequestLoader from './RequestLoader.vue';
 
 onMounted(async () => {
@@ -30,8 +30,9 @@ function handleFileUpload(event: Event) {
     }
 
     if (!profilePictureUrl.value) {
-        _alert("URL.createObjectURL is not supported in this browser.")
         alertDanger()
+        _alert("URL.createObjectURL is not supported in this browser.")
+
         console.error("URL.createObjectURL is not supported in this browser.")
     }
 }
@@ -76,7 +77,7 @@ function handleFileUpload(event: Event) {
                     </div>
 
 
-                    <div class="marginBox p-3 d-flex flex-column bg- rounded" style="width: 100%">
+                    <div class="marginBox p-3 border d-flex flex-column bg- rounded" style="width: 100%">
                         <div class="d-flex p-1" v-for="(value, key) in userInfo" :key="key">
 
                             <h3> {{ key }}: </h3>

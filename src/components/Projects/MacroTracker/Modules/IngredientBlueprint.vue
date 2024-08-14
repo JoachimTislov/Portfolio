@@ -19,6 +19,7 @@ const props = defineProps<({
 })>()
 
 watch(props.ingredientInfo, () => {
+
     if (ingredient_validation.value) {
         ingredient_validation.value.style.display = 'none'
     }
@@ -27,6 +28,7 @@ watch(props.ingredientInfo, () => {
         input_element.value.classList.remove('is-invalid')
         input_element.value.classList.remove('is-valid')
     }
+
 })
 
 const inputClass = 'form-control form-control-md'

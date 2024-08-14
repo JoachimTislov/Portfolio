@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { check_if_number_is_less_than_10 } from '@/Logic/MacroTracker/checkLogic/check_if_number_is_less_than_10';
-import { meals, selectedDate, schedule } from '@/Logic/MacroTracker/initVariables';
+import { meals, selectedDate, schedule, fetchingResource } from '@/Logic/MacroTracker/initVariables';
 import { ValidateText } from '@/Logic/MacroTracker/validation';
 import { onMounted, ref, type Ref } from 'vue';
 import AlertBox from './Modules/AlertBox.vue';
@@ -9,6 +9,7 @@ import { _alert, alertDanger, hideAlert } from '@/Logic/MacroTracker/alertFuncti
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
 import { get_calender_data } from '@/Logic/MacroTracker/Ajax/get/get_calender_data';
 import { reverseInputDateFormat } from '@/Logic/MacroTracker/dateSystem';
+import RequestLoader from './RequestLoader.vue';
 
 const date = new Date()
 
@@ -83,7 +84,8 @@ async function addMealToGivenDate(meal_id: number) {
             alert(`Network error: ${error}`)
         }
     } else {
-        alertDanger(); _alert('Time input is invalid')
+        _alert('Time input is invalid')
+        alertDanger()
     }
 }
 
@@ -94,7 +96,7 @@ async function addMealToGivenDate(meal_id: number) {
         <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title ml-1 mt-2"> Select meal </h4>
+                    <h3 class="modal-title ml-1 mt-2"> Select a meal </h3>
                     <button class="btn btn-lg ms-auto" @click="hideAlert()" data-bs-dismiss="modal">
                         <font-awesome-icon :icon="['fas', 'x']" />
                     </button>
@@ -152,6 +154,9 @@ async function addMealToGivenDate(meal_id: number) {
 
                     <div class="mt-3 p-2">
                         <h5> Click the meal you'd like to add to the date: </h5>
+                        <div v-if="fetchingResource">
+                            <RequestLoader />
+                        </div>
                         <div class="wrap">
                             <div v-for="meal in meals" :key="meal.meal_id">
                                 <button @click="addMealToGivenDate(meal['meal_id'])"
@@ -165,11 +170,6 @@ async function addMealToGivenDate(meal_id: number) {
                     <div class="ml-5" v-if="meals && meals.length == 0">
                         <h5> You don't have any personal meals, move to your meals page and create one </h5>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-danger btn-md float-end" data-bs-dismiss="modal">
-                        Cancel <font-awesome-icon :icon="['fas', 'x']" />
-                    </button>
                 </div>
             </div>
         </div>

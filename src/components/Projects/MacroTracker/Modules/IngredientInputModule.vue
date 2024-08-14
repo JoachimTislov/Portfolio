@@ -10,6 +10,7 @@ const props = defineProps<({
 })>()
 
 const i = props.ingredient
+
 const form_configurations: Form_configuration = reactive([
     { class: 'form-group', identifier: 'Name', validation_type: 'Name', inputType: 'text', value: i ? i.name : '' },
     { class: 'form-group', identifier: 'Amount', validation_type: 'Amount', inputType: 'text', value: i ? i.amount : 0 },

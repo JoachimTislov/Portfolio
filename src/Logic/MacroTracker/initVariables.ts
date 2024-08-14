@@ -1,4 +1,4 @@
-import { reactive, ref, watch, type Ref } from 'vue'
+import { reactive, ref, type Ref } from 'vue'
 import {
   type Calender_data,
   type Ingredients,
@@ -29,39 +29,19 @@ export const ingredient_validation = {
   sugar: true
 }
 
-export const createOrEditIngredient = ref<string>('Create')
 export const createOrEdit_ingredient_validation_arr: Validation_array =
   reactive(ingredient_validation)
 
-watch(
-  () => createOrEditIngredient.value,
-  (newValue) => {
-    const value = newValue !== 'Create'
-
-    createOrEdit_ingredient_validation_arr.isNameValid = value
-    createOrEdit_ingredient_validation_arr.isAmountValid = value
-  }
-)
-
-export const createOrEditMeal = ref<string>('Create')
 export const meal_name_validation = ref<boolean>(false)
 export const meal_validation = ref<validation_Object[]>([])
-
-watch(
-  () => createOrEditMeal.value,
-  (newValue) => {
-    const value = newValue !== 'Create'
-    meal_name_validation.value = value
-  }
-)
 
 export const showAlert = ref<boolean>(false)
 export const alertMessage = ref<string>('')
 export const alertClassName = ref<string>('')
 
 const storedUsername = localStorage.getItem('username')
-export const username = ref<string>(storedUsername ? storedUsername : 'Peddi')
-export const password = ref<string>('peder@123')
+export const username = ref<string>(storedUsername ? storedUsername : '')
+export const password = ref<string>('')
 
 export const login_validation = reactive({
   Username: true,
@@ -178,11 +158,15 @@ export const profilePictureUrl = ref<string>(user_icon)
 export const uploadedPicture = ref<boolean>(false)
 
 export async function initPicture() {
-  const imageUrl = localStorage.getItem('imageUrl')
+  const storedImageInfo = localStorage.getItem('imageUrl')
+  const imageInfo: { url: string; user_id: null } | null = storedImageInfo
+    ? JSON.parse(storedImageInfo)
+    : null
+
   const user_id = localStorage.getItem('user_id')
 
-  if (imageUrl && (await canFindImage(imageUrl))) {
-    profilePictureUrl.value = imageUrl
+  if (imageInfo && imageInfo.user_id === user_id && (await canFindImage(imageInfo.url))) {
+    profilePictureUrl.value = imageInfo.url
     uploadedPicture.value = true
   } else {
     const response = await getData(`/user_picture/${user_id}`)
@@ -192,13 +176,14 @@ export async function initPicture() {
         const blob = await response.blob()
         const userPictureURL = URL.createObjectURL(blob)
 
-        localStorage.setItem('imageUrl', userPictureURL)
+        const imageInfo = JSON.stringify({ url: userPictureURL, user_id: user_id })
+        localStorage.setItem('imageUrl', imageInfo)
         profilePictureUrl.value = userPictureURL
         uploadedPicture.value = true
       } else {
         const result = await response.json()
-        _alert(result.message)
         alertSuccess()
+        _alert(result.message)
       }
     }
   }
