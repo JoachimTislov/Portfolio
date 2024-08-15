@@ -33,7 +33,7 @@ function checkIfUserIsUnAuthorized(response: Response, modal_id?: string) {
 function forceFullyLogTheUserOut() {
   removeLocalData()
   alertSecondary()
-  _alert('Your session has expired as another person has logged into your account')
+  _alert('Your session has expired')
   router.push({ name: 'macroLogin' })
 }
 

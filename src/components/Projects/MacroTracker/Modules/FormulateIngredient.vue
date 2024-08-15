@@ -11,6 +11,7 @@ import IngredientInputModule from './IngredientInputModule.vue';
 import { createOrEdit_ingredient_validation_arr, fetchingResource } from '@/Logic/MacroTracker/initVariables';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
 import RequestLoader from '../RequestLoader.vue';
+import { randomNumber } from '@/Logic/MacroTracker/randomNumber';
 
 const props = defineProps<({
     formulate_type: string
@@ -65,7 +66,7 @@ async function IngredientEvent() {
 
                     <form :id="`${props.formulate_type}_ingredient_form`">
 
-                        <IngredientInputModule :ingredient="ingredient" food_type="ingredient" />
+                        <IngredientInputModule :random="randomNumber" :ingredient="ingredient" food_type="ingredient" />
 
                     </form>
                 </div>

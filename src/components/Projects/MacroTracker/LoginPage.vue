@@ -72,7 +72,7 @@ async function login() {
 
 <template>
     <div class="centerDiv">
-        <div class="d-flex flex-column" style="max-width: 400px; min-width: 260px;">
+        <div class="d-flex flex-column box">
             <WarningModule :message="warningMessage" />
             <div class="card p-3 border border-1 shadow-lg">
                 <div class="card-body">
@@ -81,7 +81,7 @@ async function login() {
 
                     <form @submit.prevent>
 
-                        <div class="form-group">
+                        <div class="form-group" style="width: 300px;">
                             <input
                                 @input="login_validation.Username = ValidateText($event, validation_messages.login.username.value, 'Username', 'form-control form-control-lg')"
                                 class="form-control form-control-lg" type="text" v-model="username"
@@ -91,7 +91,7 @@ async function login() {
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group" style="width: 300px;">
                             <input
                                 @input="login_validation.Password = ValidateText($event, validation_messages.login.password.value, 'Password', 'mt-2 form-control form-control-lg')"
                                 class="mt-2 form-control form-control-lg" type="password" v-model="password"
@@ -135,5 +135,10 @@ async function login() {
     justify-content: center;
 
     margin-top: 10vh;
+}
+
+.box {
+    max-width: 400px;
+    min-width: 330px;
 }
 </style>

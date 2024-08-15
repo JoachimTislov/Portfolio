@@ -7,6 +7,7 @@ const props = defineProps<({
     food_type: string
     ingredient?: Ingredient
     index?: number
+    random: number
 })>()
 
 const i = props.ingredient
@@ -37,7 +38,7 @@ watch(() => props.ingredient, (newIngredient) => {
 
     <template v-for="entry in form_configurations" :key="entry.identifier">
 
-        <IngredientBlueprint :ingredient-info="entry" :food_type="food_type" :index="index" />
+        <IngredientBlueprint :ingredient-info="entry" :food_type="food_type" :index="index" :random="random" />
 
     </template>
 

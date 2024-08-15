@@ -10,8 +10,8 @@ function hideAlert() { showAlert.value = false }
 
     <div v-if="showAlert" ref="alertBox" :class="alertClassName" class="mb-3 alert">
 
-        <button type="button" class="btn btn-md btn-outline-light float-end" @click.prevent="hideAlert">
-            Close <font-awesome-icon :icon="['fas', 'x']" />
+        <button type="button" class="btn btn-md float-end" @click.prevent="hideAlert">
+            <font-awesome-icon :icon="['fas', 'x']" />
         </button>
 
         <h4> <strong> {{ alertMessage }} </strong> </h4>

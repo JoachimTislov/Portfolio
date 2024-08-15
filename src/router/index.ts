@@ -1,4 +1,5 @@
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
+import { fetchingResource } from '@/Logic/MacroTracker/initVariables'
 import { token } from '@/Logic/MacroTracker/token'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -103,6 +104,8 @@ router.beforeEach((to, from, next) => {
   if (to.name != 'macroLogin' && to.name != 'macroHome' && to.name != 'macroProfile') {
     hideAlert()
   }
+
+  fetchingResource.value = false
 
   if (to.meta.requiresAuth && !isAuthenticated()) {
     //console.log('User is not authed, redirecting to:', to.meta.authRedirect)

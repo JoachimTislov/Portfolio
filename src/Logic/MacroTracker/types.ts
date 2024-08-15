@@ -101,9 +101,10 @@ export type IngredientInfo = {
   identifier: string
   validation_type: string
   inputType: string
-  value: string | number
+  value?: string | number
   class: string
   unit?: string
+  random?: number
 }
 
 export type Validation_array = { [key: string]: boolean }

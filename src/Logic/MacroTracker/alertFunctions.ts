@@ -27,8 +27,6 @@ export async function _alert(message: string) {
 
   const oldClassName = alertClassName.value
   alertClassName.value = oldClassName + ' smoothIn'
-  console.log(alertClassName.value)
   await delay(500)
   alertClassName.value = oldClassName
-  console.log(alertClassName.value)
 }

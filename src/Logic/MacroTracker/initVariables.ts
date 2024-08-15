@@ -16,8 +16,8 @@ import { _alert, alertSuccess } from './alertFunctions'
 
 export const fetchingResource = ref<boolean>(false)
 
-export const warningMessage = `The initial login or registration request might take some time because the service 
-hosted on Render.com shuts down when there hasn't been recent activity.`
+export const warningMessage = `The initial request to the server, such as login or registration, 
+might take a while because the service hosted on Render.com goes into a sleep mode when there has been no recent activity.`
 
 export const ingredient_validation = {
   name: false,

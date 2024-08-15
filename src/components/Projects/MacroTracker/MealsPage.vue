@@ -11,6 +11,7 @@ import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
 import FormulateMeal from './Modules/FormulateMeal.vue'
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import RequestLoader from './RequestLoader.vue';
+import { generateRandomNumber, randomNumber } from '@/Logic/MacroTracker/randomNumber';
 
 onMounted(async () => {
     await getMeals()
@@ -20,13 +21,6 @@ const storedSortValue = localStorage.getItem('meal_sort_value')
 const sort_value = ref<string>(storedSortValue ? storedSortValue : 'Sort by')
 const search_value = ref<string>('')
 
-
-const personal_meal_alert = ref<HTMLElement | null>(null)
-
-onMounted(async () => {
-    personal_meal_alert.value?.focus()
-})
-
 const list_of_meals = computed(() => {
     return splitArrayWithRespectToSortedArray(checkFilterForArray(meals.value, search_value.value, sort_value.value))
 })
@@ -34,6 +28,8 @@ const list_of_meals = computed(() => {
 function createMeal() {
     hideAlert()
     changeMealNameValidation(false)
+
+    generateRandomNumber()
 }
 
 const mealModalInformation: mealModal = reactive({
@@ -55,6 +51,8 @@ function editMeal(meal: Meal_with_ingredients) {
     changeMealNameValidation(true)
     mealModalInformation.Edit.meal = meal
 
+    generateRandomNumber()
+
     // Assigning the respected meal id to the ingredient
     // Later to separate from ingredients which aren't added to the meal
     for (const ingredient of meal.ingredients) {
@@ -68,7 +66,7 @@ function editMeal(meal: Meal_with_ingredients) {
 
     <template v-for="mealModal in mealModalInformation" :key="mealModal.formulate_type">
 
-        <FormulateMeal :formulate_type="mealModal.formulate_type" :meal="mealModal.meal" />
+        <FormulateMeal :formulate_type="mealModal.formulate_type" :meal="mealModal.meal" :random="randomNumber" />
 
     </template>
 
@@ -133,7 +131,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                 }}kcal</small>
                                             <small class="rounded border border-1 p-2 m-1">Carbohydrates: {{
                                                 meal['carbohydrates']
-                                                }}g</small>
+                                            }}g</small>
                                             <small class="rounded border border-1 p-2 m-1">Fat: {{ meal['fat']
                                                 }}g</small>
                                             <small class="rounded border border-1 p-2 m-1">Sugar: {{ meal['sugar']
@@ -159,7 +157,7 @@ function editMeal(meal: Meal_with_ingredients) {
                                                     </li>
                                                     <li class="list-group-item mr-3">Calories: {{
                                                         ingredient['calories']
-                                                        }}kcal</li>
+                                                    }}kcal</li>
                                                     <li class="list-group-item mr-3">
                                                         Carbohydrates: {{ ingredient['carbohydrates'] }}g
                                                     </li>

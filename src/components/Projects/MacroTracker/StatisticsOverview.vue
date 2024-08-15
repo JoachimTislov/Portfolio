@@ -81,8 +81,6 @@ onMounted(async () => {
                         <div class="m-4 ms-0" v-for="(meal_name, index) in Object.keys(stats_for_dates[date].meals)"
                             :key="index">
 
-                            {{ meal_name }}, {{ stats_for_dates[date].meals[meal_name].data }}
-
                             <BarChart :data="stats_for_dates[date].meals[meal_name].data" :name="meal_name" />
 
                         </div>

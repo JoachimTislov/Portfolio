@@ -10,25 +10,29 @@ import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import { meal_name_validation, meal_validation, ingredients, ingredient_validation, fetchingResource } from '@/Logic/MacroTracker/initVariables';
-import FormulateIngredient from './FormulateIngredient.vue';
-import IngredientInputModule from './IngredientInputModule.vue';
+const FormulateIngredient = () => import('./FormulateIngredient.vue');
+const IngredientInputModule = () => import('./IngredientInputModule.vue');
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import RequestLoader from '../RequestLoader.vue';
+import { randomNumber } from '@/Logic/MacroTracker/randomNumber';
 
 const meal_name_message_validation = ref<HTMLElement | null>(null)
+const meal_name_input = ref<HTMLElement | null>(null)
 
 onMounted(async () => {
     meal_name_message_validation.value?.focus()
+    meal_name_input.value?.focus()
     await getIngredients()
 })
 
 const props = defineProps<({
     formulate_type: string
     meal?: Meal_with_ingredients
+    random: number
 })>()
 
-const meal_name = ref<string | undefined>(props.meal?.name)
+const meal_name = ref<string>('')
 
 const ingredientsData = ref<Ingredients>([])
 
@@ -59,6 +63,26 @@ watch(() => props.meal, (newMeal) => {
 
     for (let i = 0; i < ingredientsData.value.length; i++) {
         meal_validation.value.push(ingredientValidation.value)
+    }
+})
+
+
+watch(() => props.random, () => {
+
+    if (!props.meal) {
+        meal_name.value = ''
+        ingredientsData.value = []
+    } else {
+        meal_name.value = props.meal?.name
+    }
+
+    if (meal_name_message_validation.value) {
+        meal_name_message_validation.value.style.display = 'none'
+    }
+
+    if (meal_name_input.value) {
+        meal_name_input.value.classList.remove('is-invalid')
+        meal_name_input.value.classList.remove('is-valid')
     }
 })
 
@@ -142,7 +166,6 @@ async function handleDeleteIngredientFromMeal(ingredient_id: number, meal_id: nu
     }
 }
 
-
 function handleCreateIngredientEvent() {
     hideAlert()
     changeValidationForNameAndAmount(false)
@@ -164,7 +187,7 @@ async function triggerMealEvent() {
                 hideModal(modal_id)
             }
         }
-        
+
     } else {
         alertDanger()
         _alert("Fill out the required fields: 'Meal Name'. 'Name' and 'Amount' for each ingredient is required. Nutrient values may be zero.")
@@ -196,7 +219,8 @@ async function triggerMealEvent() {
 
                         <input style="width: 80%;"
                             @input="meal_name_validation = ValidateText($event, meal_name_message_validation, 'MealName', 'form-control form-control-md')"
-                            class="form-control form-control-md" name="meal_name" type="text" v-model="meal_name">
+                            class="form-control form-control-md" ref="meal_name_input" name="meal_name" type="text"
+                            v-model="meal_name">
 
                         <div ref="meal_name_message_validation" class="ml-2 invalid-feedback">
                         </div>
@@ -215,8 +239,8 @@ async function triggerMealEvent() {
                                         <input :name="index + '-ingredient_id'" type="text"
                                             :value="ingredient.ingredient_id" style="display: none;">
 
-                                        <IngredientInputModule :ingredient="ingredient" food_type="meal"
-                                            :index="index" />
+                                        <IngredientInputModule :ingredient="ingredient" food_type="meal" :index="index"
+                                            :random="randomNumber" />
 
                                         <div class="mt-2 btn-group-md btn-group d-flex">
                                             <button v-if="ingredient.meal_id" type="button"

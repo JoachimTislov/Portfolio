@@ -51,33 +51,31 @@ function handleFileUpload(event: Event) {
 
         <section class="card-body">
 
-            <template v-if="fetchingResource && !userInfo">
-                <div class="d-flex justify-content-center">
-                    <RequestLoader />
-                </div>
-            </template>
+            <div class="profileContainer d-flex">
 
-            <template v-else>
+                <div class="d-flex flex-column mt-2 mb-2">
+                    <img :src="profilePictureUrl" alt="Could not load your picture" class="mx-auto rounded">
 
-                <div class="profileContainer d-flex">
+                    <div class="imageUploadBar mt-2 input-group mx-auto">
+                        <input type="file" class="form-control" id="pictureInput" @change="handleFileUpload">
 
-                    <div class="d-flex flex-column mt-2 mb-2">
-                        <img :src="profilePictureUrl" alt="Could not load your picture" class="mx-auto rounded">
+                        <button v-if="profilePictureUrl != user_icon && !uploadedPicture" type="button"
+                            class="btn btn-md btn-outline-success" @click="uploadProfilePicture(_file)">Upload</button>
 
-                        <div class="imageUploadBar mt-2 input-group mx-auto">
-                            <input type="file" class="form-control" id="pictureInput" @change="handleFileUpload">
-
-                            <button v-if="profilePictureUrl != user_icon && !uploadedPicture" type="button"
-                                class="btn btn-md btn-outline-success"
-                                @click="uploadProfilePicture(_file)">Upload</button>
-
-                            <button v-if="profilePictureUrl != user_icon && uploadedPicture" type="button"
-                                class="btn btn-md btn-outline-danger" @click="deleteProfilePicture()">Delete</button>
-                        </div>
+                        <button v-if="profilePictureUrl != user_icon && uploadedPicture" type="button"
+                            class="btn btn-md btn-outline-danger" @click="deleteProfilePicture()">Delete</button>
                     </div>
+                </div>
 
 
-                    <div class="marginBox p-3 border d-flex flex-column bg- rounded" style="width: 100%">
+                <div class="marginBox p-3 border d-flex flex-column bg- rounded" style="width: 100%">
+                    <template v-if="fetchingResource && !userInfo">
+                        <div class="d-flex justify-content-center">
+                            <RequestLoader />
+                        </div>
+                    </template>
+
+                    <template v-else>
                         <div class="d-flex p-1" v-for="(value, key) in userInfo" :key="key">
 
                             <h3> {{ key }}: </h3>
@@ -90,30 +88,29 @@ function handleFileUpload(event: Event) {
                                 <template v-if="key == 'Age'"> years old </template>
                             </h4>
                         </div>
-                    </div>
-
+                    </template>
                 </div>
 
-                <div class="mt-3">
+            </div>
 
-                    <BarChart :data="recommended_nutrient_data" name="Recommended nutrient/macro consumption" />
+            <div class="mt-3">
+
+                <BarChart :data="recommended_nutrient_data" name="Recommended nutrient/macro consumption" />
+
+            </div>
+
+            <div class="d-flex">
+                <div class="btn-group btn-group-lg mt-4 ms-auto">
+
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal"
+                        data-bs-target="#change_password_modal" @click="hideAlert()">
+                        Change password </button>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                        data-bs-target="#edit_profile_information_modal" @click="hideAlert()"> Edit
+                        profile information </button>
 
                 </div>
-
-                <div class="d-flex">
-                    <div class="btn-group btn-group-lg mt-4 ms-auto">
-
-                        <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                            data-bs-target="#change_password_modal" @click="hideAlert()">
-                            Change password </button>
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
-                            data-bs-target="#edit_profile_information_modal" @click="hideAlert()"> Edit
-                            profile information </button>
-
-                    </div>
-                </div>
-
-            </template>
+            </div>
 
         </section>
 

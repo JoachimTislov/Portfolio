@@ -16,7 +16,7 @@ import WarningModule from './Modules/WarningModule.vue';
 
 onMounted(() => {
     alertSecondary()
-    _alert('Welcome to register page')
+    _alert('Welcome to the register page')
 })
 
 async function register() {
@@ -35,8 +35,8 @@ async function register() {
             router.push({ name: 'macroLogin' })
         }
     } else {
-        _alert('Fill out the required fields correctly!')
         alertDanger()
+        _alert('Fill out the required fields correctly!')
     }
 }
 
@@ -46,14 +46,14 @@ async function register() {
 <template>
 
     <div class="centerDiv">
-        <div class="d-flex flex-column" style="max-width: 400px; min-width: 260px;">
+        <div class="d-flex flex-column box">
             <WarningModule :message="warningMessage" />
             <div class="card p-3 border border-1 shadow-lg" style="max-width: 500px; min-width: 300px">
                 <div class="card-body">
 
                     <AlertBox />
 
-                    <h2 class="card-title"> Macro Tracker - Register: </h2>
+                    <h4 class="card-title"> Macro Tracker - Register </h4>
                     <form id="register_form" @submit.prevent>
 
                         <RegisterModule />
@@ -71,11 +71,11 @@ async function register() {
                             </button>
                         </div>
 
-                        <h4 class="mt-4 ms-1">
+                        <h5 class="mt-4 ms-2 mb-1">
                             <RouterLink :to="{ name: 'macroLogin' }">
                                 Login
                             </RouterLink>
-                        </h4>
+                        </h5>
                     </form>
                 </div>
             </div>
@@ -92,7 +92,8 @@ async function register() {
     margin-top: 7vh;
 }
 
-h2 {
-    font-size: clamp(1.5rem, 1.5vw, 2rem);
+.box {
+    max-width: 400px;
+    min-width: 300px;
 }
 </style>
