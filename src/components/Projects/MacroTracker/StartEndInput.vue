@@ -1,6 +1,6 @@
 <script setup lang="ts">
 
-import { selected_end_date, selected_start_date } from '@/Logic/MacroTracker/initVariables';
+import { calender_data, selected_end_date, selected_start_date } from '@/Logic/MacroTracker/initVariables';
 import { structureCalenderData } from '@/Logic/MacroTracker/structure_calender_data';
 
 const props = defineProps<({
@@ -10,7 +10,7 @@ const props = defineProps<({
 
 function handleChangedDateEvent(identifier: string) {
 
-    structureCalenderData(identifier)
+    if (calender_data.value) structureCalenderData(identifier)
 
     if (props.calc_nutrient_stats_for_given_period) {
         props.calc_nutrient_stats_for_given_period()

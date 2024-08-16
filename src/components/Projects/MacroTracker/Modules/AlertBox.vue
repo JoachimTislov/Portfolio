@@ -36,7 +36,7 @@ div {
     position: -webkit-sticky;
     position: sticky;
     top: 5px;
-    z-index: 1;
+    z-index: 10;
 }
 
 @keyframes alert {

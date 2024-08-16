@@ -25,17 +25,6 @@ const router = createRouter({
         }
       ]
     },
-
-    {
-      path: '/about',
-      name: 'mainAbout',
-      component: () => import('../views/Portfolio/AboutMeView.vue')
-    },
-    {
-      path: '/projects',
-      name: 'mainProjects',
-      component: () => import('../views/Portfolio/MyProjectsView.vue')
-    },
     {
       path: '/four-in-a-row',
       name: 'fourInARow',

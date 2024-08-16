@@ -11,45 +11,47 @@ import type { Meals_for_time_of_day } from './types'
 import { convertToInputDateFormat, reverseInputDateFormat } from './dateSystem'
 
 export function structureCalenderData(identifier?: string) {
-  const keys: string[] = sortArrayToAscendingOrder(Object.keys(calender_data.value))
-  zero_meals_for_time_period.value = false
+  if (calender_data.value) {
+    const keys: string[] = sortArrayToAscendingOrder(Object.keys(calender_data.value))
+    zero_meals_for_time_period.value = false
 
-  const start_date = reverseInputDateFormat(selected_start_date.value)
-  const end_date = reverseInputDateFormat(selected_end_date.value)
+    const start_date = reverseInputDateFormat(selected_start_date.value)
+    const end_date = reverseInputDateFormat(selected_end_date.value)
 
-  const start_index = keys.indexOf(start_date)
-  const end_index = keys.indexOf(end_date)
+    const start_index = keys.indexOf(start_date)
+    const end_index = keys.indexOf(end_date)
 
-  dates_within_selected_period.value = findRangeOfDates(
-    keys,
-    start_index,
-    start_date,
-    end_index,
-    end_date,
-    identifier
-  )
+    dates_within_selected_period.value = findRangeOfDates(
+      keys,
+      start_index,
+      start_date,
+      end_index,
+      end_date,
+      identifier
+    )
 
-  meals_for_time_of_day.value = {}
-  for (const date of dates_within_selected_period.value) {
-    const typedMealsForTimeOfDay = meals_for_time_of_day.value as Meals_for_time_of_day
-    typedMealsForTimeOfDay[date] = {
-      zero_meals_to_show: true,
-      meal_periods: {
-        Breakfast: [],
-        Lunch: [],
-        Dinner: [],
-        Supper: [],
-        Night: []
+    meals_for_time_of_day.value = {}
+    for (const date of dates_within_selected_period.value) {
+      const typedMealsForTimeOfDay = meals_for_time_of_day.value as Meals_for_time_of_day
+      typedMealsForTimeOfDay[date] = {
+        zero_meals_to_show: true,
+        meal_periods: {
+          Breakfast: [],
+          Lunch: [],
+          Dinner: [],
+          Supper: [],
+          Night: []
+        }
       }
-    }
-    if (calender_data.value[date]) {
-      typedMealsForTimeOfDay[date].zero_meals_to_show = false
-      for (const calender_entry of calender_data.value[date]) {
-        for (const [key, time] of Object.entries(schedule)) {
-          const hour = parseInt(calender_entry.time_of_day.split(':')[0])
+      if (calender_data.value[date]) {
+        typedMealsForTimeOfDay[date].zero_meals_to_show = false
+        for (const calender_entry of calender_data.value[date]) {
+          for (const [key, time] of Object.entries(schedule)) {
+            const hour = parseInt(calender_entry.time_of_day.split(':')[0])
 
-          if (hour >= time.Start && hour <= time.End) {
-            typedMealsForTimeOfDay[date].meal_periods[key].push(calender_entry)
+            if (hour >= time.Start && hour <= time.End) {
+              typedMealsForTimeOfDay[date].meal_periods[key].push(calender_entry)
+            }
           }
         }
       }
@@ -93,8 +95,19 @@ function findRangeOfDates(
     return [start_date]
   }
 
-  const [s_o_day, s_o_month, s_o_year] = start_date.split('-')
-  const [e_o_day, e_o_month, e_o_year] = end_date.split('-')
+  const split_s = start_date.split('-')
+  const split_e = end_date.split('-')
+
+  const [s_o_day, s_o_month, s_o_year] = [
+    parseInt(split_s[0]),
+    parseInt(split_s[1]),
+    parseInt(split_s[2])
+  ]
+  const [e_o_day, e_o_month, e_o_year] = [
+    parseInt(split_e[0]),
+    parseInt(split_e[1]),
+    parseInt(split_e[2])
+  ]
 
   if (
     (s_o_day > e_o_day && s_o_month == e_o_month && s_o_year == e_o_year) ||
@@ -118,10 +131,10 @@ function findRangeOfDates(
     let a, b
 
     for (const value of keys) {
-      const [day, month, year] = value.split('-')
-
+      const s = value.split('-')
+      const [day, month, year] = [parseInt(s[0]), parseInt(s[1]), parseInt(s[2])]
       if (
-        (s_o_day < day && s_o_month == month && s_o_year == year) ||
+        (s_o_day <= day && s_o_month == month && s_o_year == year) ||
         (s_o_month < month && s_o_year == year) ||
         s_o_year < year
       ) {
@@ -131,10 +144,11 @@ function findRangeOfDates(
     }
 
     for (const value of keys.reverse()) {
-      const [day, month, year] = value.split('-')
+      const s = value.split('-')
+      const [day, month, year] = [parseInt(s[0]), parseInt(s[1]), parseInt(s[2])]
 
       if (
-        (e_o_day > day && e_o_month == month && e_o_year == year) ||
+        (e_o_day >= day && e_o_month == month && e_o_year == year) ||
         (e_o_month > month && e_o_year == year) ||
         e_o_year > year
       ) {
@@ -143,7 +157,7 @@ function findRangeOfDates(
       }
     }
 
-    if (!a) {
+    if (a != 0 && !a) {
       zero_meals_for_time_period.value = true
       return [start_date, end_date]
     }

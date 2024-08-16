@@ -17,7 +17,6 @@ onMounted(async () => {
     await get_calender_data()
 
     setupNutrientProgressChartsData()
-
     calcNutrientStatsForGivenPeriod()
 })
 
@@ -42,7 +41,7 @@ onMounted(async () => {
         </header>
         <section class="card-body">
 
-            <template v-if="fetchingResource && Object.keys(calender_data).length == 0">
+            <template v-if="fetchingResource && calender_data && Object.keys(calender_data).length == 0">
                 <div class="d-flex justify-content-center">
                     <RequestLoader />
                 </div>

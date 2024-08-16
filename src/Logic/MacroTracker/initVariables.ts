@@ -13,11 +13,12 @@ import { getData } from './Ajax/ajax'
 import user_icon from '@/assets/Icons/user-icon.png'
 import { getTodaysDate_FriendlyFormatDateInput } from './dateSystem'
 import { _alert, alertSuccess } from './alertFunctions'
+import deepClone from './deepClone'
 
 export const fetchingResource = ref<boolean>(false)
 
 export const warningMessage = `The initial request to the server, such as login or registration, 
-might take a while because the service hosted on Render.com goes into a sleep mode when there has been no recent activity.`
+might take a while because the service hosted on Render.com shuts down when theres been no recent activity.`
 
 export const ingredient_validation = {
   name: false,
@@ -29,8 +30,9 @@ export const ingredient_validation = {
   sugar: true
 }
 
-export const createOrEdit_ingredient_validation_arr: Validation_array =
-  reactive(ingredient_validation)
+export const createOrEdit_ingredient_validation_arr: Validation_array = reactive(
+  deepClone(ingredient_validation)
+)
 
 export const meal_name_validation = ref<boolean>(false)
 export const meal_validation = ref<validation_Object[]>([])

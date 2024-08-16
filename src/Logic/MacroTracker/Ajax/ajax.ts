@@ -100,6 +100,7 @@ export async function deleteEntity(
 
         return checkIfUserIsUnAuthorized(response)
       } catch (error) {
+        unLoad()
         console.log(error)
         alert(`Network error: ${error}`)
       }
@@ -153,8 +154,10 @@ export async function fetchResource(
       unLoad()
 
       return checkIfUserIsUnAuthorized(response, modal_id)
-    } catch (Error) {
-      console.log('Fetch failed: ', Error)
+    } catch (error) {
+      unLoad()
+      console.log('Fetch failed: ', error)
+      alert(`Network error: ${error}`)
     }
   }
 }

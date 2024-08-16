@@ -6,45 +6,36 @@ import { RouterLink } from 'vue-router';
     <nav class="navbar navbar-expand-md" data-bs-theme="dark">
         <div class="container">
 
-            <em> <h3 class="logo"> JTs Portfolio </h3> </em> 
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <em>
+                <h3 class="logo"> JTs Portfolio </h3>
+            </em>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
+                aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
-            </button> 
+            </button>
 
             <div class="collapse navbar-collapse" id="navbarColor02">
-                <ul class="navbar-nav me-auto"> 
+                <ul class="navbar-nav me-auto">
 
                     <li class="nav-item">
-                        <RouterLink class="nav-link" to="/"> 
+                        <RouterLink class="nav-link" to="/">
                             Home
                         </RouterLink>
-                    </li> 
+                    </li>
 
                     <li class="nav-item">
-                        <RouterLink class="nav-link" :to="{ name: 'mainAbout' }"> 
-                            About me
-                        </RouterLink>
-                    </li> 
-                    
-                    <li class="nav-item">
-                        <RouterLink class="nav-link" :to="{ name: 'mainProjects' }"> 
-                            Projects 
-                        </RouterLink>
-                    </li> 
-                    
-                    <li class="nav-item">
-                        <RouterLink class="nav-link" to="/four-in-a-row"> 
+                        <RouterLink class="nav-link" to="/four-in-a-row">
                             Four in a row
                         </RouterLink>
-                    </li> 
+                    </li>
 
                     <li class="nav-item">
-                        <RouterLink class="nav-link" to="/macro-tracker"> 
+                        <RouterLink class="nav-link" to="/macro-tracker">
                             Macro Tracker
                         </RouterLink>
-                    </li> 
-                    
+                    </li>
+
                 </ul>
             </div>
         </div>

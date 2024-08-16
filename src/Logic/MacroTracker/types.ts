@@ -68,15 +68,82 @@ export type Ingredients = Ingredient[]
 
 export type Ingredient = {
   [key: string]: string | number | undefined
-  ingredient_id: number
+  ingredient_id?: number
+  api_product_id?: number
   meal_id?: number
   name: string
-  amount: number
+  amount: number | string
   protein: number
   calories: number
   carbohydrates: number
   fat: number
   sugar: number
+}
+
+export type Api_search_data = {
+  data: api_entry[]
+  meta: {
+    current_page: number
+    from: number
+    path: string
+    per_page: number
+    to: number
+  }
+  links: {
+    first: string
+    last?: string
+    prev?: string
+    next: string
+  }
+}
+
+export type api_entry = {
+  id: number
+  name: string
+  brand: string
+  vendor: string
+  ean: string
+  updated_at: string
+  url: string
+  weight: number
+  weight_unit: string
+  store: {
+    code: string
+    logo: string
+    name: string
+    url: string
+  }
+  price_history: {
+    price: number
+    date: string
+  }[]
+  nutrition: {
+    code: string
+    display_name: string
+    amount: number
+    unit: string
+  }[]
+  labels: {
+    name: string
+    display_name: string
+    description: string
+  }[]
+  ingredients: string
+  image: string
+  description: string
+  current_unit_price: string
+  current_price: string
+  created_at: string
+  category: {
+    id: number
+    depth: number
+    name: string
+  }
+  allergens: {
+    code: string
+    display_name: string
+    contains: string
+  }
 }
 
 export type validation_Object = { [key: string]: boolean }

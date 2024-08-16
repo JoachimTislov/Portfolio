@@ -99,7 +99,7 @@ type Text_validation_requirements = {
 }
 
 const regNumbers = /^[0-9]+$/
-const regLettersAndNumbers = /^[a-zA-Z0-9]+$/
+const regLettersAndNumbers = /^[a-zA-Z0-9\s]+$/
 
 const regPeriodAndNumbers = /^(0|[1-9]\d*)(\.\d+)?$/
 const regSpecialCharacter = /(?=.*[}{.@$£<>-_/)[(+¤%&;:*¨~`'^#])/
@@ -184,7 +184,7 @@ const validation_requirements: Text_validation_requirements = {
   IngredientName: {
     type: 'string',
     min: 3,
-    max: 40,
+    max: 50,
     unit: 'characters'
   },
 

@@ -2,7 +2,7 @@
 import { onMounted, ref, watch } from 'vue';
 import AlertBox from './AlertBox.vue';
 import { changeValidationForNameAndAmount, ValidateText } from '@/Logic/MacroTracker/validation';
-import type { validation_Object, Ingredient, Ingredients, Meal_with_ingredients } from '@/Logic/MacroTracker/types';
+import type { validation_Object, Ingredient, Ingredients, Meal_with_ingredients, Api_search_data } from '@/Logic/MacroTracker/types';
 import { hideModal } from '@/Logic/MacroTracker/hideModal';
 import { _alert, alertDanger, alertSuccess, hideAlert } from '@/Logic/MacroTracker/alertFunctions';
 import { getMeals } from '@/Logic/MacroTracker/Ajax/get/getMeals';
@@ -10,12 +10,13 @@ import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax';
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat';
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr';
 import { meal_name_validation, meal_validation, ingredients, ingredient_validation, fetchingResource } from '@/Logic/MacroTracker/initVariables';
-const FormulateIngredient = () => import('./FormulateIngredient.vue');
-const IngredientInputModule = () => import('./IngredientInputModule.vue');
+import FormulateIngredient from './FormulateIngredient.vue';
+import IngredientInputModule from './IngredientInputModule.vue';
 import { getIngredients } from '@/Logic/MacroTracker/Ajax/get/getIngredients';
 import { deleteEntity } from '@/Logic/MacroTracker/Ajax/ajax';
 import RequestLoader from '../RequestLoader.vue';
 import { randomNumber } from '@/Logic/MacroTracker/randomNumber';
+import deepClone from '@/Logic/MacroTracker/deepClone';
 
 const meal_name_message_validation = ref<HTMLElement | null>(null)
 const meal_name_input = ref<HTMLElement | null>(null)
@@ -35,6 +36,7 @@ const props = defineProps<({
 const meal_name = ref<string>('')
 
 const ingredientsData = ref<Ingredients>([])
+const api_search_data = ref<Api_search_data | undefined>(undefined)
 
 const http_method = ref<string>('POST')
 const url = ref<string>('/meal')
@@ -43,7 +45,7 @@ const modal_id = `${props.formulate_type}_meal_modal`
 const _formulate_type = ref<string>('Create')
 
 watch(() => props.meal, (newMeal) => {
-    const ingredientValidation = ref<validation_Object>(ingredient_validation)
+    const ingredientValidation = ref<validation_Object>(deepClone(ingredient_validation))
 
     if (newMeal) {
         _formulate_type.value = 'Edit'
@@ -101,14 +103,15 @@ function check_meal_validation() {
 
 function addIngredientToMeal(ingredient: Ingredient) {
 
-    if (!checkIfIngredientIsAlreadyAdded(ingredient.ingredient_id)) {
+    if (ingredient.ingredient_id && !checkIfIngredientIsAlreadyAdded(ingredient.ingredient_id, 'ingredient_id')) {
         ingredientsData.value.push(ingredient)
 
-        const validation = ingredient_validation
-        validation.amount = true
-        validation.name = true
+        let _ingredient_validation = deepClone(ingredient_validation)
 
-        meal_validation.value.push(validation)
+        _ingredient_validation.amount = true
+        _ingredient_validation.name = true
+
+        meal_validation.value.push(_ingredient_validation)
 
         alertSuccess()
         _alert(`Successfully added ${ingredient.name}`)
@@ -120,10 +123,10 @@ function addIngredientToMeal(ingredient: Ingredient) {
 
 }
 
-function checkIfIngredientIsAlreadyAdded(id_to_compare: number) {
+function checkIfIngredientIsAlreadyAdded(id_to_compare: number, key: string) {
 
     for (const ingredient of ingredientsData.value) {
-        if (ingredient.ingredient_id == id_to_compare) {
+        if (ingredient[key] == id_to_compare) {
             return true;
         }
     }
@@ -131,9 +134,64 @@ function checkIfIngredientIsAlreadyAdded(id_to_compare: number) {
     return false
 }
 
+
+function addAPIProductToMeal(product: any) {
+
+    if (!checkIfIngredientIsAlreadyAdded(product['id'], 'api_product_id')) {
+
+        ingredientsData.value.push({
+            api_product_id: product['id'],
+            amount: `${product['weight']} ${product['weight_unit']}`,
+            calories: product['nutrition'][0]['amount'],
+            carbohydrates: product['nutrition'][2]['amount'],
+            fat: product['nutrition'][1]['amount'],
+            sugar: product['nutrition'][4]['amount'],
+            name: product['name'],
+            protein: product['nutrition'][3]['amount']
+        })
+
+        alertSuccess()
+        _alert(`Successfully added ${product['name']}`)
+
+    } else {
+        alertDanger()
+        _alert('You can not add the same ingredient from kassal app')
+    }
+}
+
+async function load_products_from_api_search() {
+    if (api_search.value.length > 2) {
+        try {
+            const url = `https://kassal.app/api/v1/products?search=${api_search.value}`
+            const headers = { 'Authorization': `Bearer ${import.meta.env.VITE_KASSAL_API_KEY}` }
+
+            const _response = await fetch(url, { "headers": headers });
+
+            const data = await _response.json();
+
+            // Filtering out the products which does not have nutrition information
+            for (let product of data['data']) {
+                if (product['nutrition'].length > 0) {
+                    const arr = []
+                    for (let nutrition of product['nutrition']) {
+                        if (['Protein', 'Sukkerarter', 'Karbohydrater', 'Fett', 'Kalorier'].includes(nutrition['display_name']) && nutrition['amount'] >= 0) {
+                            arr.push(nutrition)
+                        }
+                    }
+                    product['nutrition'] = arr
+                }
+            }
+
+            api_search_data.value = data
+        } catch (error) {
+            console.log(error)
+            alert(`Network error: ${error}`)
+        }
+    }
+}
+
 function addEmptyIngredient() {
     ingredientsData.value.push({
-        ingredient_id: 0,
         name: '',
         amount: 0,
         protein: 0,
@@ -142,7 +200,7 @@ function addEmptyIngredient() {
         fat: 0,
         sugar: 0
     })
-    meal_validation.value.push(ingredient_validation)
+    meal_validation.value.push(deepClone(ingredient_validation))
 
     alertSuccess()
     _alert(`Successfully added an empty ingredient`)
@@ -158,12 +216,16 @@ function removeEntry(index: number) {
     _alert(`Successfully removed ${ingredient_name}`)
 }
 
-async function handleDeleteIngredientFromMeal(ingredient_id: number, meal_id: number, arr_index: number) {
-    const response = await deleteEntity(`/meal/${ingredient_id}/${meal_id}`)
+async function handleDeleteIngredientFromMeal(ingredient_id: number | undefined, meal_id: number, arr_index: number) {
 
-    if (response && response.ok) {
-        removeEntry(arr_index)
+    if (ingredient_id) {
+        const response = await deleteEntity(`/meal/${ingredient_id}/${meal_id}`)
+
+        if (response && response.ok) {
+            removeEntry(arr_index)
+        }
     }
+
 }
 
 function handleCreateIngredientEvent() {
@@ -193,6 +255,8 @@ async function triggerMealEvent() {
         _alert("Fill out the required fields: 'Meal Name'. 'Name' and 'Amount' for each ingredient is required. Nutrient values may be zero.")
     }
 }
+
+const api_search = ref<string>('')
 
 </script>
 
@@ -276,46 +340,63 @@ async function triggerMealEvent() {
                                     </button>
                                 </div>
                             </div>
-                            <!--<section class="m-2">
+                            <section class="m-2">
                                 <h4> Find ingredients with Kassal.app API </h4>
 
                                 <form @submit.prevent>
                                     <div class="input-group m-1">
                                         <input class="form-control" v-model="api_search"
                                             placeholder="Search for ingredient" type="text">
-                                        <button type="submit" class="btn btn-primary" @click="search_with_api()"> Find
+                                        <button type="submit" class="btn btn-primary"
+                                            @click="load_products_from_api_search()"> Find
                                             product </button>
                                     </div>
                                 </form>
 
-                                <div v-if="api_search_data.length > 0">
-                                    <h4> Ingredients from your search: (Click to add) </h4>
-                                    <div class="wrap">
-                                        <div class="m-2" @click="addAPIProductToMeal(product, index)"
-                                            v-for="(product, index) in api_search_data" :key="index"
-                                            style="width: 30%;">
-                                            <h5> {{ product['name'] }} </h5>
-                                            <h6> Price: {{ product['current_price'] }} kr </h6>
+                                <div v-if="api_search_data">
+                                    <div class="wrap justify-content-center mb-5">
+                                        <div v-for="(product, index) in api_search_data.data" :key="index"
+                                            class="rounded m-4 product">
 
-                                            <img id="api_search_img" class="float-right" :src="product['image']"
-                                                :alt="product['name']">
-                                            <ul>
-                                                <li v-for="nutrient in product['nutrition']" :key="nutrient">
+                                            <div class="d-flex flex-column align-items-center">
 
-                                                    {{ nutrient['display_name'] }}: {{ nutrient['amount'] }} {{
-                                                        nutrient['unit'] }}
+                                                <ul class="list-group">
+                                                    <li class="list-group-item list-group-item-info">
+                                                        {{ product['name'] }}
+                                                    </li>
+                                                    <li v-for="nutrient in product['nutrition']" class="list-group-item"
+                                                        :key="nutrient.display_name">
+                                                        {{ nutrient['display_name'] }}: {{ nutrient['amount'] }} {{
+                                                            nutrient['unit'] }}
+                                                    </li>
+                                                    <li class="list-group-item">
+                                                        Price: {{ product['current_price'] }} kr
+                                                    </li>
+                                                </ul>
 
-                                                </li>
-                                            </ul>
+
+                                                <img style="width: 100%; height: 200px; object-fit: contain;"
+                                                    class="mt-1 mb-2 rounded" :src="product['image']"
+                                                    :alt="product['name']">
+
+                                                <button type="button" class="btn btn-info btn-md"
+                                                    @click="addAPIProductToMeal(product)">
+                                                    Add {{ product['name'] }}
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <h5 class="ml-4" v-if="api_search_data.length == 0 && api_search.length > 2"> Please
-                                    click enter or button *Find product*, if already done, sorry did not find any
+                                <h5 class="ml-4"
+                                    v-if="api_search_data && api_search_data.data.length == 0 && api_search.length > 2">
+                                    Please
+                                    click enter or button *Find product*, if already done; sorry did not find any
                                     products with your search: {{ api_search }} </h5>
-                                <h5 class="ml-4" v-if="api_search.length != 0 && api_search.length < 3"> Your search: {{
-                                    api_search }} is too short. Minium 3 letters </h5>
-                            </section>-->
+                                <h5 class="ml-4"
+                                    v-if="!api_search_data && api_search.length != 0 && api_search.length < 3"> Your
+                                    search: {{
+                                        api_search }} is too short. Minium 3 letters </h5>
+                            </section>
                         </div>
                     </form>
                 </div>
@@ -337,3 +418,14 @@ async function triggerMealEvent() {
     </div>
 
 </template>
+
+
+<style scoped>
+.product {
+    background-color: rgb(39, 38, 38);
+}
+
+button {
+    z-index: 0;
+}
+</style>
