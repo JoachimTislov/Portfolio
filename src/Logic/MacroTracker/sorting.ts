@@ -18,9 +18,9 @@ export function filterArrayByName<
   Type extends { [key: string]: number | string | Ingredients | undefined }
 >(arr: Type[] | undefined, searchInput: string): Type[] | undefined {
   if (arr) {
-    const filtered_arr = arr.filter(function (entry): boolean {
-      return (entry.name as string).toLowerCase().includes(searchInput.toLowerCase())
-    })
+    const filtered_arr = arr.filter((entry) =>
+      (entry.name as string).toLowerCase().includes(searchInput.toLowerCase())
+    )
 
     return filtered_arr
   }

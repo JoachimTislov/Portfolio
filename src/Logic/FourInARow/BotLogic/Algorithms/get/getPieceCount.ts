@@ -1,5 +1,5 @@
-import { botValue, playerStatus } from "../../../GameLogic/variables"
-import type { _pattern } from "../../../Types"
+import { botValue, playerStatus } from '../../../GameLogic/variables'
+import type { _pattern } from '../../../Types'
 
 export const getPieceCount = (pattern: _pattern, participant: number) => {
   let counter = 0

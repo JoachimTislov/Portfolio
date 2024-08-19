@@ -4,11 +4,26 @@ import { delay } from '../delay'
 import { assignPiecesWithInt, decrementPieces } from './pieces'
 import { placePiece } from './placePieceOnBoard'
 
-import { board, boardHeight, boardWidth, botGame, botValue, droppingPiece, first_player, gameMode, 
-  GameOver, log, losing_Coordinates, playerStatus, ShowBoard, ShowWinner, winnerMsg } from './variables'
+import {
+  board,
+  boardHeight,
+  boardWidth,
+  botGame,
+  botValue,
+  droppingPiece,
+  first_player,
+  gameMode,
+  GameOver,
+  log,
+  losing_Coordinates,
+  playerStatus,
+  ShowBoard,
+  ShowWinner,
+  winnerMsg
+} from './variables'
 
 export function toggleButtons(bool: boolean) {
-    droppingPiece.value = bool
+  droppingPiece.value = bool
 }
 
 export const handleDropInAnimation = async (colIndex: number, rowIndex: number) => {
@@ -17,7 +32,7 @@ export const handleDropInAnimation = async (colIndex: number, rowIndex: number) 
     specific_slot.classList.add('drop-in')
 
     await delay(1000)
-   
+
     specific_slot.classList.remove('drop-in')
   }
 }
@@ -31,7 +46,7 @@ export const previousMove = () => {
     const [x, y]: number[] = log.value.pop() ?? [-1, 0]
     if (x != -1) {
       board[x][y] = 0
-      decrementPieces();
+      decrementPieces()
     }
   }
 
@@ -98,7 +113,7 @@ export const updatePlayerStatus = () => {
 }
 
 export const checkForTie = (pieces: number) => {
-  if(pieces == boardWidth.value * boardHeight.value) {
+  if (pieces == boardWidth.value * boardHeight.value) {
     ShowBoard.value = false
     winnerMsg.value = 'It was a tie'
     ShowWinner.value = true

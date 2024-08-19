@@ -80,8 +80,7 @@ export const structureCases = (entry: possible_Coordinates) => {
     twoPieceCount &&
     entry.participant == playerStatus.value &&
     !firstPlayerThreatIsTwo &&
-    firstOtherPossiblePlacementPlayerThreatIsTwo &&
-    secondPlayerThreatIsThree
+    firstOtherPossiblePlacementPlayerThreatIsTwo
   )
 
   const prime_two = checkIfArrayInThe2DArrayEqualArray(

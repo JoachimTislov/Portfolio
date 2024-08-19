@@ -6,14 +6,13 @@ import {
   getSlotColor,
   getNameOfSlot,
   getNumber
-  
-} from '../../../Logic/FourInARow/GameLogic/functions'  
+} from '../../../Logic/FourInARow/GameLogic/functions'
 
-import { resetGame } from '@/Logic/FourInARow/GameLogic/resetGame';
+import { resetGame } from '@/Logic/FourInARow/GameLogic/resetGame'
 
-import { dropPiece, busy } from '@/Logic/FourInARow/GameLogic/dropPiece';
+import { dropPiece, busy } from '@/Logic/FourInARow/GameLogic/dropPiece'
 
-import { pieces } from '@/Logic/FourInARow/GameLogic/pieces';
+import { pieces } from '@/Logic/FourInARow/GameLogic/pieces'
 
 import { getColor } from '@/Logic/FourInARow/GameLogic/checkWinner'
 
@@ -26,75 +25,103 @@ import {
   first_player,
   ShowWinner,
   winnerMsg,
-
   board,
   playerTurn,
   ShowBoard,
-
   droppingPiece,
   playerStatus
-
-} from '../../../Logic/FourInARow/GameLogic/variables'  
-
+} from '../../../Logic/FourInARow/GameLogic/variables'
 </script>
- 
+
 <template>
   <section class="mainDiv">
     <div class="menu">
-          <div class="mt-1 mb-1 btn-group">
-            <button :disabled="droppingPiece" v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button" class="border-light btn btn-secondary">
-              Two Player Game
-            </button>
-            <button :disabled="droppingPiece" v-if="!botGame" @click="initBotGame(), resetGame()" type="button" class="border-light btn btn-secondary">Play against the Bot</button>
-          </div>
+      <div class="mt-1 mb-1 btn-group">
+        <button
+          :disabled="droppingPiece"
+          v-if="botGame"
+          @click="initTwoPlayer(), resetGame()"
+          type="button"
+          class="border-light btn btn-secondary"
+        >
+          Two Player Game
+        </button>
+        <button
+          :disabled="droppingPiece"
+          v-if="!botGame"
+          @click="initBotGame(), resetGame()"
+          type="button"
+          class="border-light btn btn-secondary"
+        >
+          Play against the Bot
+        </button>
+      </div>
 
-          <div v-if="botGame" class="mb-1 d-flex flex-column">
-            <label class="label" for="starting_player"> Starting Player: </label>
-            <select 
-              :disabled="droppingPiece"
-              id="starting_player"
-              class="form-control form-control-sm"
-              v-model="first_player"
-              @change="resetGame()"
-            >
-              <option value="Player 1">You</option>
-              <option value="bot">Bot</option>
-            </select>
-          </div>
+      <div v-if="botGame" class="mb-1 d-flex flex-column">
+        <label class="label" for="starting_player"> Starting Player: </label>
+        <select
+          :disabled="droppingPiece"
+          id="starting_player"
+          class="form-control form-control-sm"
+          v-model="first_player"
+          @change="resetGame()"
+        >
+          <option value="Player 1">You</option>
+          <option value="bot">Bot</option>
+        </select>
+      </div>
 
-          <div v-if="!ShowWinner" class="mt-2 p-4 message">
-            <h4> {{ gameMode }} </h4>
-            <template v-if="botGame">
-              <h5 v-if="busy && !botCalculating"> <strong>  Dropping piece.. </strong> </h5>
-              <template v-else>
-                <h5 v-if="playerTurn"> <strong>  Your Turn </strong> </h5>
-                <h5 v-if="botCalculating"> <strong> Bot is calculating... </strong> </h5>
-              </template>
-            </template>
-            <template v-if="!botGame">
-              <h5 v-if="busy"> <strong>  Dropping piece.. </strong> </h5>
+      <div v-if="!ShowWinner" class="mt-2 p-4 message">
+        <h4>{{ gameMode }}</h4>
+        <template v-if="botGame">
+          <h5 v-if="busy && !botCalculating"><strong> Dropping piece.. </strong></h5>
+          <template v-else>
+            <h5 v-if="playerTurn"><strong> Your Turn </strong></h5>
+            <h5 v-if="botCalculating"><strong> Bot is calculating... </strong></h5>
+          </template>
+        </template>
+        <template v-if="!botGame">
+          <h5 v-if="busy"><strong> Dropping piece.. </strong></h5>
 
-              <template v-else>
-                <h5 v-if="playerStatus == 1"> <strong>  {{ getColor(1) }} to play </strong> </h5>
-                <h5 v-if="playerStatus == 2"> <strong>  {{ getColor(2) }} to play </strong> </h5>
-              </template>
-            </template>
-          </div>
+          <template v-else>
+            <h5 v-if="playerStatus == 1">
+              <strong> {{ getColor(1) }} to play </strong>
+            </h5>
+            <h5 v-if="playerStatus == 2">
+              <strong> {{ getColor(2) }} to play </strong>
+            </h5>
+          </template>
+        </template>
+      </div>
 
-          <div v-if="ShowWinner" class="p-4 message">
-            <h4>{{ winnerMsg }}</h4>
-          </div>
+      <div v-if="ShowWinner" class="p-4 message">
+        <h4>{{ winnerMsg }}</h4>
+      </div>
 
-          <div class="d-flex btn-group btn-group-lg mt-2"> 
-            <button ref="restartButton" :disabled="droppingPiece || !(pieces > getNumber() || ShowWinner)" @click="resetGame()" type="button" class="m-1 btn btn-md btn-success">
-              <template v-if="ShowWinner"> Play Again </template>
-              <template v-else> Restart </template>
-            </button>
+      <div class="d-flex btn-group btn-group-lg mt-2">
+        <button
+          ref="restartButton"
+          :disabled="droppingPiece || !(pieces > getNumber() || ShowWinner)"
+          @click="resetGame()"
+          type="button"
+          class="m-1 btn btn-md btn-success"
+        >
+          <template v-if="ShowWinner"> Play Again </template>
+          <template v-else> Restart </template>
+        </button>
 
-            <button ref="previousButton" :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)" @click="previousMove()" type="button" class="m-1 btn btn-md btn-primary"> Previous Move </button>
-          </div>
+        <button
+          ref="previousButton"
+          :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)"
+          @click="previousMove()"
+          type="button"
+          class="m-1 btn btn-md btn-primary"
+        >
+          Previous Move
+        </button>
+      </div>
     </div>
-    
+
     <div class="board" v-show="ShowBoard">
       <div
         v-for="(column, colIndex) in board"
@@ -102,17 +129,12 @@ import {
         @click="dropPiece(colIndex)"
         class="boardColumn column-reverse"
       >
-        <div
-          v-for="(value, rowIndex) in column"
-          :key="rowIndex" 
-          class="slotBackground"
-        >
+        <div v-for="(value, rowIndex) in column" :key="rowIndex" class="slotBackground">
           <div
-          class="slot"
-          :class="getNameOfSlot(colIndex, rowIndex)" 
-          :style="{ backgroundColor: getSlotColor(value) }"
-          >
-          </div>
+            class="slot"
+            :class="getNameOfSlot(colIndex, rowIndex)"
+            :style="{ backgroundColor: getSlotColor(value) }"
+          ></div>
         </div>
       </div>
     </div>
@@ -142,13 +164,13 @@ import {
 }
 
 .buttons {
-    margin-top: 1rem;
-  }
+  margin-top: 1rem;
+}
 
 .mainDiv {
   width: 100%;
   height: auto;
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -185,7 +207,10 @@ import {
 
   border-radius: 40px;
 
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, background-color 0.3s ease-in-out;
+  transition:
+    transform 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out,
+    background-color 0.3s ease-in-out;
 }
 
 .column-reverse:hover {
@@ -196,7 +221,7 @@ import {
 
 .slotBackground {
   border-radius: 50%;
-  background-color: white;  
+  background-color: white;
 
   width: clamp(2em, 11.5vw, 8em);
   height: clamp(2em, 11.5vw, 8em);
@@ -204,7 +229,6 @@ import {
   padding: 2px;
   margin: 2px;
 }
-
 
 .slot {
   border-radius: 50%;
@@ -214,16 +238,16 @@ import {
 
 @keyframes dropIn {
   0% {
-    transform: translateY(-300%); 
+    transform: translateY(-300%);
   }
   70% {
-    transform: translateY(0); 
+    transform: translateY(0);
   }
   90% {
-    transform: translateY(-5px); 
+    transform: translateY(-5px);
   }
   100% {
-    transform: translateY(0); 
+    transform: translateY(0);
   }
 }
 
@@ -234,7 +258,9 @@ import {
 
 h1,
 h2,
-h3, h4, h5 {
+h3,
+h4,
+h5 {
   padding: 0;
   margin: 0;
 }
@@ -248,11 +274,11 @@ h5 {
 }
 
 .message {
-  background-color: #2e2a2a; 
-  text-align: center; 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  background-color: #2e2a2a;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border: solid 2px white;
-  border-radius: 8px; 
+  border-radius: 8px;
 
   margin-right: 20px;
 
@@ -260,8 +286,7 @@ h5 {
 }
 
 .winner-message h4 {
-  margin: 0; 
-  font-size: 1rem; 
+  margin: 0;
+  font-size: 1rem;
 }
-
 </style>

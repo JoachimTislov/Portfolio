@@ -3,5 +3,5 @@ import mainNavbar from '../components/mainNavbar.vue'
 </script>
 
 <template>
-    <mainNavbar />
+  <mainNavbar />
 </template>

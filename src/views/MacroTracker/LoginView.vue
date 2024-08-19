@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import LoginPage from '../../components/Projects/MacroTracker/LoginPage.vue' 
+import LoginPage from '../../components/Projects/MacroTracker/LoginPage.vue'
 </script>
 
 <template>
-    <LoginPage />
+  <LoginPage />
 </template>

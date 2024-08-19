@@ -3,7 +3,5 @@ import HomePage from '../../components/Portfolio/HomePage.vue'
 </script>
 
 <template>
-    <HomePage />
+  <HomePage />
 </template>
-
-

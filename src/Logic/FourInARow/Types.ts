@@ -2,8 +2,8 @@ export type _pattern = (string | number)[]
 export type _coordinates = number[][]
 export type _patternData = Array<{ pattern: _pattern; coordinates: _coordinates }>
 
-export type spotInfo = { 
-  pattern: (number | string)[]; 
+export type spotInfo = {
+  pattern: (number | string)[]
   coords: number[][]
 }
 
@@ -20,8 +20,8 @@ export type _losingCoordinates = {
 }[]
 
 export type possible_Choices = {
-  double_Three_in_a_row: possible_Coordinates[],
-  potentially_double_Three_in_a_row: possible_Coordinates[],
+  double_Three_in_a_row: possible_Coordinates[]
+  potentially_double_Three_in_a_row: possible_Coordinates[]
   Two_in_a_row: possible_Coordinates[][]
 }
 
@@ -29,7 +29,7 @@ export type columnInformation = {
   coords: number[]
   player_threats: filterObject[]
   bots_opportunities: filterObject[]
-} 
+}
 
 export type filterObject = {
   coords: number[]
@@ -42,7 +42,7 @@ export type filterObject = {
   relatedMovesOfOtherZeroOrAsterisk: columnInformation | undefined
 }
 
-export type relatedMovesObject = { 
+export type relatedMovesObject = {
   zero: columnInformation
   first: columnInformation | undefined
   second: columnInformation | undefined
@@ -58,6 +58,4 @@ export type possible_Coordinates = {
   winning: boolean
   participant: number
   piece_count: string
-} 
-
-
+}

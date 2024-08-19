@@ -26,11 +26,9 @@ import { three_in_a_row_pattern_with_index } from './PatternLogic'
 import { getOtherZeroCoordinatesIndex } from './Algorithms/get/getOtherZeroOrAsteriskCoordinatesIndex'
 
 export const initiateAlgorithms = async (board: number[][]) => {
-  console.log('doing stuff, iniate alogright')
-
   const participants = [
-    { id: botValue, scan: scanBoard(board, botValue) },
-    { id: playerStatus.value, scan: scanBoard(board, playerStatus.value) }
+    { id: botValue, scan: scanBoard(botValue, board) },
+    { id: playerStatus.value, scan: scanBoard(playerStatus.value, board) }
   ]
 
   for (const participant of participants) {
@@ -156,8 +154,6 @@ export const initiateAlgorithms = async (board: number[][]) => {
       }
     }
   }
-
-  console.log(botChoices.value, playerChoices.value)
 
   return await searchForBestChoice(board)
 }

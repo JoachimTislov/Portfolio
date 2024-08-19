@@ -1,4 +1,3 @@
-
 export const checkIfArrayInThe2DArrayEqualArray = (
   arr: (string | number)[][],
   arr_2: (string | number)[]

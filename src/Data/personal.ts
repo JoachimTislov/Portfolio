@@ -14,9 +14,9 @@ export const personalData = {
   email: 'joachim.tislov@gmail.com',
 
   about: [
-    `I am a 22 year old male from Sandnes, live with my Alaskan husky - Leo.
-        Played football for over 14 years, which provided me with extensive team-building skills.
-        I love sports, being active, and taking on challenges.`,
+    `I am a 22 year old male from Sandnes, live with my Alaskan husky - Leo, 
+      I love sports, being active, and taking on challenges. Played football for over 14 years, 
+      which provided me with extensive team-building skills.`,
 
     `That is part of the reason why programming sparked my interests. Tackling challenges with patience and 
         intellectual thinking, developing applications and systems - an all-in-one package deal.`,

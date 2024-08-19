@@ -7,12 +7,15 @@ export const three_in_a_row_pattern = (first_value: number | string, participant
   ]
 }
 
-export const three_in_a_row_pattern_with_index = (first_value: number | string, participant: number) => {
+export const three_in_a_row_pattern_with_index = (
+  first_value: number | string,
+  participant: number
+) => {
   return [
-    {pattern: [first_value, participant, participant, participant], zeroIndex: 0},
-    {pattern: [participant, first_value, participant, participant], zeroIndex: 1},
-    {pattern: [participant, participant, first_value, participant], zeroIndex: 2},
-    {pattern: [participant, participant, participant, first_value], zeroIndex: 3}
+    { pattern: [first_value, participant, participant, participant], zeroIndex: 0 },
+    { pattern: [participant, first_value, participant, participant], zeroIndex: 1 },
+    { pattern: [participant, participant, first_value, participant], zeroIndex: 2 },
+    { pattern: [participant, participant, participant, first_value], zeroIndex: 3 }
   ]
 }
 
@@ -38,23 +41,30 @@ const two_in_a_row_pattern = (first: number | string, participant: number) => {
 }
 
 export const prime_two_in_a_row_pattern = (participant: number) => {
-    return [
-      [participant, participant, 0, 0], 
-      [0, 0, participant, participant], 
-      [participant, 0, participant, 0],
-      [0, participant, 0, participant]
+  return [
+    [participant, participant, 0, 0],
+    [0, 0, participant, participant],
+    [participant, 0, participant, 0],
+    [0, participant, 0, participant]
   ]
 }
 
-export const double_three_in_a_row_patterns = (participant: number, coords: {first: number[], last: number[]}, all_coordinates: number[][]) =>  [
+export const double_three_in_a_row_patterns = (
+  participant: number,
+  coords: { first: number[]; last: number[] },
+  all_coordinates: number[][]
+) => [
   { pattern: [participant, participant, 0, 0], coords: [coords.first, all_coordinates[2]] },
   { pattern: [0, 0, participant, participant], coords: [coords.last, all_coordinates[1]] },
   { pattern: [participant, 0, participant, 0], coords: [coords.first, all_coordinates[1]] },
-  { pattern: [0, participant, 0, participant], coords: [coords.last, all_coordinates[2]] },
+  { pattern: [0, participant, 0, participant], coords: [coords.last, all_coordinates[2]] }
 ]
 
-export const potentially_three_in_a_row_patterns = (participant: number, coords: {first: number[], last: number[]}, all_coordinates: number[][]) =>  [
-
+export const potentially_three_in_a_row_patterns = (
+  participant: number,
+  coords: { first: number[]; last: number[] },
+  all_coordinates: number[][]
+) => [
   { pattern: ['*', participant, 0, participant], coords: [coords.last, all_coordinates[2]] },
   { pattern: [participant, 0, participant, '*'], coords: [coords.first, all_coordinates[1]] },
   { pattern: [participant, participant, 0, '*'], coords: [coords.first, all_coordinates[2]] },
@@ -71,6 +81,5 @@ export const potentially_three_in_a_row_patterns = (participant: number, coords:
   { pattern: ['*', participant, '*', participant], coords: [coords.last, all_coordinates[2]] },
   { pattern: [participant, '*', participant, '*'], coords: [coords.first, all_coordinates[1]] },
   { pattern: [participant, participant, '*', '*'], coords: [coords.first, all_coordinates[2]] },
-  { pattern: ['*', '*', participant, participant], coords: [coords.last, all_coordinates[1]] },
-
+  { pattern: ['*', '*', participant, participant], coords: [coords.last, all_coordinates[1]] }
 ]

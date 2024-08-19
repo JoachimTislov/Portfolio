@@ -13,7 +13,7 @@ export const botCalculating = ref<boolean>(false)
 export const botMove = async (board: number[][], row: number, slot: number) => {
   toggleButtons(true)
 
-  console.log('botMove')
+  //console.log('botMove')
 
   botCalculating.value = true
   await delay(1200) // simulating the bot thinking
@@ -34,7 +34,7 @@ export const executePlacement = async (
   slot: number,
   playerValue: number
 ) => {
-  console.log('executePlacement', row, slot, playerValue)
+  //console.log('executePlacement', row, slot, playerValue)
 
   placePiece(board, row, slot, playerValue)
   logMove([row, slot])

@@ -1,4 +1,4 @@
-import type { _pattern } from "../../../Types"
+import type { _pattern } from '../../../Types'
 
 export const getPieceCountAndIndices = (pattern: _pattern, participant: number) => {
   let counter = 0

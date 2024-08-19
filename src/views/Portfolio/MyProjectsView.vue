@@ -3,7 +3,5 @@ import projects from '../../components/Portfolio/MyProjects.vue'
 </script>
 
 <template>
-    
-    <projects class="mt-5 rounded"/>
-
+  <projects class="mt-5 rounded" />
 </template>

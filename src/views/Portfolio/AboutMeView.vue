@@ -4,7 +4,7 @@ import contactMe from '../../components/Portfolio/contactMe.vue'
 </script>
 
 <template>
-    <AboutMe />
+  <AboutMe />
 
-    <contactMe />
+  <contactMe />
 </template>
