@@ -90,7 +90,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
                   )
                 : undefined
 
-            const entry: possible_Coordinates = {
+            const possible_Coordinates_Entry: possible_Coordinates = {
               pattern: pattern,
               coordinates: coordinates[index],
               all_coordinates: coordinates,
@@ -144,7 +144,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
               doubleThreeInARow,
               potentiallyDoubleInARow,
               coordinates[index],
-              entry,
+              possible_Coordinates_Entry,
               targetArr,
               key
             )

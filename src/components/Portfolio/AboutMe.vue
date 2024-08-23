@@ -17,11 +17,11 @@ const situation = personalData['situation']
 
         <p><strong> Patient, dedicated and driven </strong> describe me the best</p>
 
-        <h3>Situation:</h3>
+        <h4>Situation:</h4>
 
         <p class="situation">{{ situation }}</p>
 
-        <h3>Proficient in:</h3>
+        <h4>Proficient in:</h4>
 
         <div class="d-flex flex-wrap">
           <div class="skill bg-dark" v-for="skill in skills" :key="skill.name">
@@ -35,7 +35,7 @@ const situation = personalData['situation']
           </div>
         </div>
 
-        <h3 class="mt-2">Desired Positions:</h3>
+        <h4 class="mt-2">Desired Positions:</h4>
 
         <div class="d-flex flex-wrap">
           <div class="skill bg-dark" v-for="job in jobs" :key="job">
@@ -80,9 +80,9 @@ const situation = personalData['situation']
   color: darkgrey;
 }
 
-h3 {
+h4 {
   margin: 0;
   color: var(--text-color);
-  font-size: clamp(1.2rem, 3vw, 2.5rem);
+  font-size: clamp(1rem, 1vw, 1.5rem);
 }
 </style>

@@ -1,19 +1,17 @@
 <script setup lang="ts">
 import { personalData } from '@/Data/personal'
 
-const links = personalData['socialLinks']
 </script>
 
 <template>
   <div class="d-flex flex-row">
-    <a v-for="item in links" :key="item.img" :href="item.link"
-      ><img class="socialLink m-1" :src="item.img"
-    /></a>
+    <a v-for="item in personalData.socialLinks" :key="item.img" :href="item.link" class="m-2"> <font-awesome-icon
+        :icon="item.icon" style="font-size: clamp(1.5rem, 2vw, 2rem);" /> </a>
   </div>
 </template>
 
 <style scoped>
-.socialLink {
-  width: clamp(2.5rem, 3.5vw, 4rem);
+a {
+  color: grey;
 }
 </style>

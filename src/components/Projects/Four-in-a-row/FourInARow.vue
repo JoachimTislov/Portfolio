@@ -37,35 +37,20 @@ import {
   <section class="mainDiv">
     <div class="menu">
       <div class="mt-1 mb-1 btn-group">
-        <button
-          :disabled="droppingPiece"
-          v-if="botGame"
-          @click="initTwoPlayer(), resetGame()"
-          type="button"
-          class="border-light btn btn-secondary"
-        >
+        <button :disabled="droppingPiece" v-if="botGame" @click="initTwoPlayer(), resetGame()" type="button"
+          class="border-light btn btn-secondary">
           Two Player Game
         </button>
-        <button
-          :disabled="droppingPiece"
-          v-if="!botGame"
-          @click="initBotGame(), resetGame()"
-          type="button"
-          class="border-light btn btn-secondary"
-        >
+        <button :disabled="droppingPiece" v-if="!botGame" @click="initBotGame(), resetGame()" type="button"
+          class="border-light btn btn-secondary">
           Play against the Bot
         </button>
       </div>
 
       <div v-if="botGame" class="mb-1 d-flex flex-column">
         <label class="label" for="starting_player"> Starting Player: </label>
-        <select
-          :disabled="droppingPiece"
-          id="starting_player"
-          class="form-control form-control-sm"
-          v-model="first_player"
-          @change="resetGame()"
-        >
+        <select :disabled="droppingPiece" id="starting_player" class="form-control form-control-sm"
+          v-model="first_player" @change="resetGame()">
           <option value="Player 1">You</option>
           <option value="bot">Bot</option>
         </select>
@@ -84,12 +69,7 @@ import {
           <h5 v-if="busy"><strong> Dropping piece.. </strong></h5>
 
           <template v-else>
-            <h5 v-if="playerStatus == 1">
-              <strong> {{ getColor(1) }} to play </strong>
-            </h5>
-            <h5 v-if="playerStatus == 2">
-              <strong> {{ getColor(2) }} to play </strong>
-            </h5>
+            <h5> <strong> {{ getColor(playerStatus) }} to play </strong> </h5>
           </template>
         </template>
       </div>
@@ -99,42 +79,26 @@ import {
       </div>
 
       <div class="d-flex btn-group btn-group-lg mt-2">
-        <button
-          ref="restartButton"
-          :disabled="droppingPiece || !(pieces > getNumber() || ShowWinner)"
-          @click="resetGame()"
-          type="button"
-          class="m-1 btn btn-md btn-success"
-        >
+        <button ref="restartButton" :disabled="droppingPiece || !(pieces > getNumber() || ShowWinner)"
+          @click="resetGame()" type="button" class="m-1 btn btn-md btn-success">
           <template v-if="ShowWinner"> Play Again </template>
           <template v-else> Restart </template>
         </button>
 
-        <button
-          ref="previousButton"
-          :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)"
-          @click="previousMove()"
-          type="button"
-          class="m-1 btn btn-md btn-primary"
-        >
+        <button ref="previousButton" :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)"
+          @click="previousMove()" type="button" class="m-1 btn btn-md btn-primary">
           Previous Move
         </button>
       </div>
     </div>
 
     <div class="board" v-show="ShowBoard">
-      <div
-        v-for="(column, colIndex) in board"
-        :key="colIndex"
-        @click="dropPiece(colIndex)"
-        class="boardColumn column-reverse"
-      >
+      <div v-for="(column, colIndex) in board" :key="colIndex" @click="dropPiece(colIndex)"
+        class="boardColumn column-reverse">
         <div v-for="(value, rowIndex) in column" :key="rowIndex" class="slotBackground">
-          <div
-            class="slot"
-            :class="getNameOfSlot(colIndex, rowIndex)"
-            :style="{ backgroundColor: getSlotColor(value) }"
-          ></div>
+          <div class="slot" :class="getNameOfSlot(colIndex, rowIndex)"
+            :style="{ backgroundColor: getSlotColor(value) }">
+          </div>
         </div>
       </div>
     </div>
@@ -149,6 +113,7 @@ import {
 .label {
   font-size: 0.8em;
 }
+
 .participantTurnMessage {
   background-color: #2e2a2a;
 
@@ -188,11 +153,11 @@ import {
   padding: 1%;
   border-radius: 20px;
 
-  border: black solid 6px;
+  border: rgb(0, 0, 0) solid 6px;
   border-top: 0;
 
   margin-top: 3%;
-  margin-bottom: 15rem;
+  margin-bottom: 5rem;
 }
 
 .column {
@@ -214,9 +179,11 @@ import {
 }
 
 .column-reverse:hover {
-  background-color: #000; /* Using hex for consistency */
+  background-color: #000;
+  /* Using hex for consistency */
   transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Adding a subtle shadow effect */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  /* Adding a subtle shadow effect */
 }
 
 .slotBackground {
@@ -240,12 +207,15 @@ import {
   0% {
     transform: translateY(-300%);
   }
+
   70% {
     transform: translateY(0);
   }
+
   90% {
     transform: translateY(-5px);
   }
+
   100% {
     transform: translateY(0);
   }

@@ -9,10 +9,16 @@ export const applyPropertiesToEntry = async (
   doubleThreeInARow: boolean,
   potentialDoubleThreeInARow: boolean,
   coordinates: number[],
-  entry: possible_Coordinates,
+  possible_Coordinates_Entry: possible_Coordinates,
   targetArr: possible_Choices,
   key: string
 ) => {
+  if (
+    possible_Coordinates_Entry.participant == 1 &&
+    possible_Coordinates_Entry.direction == 'cross_up_right'
+  ) {
+    console.log(possible_Coordinates_Entry)
+  }
   const {
     firstPlayerThreatIsTwo,
     firstBotOpportunityIsThree,
@@ -27,7 +33,14 @@ export const applyPropertiesToEntry = async (
     prioritizeTwoWithoutOpportunity,
     firstPlayerThreatTwoAndRelevantMoveThreatThree,
     verticalDoubleThree
-  } = structureCases(entry)
+  } = structureCases(possible_Coordinates_Entry)
+
+  if (
+    possible_Coordinates_Entry.participant == 1 &&
+    possible_Coordinates_Entry.direction == 'cross_up_right'
+  ) {
+    console.log('Vertical double three in a row threat: ', verticalDoubleThree)
+  }
 
   const [x, y] = coordinates
 
@@ -37,9 +50,9 @@ export const applyPropertiesToEntry = async (
   }
 
   if ((doubleThreeInARow || verticalDoubleThree) && !firstPlayerThreatIsThree) {
-    targetArr['double_Three_in_a_row'].push(entry)
+    targetArr['double_Three_in_a_row'].push(possible_Coordinates_Entry)
   } else if (potentialDoubleThreeInARow && !firstIsThree) {
-    targetArr['potentially_double_Three_in_a_row'].push(entry)
+    targetArr['potentially_double_Three_in_a_row'].push(possible_Coordinates_Entry)
   } else if (
     !firstIsThree &&
     !firstPlayerThreatTwoAndRelevantMoveThreatThree &&
@@ -49,17 +62,17 @@ export const applyPropertiesToEntry = async (
     (secondIsThree || !(firstPlayerThreatIsTwo && secondPlayerThreatIsTwo))
   ) {
     if (firstIsTwo) {
-      entry.losing = true
+      possible_Coordinates_Entry.losing = true
     }
 
     if (secondIsThree) {
-      entry.losing = false
+      possible_Coordinates_Entry.losing = false
     }
 
     if (key == 'One_in_a_row') {
-      remainingChoices.value.push(entry)
+      remainingChoices.value.push(possible_Coordinates_Entry)
     } else if (key == 'Two_in_a_row') {
-      targetArr[key][entry.coordinates[1]].push(entry)
+      targetArr[key][possible_Coordinates_Entry.coordinates[1]].push(possible_Coordinates_Entry)
     }
   }
   return true

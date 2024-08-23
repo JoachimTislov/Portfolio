@@ -1,10 +1,7 @@
-import macroTrackerImg from '@/assets/images/MacroTracker.png'
+import macroTrackerImg from '@/assets/images/macroTracker.png'
 import imageGuesserImg from '@/assets/images/image-guesser.png'
+import fourInARowImg from '@/assets/images/four-in-a-row.png'
 
-import githubLogo from '@/assets/images/github.png'
-import linkendIn from '@/assets/images/linkedin.png'
-import instagram from '@/assets/images/instagram.png'
-import facebook from '@/assets/images/facebook.png'
 import { skills } from './skills'
 
 export const personalData = {
@@ -13,8 +10,10 @@ export const personalData = {
 
   email: 'joachim.tislov@gmail.com',
 
+  intro: `I am 22 year old male from Sandnes. I've had a passion for technology ever since I got access to it.`,
+
   about: [
-    `I am a 22 year old male from Sandnes, live with my Alaskan husky - Leo, 
+    `I live with my Alaskan husky - Leo, 
       I love sports, being active, and taking on challenges. Played football for over 14 years, 
       which provided me with extensive team-building skills.`,
 
@@ -34,10 +33,16 @@ export const personalData = {
   skills: skills,
 
   socialLinks: [
-    { img: githubLogo, link: 'https://github.com/JoachimTislov' },
-    { img: linkendIn, link: 'https://www.linkedin.com/in/joachim-tisl%C3%B8v-7074642b1/' },
-    { img: instagram, link: 'https://www.instagram.com/joachimtislov/' },
-    { img: facebook, link: 'https://www.facebook.com/profile.php?id=100011419305331' }
+    {
+      icon: ['fab', 'linkedin-in'],
+      link: 'https://www.linkedin.com/in/joachim-tisl%C3%B8v-7074642b1/'
+    },
+    {
+      icon: ['fab', 'instagram'],
+      link: 'https://www.instagram.com/joachimtislov/'
+    },
+    { icon: ['fab', 'github'], link: 'https://github.com/JoachimTislov' },
+    { icon: ['fab', 'facebook'], link: 'https://www.facebook.com/profile.php?id=100011419305331' }
   ],
 
   jobs: [
@@ -55,13 +60,15 @@ export const personalData = {
   projects: [
     {
       name: 'Macro Tracker',
+      original: true,
+      date: '08.04.2024 - 11.06.2024',
       githubLink: 'https://github.com/JoachimTislov/MacroTracker',
-      description: [
-        `During a two-month development period, my fellow student and I aimed for excellence in creating a Macro Tracker.
+      group_size: '2',
+      intro: `During a two-month development period, my fellow student and I aimed for excellence in creating a Macro Tracker.
                 I took responsibility for both backend and frontend development, while he focused on styling, 
                 the website's layout and enable users to upload a profile picture.`,
-
-        `This Macro Tracker includes an authentication system, personal meal and ingredient management, user profile, built in calender algorithms (since we could'nt use libraries) and a meal calendar. 
+      description: [
+        `The Macro Tracker includes an authentication system, personal meal and ingredient management, user profile, built in calender algorithms (since we could'nt use libraries) and a meal calendar. 
                 We integrated the kassal.app API to enhance functionality.`,
 
         `I am considering expanding Macro Tracker with additional features, refactoring the whole code structure, and utilizing more tools. 
@@ -83,16 +90,18 @@ export const personalData = {
         skills['Flask'],
         skills['SQLite']
       ],
-      imageLink: macroTrackerImg,
-      routerLink: '/macro-tracker'
+      image: macroTrackerImg,
+      viewProjectLink: '/macro-tracker',
+      aboutProjectLink: '/about-macro-tracker'
     },
     {
       name: 'Image guesser',
-      description: [
-        `I and four other people developed a game with the objective of guessing an image. The roles of the game consisted of an Oracle which could either be AI or
+      date: '22.10.2023 - 05.12.2023',
+      group_size: '5',
+      intro: `We developed a game with the objective of guessing an image. The roles of the game consisted of an Oracle which could either be AI or
                 a person, and the rest were guessers. The game is straightforward: the Oracle of the game reveals parts of the image and the guessers
                 write their guesses in the chat until a player guesses correctly.`,
-
+      description: [
         `The website's structure is composed of an authentication system, primarily to identify players and distinguish them as different individuals.
                 Then we have the join and create lobby alternatives, players can join public lobbies or create their own lobby which features customizable options including the Oracle, 
                 image choice, amount of rounds, game mode and more.`,
@@ -114,15 +123,16 @@ export const personalData = {
         skills['SQLite'],
         skills['Docker']
       ],
-      imageLink: imageGuesserImg
+      image: imageGuesserImg,
+      aboutProjectLink: '/about-image-guesser'
     },
     {
       name: 'Four in a row',
+      date: '20.06.2024 - 15.07.2024',
       githubLink: 'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
-      description: [
-        `During my summer holiday, my father and brother played four in a row, and after hearing my brother loose
+      intro: `During my summer holiday, my father and brother played four in a row, and after hearing my brother loose
                 for the 7th time, I thought, why not create a bot which he can play against.`,
-
+      description: [
         `This is what sparked the one-month development of a fairly complex four in a row bot.
                 The intent of creating such a bot, were to help my brother, but rather escalated into a far more better goal: `,
 
@@ -142,7 +152,9 @@ export const personalData = {
         skills['Typescript'],
         skills['Vue FrameWork']
       ],
-      routerLink: '/Four-in-a-row'
+      viewProjectLink: '/Four-in-a-row',
+      aboutProjectLink: '/about-four-in-a-row',
+      image: fourInARowImg
     }
   ]
 }

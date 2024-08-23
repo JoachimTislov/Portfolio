@@ -442,6 +442,19 @@ export const testBoards = [
     ],
     expect_coordinate: [3, 1],
     description: 'Prevent double three in a row'
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [3, 3, 1, 3, 0, 0],
+      [1, 3, 1, 1, 0, 0],
+      [3, 1, 1, 3, 0, 0],
+      [3, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [5, 0],
+    description: 'Prevent double three in a row'
   }
   /*{
     board: [

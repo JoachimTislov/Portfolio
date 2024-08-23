@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import projects from '../../components/Portfolio/MyProjects.vue'
+import newProjectTemplate from '../../components/Portfolio/NewProjectFormat.vue'
 </script>
 
 <template>
-  <projects class="mt-5 rounded" />
+  <newProjectTemplate />
 </template>

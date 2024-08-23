@@ -3,80 +3,58 @@ import socialLinks from './socialLinks.vue'
 
 import { personalData } from '@/Data/personal'
 
-const name = personalData['name']
+import buttonTemplate from './ButtonTemplate.vue'
+
 </script>
 
 <template>
   <div class="box">
-    <div class="info d-flex flex-column">
-      <h1>Hey, I'm {{ name }}</h1>
+    <div class="d-flex flex-column m-2">
+      <img class="mx-auto" src="@\\assets\\images\\joachim.png" />
 
-      <socialLinks class="socialLinks" />
-
-      <figure>
-        <blockquote class="blockquote">
-          <p class="mb-0">
-            “A good programmer is someone who always looks both ways before crossing a one-way
-            street.”
-          </p>
-        </blockquote>
-
-        <p class="cite">- Doug Linder, computer scientist</p>
-      </figure>
+      <h1>Hi, I'm {{ personalData.name }} </h1>
+      <socialLinks />
     </div>
 
-    <img src="@\\assets\\images\\joachim.png" />
+    <div class="d-flex flex-column justify-content-center align-items-center textContainer">
+
+      <div class="p-3 rounded textBox border border-3 border-secondary">
+        <p> {{ personalData.intro }} </p>
+      </div>
+
+      <div class="m-1 d-flex w-80">
+        <buttonTemplate class="m-2" buttonName="Regarding Me" color="#171717" routerLink="/aboutMe" />
+        <buttonTemplate class="m-2" buttonName="Contact Me" color="#171717" />
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-.info {
-  margin: 1rem;
-  margin-right: 0.2rem;
-  margin-left: clamp(1rem, 1.5vw, 2rem);
+.textContainer {
+  width: 35%;
 }
 
-blockquote {
-  margin-bottom: 0;
-}
-
-.cite {
-  margin: 0;
-  margin-left: 1vw;
-  font-size: clamp(1rem, 2vw, 2rem);
-  color: grey;
-}
-
-h1,
-p {
-  color: var(--text-color);
+.textBox {
+  background-color: rgb(39, 43, 41);
+  color: darkgray;
 }
 
 h1 {
-  font-size: clamp(3.5rem, 4vw, 5rem);
-  margin-top: 0;
-}
-
-@media (max-width: 990px) {
-  h1 {
-    font-size: clamp(2.4rem, 2.5vw, 3rem);
-  }
-}
-
-p {
-  font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+  font-size: clamp(2rem, 3vw, 3rem);
+  margin: 0;
 }
 
 .box {
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
   background-color: var(--profile-background-color);
-  border-radius: 30px;
   box-shadow:
     0 0 8px 8px rgba(0, 0, 0, 0.5),
     0 0 0 0 rgba(0, 0, 0, 0.5);
 
   display: flex;
-  justify-content: center;
-  flex-direction: row;
+  justify-content: space-evenly;
   align-items: center;
 
   margin-top: 2rem;
@@ -84,8 +62,8 @@ p {
 }
 
 img {
-  width: clamp(18rem, 35vw, 29rem);
-  height: clamp(18rem, 35vw, 29rem);
+  width: clamp(10rem, 15vw, 20rem);
+  height: clamp(10rem, 15vw, 20rem);
 
   border-radius: 50%;
 }
@@ -94,8 +72,6 @@ img {
   text-decoration: none;
   color: rgb(216, 189, 189);
 
-  margin-top: 3%;
-
   font-size: 2.5vw;
 }
 
@@ -103,22 +79,19 @@ img {
   color: #3a3a3a;
 }
 
-@media (max-width: 767px) {
+@media (max-width: 1400px) {
+  .textContainer {
+    width: 50%;
+  }
+}
+
+@media (max-width: 800px) {
   .box {
-    flex-direction: column-reverse;
+    flex-direction: column;
   }
 
-  img {
-    margin-left: 0;
-  }
-
-  .info {
-    margin: 0.5rem;
-  }
-
-  h1 {
-    margin: 0;
-    margin-top: 1rem;
+  .textContainer {
+    width: 70%;
   }
 }
 </style>

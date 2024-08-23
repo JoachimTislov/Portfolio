@@ -15,15 +15,15 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'about',
-          component: () => import('../views/Portfolio/AboutMeView.vue')
-        },
-        {
-          path: 'projects',
           name: 'projects',
           component: () => import('../views/Portfolio/MyProjectsView.vue')
         }
       ]
+    },
+    {
+      path: '/aboutMe',
+      name: 'aboutMe',
+      component: () => import('../views/Portfolio/AboutMeView.vue')
     },
     {
       path: '/four-in-a-row',

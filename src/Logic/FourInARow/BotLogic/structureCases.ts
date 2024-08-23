@@ -3,8 +3,8 @@ import type { possible_Coordinates } from '../Types'
 import { checkIfArrayInThe2DArrayEqualArray } from './ArrayLogic'
 import { prime_two_in_a_row_pattern } from './PatternLogic'
 
-export const structureCases = (entry: possible_Coordinates) => {
-  const zeroPlacement = entry.relatedMoves.zero
+export const structureCases = (possible_Coordinates_Entry: possible_Coordinates) => {
+  const zeroPlacement = possible_Coordinates_Entry.relatedMoves.zero
 
   const [firstBotOpportunity, secondBotOpportunity] = [
     zeroPlacement.bots_opportunities[0],
@@ -37,67 +37,97 @@ export const structureCases = (entry: possible_Coordinates) => {
   const secondIsThree = secondBotOpportunityIsThree || secondPlayerThreatIsThree
 
   // First related zero or asterisk
-  const firstOtherPossiblePlacement = entry.relatedMoves.first
+  const OtherPossiblePlacement = possible_Coordinates_Entry.relatedMoves.first
   const [
-    firstUnderOtherPossiblePlacementBotOpportunity,
-    firstOtherPossiblePlacementBotOpportunity
+    secondUnderOtherPossiblePlacementBotOpportunity,
+    underOtherPossiblePlacementBotOpportunity,
+    OtherPossiblePlacementBotOpportunity
   ] = [
-    firstOtherPossiblePlacement?.bots_opportunities[-1],
-    firstOtherPossiblePlacement?.bots_opportunities[0]
+    OtherPossiblePlacement?.bots_opportunities[-2],
+    OtherPossiblePlacement?.bots_opportunities[-1],
+    OtherPossiblePlacement?.bots_opportunities[0]
   ]
-  const [firstUnderOtherPossiblePlacementPlayerThreat, firstOtherPossiblePlacementPlayerThreat] = [
-    firstOtherPossiblePlacement?.player_threats[-1],
-    firstOtherPossiblePlacement?.player_threats[0]
+  const [
+    secondUnderOtherPossiblePlacementPlayerThreat,
+    firstUnderOtherPossiblePlacementPlayerThreat,
+    otherPossiblePlacementPlayerThreat
+  ] = [
+    OtherPossiblePlacement?.player_threats[-2],
+    OtherPossiblePlacement?.player_threats[-1],
+    OtherPossiblePlacement?.player_threats[0]
   ]
+
+  const secondUnderOtherPossiblePlacementPlayerThreatIsThree =
+    secondUnderOtherPossiblePlacementPlayerThreat?.piece_count == 'Three'
+  const secondUnderOtherPossiblePlacementBotOpportunityIsThree =
+    secondUnderOtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
 
   const firstUnderOtherPossiblePlacementPlayerThreatIsThree =
     firstUnderOtherPossiblePlacementPlayerThreat?.piece_count == 'Three'
   const firstUnderOtherPossiblePlacementBotOpportunityIsThree =
-    firstUnderOtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
+    underOtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
 
   const firstOtherPossiblePlacementPlayerThreatIsTwo =
-    firstOtherPossiblePlacementPlayerThreat?.piece_count == 'Two'
+    otherPossiblePlacementPlayerThreat?.piece_count == 'Two'
   const firstOtherPossiblePlacementBotOpportunityIsTwo =
-    firstOtherPossiblePlacementBotOpportunity?.piece_count == 'Two'
+    OtherPossiblePlacementBotOpportunity?.piece_count == 'Two'
 
   const firstOtherPossiblePlacementPlayerThreatIsThree =
-    firstOtherPossiblePlacementPlayerThreat?.piece_count == 'Three'
+    otherPossiblePlacementPlayerThreat?.piece_count == 'Three'
   const firstOtherPossiblePlacementBotOpportunityIsThree =
-    firstOtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
+    OtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
 
-  const twoPieceCount = entry.piece_count == 'Two'
+  const twoPieceCount = possible_Coordinates_Entry.piece_count == 'Two'
   const twoAndBot = twoPieceCount && twoPieceCount
   const twoAndPlayer = twoPieceCount && twoAndBot
 
   const prioritizeTwoWithoutOpportunity = !(
     twoPieceCount &&
-    entry.participant == botValue &&
+    possible_Coordinates_Entry.participant == botValue &&
     !firstBotOpportunityIsTwo &&
     firstOtherPossiblePlacementBotOpportunityIsTwo
   )
 
   const prioritizeTwoWithThreat = !(
     twoPieceCount &&
-    entry.participant == playerStatus.value &&
+    possible_Coordinates_Entry.participant == playerStatus.value &&
     !firstPlayerThreatIsTwo &&
     firstOtherPossiblePlacementPlayerThreatIsTwo
   )
 
   const prime_two = checkIfArrayInThe2DArrayEqualArray(
-    prime_two_in_a_row_pattern(entry.participant),
-    entry.pattern
+    prime_two_in_a_row_pattern(possible_Coordinates_Entry.participant),
+    possible_Coordinates_Entry.pattern
   )
 
   const verticalDoubleThree =
-    prime_two &&
-    ((twoAndPlayer &&
-      (firstUnderOtherPossiblePlacementPlayerThreatIsThree ||
+    (twoAndPlayer &&
+      (secondUnderOtherPossiblePlacementPlayerThreatIsThree ||
         firstOtherPossiblePlacementPlayerThreatIsThree ||
         firstPlayerThreatIsThree)) ||
-      (twoAndBot &&
-        (firstUnderOtherPossiblePlacementBotOpportunityIsThree ||
-          firstOtherPossiblePlacementBotOpportunityIsThree ||
-          firstBotOpportunityIsThree)))
+    (twoAndBot &&
+      (secondUnderOtherPossiblePlacementBotOpportunityIsThree ||
+        firstOtherPossiblePlacementBotOpportunityIsThree ||
+        firstBotOpportunityIsThree))
+
+  if (
+    possible_Coordinates_Entry.participant == 1 &&
+    possible_Coordinates_Entry.direction == 'cross_up_right'
+  ) {
+    console.log(
+      prime_two,
+      twoAndPlayer,
+      secondUnderOtherPossiblePlacementPlayerThreatIsThree,
+      firstUnderOtherPossiblePlacementPlayerThreatIsThree,
+      firstOtherPossiblePlacementPlayerThreatIsThree,
+      firstPlayerThreatIsThree,
+      twoAndBot,
+      secondUnderOtherPossiblePlacementBotOpportunityIsThree,
+      firstUnderOtherPossiblePlacementBotOpportunityIsThree,
+      firstOtherPossiblePlacementBotOpportunityIsThree,
+      firstBotOpportunityIsThree
+    )
+  }
 
   const relevantFirstMoveToOriginalThreatIsThree =
     firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0]?.piece_count == 'Three'

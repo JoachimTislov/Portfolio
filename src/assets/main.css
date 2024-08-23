@@ -8,7 +8,7 @@
 
   --background-color: #222222;
   --secondary-background-color: #212121;
-  --profile-background-color: #18222a;
+  --profile-background-color: #141414;
 
   --main-navbar-color: #171717;
 
@@ -21,7 +21,7 @@ body {
 
 p {
   color: var(--text-color);
-  font-size: clamp(1.1rem, 2.6vw, 1.8rem);
+  font-size: clamp(1rem, 1vw, 1.3rem);
 }
 
 .wrap {

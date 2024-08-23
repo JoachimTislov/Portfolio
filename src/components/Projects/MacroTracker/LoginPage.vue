@@ -69,7 +69,7 @@ async function login() {
         _alert(result.message)
       }
     } catch (error) {
-      alert('Error loging in: ' + error)
+      alert('Error logging in: ' + error)
     }
   } else {
     alertDanger()
@@ -87,51 +87,32 @@ async function login() {
           <AlertBox />
           <h1 class="card-title">Macro Tracker</h1>
 
-          <form @submit.prevent>
-            <div class="form-group" style="width: 300px">
-              <input
-                @input="
-                  login_validation.Username = ValidateText(
-                    $event,
-                    validation_messages.login.username.value,
-                    'Username',
-                    'form-control form-control-lg'
-                  )
-                "
-                class="form-control form-control-lg"
-                type="text"
-                v-model="username"
-                placeholder="Username"
-                required
-              />
-              <div
-                :ref="validation_messages.login.username"
-                class="ml-3 invalid-feedback"
-                style="display: none"
-              ></div>
+          <form @submit.prevent style="width: 300px">
+            <div class="form-group">
+              <input @input="
+                login_validation.Username = ValidateText(
+                  $event,
+                  validation_messages.login.username.value,
+                  'Username',
+                  'form-control form-control-lg'
+                )
+                " class="form-control form-control-lg" type="text" v-model="username" placeholder="Username"
+                required />
+              <div :ref="validation_messages.login.username" class="ml-3 invalid-feedback" style="display: none"></div>
             </div>
 
-            <div class="form-group" style="width: 300px">
-              <input
-                @input="
-                  login_validation.Password = ValidateText(
-                    $event,
-                    validation_messages.login.password.value,
-                    'Password',
-                    'mt-2 form-control form-control-lg'
-                  )
-                "
-                class="mt-2 form-control form-control-lg"
-                type="password"
-                v-model="password"
-                placeholder="Password"
-                required
-              />
-              <div
-                :ref="validation_messages.login.password"
-                class="ml-3 mb-1 invalid-feedback"
-                style="display: none"
-              ></div>
+            <div class="form-group">
+              <input @input="
+                login_validation.Password = ValidateText(
+                  $event,
+                  validation_messages.login.password.value,
+                  'Password',
+                  'mt-2 form-control form-control-lg'
+                )
+                " class="mt-2 form-control form-control-lg" type="password" v-model="password" placeholder="Password"
+                required />
+              <div :ref="validation_messages.login.password" class="ml-3 mb-1 invalid-feedback" style="display: none">
+              </div>
             </div>
 
             <div class="mt-3">
@@ -160,8 +141,8 @@ async function login() {
 .centerDiv {
   display: flex;
   justify-content: center;
-
-  margin-top: 10vh;
+  align-items: center;
+  height: 100vh;
 }
 
 .box {

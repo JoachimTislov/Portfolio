@@ -51,8 +51,8 @@ async function register() {
   <div class="centerDiv">
     <div class="d-flex flex-column box">
       <WarningModule :message="warningMessage" />
-      <div class="card p-3 border border-1 shadow-lg" style="max-width: 500px; min-width: 300px">
-        <div class="card-body">
+      <div class="card p-3 shadow-lg">
+        <div class="card-body d-flex flex-column justify-content-center">
           <AlertBox />
 
           <h4 class="card-title">Macro Tracker - Register</h4>
@@ -64,11 +64,7 @@ async function register() {
                 <RequestLoader />
               </template>
 
-              <button
-                type="submit"
-                class="btn btn-lg btn-outline-primary m-2 me-0"
-                @click="register()"
-              >
+              <button type="submit" class="btn btn-lg btn-outline-primary m-2 me-0" @click="register()">
                 Register
               </button>
             </div>
@@ -87,8 +83,9 @@ async function register() {
 .centerDiv {
   display: flex;
   justify-content: center;
+  align-items: center;
 
-  margin-top: 7vh;
+  height: 100dvh;
 }
 
 .box {
