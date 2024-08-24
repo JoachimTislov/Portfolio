@@ -1,10 +1,11 @@
 import macroTrackerImg from '@/assets/images/macroTracker.png'
 import imageGuesserImg from '@/assets/images/image-guesser.png'
 import fourInARowImg from '@/assets/images/four-in-a-row.png'
-
+import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.png'
 import { skills } from './skills'
+import type { PersonalData } from '@/Logic/Portfolio/types'
 
-export const personalData = {
+export const personalData: PersonalData = {
   name: 'Joachim',
   surname: 'Tisløv',
 
@@ -25,7 +26,7 @@ export const personalData = {
   ],
 
   situation: `I am currently working on personal projects, and plan to integrate every project into
-        the website. This allows you to interact with and explore them, instead of just reading
+        the website. This allows you to explore and interact with them, instead of just reading
         about each project. `,
 
   education: `Bachelor's Degree in Computer Technology`,
@@ -57,32 +58,28 @@ export const personalData = {
     'Developer'
   ],
 
-  projects: [
-    {
-      name: 'Macro Tracker',
-      original: true,
-      date: '08.04.2024 - 11.06.2024',
-      githubLink: 'https://github.com/JoachimTislov/MacroTracker',
-      group_size: '2',
-      intro: `During a two-month development period, my fellow student and I aimed for excellence in creating a Macro Tracker.
-                I took responsibility for both backend and frontend development, while he focused on styling, 
-                the website's layout and enable users to upload a profile picture.`,
+  projects: {
+    'Refactoring Macro Tracker': {
+      name: 'Refactoring Macro Tracker',
+      date: '02.08.2024 - 19.08.2024',
+      intro: `Integrated the frontend into this website and configured the backend to ensure 
+      compatibility with the hosting environment on render.com`,
+
       description: [
-        `The Macro Tracker includes an authentication system, personal meal and ingredient management, user profile, built in calender algorithms (since we could'nt use libraries) and a meal calendar. 
-                We integrated the kassal.app API to enhance functionality.`,
+        `The fronted is reworked and integrated to the Vue application. The javascript is converted to typescript 
+        and the architecture is largely improved. The code quality has improved, with reduced redundancy.`,
 
-        `I am considering expanding Macro Tracker with additional features, refactoring the whole code structure, and utilizing more tools. 
-                We were in fact limited to the tools listed bellow since our teacher knowledge was limited.`,
+        `The backend on the other hand is barely modified. The old "authentication system" was scraped and I switched to a key/token based authentication system`,
 
-        `It would be quite cool to publish the application as a standalone app, but since theres 
-                multiple popular macro apps, the chance of me doing so is small.`
+        `New features are: a date system and more statistics. The date system consist of a start and end date,
+          and presents the meals within the period.The statistics provide an overview of daily, total, recommended, and average macros.`
       ],
       tools: [
         //Frontend
         skills['Bootstrap'],
         skills['CSS'],
         skills['HTML'],
-        skills['Javascript'],
+        skills['Typescript'],
         skills['Vue FrameWork'],
 
         // Backend
@@ -90,21 +87,21 @@ export const personalData = {
         skills['Flask'],
         skills['SQLite']
       ],
-      image: macroTrackerImg,
-      viewProjectLink: '/macro-tracker',
-      aboutProjectLink: '/about-macro-tracker'
+      image: refactoredMacroTrackerImg,
+      viewProjectLink: '/macro-tracker'
     },
-    {
+    'Image guesser': {
       name: 'Image guesser',
       date: '22.10.2023 - 05.12.2023',
       group_size: '5',
       intro: `We developed a game with the objective of guessing an image. The roles of the game consisted of an Oracle which could either be AI or
-                a person, and the rest were guessers. The game is straightforward: the Oracle of the game reveals parts of the image and the guessers
-                write their guesses in the chat until a player guesses correctly.`,
+                a person, and the rest were guessers.`,
       description: [
         `The website's structure is composed of an authentication system, primarily to identify players and distinguish them as different individuals.
                 Then we have the join and create lobby alternatives, players can join public lobbies or create their own lobby which features customizable options including the Oracle, 
                 image choice, amount of rounds, game mode and more.`,
+        `The game is straightforward: the Oracle of the game reveals parts of the image and the guessers
+                write their guesses in the chat until a player guesses correctly.`,
 
         `The application is synchronized using SignalR, enabling players to interact in real-time. The Oracle of the game choose which image tiles to reveal, 
                 and if its AI or, in other words; an algorithm, then it determines which tiles to reveal when the leader of the lobby decides to do so.`,
@@ -123,15 +120,50 @@ export const personalData = {
         skills['SQLite'],
         skills['Docker']
       ],
-      image: imageGuesserImg,
-      aboutProjectLink: '/about-image-guesser'
+      image: imageGuesserImg
     },
-    {
+    'Macro Tracker': {
+      name: 'Macro Tracker',
+      original: true,
+      date: '08.04.2024 - 11.06.2024',
+      githubLink: 'https://github.com/JoachimTislov/MacroTracker',
+      group_size: '2',
+      intro: `My fellow student and I aimed for excellence in creating a Macro Tracker. A simple website with; a profile, list over meals and ingredients, and a calender.`,
+      description: [
+        `I took responsibility for both backend and frontend development, while he focused on styling, 
+                the website's layout and enable users to upload a profile picture.`,
+
+        `The Macro Tracker includes an authentication system, personal meal and ingredient management, user profile, built in calender algorithms (since we could'nt use libraries) and a meal calendar. 
+                We integrated the kassal.app API to enhance functionality.`,
+
+        `I am considering expanding Macro Tracker with additional features, refactoring the whole code structure, and utilizing more tools. 
+                We were in fact limited to the tools listed bellow since our teacher knowledge was limited.`,
+
+        `It would be quite cool to publish the application as a standalone app, but since theres 
+                multiple popular macro apps, the chance of me doing so, is quite small.`
+      ],
+      tools: [
+        //Frontend
+        skills['Bootstrap'],
+        skills['CSS'],
+        skills['HTML'],
+        skills['Javascript'],
+        skills['Vue FrameWork'],
+
+        // Backend
+        skills['Python'],
+        skills['Flask'],
+        skills['SQLite']
+      ],
+      image: macroTrackerImg,
+      viewProjectLink: '/macro-tracker'
+    },
+    'Four in a row': {
       name: 'Four in a row',
       date: '20.06.2024 - 15.07.2024',
       githubLink: 'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
-      intro: `During my summer holiday, my father and brother played four in a row, and after hearing my brother loose
-                for the 7th time, I thought, why not create a bot which he can play against.`,
+      intro: `During my summer holiday, my father and brother played four in a row. After hearing my brother lose
+                for the 7th time, I thought; "Why not program a bot for him to play against?".`,
       description: [
         `This is what sparked the one-month development of a fairly complex four in a row bot.
                 The intent of creating such a bot, were to help my brother, but rather escalated into a far more better goal: `,
@@ -153,8 +185,7 @@ export const personalData = {
         skills['Vue FrameWork']
       ],
       viewProjectLink: '/Four-in-a-row',
-      aboutProjectLink: '/about-four-in-a-row',
       image: fourInARowImg
     }
-  ]
+  }
 }

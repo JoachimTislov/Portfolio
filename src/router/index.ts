@@ -11,19 +11,17 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: () => import('../views/Portfolio/HomeView.vue'),
-      children: [
-        {
-          path: '',
-          name: 'projects',
-          component: () => import('../views/Portfolio/MyProjectsView.vue')
-        }
-      ]
+      component: () => import('../views/Portfolio/HomeView.vue')
     },
     {
-      path: '/aboutMe',
+      path: '/more-of-me',
       name: 'aboutMe',
       component: () => import('../views/Portfolio/AboutMeView.vue')
+    },
+    {
+      path: '/about-project',
+      name: 'aboutProject',
+      component: () => import('../views/Portfolio/AboutProjectView.vue')
     },
     {
       path: '/four-in-a-row',

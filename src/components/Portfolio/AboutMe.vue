@@ -10,8 +10,9 @@ const situation = personalData['situation']
 </script>
 
 <template>
-  <div class="aboutBox">
-    <div class="text m-1">
+  <div class="aboutBox mt-4 rounded">
+    <h2 class="p-3"> About Me </h2>
+    <div class="text">
       <div class="mt-3">
         <p v-for="paragraph in about" :key="paragraph">{{ paragraph }}</p>
 
@@ -65,10 +66,13 @@ const situation = personalData['situation']
 }
 
 .aboutBox {
-  background-color: var(--secondary-background-color);
+  box-shadow:
+    0 0 8px 8px rgba(0, 0, 0, 0.5),
+    0 0 0 0 rgba(0, 0, 0, 0.5);
 }
 
 .text {
+  background-color: var(--profile-background-color);
   padding: 5%;
   padding-top: 1.14321%;
 }

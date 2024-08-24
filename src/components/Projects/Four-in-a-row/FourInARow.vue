@@ -56,7 +56,7 @@ import {
         </select>
       </div>
 
-      <div v-if="!ShowWinner" class="mt-2 p-4 message">
+      <div v-if="!ShowWinner" class="mt-2 p-2 message">
         <h4>{{ gameMode }}</h4>
         <template v-if="botGame">
           <h5 v-if="busy && !botCalculating"><strong> Dropping piece.. </strong></h5>
@@ -74,19 +74,19 @@ import {
         </template>
       </div>
 
-      <div v-if="ShowWinner" class="p-4 message">
+      <div v-if="ShowWinner" class="p-3 message">
         <h4>{{ winnerMsg }}</h4>
       </div>
 
-      <div class="d-flex btn-group btn-group-lg mt-2">
+      <div class="d-flex btn-group btn-group-md mt-2">
         <button ref="restartButton" :disabled="droppingPiece || !(pieces > getNumber() || ShowWinner)"
-          @click="resetGame()" type="button" class="m-1 btn btn-md btn-success">
+          @click="resetGame()" type="button" class="m-1 btn btn-success">
           <template v-if="ShowWinner"> Play Again </template>
           <template v-else> Restart </template>
         </button>
 
         <button ref="previousButton" :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)"
-          @click="previousMove()" type="button" class="m-1 btn btn-md btn-primary">
+          @click="previousMove()" type="button" class="m-1 btn btn-primary">
           Previous Move
         </button>
       </div>
@@ -107,7 +107,7 @@ import {
 
 <style scoped>
 #starting_player {
-  font-size: clamp(1rem, 2vw, 1.4rem);
+  font-size: clamp(1rem, 1vw, 1.2rem);
 }
 
 .label {
@@ -190,8 +190,8 @@ import {
   border-radius: 50%;
   background-color: white;
 
-  width: clamp(2em, 11.5vw, 8em);
-  height: clamp(2em, 11.5vw, 8em);
+  width: clamp(2em, 8vw, 6em);
+  height: clamp(2em, 8vw, 6em);
 
   padding: 2px;
   margin: 2px;
@@ -236,11 +236,11 @@ h5 {
 }
 
 h4 {
-  font-size: clamp(1.4rem, 2vw, 2rem);
+  font-size: clamp(1.2rem, 1.2vw, 1.5rem);
 }
 
 h5 {
-  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-size: 1rem;
 }
 
 .message {

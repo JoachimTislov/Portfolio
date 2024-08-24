@@ -1,14 +1,6 @@
-type skill = {
-  name: string
-  icon?: string[]
-  link: string
-}
+import type { Skills } from '@/Logic/Portfolio/types'
 
-type skills = {
-  [key: string]: skill
-}
-
-export const skills: skills = {
+export const skills: Skills = {
   'Visual Studio': {
     name: 'Visual Studio',
     icon: ['fas', 'code'],

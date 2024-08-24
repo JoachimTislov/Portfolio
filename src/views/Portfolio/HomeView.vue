@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import HomePage from '../../components/Portfolio/HomePage.vue'
+import MyProfile from '../../components/Portfolio/MyProfile.vue'
+import ProjectFormat from '../../components/Portfolio/ProjectFormat.vue'
 </script>
 
 <template>
-  <HomePage />
+  <MyProfile />
+  <ProjectFormat />
 </template>

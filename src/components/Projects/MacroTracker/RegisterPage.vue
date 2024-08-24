@@ -85,7 +85,7 @@ async function register() {
   justify-content: center;
   align-items: center;
 
-  height: 100dvh;
+  height: 80vh;
 }
 
 .box {

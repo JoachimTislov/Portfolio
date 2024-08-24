@@ -1,18 +1,18 @@
 <script setup lang="ts">
-import { personalData } from '@/Data/personal';
 import { onMounted, ref } from 'vue';
-import { RouterLink } from 'vue-router';
 
 const props = defineProps<({
     buttonName: string
     color: string
-    routerLink?: string
+    routerLink: string
+    arrow_type: string
+    arrow_right_side?: boolean
+    arrow_left_side?: boolean
 })>()
 
 const button = ref<HTMLElement | null>(null)
 
 onMounted(() => {
-    button.value?.focus()
 
     if (button.value) {
         button.value.style.backgroundColor = props.color
@@ -37,27 +37,25 @@ function leaveHover() {
         button.value.style.backgroundColor = props.color
     }
 }
-
 </script>
 
 <template>
     <div @mouseenter="enterHover" @mouseleave="leaveHover">
-        <button ref="button" class="p-3">
-            <RouterLink class="d-flex align-items-center" v-if="routerLink" :to="routerLink">
-                <font-awesome-icon class="me-1" v-show="MouseOver" :icon="['fas', 'arrow-right']" />
+        <RouterLink :to="routerLink">
+            <button ref="button" class="p-3 d-flex align-items-center">
+
+                <font-awesome-icon v-if="arrow_left_side" class="me-1" v-show="MouseOver"
+                    :icon="['fas', `arrow-${arrow_type}`]" />
 
                 <p class="m-0">
-                    <small> {{ buttonName }} </small>
+                    {{ buttonName }}
                 </p>
-            </RouterLink>
-            <a v-else class="d-flex align-items-center" :href="'mailto:' + personalData.email">
-                <font-awesome-icon class="me-1" v-show="MouseOver" :icon="['fas', 'arrow-right']" />
 
-                <p class="m-0">
-                    <small> {{ buttonName }} </small>
-                </p>
-            </a>
-        </button>
+                <font-awesome-icon v-if="arrow_right_side" class="ms-1" v-show="MouseOver"
+                    :icon="['fas', `arrow-${arrow_type}`]" />
+
+            </button>
+        </RouterLink>
     </div>
 </template>
 
@@ -65,11 +63,11 @@ function leaveHover() {
 a,
 RouterLink {
     text-decoration: none;
-    color: white;
 }
 
 button {
-    border-radius: 10px;
+    color: white;
+    border-radius: 20px;
 }
 
 button:hover {

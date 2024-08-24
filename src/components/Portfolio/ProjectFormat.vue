@@ -1,20 +1,30 @@
 <script setup lang="ts">
 import { personalData } from '../../Data/personal'
 import ButtonTemplate from './ButtonTemplate.vue';
+import { projectToShow } from '@/Logic/Portfolio/variables'
+import { viewName } from '@/Logic/Portfolio/functions'
+import type { Project } from '@/Logic/Portfolio/types';
+
+function assignChosenProject(project: Project) {
+    for (const [key, value] of Object.entries(project)) {
+        projectToShow[key] = value
+    }
+}
+
 </script>
 
 <template>
     <div class="projectsContainer p-5 mt-4">
-        <h2> My Projects </h2>
-        <div class="card mt-4" v-for="(project, index) in personalData.projects" :key="index">
+        <h2> Projects </h2>
+        <div class="card mt-4" v-for="(project, key) in personalData.projects" :key="key">
             <div class="card-header d-flex">
                 <div class="flex-column">
                     <h3 class="card-title m-0"> {{ project.name }} </h3>
                     <div class="ms-1">
-                        <small> {{ project.date }} </small>
+                        <small style="color: darkgrey"> {{ project.date }} </small>
                         <br>
                         <small v-if="project.group_size"> Group size: {{ project.group_size }} </small>
-                        <small v-else> Solo project </small>
+                        <small v-else> -> Solo project </small>
                         <small v-if="project.original">, original version </small>
                     </div>
                 </div>
@@ -22,20 +32,20 @@ import ButtonTemplate from './ButtonTemplate.vue';
 
             </div>
             <div class="card-body">
-                <div class="ms-auto d-flex">
-                    <ButtonTemplate class="me-2" buttonName="About" color="#2222"
-                        :router-link="project.aboutProjectLink" />
-                    <ButtonTemplate v-if="project.viewProjectLink" :buttonName="'View ' + project.name" color="#171717"
-                        :router-link="project.viewProjectLink" />
-                </div>
-
-
                 <div class="d-flex bodyBox">
                     <div class="p-3 m-2 rounded border border-3 border-secondary">
                         <p> {{ project.intro }} </p>
                     </div>
 
                     <img :src="project.image">
+                </div>
+
+                <div class="ms-auto d-flex mt-2">
+                    <ButtonTemplate @click="assignChosenProject(project)" class="me-2" buttonName="About" color="#2222"
+                        :arrow_left_side="true" arrow_type="right" router-link="/about-project" />
+                    <ButtonTemplate v-if="project.viewProjectLink" :arrow_right_side="true"
+                        :buttonName="viewName(project)" arrow_type="right" color="#171717"
+                        :router-link="project.viewProjectLink" />
                 </div>
             </div>
         </div>
@@ -45,6 +55,10 @@ import ButtonTemplate from './ButtonTemplate.vue';
 <style scoped>
 .projectsContainer {
     background-color: var(--profile-background-color);
+    box-shadow:
+        0 0 8px 8px rgba(0, 0, 0, 0.5),
+        0 0 0 0 rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
 }
 
 .bodyBox {
@@ -54,7 +68,7 @@ import ButtonTemplate from './ButtonTemplate.vue';
 }
 
 img {
-    width: 50%;
+    width: 60%;
 }
 
 @media (max-width: 990px) {

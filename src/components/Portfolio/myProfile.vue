@@ -3,34 +3,65 @@ import socialLinks from './socialLinks.vue'
 
 import { personalData } from '@/Data/personal'
 
-import buttonTemplate from './ButtonTemplate.vue'
+import ButtonTemplate from './ButtonTemplate.vue'
 
 </script>
 
 <template>
   <div class="box">
-    <div class="d-flex flex-column m-2">
+    <div class="d-flex flex-column m-2 profileBox p-3">
       <img class="mx-auto" src="@\\assets\\images\\joachim.png" />
 
       <h1>Hi, I'm {{ personalData.name }} </h1>
       <socialLinks />
     </div>
 
-    <div class="d-flex flex-column justify-content-center align-items-center textContainer">
+    <div class="d-flex flex-column justify-content-center align-items-center p-3 textContainer">
 
       <div class="p-3 rounded textBox border border-3 border-secondary">
         <p> {{ personalData.intro }} </p>
       </div>
 
-      <div class="m-1 d-flex w-80">
-        <buttonTemplate class="m-2" buttonName="Regarding Me" color="#171717" routerLink="/aboutMe" />
-        <buttonTemplate class="m-2" buttonName="Contact Me" color="#171717" />
+      <div class="m-1 d-flex">
+        <a class="m-2" :href="`mailto: ${personalData.email}`">
+          <button class="p-3 contact">
+            <font-awesome-icon class="me-1 arrow" :icon="['fas', `arrow-right`]" />
+            <p class=" m-0">
+              Contact
+            </p>
+          </button>
+        </a>
+        <ButtonTemplate class="m-2" buttonName="More of me" color="#171717" router-link="/more-of-me"
+          :arrow_right_side="true" arrow_type="right" />
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
+a {
+  text-decoration: none;
+}
+
+.contact {
+  color: white;
+  display: flex;
+  align-items: center;
+  background-color: #130e0e;
+}
+
+.contact .arrow {
+  display: none;
+}
+
+.contact:hover {
+  background-color: #241a1a;
+
+  .arrow {
+    display: block;
+  }
+}
+
 .textContainer {
   width: 35%;
 }
@@ -45,13 +76,17 @@ h1 {
   margin: 0;
 }
 
-.box {
-  backdrop-filter: blur(20px);
-  border-radius: 10px;
+.profileBox,
+.textContainer {
   background-color: var(--profile-background-color);
   box-shadow:
     0 0 8px 8px rgba(0, 0, 0, 0.5),
     0 0 0 0 rgba(0, 0, 0, 0.5);
+}
+
+.box {
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
 
   display: flex;
   justify-content: space-evenly;
@@ -79,8 +114,9 @@ img {
   color: #3a3a3a;
 }
 
-@media (max-width: 1400px) {
+@media (max-width: 1300px) {
   .textContainer {
+    margin-top: 1rem;
     width: 50%;
   }
 }
