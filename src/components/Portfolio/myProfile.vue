@@ -24,14 +24,14 @@ import ButtonTemplate from './ButtonTemplate.vue'
 
       <div class="mt-1 d-flex">
         <a class="mt-1 me-1" :href="`mailto: ${personalData.email}`">
-          <button type="button" class="p-3 contact">
+          <button type="button" class="btn p-3 contact">
             <font-awesome-icon class="me-1 arrow" :icon="['fas', `arrow-right`]" />
             <p class=" m-0">
               Contact
             </p>
           </button>
         </a>
-        <ButtonTemplate class="mt-1 ms-1" buttonName="About Me" color="#171717" router-link="/more-of-me"
+        <ButtonTemplate class="mt-1 ms-1" buttonName="About Me" color="#222222" router-link="/more-of-me"
           :arrow_right_side="true" arrow_type="right" />
       </div>
     </div>

@@ -42,7 +42,7 @@ function leaveHover() {
 <template>
     <div @mouseenter="enterHover" @mouseleave="leaveHover">
         <RouterLink :to="routerLink">
-            <button type="button" ref="button" class="p-3 d-flex align-items-center">
+            <button type="button" ref="button" class="btn p-3 d-flex align-items-center">
 
                 <font-awesome-icon v-if="arrow_left_side" class="me-1" v-show="MouseOver"
                     :icon="['fas', `arrow-${arrow_type}`]" />
@@ -63,6 +63,7 @@ function leaveHover() {
 a,
 RouterLink {
     text-decoration: none;
+    color: white;
 }
 
 button {

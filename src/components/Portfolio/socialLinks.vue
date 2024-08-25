@@ -14,4 +14,8 @@ import { personalData } from '@/Data/personal'
 a {
   color: grey;
 }
+
+a:hover {
+  color: darkgray;
+}
 </style>

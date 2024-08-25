@@ -14,7 +14,7 @@ function assignChosenProject(project: Project) {
 </script>
 
 <template>
-    <div class="projectsContainer mt-4">
+    <div class="projectsContainer mt-4 pb-4">
         <h2 class="p-2"> Projects </h2>
         <div class="card m-2 mt-3" v-for="(project, key) in personalData.projects" :key="key">
             <div class="card-header d-flex">
@@ -37,12 +37,12 @@ function assignChosenProject(project: Project) {
                         <p> {{ project.intro }} </p>
                     </div>
 
-                    <img :src="project.image">
+                    <img :src="project.image" class="m-2 mt-3">
                 </div>
 
                 <div class="ms-auto d-flex mt-2">
-                    <ButtonTemplate @click="assignChosenProject(project)" class="me-2" buttonName="About" color="#2222"
-                        :arrow_left_side="true" arrow_type="right" router-link="/about-project" />
+                    <ButtonTemplate @click="assignChosenProject(project)" class="me-2" buttonName="About"
+                        color="#222222" :arrow_left_side="true" arrow_type="right" router-link="/about-project" />
                     <ButtonTemplate v-if="project.viewProjectLink" :arrow_right_side="true"
                         :buttonName="viewName(project)" arrow_type="right" color="#171717"
                         :router-link="project.viewProjectLink" />

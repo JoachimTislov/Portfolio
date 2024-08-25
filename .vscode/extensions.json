@@ -3,6 +3,21 @@
     "Vue.volar",
     "ms-playwright.playwright",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "esbenp.prettier-vscode",
+    "antfu.browse-lite",
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+    "donjayamanne.githistory",
+    "NonSpicyBurrito.hoverlens",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "VisualStudioExptTeam.intellicode-api-usage-examples",
+    "PKief.material-icon-theme",
+    "ElAnandKumar.el-vsc-product-icon-theme",
+    "christian-kohler.path-intellisense",
+    "johnpapa.vscode-peacock",
+    "qwtel.sqlite-viewer",
+    "antfu.vite",
+    "vitest.explorer",
+    "tonybaloney.vscode-pets"
   ]
 }

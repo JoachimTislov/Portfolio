@@ -23,7 +23,7 @@ watch(projectToShow, () => {
 
                     <h6> Tools: </h6>
                     <div class="d-flex flex-wrap">
-                        <div class="m-1 p-1 bg-dark" v-for="tool in projectToShow.tools" :key="tool.name">
+                        <div class="m-1 p-2 bg-dark" v-for="tool in projectToShow.tools" :key="tool.name">
                             <a class="link" :href="tool.link">
                                 {{ tool.name }} <font-awesome-icon v-if="tool.icon" class="icon" :icon="tool.icon" />
                             </a>
@@ -32,9 +32,13 @@ watch(projectToShow, () => {
 
                     <br />
 
-                    <ButtonTemplate v-if="projectToShow.viewProjectLink" :arrow_right_side="true"
-                        :buttonName="viewName(projectToShow)" arrow_type="right" color="rgb(71, 53, 53)"
-                        :router-link="projectToShow.viewProjectLink" />
+                    <div class="d-flex">
+
+                        <ButtonTemplate v-if="projectToShow.viewProjectLink" :arrow_right_side="true"
+                            :buttonName="viewName(projectToShow)" arrow_type="right" color="rgb(80, 60, 60)"
+                            :router-link="projectToShow.viewProjectLink" />
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -43,7 +47,7 @@ watch(projectToShow, () => {
 
 <style scoped>
 .description {
-    background-color: rgb(61, 53, 53);
+    background-color: rgb(59, 49, 49);
     color: rgb(247, 228, 228);
 
     padding: 5%;

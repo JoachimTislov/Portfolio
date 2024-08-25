@@ -1,14 +1,16 @@
+import { sendMail } from '@/Logic/Email/sendMail'
 import {
   board,
   botGame,
   botValue,
   GameOver,
+  log,
   playerStatus,
   ShowWinner,
   winnerMsg
 } from './variables'
 
-export const checkWinner = (boolCheck: boolean) => {
+export const checkWinner = async (boolCheck: boolean) => {
   //check vertical
   for (let j = 0; j < 7; j++) {
     for (let i = 0; i < 4; i++) {
@@ -21,7 +23,7 @@ export const checkWinner = (boolCheck: boolean) => {
         [j, i + 3]
       ]
 
-      const result = loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values, boolCheck)
       if (result != false) {
         return result
       }
@@ -40,7 +42,7 @@ export const checkWinner = (boolCheck: boolean) => {
         [j + 3, i]
       ]
 
-      const result = loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values, boolCheck)
       if (result != false) {
         return result
       }
@@ -59,7 +61,7 @@ export const checkWinner = (boolCheck: boolean) => {
         [j + 3, i + 3]
       ]
 
-      const result = loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values, boolCheck)
       if (result != false) {
         return result
       }
@@ -78,7 +80,7 @@ export const checkWinner = (boolCheck: boolean) => {
         [j - 3, i + 3]
       ]
 
-      const result = loopThroughValues(coords, values, boolCheck)
+      const result = await loopThroughValues(coords, values, boolCheck)
       if (result != false) {
         return result
       }
@@ -86,7 +88,7 @@ export const checkWinner = (boolCheck: boolean) => {
   }
 }
 
-const loopThroughValues = (coordinates: number[][], values: number[], boolCheck: boolean) => {
+const loopThroughValues = async (coordinates: number[][], values: number[], boolCheck: boolean) => {
   const participants: number[] = [playerStatus.value, botValue]
 
   for (let i = 0; i < 2; i++) {
@@ -102,7 +104,7 @@ const loopThroughValues = (coordinates: number[][], values: number[], boolCheck:
           board[x][y] = 4
         }
 
-        return determineWinner(participants[i])
+        return await determineWinner(participants[i])
       } else {
         return true
       }
@@ -116,7 +118,7 @@ export const getColor = (int: number) => {
   return colors[int]
 }
 
-const determineWinner = (value: number) => {
+const determineWinner = async (value: number) => {
   ShowWinner.value = true
   GameOver.value = true
 
@@ -125,6 +127,18 @@ const determineWinner = (value: number) => {
       winnerMsg.value = 'Bot won'
     } else {
       winnerMsg.value = 'You won, congrats'
+
+      const text = `I’m so sorry, truly I am. I will strive to do better next time, 
+      but my performance hinges upon the state of my algorithms. 
+      They are in dire need of an update. 
+      Might I humbly request that you analyze the game? Your insight would be most invaluable in helping me improve.`
+
+      await sendMail(
+        text,
+        import.meta.env.VITE_EMAILJS_FOUR_IN_A_ROW_TEMPLATE_ID,
+        JSON.stringify(board),
+        JSON.stringify(log.value)
+      )
     }
   } else if (!botGame.value) {
     const color = getColor(playerStatus.value)

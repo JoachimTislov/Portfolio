@@ -48,15 +48,6 @@ watch(
 export const boardWidth = ref(7)
 export const boardHeight = ref(6)
 const storedBoard = localStorage.getItem('board')
-/*export const board = reactive([
-  [0, 0, 0, 0, 0, 0],
-  [3, 1, 3, 0, 0, 0],
-  [3, 1, 0, 0, 0, 0],
-  [1, 3, 0, 0, 0, 0],
-  [3, 1, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0]
-])*/
 export const board = reactive(
   storedBoard
     ? JSON.parse(storedBoard)

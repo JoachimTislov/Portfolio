@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import BackToHome from '@/components/Portfolio/BackToHome.vue';
+import Back from '@/components/Portfolio/BackButton.vue';
 import AboutProject from '../../components/Portfolio/AboutProject.vue'
 </script>
 
 <template>
-    <BackToHome />
+    <Back />
     <AboutProject />
 </template>

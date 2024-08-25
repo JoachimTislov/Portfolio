@@ -2,7 +2,7 @@ import { ref } from 'vue'
 import { initiateAlgorithms } from '../BotLogic/BotInit'
 import { updatePlayerStatus, toggleButtons } from './functions'
 import { board, botGame, GameOver, playerStatus, playerTurn, ShowWinner } from './variables'
-import { executePlacement } from '../BotLogic/botMove'
+import { executePlacement } from './executePlacement'
 
 export const busy = ref<boolean>(false)
 
