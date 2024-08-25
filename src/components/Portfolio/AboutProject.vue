@@ -2,6 +2,11 @@
 import { projectToShow } from '@/Logic/Portfolio/variables'
 import ButtonTemplate from './ButtonTemplate.vue';
 import { viewName } from '@/Logic/Portfolio/functions'
+import { watch } from 'vue'
+
+watch(projectToShow, () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+})
 </script>
 
 <template>

@@ -3,7 +3,10 @@ import { fetchResource } from '@/Logic/MacroTracker/Ajax/ajax'
 import { getFormDataInJSONFormat } from '@/Logic/MacroTracker/Ajax/get/getFormDataInJSONFormat'
 import {
   fetchingResource,
+  login_validation,
+  password,
   user_validation_arr,
+  username,
   warningMessage
 } from '@/Logic/MacroTracker/initVariables'
 import { onMounted } from 'vue'
@@ -24,25 +27,42 @@ onMounted(() => {
   alertSecondary()
   _alert('Welcome to the register page')
 })
-
 async function register() {
   const validation = checkValidationArr(user_validation_arr)
 
-  if (validation) {
+  if (validation && !fetchingResource.value) {
     const json = getFormDataInJSONFormat('register_form')
     const response = await fetchResource('POST', json, '/register', 'api_key')
-
-    fetchingResource.value = false
 
     if (response && response.ok) {
       alertSuccess()
       _alert('Successfully registered account')
 
+
+      // Storing login information, because some people struggle with remembering it
+
+      const register_fields = JSON.parse(json)
+      const new_username = register_fields.username
+      const new_password = register_fields.password
+
+      if (new_username) {
+        username.value = new_username
+        login_validation.Username = true
+
+        password.value = new_password
+        login_validation.Password = true
+      }
+
       router.push({ name: 'macroLogin' })
     }
   } else {
     alertDanger()
-    _alert('Fill out the required fields correctly!')
+    alertDanger()
+    if (fetchingResource.value) {
+      _alert('Already registering...')
+    } else {
+      _alert('Fill out the register fields correctly!')
+    }
   }
 }
 </script>

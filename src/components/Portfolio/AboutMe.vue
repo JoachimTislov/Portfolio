@@ -1,12 +1,5 @@
 <script setup lang="ts">
 import { personalData } from '@/Data/personal'
-
-const skills = personalData['skills']
-const jobs = personalData['jobs']
-
-const about = personalData['about']
-
-const situation = personalData['situation']
 </script>
 
 <template>
@@ -14,33 +7,39 @@ const situation = personalData['situation']
     <h2 class="p-3"> About Me </h2>
     <div class="text">
       <div class="mt-3">
-        <p v-for="paragraph in about" :key="paragraph">{{ paragraph }}</p>
 
-        <p><strong> Patient, dedicated and driven </strong> describe me the best</p>
+        <p v-for="paragraph in personalData.about" :key="paragraph">{{ paragraph }}</p>
 
-        <h4>Situation:</h4>
+        <p> Education: {{ personalData.education }}</p>
 
-        <p class="situation">{{ situation }}</p>
+        <p><strong> {{ personalData.keywords }} </strong> describe me the best</p>
 
-        <h4>Proficient in:</h4>
+        <h4> Situation </h4>
 
-        <div class="d-flex flex-wrap">
-          <div class="skill bg-dark" v-for="skill in skills" :key="skill.name">
-            <p class="p-0 m-0">
-              <a class="m-0 link" :href="skill.link">
-                {{ skill.name }}
+        <p class="situation">{{ personalData.situation }}</p>
 
-                <font-awesome-icon v-if="skill.icon" :icon="skill.icon" />
-              </a>
-            </p>
+        <div class="rounded p-2 bg-secondary">
+
+          <h4> Proficient in </h4>
+
+          <div class="d-flex flex-wrap">
+            <div class="skill bg-dark" v-for="skill in personalData.skills" :key="skill.name">
+              <p class="p-0 m-0">
+                <a class="m-0 link" :href="skill.link">
+                  {{ skill.name }}
+
+                  <font-awesome-icon v-if="skill.icon" :icon="skill.icon" />
+                </a>
+              </p>
+            </div>
           </div>
-        </div>
 
-        <h4 class="mt-2">Desired Positions:</h4>
+          <h4 class="mt-2"> Desired Positions </h4>
 
-        <div class="d-flex flex-wrap">
-          <div class="skill bg-dark" v-for="job in jobs" :key="job">
-            <p class="p-0 m-0">{{ job }}</p>
+          <div class="d-flex flex-wrap">
+            <div class="skill bg-dark" v-for="job in personalData.jobs" :key="job">
+              <p class="p-0 m-0">{{ job }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -78,8 +77,8 @@ const situation = personalData['situation']
 }
 
 .skill {
-  padding: 0.9vw;
-  margin: 0.6vw;
+  padding: 1rem;
+  margin: 0.7rem;
 
   color: darkgrey;
 }

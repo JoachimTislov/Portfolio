@@ -13,12 +13,8 @@ export const applyPropertiesToEntry = async (
   targetArr: possible_Choices,
   key: string
 ) => {
-  if (
-    possible_Coordinates_Entry.participant == 1 &&
-    possible_Coordinates_Entry.direction == 'cross_up_right'
-  ) {
-    console.log(possible_Coordinates_Entry)
-  }
+  //console.log(possible_Coordinates_Entry)
+
   const {
     firstPlayerThreatIsTwo,
     firstBotOpportunityIsThree,
@@ -39,7 +35,7 @@ export const applyPropertiesToEntry = async (
     possible_Coordinates_Entry.participant == 1 &&
     possible_Coordinates_Entry.direction == 'cross_up_right'
   ) {
-    console.log('Vertical double three in a row threat: ', verticalDoubleThree)
+    //console.log('Vertical double three in a row threat: ', verticalDoubleThree)
   }
 
   const [x, y] = coordinates
@@ -49,7 +45,12 @@ export const applyPropertiesToEntry = async (
     return await botMove(board, x, y)
   }
 
-  if ((doubleThreeInARow || verticalDoubleThree) && !firstPlayerThreatIsThree) {
+  if (
+    (doubleThreeInARow || verticalDoubleThree) &&
+    !firstPlayerThreatIsThree &&
+    !firstPlayerThreatTwoAndRelevantMoveThreatThree
+  ) {
+    //console.log(doubleThreeInARow, verticalDoubleThree)
     targetArr['double_Three_in_a_row'].push(possible_Coordinates_Entry)
   } else if (potentialDoubleThreeInARow && !firstIsThree) {
     targetArr['potentially_double_Three_in_a_row'].push(possible_Coordinates_Entry)

@@ -46,8 +46,8 @@ export const username = ref<string>(storedUsername ? storedUsername : '')
 export const password = ref<string>('')
 
 export const login_validation = reactive({
-  Username: true,
-  Password: true
+  Username: storedUsername ? true : false,
+  Password: false
 })
 
 export const change_password_validation: Validation_array = reactive({

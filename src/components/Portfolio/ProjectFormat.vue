@@ -14,9 +14,9 @@ function assignChosenProject(project: Project) {
 </script>
 
 <template>
-    <div class="projectsContainer p-5 mt-4">
-        <h2> Projects </h2>
-        <div class="card mt-4" v-for="(project, key) in personalData.projects" :key="key">
+    <div class="projectsContainer mt-4">
+        <h2 class="p-2"> Projects </h2>
+        <div class="card m-2 mt-3" v-for="(project, key) in personalData.projects" :key="key">
             <div class="card-header d-flex">
                 <div class="flex-column">
                     <h3 class="card-title m-0"> {{ project.name }} </h3>

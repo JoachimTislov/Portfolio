@@ -155,6 +155,8 @@ export const initiateAlgorithms = async (board: number[][]) => {
     }
   }
 
+  //console.log(botChoices.value, playerChoices.value)
+
   return await searchForBestChoice(board)
 }
 

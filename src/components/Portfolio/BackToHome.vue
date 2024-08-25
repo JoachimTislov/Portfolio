@@ -6,7 +6,7 @@ import ButtonTemplate from './ButtonTemplate.vue';
 
     <div class="d-flex mt-2">
 
-        <ButtonTemplate routerLink="/" buttonName="Back To Home" color="#171717" :arrow_left_side="true"
+        <ButtonTemplate routerLink="/" buttonName="Return home" color="#171717" :arrow_left_side="true"
             arrow_type="left" />
 
     </div>

@@ -1,7 +1,5 @@
 import { botValue, playerStatus } from '../GameLogic/variables'
 import type { possible_Coordinates } from '../Types'
-import { checkIfArrayInThe2DArrayEqualArray } from './ArrayLogic'
-import { prime_two_in_a_row_pattern } from './PatternLogic'
 
 export const structureCases = (possible_Coordinates_Entry: possible_Coordinates) => {
   const zeroPlacement = possible_Coordinates_Entry.relatedMoves.zero
@@ -78,8 +76,8 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     OtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
 
   const twoPieceCount = possible_Coordinates_Entry.piece_count == 'Two'
-  const twoAndBot = twoPieceCount && twoPieceCount
-  const twoAndPlayer = twoPieceCount && twoAndBot
+  const twoAndBot = twoPieceCount && possible_Coordinates_Entry.participant == botValue
+  const twoAndPlayer = twoPieceCount && possible_Coordinates_Entry.participant == playerStatus.value
 
   const prioritizeTwoWithoutOpportunity = !(
     twoPieceCount &&
@@ -95,40 +93,6 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     firstOtherPossiblePlacementPlayerThreatIsTwo
   )
 
-  const prime_two = checkIfArrayInThe2DArrayEqualArray(
-    prime_two_in_a_row_pattern(possible_Coordinates_Entry.participant),
-    possible_Coordinates_Entry.pattern
-  )
-
-  const verticalDoubleThree =
-    (twoAndPlayer &&
-      (secondUnderOtherPossiblePlacementPlayerThreatIsThree ||
-        firstOtherPossiblePlacementPlayerThreatIsThree ||
-        firstPlayerThreatIsThree)) ||
-    (twoAndBot &&
-      (secondUnderOtherPossiblePlacementBotOpportunityIsThree ||
-        firstOtherPossiblePlacementBotOpportunityIsThree ||
-        firstBotOpportunityIsThree))
-
-  if (
-    possible_Coordinates_Entry.participant == 1 &&
-    possible_Coordinates_Entry.direction == 'cross_up_right'
-  ) {
-    console.log(
-      prime_two,
-      twoAndPlayer,
-      secondUnderOtherPossiblePlacementPlayerThreatIsThree,
-      firstUnderOtherPossiblePlacementPlayerThreatIsThree,
-      firstOtherPossiblePlacementPlayerThreatIsThree,
-      firstPlayerThreatIsThree,
-      twoAndBot,
-      secondUnderOtherPossiblePlacementBotOpportunityIsThree,
-      firstUnderOtherPossiblePlacementBotOpportunityIsThree,
-      firstOtherPossiblePlacementBotOpportunityIsThree,
-      firstBotOpportunityIsThree
-    )
-  }
-
   const relevantFirstMoveToOriginalThreatIsThree =
     firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0]?.piece_count == 'Three'
   const relevantFirstMoveUnderToOriginalThreatIsThree =
@@ -136,6 +100,23 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
   const firstPlayerThreatTwoAndRelevantMoveThreatThree =
     firstPlayerThreatIsTwo &&
     (relevantFirstMoveToOriginalThreatIsThree || relevantFirstMoveUnderToOriginalThreatIsThree)
+
+  const playerVerticalDouble =
+    firstOtherPossiblePlacementBotOpportunityIsThree ||
+    secondUnderOtherPossiblePlacementPlayerThreatIsThree ||
+    firstUnderOtherPossiblePlacementPlayerThreatIsThree ||
+    firstOtherPossiblePlacementPlayerThreatIsThree ||
+    firstPlayerThreatIsThree
+
+  const botVerticalDouble =
+    firstOtherPossiblePlacementPlayerThreatIsThree ||
+    secondUnderOtherPossiblePlacementBotOpportunityIsThree ||
+    firstUnderOtherPossiblePlacementBotOpportunityIsThree ||
+    firstOtherPossiblePlacementBotOpportunityIsThree ||
+    firstBotOpportunityIsThree
+
+  const verticalDoubleThree =
+    (twoAndPlayer && playerVerticalDouble) || (twoAndBot && botVerticalDouble)
 
   return {
     secondBotOpportunity,

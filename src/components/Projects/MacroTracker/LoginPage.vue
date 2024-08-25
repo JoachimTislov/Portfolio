@@ -31,9 +31,8 @@ onMounted(() => {
     _alert('Welcome to the login page')
   }
 })
-
 async function login() {
-  if (login_validation.Password && login_validation.Username) {
+  if (login_validation.Password && login_validation.Username && !fetchingResource.value) {
     try {
       const json = JSON.stringify({
         username: username.value,
@@ -73,7 +72,11 @@ async function login() {
     }
   } else {
     alertDanger()
-    _alert('Fill out the login fields correctly!')
+    if (fetchingResource.value) {
+      _alert('Already login in...')
+    } else {
+      _alert(`Fill out the ${!login_validation.Username ? 'Username' : 'Password'} field correctly!`)
+    }
   }
 }
 </script>
@@ -84,7 +87,7 @@ async function login() {
       <WarningModule :message="warningMessage" />
       <div class="card p-3 border border-1 shadow-lg">
         <div class="card-body">
-          <AlertBox />
+          <AlertBox style="width: 300px" />
           <h1 class="card-title">Macro Tracker</h1>
 
           <form @submit.prevent style="width: 300px">

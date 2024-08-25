@@ -77,8 +77,6 @@ export async function deleteEntity(
           }
         })
 
-        unLoad()
-
         if (response.ok) {
           if (func) {
             await func()
@@ -97,6 +95,8 @@ export async function deleteEntity(
 
         const message = (await response.json()).message
         _alert(message)
+
+        unLoad()
 
         return checkIfUserIsUnAuthorized(response)
       } catch (error) {

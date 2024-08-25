@@ -15,18 +15,22 @@ export const personalData: PersonalData = {
 
   about: [
     `I live with my Alaskan husky - Leo, 
-      I love sports, being active, and taking on challenges. Played football for over 14 years, 
+      I love programming, gaming, sports and the process of solving a problem. I Played football for over 14 years, 
       which provided me with extensive team-building skills.`,
 
-    `That is part of the reason why programming sparked my interests. Tackling challenges with patience and 
-        intellectual thinking, developing applications and systems - an all-in-one package deal.`,
+    `I got access to technology at a fairly young age, but it wasn't until highschool I started to learn coding. 
+    I remember creating a simple website with six boxes and I was tasked to present them in a 2x3 format. I didn't
+    watch any tutorial and spent multiple hours before I eventually managed to style the website correctly. I remember
+    running down to my parents and showing them my website with utmost pride.`,
 
-    `Technology has been my passion since i got access to it, leading me to pursue
-        a bachelor's degree in Computer Technology. `
+    `This task, among many others, is what sparked my interest in programming. The combination of tackling challenges with patience and intellectual or creative thinking, 
+    along with developing applications and systems, offers an all-in-one package that I find compelling.`
   ],
 
+  keywords: `Patient, dedicated and persistent`,
+
   situation: `I am currently working on personal projects, and plan to integrate every project into
-        the website. This allows you to explore and interact with them, instead of just reading
+        the website. This allows you to explore and interact with them, rather just reading
         about each project. `,
 
   education: `Bachelor's Degree in Computer Technology`,
@@ -89,6 +93,35 @@ export const personalData: PersonalData = {
       ],
       image: refactoredMacroTrackerImg,
       viewProjectLink: '/macro-tracker'
+    },
+    'Four in a row': {
+      name: 'Four in a row',
+      date: '20.06.2024 - 15.07.2024',
+      githubLink: 'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
+      intro: `During my summer holiday, my father and brother played four in a row. After hearing my brother lose
+                for the 7th time, I thought; "Why not program a bot for him to play against?".`,
+      description: [
+        `The concept of building an intelligent bot initiated a month-long effort to engineer a sophisticated Four-in-a-Row algorithm. The intent of 
+        creating such a bot, were to help my brother, but rather escalated into a far more better goal: `,
+
+        `- Creating an intelligent bot combining both simple and advanced algorithms, making it unbeatable.`,
+
+        `This is still ongoing, since it is in fact beatable. I am currently having issues with the core design of my algorithms;
+                scan the board, check for three and two in a row, mark losing choices, filter out awful choices 
+                and in the end determine the optimal choice among the remaining options.`,
+
+        `That was the process in a nutshell. There are many more pieces to the puzzle.`
+      ],
+      tools: [
+        //Frontend
+        skills['Bootstrap'],
+        skills['CSS'],
+        skills['HTML'],
+        skills['Typescript'],
+        skills['Vue FrameWork']
+      ],
+      viewProjectLink: '/Four-in-a-row',
+      image: fourInARowImg
     },
     'Image guesser': {
       name: 'Image guesser',
@@ -157,35 +190,6 @@ export const personalData: PersonalData = {
       ],
       image: macroTrackerImg,
       viewProjectLink: '/macro-tracker'
-    },
-    'Four in a row': {
-      name: 'Four in a row',
-      date: '20.06.2024 - 15.07.2024',
-      githubLink: 'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
-      intro: `During my summer holiday, my father and brother played four in a row. After hearing my brother lose
-                for the 7th time, I thought; "Why not program a bot for him to play against?".`,
-      description: [
-        `This is what sparked the one-month development of a fairly complex four in a row bot.
-                The intent of creating such a bot, were to help my brother, but rather escalated into a far more better goal: `,
-
-        `- Creating an intelligent bot combining both simple and advanced algorithms, making it unbeatable.`,
-
-        `This is still ongoing, since it is in fact beatable. I am currently having issues with the core design of my algorithms;
-                scan the board, check for three and two in a row, mark losing choices, filter out awful choices 
-                and in the end determine the optimal choice among the remaining options.`,
-
-        `That was the process in a nutshell. There are many more pieces to the puzzle.`
-      ],
-      tools: [
-        //Frontend
-        skills['Bootstrap'],
-        skills['CSS'],
-        skills['HTML'],
-        skills['Typescript'],
-        skills['Vue FrameWork']
-      ],
-      viewProjectLink: '/Four-in-a-row',
-      image: fourInARowImg
     }
   }
 }

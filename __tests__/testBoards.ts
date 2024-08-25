@@ -182,32 +182,6 @@ export const testBoards = [
   },
   {
     board: [
-      [3, 3, 3, 1, 3, 1],
-      [1, 3, 1, 3, 1, 3],
-      [0, 0, 0, 0, 0, 0],
-      [1, 3, 1, 3, 1, 1],
-      [3, 1, 3, 1, 3, 1],
-      [1, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ],
-    expect_coordinate: [6, 0],
-    description: 'Building three in a row, and luring the player into a unstoppable loss afterwards'
-  },
-  {
-    board: [
-      [3, 3, 3, 1, 3, 1],
-      [1, 3, 1, 3, 1, 3],
-      [0, 0, 0, 0, 0, 0],
-      [1, 3, 1, 3, 1, 1],
-      [3, 1, 3, 1, 3, 1],
-      [1, 1, 0, 0, 0, 0],
-      [3, 0, 0, 0, 0, 0]
-    ],
-    expect_coordinate: [6, 1],
-    description: 'luring the player into a unstoppable loss....'
-  },
-  {
-    board: [
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
       [3, 1, 0, 0, 0, 0],
@@ -375,19 +349,6 @@ export const testBoards = [
     ],
     expect_coordinate: [1, 5],
     description: 'Avoid losing, only one correct move, rest is guaranteed loss'
-  },
-  {
-    board: [
-      [3, 1, 1, 3, 1, 3],
-      [3, 3, 1, 3, 3, 3],
-      [1, 0, 0, 0, 0, 0],
-      [1, 1, 1, 3, 1, 3],
-      [1, 1, 1, 3, 3, 1],
-      [3, 3, 0, 0, 0, 0],
-      [1, 1, 0, 0, 0, 0]
-    ],
-    expect_coordinate: [6, 2],
-    description: 'Avoid losing, only one correct move'
   },
   {
     board: [

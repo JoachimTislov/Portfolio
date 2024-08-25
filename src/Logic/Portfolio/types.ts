@@ -28,6 +28,7 @@ export type PersonalData = {
   email: string
   intro: string
   about: string[]
+  keywords: string
   situation: string
   education: string
   skills: Skills

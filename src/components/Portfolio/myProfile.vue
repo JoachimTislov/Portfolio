@@ -22,16 +22,16 @@ import ButtonTemplate from './ButtonTemplate.vue'
         <p> {{ personalData.intro }} </p>
       </div>
 
-      <div class="m-1 d-flex">
-        <a class="m-2" :href="`mailto: ${personalData.email}`">
-          <button class="p-3 contact">
+      <div class="mt-1 d-flex">
+        <a class="mt-1 me-1" :href="`mailto: ${personalData.email}`">
+          <button type="button" class="p-3 contact">
             <font-awesome-icon class="me-1 arrow" :icon="['fas', `arrow-right`]" />
             <p class=" m-0">
               Contact
             </p>
           </button>
         </a>
-        <ButtonTemplate class="m-2" buttonName="More of me" color="#171717" router-link="/more-of-me"
+        <ButtonTemplate class="mt-1 ms-1" buttonName="About Me" color="#171717" router-link="/more-of-me"
           :arrow_right_side="true" arrow_type="right" />
       </div>
     </div>
@@ -63,7 +63,7 @@ a {
 }
 
 .textContainer {
-  width: 35%;
+  max-width: 330px;
 }
 
 .textBox {
@@ -127,7 +127,7 @@ img {
   }
 
   .textContainer {
-    width: 70%;
+    width: 100%;
   }
 }
 </style>
