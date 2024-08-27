@@ -71,11 +71,10 @@ async function register() {
   <div class="centerDiv">
     <div class="d-flex flex-column box">
       <WarningModule :message="warningMessage" />
-      <div class="card p-3 shadow-lg">
+      <AlertBox />
+      <div class="card p-3 border border-1 shadow-lg">
         <div class="card-body d-flex flex-column justify-content-center">
-          <AlertBox />
-
-          <h4 class="card-title">Macro Tracker - Register</h4>
+          <h3 class="card-title"> Register account: </h3>
           <form id="register_form" @submit.prevent>
             <RegisterModule />
 
@@ -84,7 +83,7 @@ async function register() {
                 <RequestLoader />
               </template>
 
-              <button type="submit" class="btn btn-lg btn-outline-primary m-2 me-0" @click="register()">
+              <button type="submit" class="btn btn-lg btn-primary m-2 me-0" @click="register()">
                 Register
               </button>
             </div>
@@ -103,13 +102,11 @@ async function register() {
 .centerDiv {
   display: flex;
   justify-content: center;
-  align-items: center;
 
-  height: 80vh;
+  margin-top: 2rem;
 }
 
 .box {
-  max-width: 400px;
-  min-width: 300px;
+  width: clamp(350px, 15vw, 400px);
 }
 </style>

@@ -416,7 +416,75 @@ export const testBoards = [
     ],
     expect_coordinate: [5, 0],
     description: 'Prevent double three in a row'
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [3, 1, 0, 0, 0, 0],
+      [3, 3, 1, 3, 0, 0],
+      [3, 1, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [3, 2],
+    description: 'Anna'
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [1, 1, 1, 3, 0, 0],
+      [3, 1, 1, 3, 0, 0],
+      [3, 0, 0, 0, 0, 0],
+      [3, 3, 3, 1, 3, 0],
+      [1, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [2, 1],
+    description: 'Typical block double prime three in a row vertical'
+  },
+  {
+    board: [
+      [3, 1, 0, 0, 0, 0],
+      [3, 1, 0, 0, 0, 0],
+      [1, 1, 0, 0, 0, 0],
+      [3, 3, 1, 3, 3, 1],
+      [3, 1, 0, 0, 0, 0],
+      [1, 1, 1, 3, 1, 3],
+      [3, 3, 3, 1, 1, 0]
+    ],
+    expect_coordinate: [2, 1],
+    description: 'Another: Typical block double prime three in a row vertical'
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [3, 1, 0, 0, 0, 0],
+      [1, 1, 0, 0, 0, 0],
+      [3, 3, 1, 3, 0, 0],
+      [3, 1, 0, 0, 0, 0],
+      [1, 1, 0, 0, 0, 0],
+      [3, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [5, 2],
+    description:
+      'Somehow predict the outcome of the two in a row with most connections is going to be a problem'
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [3, 1, 1, 0, 0, 0],
+      [3, 3, 1, 0, 0, 0],
+      [1, 0, 0, 0, 0, 0],
+      [3, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [5, 2],
+    description:
+      'How do i even program that result ? Make a new object key which says if it a determined loss to play there, and adapt the code to it'
   }
+
   /*{
     board: [
       [0, 0, 0, 0, 0, 0],

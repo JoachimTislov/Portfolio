@@ -9,8 +9,7 @@ import {
   losing_Coordinates,
   playerStatus,
   playerTurn,
-  ShowBoard,
-  ShowWinner
+  ShowBoard
 } from './variables'
 
 export const resetGame = () => {
@@ -25,7 +24,6 @@ export const resetGame = () => {
   playerTurn.value = true
 
   GameOver.value = false
-  ShowWinner.value = false
 
   assignPiecesWithInt(0)
 

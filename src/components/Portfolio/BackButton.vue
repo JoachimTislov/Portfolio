@@ -10,6 +10,10 @@ import router from '@/router';
             <font-awesome-icon class="me-1" :icon="['fas', 'arrow-left']" />
             Back
         </button>
+
+        <button type="button" class="ms-2 btn btn-secondary" @click="router.push({ name: 'home' })">
+            Return home
+        </button>
     </div>
 
 </template>

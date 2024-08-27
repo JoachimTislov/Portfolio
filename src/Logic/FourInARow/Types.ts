@@ -20,9 +20,12 @@ export type _losingCoordinates = {
 }[]
 
 export type possible_Choices = {
-  double_Three_in_a_row: possible_Coordinates[]
-  potentially_double_Three_in_a_row: possible_Coordinates[]
-  Two_in_a_row: possible_Coordinates[][]
+  [key: string]: possible_Coordinates[]
+  prime_double_Three_in_a_row: possible_Coordinates[]
+  non_prime_double_Three_in_a_row: possible_Coordinates[]
+  two_sided_three_in_a_row: possible_Coordinates[]
+  Two_in_a_row: possible_Coordinates[]
+  One_in_a_row: possible_Coordinates[]
 }
 
 export type columnInformation = {

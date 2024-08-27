@@ -45,7 +45,9 @@ export const prime_two_in_a_row_pattern = (participant: number) => {
     [participant, participant, 0, 0],
     [0, 0, participant, participant],
     [participant, 0, participant, 0],
-    [0, participant, 0, participant]
+    [0, participant, 0, participant],
+    [participant, 0, 0, participant],
+    [0, participant, participant, 0]
   ]
 }
 

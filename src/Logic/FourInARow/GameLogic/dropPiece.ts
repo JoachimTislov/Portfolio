@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 import { initiateAlgorithms } from '../BotLogic/BotInit'
 import { updatePlayerStatus, toggleButtons } from './functions'
-import { board, botGame, GameOver, playerStatus, playerTurn, ShowWinner } from './variables'
+import { board, botGame, GameOver, playerStatus, playerTurn } from './variables'
 import { executePlacement } from './executePlacement'
 
 export const busy = ref<boolean>(false)
@@ -18,7 +18,7 @@ export const dropPiece = async (row: number) => {
 
           playerTurn.value = false
 
-          if (botGame.value && !ShowWinner.value) {
+          if (botGame.value && !GameOver.value) {
             await initiateAlgorithms(board)
           }
 

@@ -92,6 +92,14 @@ router.beforeEach((to, from, next) => {
     hideAlert()
   }
 
+  if (to.name != 'home') {
+    window.scrollTo({
+      left: 0,
+      top: 0,
+      behavior: 'instant'
+    })
+  }
+
   fetchingResource.value = false
 
   if (to.meta.requiresAuth && !isAuthenticated()) {

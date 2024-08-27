@@ -15,10 +15,8 @@ import {
   gameMode,
   GameOver,
   log,
-  losing_Coordinates,
   playerStatus,
   ShowBoard,
-  ShowWinner,
   winnerMsg
 } from './variables'
 
@@ -41,19 +39,16 @@ export function getNumber() {
   return botGame.value ? 1 : 0
 }
 
-export const previousMove = () => {
-  const remove_last_move = () => {
-    const [x, y]: number[] = log.value.pop() ?? [-1, 0]
-    if (x != -1) {
-      board[x][y] = 0
-      decrementPieces()
-    }
+const remove_last_move = () => {
+  const [x, y]: number[] = log.value.pop() ?? [-1, 0]
+  if (x != -1) {
+    board[x][y] = 0
+    decrementPieces()
   }
+}
 
-  GameOver.value = false
-  losing_Coordinates.value = []
-
-  if (!botGame.value || (ShowWinner.value && log.value.length % 2 !== 0)) {
+export const previousMove = () => {
+  if (!botGame.value || !GameOver.value) {
     remove_last_move()
   } else {
     if (log.value.length % 2 === 0 && log.value.length >= 2) {
@@ -61,9 +56,6 @@ export const previousMove = () => {
         remove_last_move()
       }
     }
-  }
-  if (ShowWinner.value) {
-    ShowWinner.value = !ShowWinner.value
   }
 
   if (!botGame.value) {
@@ -96,7 +88,7 @@ export const initBotGame = () => {
 
 export const initBaseGame = () => {
   playerStatus.value = 1
-  ShowWinner.value = false
+  GameOver.value = false
 }
 
 export const getSlotColor = (value: number) => {
@@ -116,6 +108,6 @@ export const checkForTie = (pieces: number) => {
   if (pieces == boardWidth.value * boardHeight.value) {
     ShowBoard.value = false
     winnerMsg.value = 'It was a tie'
-    ShowWinner.value = true
+    GameOver.value = true
   }
 }

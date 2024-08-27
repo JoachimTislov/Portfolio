@@ -1,14 +1,5 @@
 import { sendMail } from '@/Logic/Email/sendMail'
-import {
-  board,
-  botGame,
-  botValue,
-  GameOver,
-  log,
-  playerStatus,
-  ShowWinner,
-  winnerMsg
-} from './variables'
+import { board, botGame, botValue, GameOver, log, name, playerStatus, winnerMsg } from './variables'
 
 export const checkWinner = async (boolCheck: boolean) => {
   //check vertical
@@ -99,12 +90,12 @@ const loopThroughValues = async (coordinates: number[][], values: number[], bool
       values[3] == participants[i]
     ) {
       if (boolCheck) {
+        const result = await determineWinner(participants[i])
         for (const coords of coordinates) {
           const [x, y] = coords
           board[x][y] = 4
         }
-
-        return await determineWinner(participants[i])
+        return result
       } else {
         return true
       }
@@ -119,7 +110,6 @@ export const getColor = (int: number) => {
 }
 
 const determineWinner = async (value: number) => {
-  ShowWinner.value = true
   GameOver.value = true
 
   if (botGame.value) {
@@ -128,7 +118,7 @@ const determineWinner = async (value: number) => {
     } else {
       winnerMsg.value = 'You won, congrats'
 
-      const text = `I’m so sorry, truly I am. I will strive to do better next time, 
+      const text = `I lost against: ${name.value != '' ? name.value : 'Unknown'}, and I’m so sorry, truly I am. I will strive to do better next time, 
       but my performance hinges upon the state of my algorithms. 
       They are in dire need of an update. 
       Might I humbly request that you analyze the game? Your insight would be most invaluable in helping me improve.`

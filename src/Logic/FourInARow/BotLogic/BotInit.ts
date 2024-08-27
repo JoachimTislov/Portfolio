@@ -1,7 +1,6 @@
 import {
   playerStatus,
   playerChoices,
-  remainingChoices,
   deepClone,
   defaultChoices,
   botValue,
@@ -31,6 +30,10 @@ export const initiateAlgorithms = async (board: number[][]) => {
     { id: playerStatus.value, scan: scanBoard(playerStatus.value, board) }
   ]
 
+  // Checks three in a row first to either win or prevent losing the game
+
+  // Three in a row is checked along with marking losing choices to increase performance
+
   for (const participant of participants) {
     for (const structure of participant.scan) {
       for (const sequence of structure.sequence) {
@@ -38,6 +41,12 @@ export const initiateAlgorithms = async (board: number[][]) => {
         for (const entry of three_in_a_row_pattern_with_index(0, participant.id)) {
           if (arraysEqual(entry.pattern, sequence.pattern)) {
             const [x, y] = sequence.coordinates[entry.zeroIndex]
+
+            if (participant.id == botValue) {
+              console.log('Winning the game!')
+            } else {
+              console.log('Blocking three in a row')
+            }
             return await botMove(board, x, y)
           }
         }
@@ -155,7 +164,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
     }
   }
 
-  //console.log(botChoices.value, playerChoices.value)
+  console.log(botChoices.value, playerChoices.value)
 
   return await searchForBestChoice(board)
 }
@@ -166,7 +175,6 @@ export const resetChoices = () => {
   for (const choices of values) {
     choices.value = deepClone(defaultChoices)
   }
-  remainingChoices.value = []
   // resetting losing choices
   losing_Coordinates.value = []
 }

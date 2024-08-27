@@ -27,8 +27,10 @@ const scanDirection = (
   for (let offset = __offset; offset < piecesInARow + __offset; offset++) {
     const colValue =
       colOperation != undefined ? evaluateOperation(colIndex, offset, colOperation) : colIndex
+
     const rowValue =
       rowOperation != undefined ? evaluateOperation(rowIndex, offset, rowOperation) : rowIndex
+
     if (colValue > 6 || colValue < 0 || rowValue < 0 || rowValue > 5) return false
 
     let slot: string | number = board[colValue][rowValue]

@@ -84,13 +84,14 @@ async function login() {
 <template>
   <div class="centerDiv">
     <div class="d-flex flex-column box">
-      <WarningModule :message="warningMessage" />
+      <WarningModule class="mt-2" :message="warningMessage" />
+      <AlertBox />
       <div class="card p-3 border border-1 shadow-lg">
         <div class="card-body">
-          <AlertBox style="width: 300px" />
-          <h1 class="card-title">Macro Tracker</h1>
 
-          <form @submit.prevent style="width: 300px">
+          <h2 class="card-title">Macro Tracker</h2>
+
+          <form @submit.prevent>
             <div class="form-group">
               <input @input="
                 login_validation.Username = ValidateText(
@@ -118,17 +119,17 @@ async function login() {
               </div>
             </div>
 
-            <div class="mt-3">
-              <RouterLink class="btn btn-link" :to="{ name: 'macroRegister' }">
+            <div class="mt-3 d-flex align-items-center">
+              <RouterLink class="btn-link" :to="{ name: 'macroRegister' }">
                 Register an account
               </RouterLink>
 
-              <div class="d-flex flex-row float-end">
+              <div class="ms-auto">
                 <template v-if="fetchingResource">
                   <RequestLoader />
                 </template>
 
-                <button type="submit" class="btn btn-lg btn-outline-primary" @click="login()">
+                <button type="submit" class="btn btn-lg btn-primary" @click="login()">
                   Login
                 </button>
               </div>
@@ -144,12 +145,11 @@ async function login() {
 .centerDiv {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 80vh;
+
+  margin-top: 2rem;
 }
 
 .box {
-  max-width: 400px;
-  min-width: 330px;
+  width: 330px;
 }
 </style>

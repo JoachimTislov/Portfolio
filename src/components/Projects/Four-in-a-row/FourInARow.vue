@@ -21,15 +21,15 @@ import { botCalculating } from '@/Logic/FourInARow/BotLogic/botMove'
 import {
   botGame,
   gameMode,
-  GameOver,
   first_player,
-  ShowWinner,
+  GameOver,
   winnerMsg,
   board,
   playerTurn,
   ShowBoard,
   droppingPiece,
-  playerStatus
+  playerStatus,
+  name
 } from '../../../Logic/FourInARow/GameLogic/variables'
 </script>
 
@@ -48,15 +48,17 @@ import {
       </div>
 
       <div v-if="botGame" class="mb-1 d-flex flex-column">
+        <label class="label" for="name"> Your name (optional): </label>
+        <input type="text" name="name" v-model="name" class="form-control form-control-sm">
         <label class="label" for="starting_player"> Starting Player: </label>
         <select :disabled="droppingPiece" id="starting_player" class="form-control form-control-sm"
           v-model="first_player" @change="resetGame()">
-          <option value="Player 1">You</option>
+          <option value="player">You</option>
           <option value="bot">Bot</option>
         </select>
       </div>
 
-      <div v-if="!ShowWinner" class="mt-2 p-2 message">
+      <div v-if="!GameOver" class="mt-2 p-2 message">
         <h4>{{ gameMode }}</h4>
         <template v-if="botGame">
           <h5 v-if="busy && !botCalculating"><strong> Dropping piece.. </strong></h5>
@@ -74,19 +76,18 @@ import {
         </template>
       </div>
 
-      <div v-if="ShowWinner" class="p-3 message">
+      <div v-if="GameOver" class="p-3 message">
         <h4>{{ winnerMsg }}</h4>
       </div>
 
       <div class="d-flex btn-group btn-group-md mt-2">
-        <button ref="restartButton" :disabled="droppingPiece || !(pieces > getNumber() || ShowWinner)"
+        <button ref="restartButton" :disabled="droppingPiece || !(pieces > getNumber() || GameOver)"
           @click="resetGame()" type="button" class="m-1 btn btn-success">
-          <template v-if="ShowWinner"> Play Again </template>
+          <template v-if="GameOver"> Play Again </template>
           <template v-else> Restart </template>
         </button>
 
-        <button ref="previousButton" :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)"
-          @click="previousMove()" type="button" class="m-1 btn btn-primary">
+        <button ref="previousButton" @click="previousMove()" type="button" class="m-1 btn btn-primary">
           Previous Move
         </button>
       </div>
@@ -190,8 +191,8 @@ import {
   border-radius: 50%;
   background-color: white;
 
-  width: clamp(2em, 8vw, 6em);
-  height: clamp(2em, 8vw, 6em);
+  width: clamp(2em, 11.5vw, 6em);
+  height: clamp(2em, 11.5vw, 6em);
 
   padding: 2px;
   margin: 2px;

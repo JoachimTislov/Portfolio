@@ -1,42 +1,68 @@
-import { ref } from 'vue'
-import { arraysEqual } from '../../ArrayLogic'
-import {
-  botChoices,
-  playerChoices,
-  playerStatus,
-  remainingChoices
-} from '../../../GameLogic/variables'
+import { botChoices, botValue, first_player, playerChoices } from '../../../GameLogic/variables'
 import { botMove } from '../../botMove'
 import { handleLosingChoices } from '../handleLosingChoices'
+import { pieces } from '@/Logic/FourInARow/GameLogic/pieces'
+import { getMoveWithMostConnections } from '../get/getMoveWithMostConnections'
 
 export const searchForBestChoice = async (board: number[][]) => {
-  const doubleChoices = [
-    botChoices.value['double_Three_in_a_row'],
-    playerChoices.value['double_Three_in_a_row']
+  const choices = [
+    [botChoices.value.prime_double_Three_in_a_row, playerChoices.value.prime_double_Three_in_a_row],
+    [
+      botChoices.value.non_prime_double_Three_in_a_row,
+      playerChoices.value.non_prime_double_Three_in_a_row
+    ]
   ]
-  for (const entry of doubleChoices) {
-    if (entry.length > 0) {
-      const [x, y] = entry[0].coordinates
-      if (entry[0].participant == playerStatus.value) {
-        //console.log('Blocked double in a row')
-      } else {
-        //console.log('double in a row')
+
+  for (let i = 0; i < choices.length; i++) {
+    for (const entry of choices[i]) {
+      if (entry.length > 0) {
+        const [x, y] = entry[0].coordinates
+
+        if (i == 0) {
+          console.log('Prime Double')
+        } else {
+          console.log('Non prime double')
+        }
+
+        if (entry[0].participant == botValue) {
+          console.log('Building double three in a row')
+        } else {
+          console.log('Blocking double three in a row')
+        }
+        return await botMove(board, x, y)
       }
-      return await botMove(board, x, y)
     }
   }
 
-  const potentiallyDoubleChoices = [
-    botChoices.value['potentially_double_Three_in_a_row'],
-    playerChoices.value['potentially_double_Three_in_a_row']
+  // Blocking or playing on a non prime two sided three in a row
+  const arr = [
+    botChoices.value.two_sided_three_in_a_row,
+    playerChoices.value.two_sided_three_in_a_row
   ]
-  for (const entry of potentiallyDoubleChoices) {
+  for (const entry of arr) {
     if (entry.length > 0) {
-      const [x, y] = entry[0].coordinates
-      return await botMove(board, x, y)
+      const [row, slot] = entry[0].coordinates
+      return await botMove(board, row, slot)
     }
   }
+  /////////////////////////////////////////////
 
+  const two_in_a_rows = [...botChoices.value.Two_in_a_row, ...playerChoices.value.Two_in_a_row]
+
+  const result = getMoveWithMostConnections(board, two_in_a_rows)
+
+  if (result) {
+    const [row, slot] = result.coords
+
+    console.log('Two in a row')
+    console.log('Playing the choice with: ', result.connections, ' amount of connections')
+
+    return await botMove(board, row, slot)
+  }
+
+  /*
+  This code is old, and based on a 2D two in a row array [[],[],[],[],[],[]]
+  
   const loopThroughTwoInARow = () => {
     for (let i = 0; i < botChoices.value['Two_in_a_row'].length; i++) {
       const botTwoInARows = botChoices.value['Two_in_a_row'][i]
@@ -76,40 +102,34 @@ export const searchForBestChoice = async (board: number[][]) => {
   if (coordinates != false) {
     const [x, y] = coordinates
     return await botMove(board, x, y)
-  }
+  }*/
 
-  const patterns = remainingChoices.value
+  // Handling base with zero connections. There probably some spots which are better than the other, but since we want different games.
+  // We will use computer randomness
+  const remainingChoices = [...botChoices.value.One_in_a_row, ...playerChoices.value.One_in_a_row]
+  if (pieces.value == 1 && first_player.value == 'player') {
+    const arr_length = remainingChoices.length
+    const random_index = Math.floor(Math.random() * (arr_length - 1)) // - 1 since a length of an array is from 1 - n and does not begin with zero
 
-  // Algorithm that check which choice is chosen the most
-  const storedCoordinates = []
-  for (const entry of patterns) {
-    if (entry.losing == false) {
-      if (storedCoordinates.length == 0) {
-        storedCoordinates.push({ coordinates: entry.coordinates, counter: 0 })
-      } else {
-        for (const item of storedCoordinates) {
-          if (arraysEqual(entry.coordinates, item.coordinates)) {
-            item.counter++
-          } else {
-            storedCoordinates.push({ coordinates: entry.coordinates, counter: 0 })
-          }
-        }
-      }
-    }
+    const [row, slot] = remainingChoices[random_index].coordinates
 
-    const maxNumber = ref(0)
-    const winner = ref([-1, -1])
-    for (const entry of storedCoordinates) {
-      if (entry.counter > maxNumber.value) {
-        maxNumber.value = entry.counter
-        winner.value = entry.coordinates
-      }
-    }
-    if (winner.value[0] != -1) {
-      return await botMove(board, winner.value[0], winner.value[1])
+    console.log('Base case for remaining choices, playing a random move with index: ', random_index)
+    return await botMove(board, row, slot)
+  } else {
+    // I will use the original scan algorithm to retrieve the amount of connection a piece has
+    // Iterating through and eventually finding the choice with the most amount of connections
+    const result = getMoveWithMostConnections(board, remainingChoices)
+
+    if (result) {
+      const [row, slot] = result.coords
+
+      console.log('One in a row')
+      console.log('Playing the choice with: ', result.connections, ' amount of connections')
+
+      return await botMove(board, row, slot)
     }
   }
-
-  /// No more choices left
+  /// No more choices left since the losing coordinates arrays filters out losing choice and in the end, the algorithm only have bad choices left.
+  // It ends up here if he(the bot) is about to loose, I assume..., will test it
   return handleLosingChoices(board)
 }
