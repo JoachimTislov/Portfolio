@@ -17,10 +17,19 @@ const scanDirection = (
   colOperation: string | undefined,
   rowOperation: string | undefined,
   left: boolean,
-  _offset: number | undefined
+  _offset: number | undefined,
+  pairOfCoordinates?: number[]
 ) => {
   const pattern_arr: _pattern = []
   const coordinates: _coordinates = []
+
+  const exit = () => {
+    if (left) {
+      return { pattern: pattern_arr.reverse(), coordinates: coordinates.reverse() }
+    } else {
+      return { pattern: pattern_arr, coordinates: coordinates }
+    }
+  }
 
   const __offset = _offset != undefined ? _offset : 0
 
@@ -31,7 +40,13 @@ const scanDirection = (
     const rowValue =
       rowOperation != undefined ? evaluateOperation(rowIndex, offset, rowOperation) : rowIndex
 
-    if (colValue > 6 || colValue < 0 || rowValue < 0 || rowValue > 5) return false
+    if (colValue > 6 || colValue < 0 || rowValue < 0 || rowValue > 5) {
+      if (pairOfCoordinates) {
+        return exit()
+      } else {
+        return false
+      }
+    }
 
     let slot: string | number = board[colValue][rowValue]
     // Check if the slot below is empty (for vertical placement logic)
@@ -41,13 +56,7 @@ const scanDirection = (
     coordinates.push([colValue, rowValue])
     pattern_arr.push(slot)
   }
-  if (pattern_arr.length < 4) return false
-
-  if (left) {
-    return { pattern: pattern_arr.reverse(), coordinates: coordinates.reverse() }
-  } else {
-    return { pattern: pattern_arr, coordinates: coordinates }
-  }
+  return exit()
 }
 
 export const scanBoard = (participant: number, board: number[][], pairOfCoordinates?: number[]) => {
@@ -72,7 +81,13 @@ export const scanBoard = (participant: number, board: number[][], pairOfCoordina
   const offset = -1
 
   // There is an index fault inside of directions array, idk where, but a condition in scanDirection handles it
-  const directions = [
+  let directions: {
+    colOperation?: string
+    rowOperation?: string
+    arr: _patternData
+    left: boolean
+    offset?: number
+  }[] = [
     // Entries with offset, is to capture rows which are cut off by the border
     { colOperation: '+', arr: horizontal_right, left: false },
     { colOperation: '-', arr: horizontal_left, left: true },
@@ -81,27 +96,34 @@ export const scanBoard = (participant: number, board: number[][], pairOfCoordina
     { colOperation: '+', rowOperation: '+', arr: cross_up_right, left: false },
     { colOperation: '-', rowOperation: '+', arr: cross_up_left, left: true },
     { colOperation: '+', rowOperation: '-', arr: cross_down_right, left: false },
-    { colOperation: '-', rowOperation: '-', arr: cross_down_left, left: true },
-
-    { colOperation: '+', offset: offset, arr: horizontal_right, left: false },
-    { colOperation: '-', offset: offset, arr: horizontal_left, left: true },
-    {
-      colOperation: '+',
-      rowOperation: '+',
-      offset: offset,
-      arr: cross_up_right,
-      left: false
-    },
-    { colOperation: '-', rowOperation: '+', offset: offset, arr: cross_up_left, left: true },
-    {
-      colOperation: '+',
-      rowOperation: '-',
-      offset: offset,
-      arr: cross_down_right,
-      left: false
-    },
-    { colOperation: '-', rowOperation: '-', offset: offset, arr: cross_down_left, left: true }
+    { colOperation: '-', rowOperation: '-', arr: cross_down_left, left: true }
   ]
+
+  if (!pairOfCoordinates) {
+    directions = [
+      ...directions,
+      { colOperation: '+', offset: offset, arr: horizontal_right, left: false },
+      { colOperation: '-', offset: offset, arr: horizontal_left, left: true },
+      {
+        colOperation: '+',
+        rowOperation: '+',
+        offset: offset,
+        arr: cross_up_right,
+        left: false
+      },
+      { colOperation: '-', rowOperation: '+', offset: offset, arr: cross_up_left, left: true },
+      {
+        colOperation: '+',
+        rowOperation: '-',
+        offset: offset,
+        arr: cross_down_right,
+        left: false
+      },
+      { colOperation: '-', rowOperation: '-', offset: offset, arr: cross_down_left, left: true }
+    ]
+  } else {
+    directions.push({ rowOperation: '-', arr: vertical, left: false })
+  }
 
   if (pairOfCoordinates) {
     const [colIndex, rowIndex] = pairOfCoordinates
@@ -113,9 +135,10 @@ export const scanBoard = (participant: number, board: number[][], pairOfCoordina
         direction.colOperation,
         direction.rowOperation,
         direction.left,
-        direction.offset
+        undefined,
+        pairOfCoordinates
       )
-      if (result != false) direction.arr.push(result)
+      if (result) direction.arr.push(result)
     }
   } else {
     for (let colIndex = 0; colIndex < board.length; colIndex++) {
@@ -131,7 +154,7 @@ export const scanBoard = (participant: number, board: number[][], pairOfCoordina
               direction.left,
               direction.offset
             )
-            if (result != false) direction.arr.push(result)
+            if (result) direction.arr.push(result)
           }
         }
       }

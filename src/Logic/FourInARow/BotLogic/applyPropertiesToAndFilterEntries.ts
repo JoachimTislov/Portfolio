@@ -1,10 +1,9 @@
-import type { _pattern, possible_Choices, possible_Coordinates } from '../Types'
+import type { possible_Choices, possible_Coordinates } from '../Types'
 import { botMove } from './botMove'
 import { structureCases } from './structureCases'
 
 export const applyPropertiesToEntry = async (
   board: number[][],
-  pattern: _pattern,
   doubleThreeInARow: boolean,
   two_sided_three_in_a_row: boolean,
   coordinates: number[],
@@ -12,60 +11,48 @@ export const applyPropertiesToEntry = async (
   targetArr: possible_Choices,
   key: string
 ) => {
-  //console.log(possible_Coordinates_Entry)
-
   const {
     firstPlayerThreatIsTwo,
     firstBotOpportunityIsThree,
     firstPlayerThreatIsThree,
     firstIsPotentialThree,
-    firstIsTwo,
-    firstIsThree,
     secondPlayerThreatIsTwo,
     secondBotOpportunityIsThree,
     secondIsThree,
-    prioritizeTwoWithThreat,
-    prioritizeTwoWithoutOpportunity,
-    firstPlayerThreatTwoAndRelevantMoveThreatThree,
+    playerHasAPrimeDoubleAbove,
     prime_verticalDoubleThree,
-    non_prime_verticalDoubleThree
+    non_prime_verticalDoubleThree,
+    duplicateBuildingORBlocking
   } = structureCases(possible_Coordinates_Entry)
 
   const [x, y] = coordinates
 
-  // Golden move, guaranteed to win
+  // Golden move (Double vertically), guaranteed to win
   if (!firstPlayerThreatIsThree && firstBotOpportunityIsThree && secondBotOpportunityIsThree) {
-    console.log('Golden move played')
+    //console.log('Golden move played')
     return await botMove(board, x, y)
   }
 
-  if (
-    (doubleThreeInARow || prime_verticalDoubleThree) &&
-    !firstPlayerThreatIsThree &&
-    !firstPlayerThreatTwoAndRelevantMoveThreatThree
-  ) {
-    targetArr.prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
-  } else if (non_prime_verticalDoubleThree && !firstIsThree) {
-    targetArr.non_prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
-  } else if (two_sided_three_in_a_row && !firstIsThree) {
-    targetArr.two_sided_three_in_a_row.push(possible_Coordinates_Entry)
-  } else if (
-    !firstIsThree &&
-    !firstPlayerThreatTwoAndRelevantMoveThreatThree &&
-    !firstIsPotentialThree &&
-    prioritizeTwoWithThreat &&
-    prioritizeTwoWithoutOpportunity &&
-    (secondIsThree || !(firstPlayerThreatIsTwo && secondPlayerThreatIsTwo))
-  ) {
-    if (firstIsTwo) {
-      possible_Coordinates_Entry.losing = true
+  if (!firstPlayerThreatIsThree) {
+    if (doubleThreeInARow || prime_verticalDoubleThree) {
+      targetArr.prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
+    } else if (
+      non_prime_verticalDoubleThree &&
+      !duplicateBuildingORBlocking &&
+      !firstBotOpportunityIsThree
+    ) {
+      targetArr.non_prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
+    } else if (two_sided_three_in_a_row && !firstBotOpportunityIsThree) {
+      targetArr.two_sided_three_in_a_row.push(possible_Coordinates_Entry)
+    } else if (
+      !firstBotOpportunityIsThree &&
+      !playerHasAPrimeDoubleAbove &&
+      !firstIsPotentialThree &&
+      (secondIsThree || !(firstPlayerThreatIsTwo && secondPlayerThreatIsTwo))
+    ) {
+      targetArr[key].push(possible_Coordinates_Entry)
     }
-
-    if (secondIsThree) {
-      possible_Coordinates_Entry.losing = false
-    }
-
-    targetArr[key].push(possible_Coordinates_Entry)
   }
+
   return true
 }

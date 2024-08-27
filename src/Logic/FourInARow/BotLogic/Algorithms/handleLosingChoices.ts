@@ -37,7 +37,7 @@ const checkCoordinatesStatus = async (
 }
 
 export const handleLosingChoices = async (board: number[][]) => {
-  console.log('handling losing choices')
+  //console.log('handling losing choices')
 
   for (const piece_count of ['Two', 'Three']) {
     for (const value of [botValue, playerStatus.value]) {

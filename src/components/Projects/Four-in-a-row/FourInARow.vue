@@ -87,7 +87,8 @@ import {
           <template v-else> Restart </template>
         </button>
 
-        <button ref="previousButton" @click="previousMove()" type="button" class="m-1 btn btn-primary">
+        <button ref="previousButton" :disabled="droppingPiece || !(pieces > getNumber() && !GameOver)"
+          @click="previousMove()" type="button" class="m-1 btn btn-primary">
           Previous Move
         </button>
       </div>

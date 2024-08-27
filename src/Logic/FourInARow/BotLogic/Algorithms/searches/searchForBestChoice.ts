@@ -3,6 +3,7 @@ import { botMove } from '../../botMove'
 import { handleLosingChoices } from '../handleLosingChoices'
 import { pieces } from '@/Logic/FourInARow/GameLogic/pieces'
 import { getMoveWithMostConnections } from '../get/getMoveWithMostConnections'
+import { arraysEqual, TwoDimensionalArraysEqual } from '../../ArrayLogic'
 
 export const searchForBestChoice = async (board: number[][]) => {
   const choices = [
@@ -19,15 +20,15 @@ export const searchForBestChoice = async (board: number[][]) => {
         const [x, y] = entry[0].coordinates
 
         if (i == 0) {
-          console.log('Prime Double')
+          // console.log('Prime Double')
         } else {
-          console.log('Non prime double')
+          // console.log('Non prime double')
         }
 
         if (entry[0].participant == botValue) {
-          console.log('Building double three in a row')
+          // console.log('Building double three in a row')
         } else {
-          console.log('Blocking double three in a row')
+          // console.log('Blocking double three in a row')
         }
         return await botMove(board, x, y)
       }
@@ -42,11 +43,34 @@ export const searchForBestChoice = async (board: number[][]) => {
   for (const entry of arr) {
     if (entry.length > 0) {
       const [row, slot] = entry[0].coordinates
+      // console.log('Two sided three in a row')
       return await botMove(board, row, slot)
     }
   }
   /////////////////////////////////////////////
 
+  // Checking for two - two in a rows
+
+  for (const arr of [botChoices.value.Two_in_a_row, playerChoices.value.Two_in_a_row]) {
+    for (let i = 0; i < arr.length; i++) {
+      for (let j = 0; j < arr.length; j++) {
+        if (
+          i != j &&
+          arraysEqual(arr[i].coordinates, arr[j].coordinates) &&
+          !TwoDimensionalArraysEqual(arr[i].all_coordinates, arr[j].all_coordinates) &&
+          arr[i].direction != arr[j].direction
+        ) {
+          const [row, slot] = arr[i].coordinates
+          // console.log('Two - two in a row')
+          return await botMove(board, row, slot)
+        }
+      }
+    }
+  }
+
+  /////
+
+  /// Getting the two in a row with most amount of connections
   const two_in_a_rows = [...botChoices.value.Two_in_a_row, ...playerChoices.value.Two_in_a_row]
 
   const result = getMoveWithMostConnections(board, two_in_a_rows)
@@ -54,8 +78,8 @@ export const searchForBestChoice = async (board: number[][]) => {
   if (result) {
     const [row, slot] = result.coords
 
-    console.log('Two in a row')
-    console.log('Playing the choice with: ', result.connections, ' amount of connections')
+    // console.log('Two in a row')
+    // console.log('Playing the choice with: ', result.connections, ' connections')
 
     return await botMove(board, row, slot)
   }
@@ -113,7 +137,7 @@ export const searchForBestChoice = async (board: number[][]) => {
 
     const [row, slot] = remainingChoices[random_index].coordinates
 
-    console.log('Base case for remaining choices, playing a random move with index: ', random_index)
+    // console.log('Base case for remaining choices, playing a random move with index: ', random_index)
     return await botMove(board, row, slot)
   } else {
     // I will use the original scan algorithm to retrieve the amount of connection a piece has
@@ -123,8 +147,8 @@ export const searchForBestChoice = async (board: number[][]) => {
     if (result) {
       const [row, slot] = result.coords
 
-      console.log('One in a row')
-      console.log('Playing the choice with: ', result.connections, ' amount of connections')
+      // console.log('One in a row')
+      // console.log('Playing the choice with: ', result.connections, ' amount of connections')
 
       return await botMove(board, row, slot)
     }

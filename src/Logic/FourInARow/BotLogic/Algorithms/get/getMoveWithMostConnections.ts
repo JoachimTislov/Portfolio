@@ -1,7 +1,7 @@
 import type { possible_Coordinates } from '@/Logic/FourInARow/Types'
 import { scanBoard } from '../../scanLogic'
 import { getAmountOfConnections } from './getAmountOfConnections'
-import { botValue, playerStatus } from '@/Logic/FourInARow/GameLogic/variables'
+import { botValue } from '@/Logic/FourInARow/GameLogic/variables'
 
 export function getMoveWithMostConnections(board: number[][], arr: possible_Coordinates[]) {
   let choice_with_most_connections: possible_Coordinates | {} = {}
@@ -12,15 +12,16 @@ export function getMoveWithMostConnections(board: number[][], arr: possible_Coor
 
     let connections = 0
 
-    const opponentValue = entry.participant == botValue ? playerStatus.value : botValue
-
     for (const pattern_arr of patterns) {
       for (const item of pattern_arr.sequence) {
-        connections += getAmountOfConnections(opponentValue, entry.participant, item.pattern)
+        connections += getAmountOfConnections(item.pattern)
       }
     }
 
-    if (choice_connections < connections) {
+    if (
+      choice_connections < connections ||
+      (choice_connections == connections && entry.participant == botValue)
+    ) {
       choice_connections = connections
       choice_with_most_connections = entry
     }

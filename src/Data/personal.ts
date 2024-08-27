@@ -20,7 +20,7 @@ export const personalData: PersonalData = {
 
     `I got access to technology at a fairly young age, but it wasn't until highschool I started to learn coding. 
     I remember creating a simple website with six boxes and I was tasked to present them in a 2x3 format. I didn't
-    watch any tutorial and spent multiple hours before I eventually managed to style the website correctly. I remember
+    watch any tutorials and spent multiple hours before I eventually managed to style the website correctly, and remember
     running down to my parents and showing them my website with utmost pride.`,
 
     `This task, among many others, is what sparked my interest in programming. The combination of tackling challenges with patience and intellectual or creative thinking, 

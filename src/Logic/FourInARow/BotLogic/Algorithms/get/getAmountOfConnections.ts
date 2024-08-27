@@ -1,17 +1,16 @@
+import { playerStatus } from '@/Logic/FourInARow/GameLogic/variables'
 import type { _pattern } from '@/Logic/FourInARow/Types'
 
-export function getAmountOfConnections(
-  opponentValue: number,
-  participant: number,
-  pattern: _pattern
-) {
+export function getAmountOfConnections(pattern: _pattern) {
   let connections = 0
 
-  for (const value of pattern) {
-    if (value == opponentValue) {
-      return connections
-    } else if (value == participant) {
+  for (let i = 0; i < pattern.length; i++) {
+    if (typeof pattern[i] === 'number' && pattern[i] != 0) {
       connections++
+
+      if (pattern[i] == playerStatus.value || (i < 3 && pattern[i + 1] == playerStatus.value)) {
+        return connections
+      }
     }
   }
 

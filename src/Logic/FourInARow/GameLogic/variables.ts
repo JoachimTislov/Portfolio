@@ -1,6 +1,6 @@
 import { ref, watch, reactive } from 'vue'
 
-import type { _losingCoordinates, possible_Choices, possible_Coordinates } from '../Types'
+import type { _losingCoordinates, possible_Choices } from '../Types'
 
 export const name = ref<string>('')
 
@@ -39,7 +39,7 @@ watch(
 )
 
 const storedGameOver = localStorage.getItem('GameOver')
-export const GameOver = ref<boolean>(storedGameOver ? JSON.parse(storedGameOver) : true)
+export const GameOver = ref<boolean>(storedGameOver ? JSON.parse(storedGameOver) : false)
 watch(
   GameOver,
   (newGameOver) => {
@@ -51,22 +51,22 @@ watch(
 export const boardWidth = ref(7)
 export const boardHeight = ref(6)
 const storedBoard = localStorage.getItem('board')
-export const board = reactive([
+/*export const board = reactive([
   [0, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0],
+  [1, 3, 1, 3, 0, 0],
+  [1, 1, 3, 3, 3, 0],
+  [3, 1, 1, 1, 3, 1],
   [3, 1, 0, 0, 0, 0],
-  [3, 3, 1, 3, 0, 0],
-  [3, 1, 0, 0, 0, 0],
-  [1, 0, 0, 0, 0, 0]
-])
-/*export const board = reactive(
+  [1, 3, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0]
+])*/
+export const board = reactive(
   storedBoard
     ? JSON.parse(storedBoard)
     : Array(boardWidth.value)
         .fill(0)
         .map(() => Array(boardHeight.value).fill(0))
-)*/
+)
 watch(
   board,
   (newBoard) => {
@@ -122,7 +122,7 @@ watch(
 )
 
 const storedLog = localStorage.getItem('log')
-export const log = ref<number[][]>([
+/*export const log = ref<number[][]>([
   [2, 0],
   [3, 0],
   [3, 1],
@@ -142,8 +142,8 @@ export const log = ref<number[][]>([
   [2, 2],
   [3, 2],
   [3, 3]
-])
-/*export const log = ref<number[][]>(storedLog ? JSON.parse(storedLog) : [])*/
+])*/
+export const log = ref<number[][]>(storedLog ? JSON.parse(storedLog) : [])
 watch(
   log,
   (newLog) => {

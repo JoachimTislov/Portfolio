@@ -48,7 +48,7 @@ const remove_last_move = () => {
 }
 
 export const previousMove = () => {
-  if (!botGame.value || !GameOver.value) {
+  if (!botGame.value) {
     remove_last_move()
   } else {
     if (log.value.length % 2 === 0 && log.value.length >= 2) {

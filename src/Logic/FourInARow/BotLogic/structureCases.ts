@@ -1,5 +1,6 @@
 import { botValue, playerStatus } from '../GameLogic/variables'
 import type { possible_Coordinates } from '../Types'
+import { checkIfItsARecordInLosingCoordinates } from './Algorithms/checks/checkIfItsARecordInLosingCoordinates'
 import { checkIfArrayInThe2DArrayEqualArray } from './ArrayLogic'
 import { prime_two_in_a_row_pattern } from './PatternLogic'
 
@@ -20,7 +21,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
   const firstBotOpportunityIsTwo = firstBotOpportunity?.piece_count === 'Two'
   const firstPlayerThreatIsTwo = firstPlayerThreat?.piece_count === 'Two'
 
-  const firstIsTwo = firstBotOpportunity || firstPlayerThreatIsTwo
+  //const firstIsTwo = firstBotOpportunity || firstPlayerThreatIsTwo
 
   const firstIsPotentialThree =
     firstBotOpportunity?.potentialDoubleThreeInARow || firstPlayerThreat?.potentialDoubleThreeInARow
@@ -42,8 +43,8 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
   const OtherPossiblePlacement = possible_Coordinates_Entry.relatedMoves.first
   const [
     secondUnderOtherPossiblePlacementBotOpportunity,
-    underOtherPossiblePlacementBotOpportunity,
-    OtherPossiblePlacementBotOpportunity
+    firstUnderOtherPossiblePlacementBotOpportunity,
+    otherPossiblePlacementBotOpportunity
   ] = [
     OtherPossiblePlacement?.bots_opportunities[-2],
     OtherPossiblePlacement?.bots_opportunities[-1],
@@ -67,17 +68,21 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
   const firstUnderOtherPossiblePlacementPlayerThreatIsThree =
     firstUnderOtherPossiblePlacementPlayerThreat?.piece_count == 'Three'
   const firstUnderOtherPossiblePlacementBotOpportunityIsThree =
-    underOtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
+    firstUnderOtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
 
-  const firstOtherPossiblePlacementPlayerThreatIsTwo =
+  /*const firstOtherPossiblePlacementPlayerThreatIsTwo =
     otherPossiblePlacementPlayerThreat?.piece_count == 'Two'
   const firstOtherPossiblePlacementBotOpportunityIsTwo =
-    OtherPossiblePlacementBotOpportunity?.piece_count == 'Two'
+    otherPossiblePlacementBotOpportunity?.piece_count == 'Two'*/
 
   const firstOtherPossiblePlacementPlayerThreatIsThree =
     otherPossiblePlacementPlayerThreat?.piece_count == 'Three'
   const firstOtherPossiblePlacementBotOpportunityIsThree =
-    OtherPossiblePlacementBotOpportunity?.piece_count == 'Three'
+    otherPossiblePlacementBotOpportunity?.piece_count == 'Three'
+
+  const otherSlotIsThree =
+    firstOtherPossiblePlacementPlayerThreatIsThree ||
+    firstOtherPossiblePlacementBotOpportunityIsThree
 
   const relevantFirstMoveToOriginalThreatIsThree =
     firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0]?.piece_count == 'Three'
@@ -136,7 +141,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
 
   // Might remove them... idk
 
-  const prioritizeTwoWithoutOpportunity = !(
+  /*const prioritizeTwoWithoutOpportunity = !(
     twoPieceCount &&
     possible_Coordinates_Entry.participant == botValue &&
     !firstBotOpportunityIsTwo &&
@@ -148,9 +153,19 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     possible_Coordinates_Entry.participant == playerStatus.value &&
     !firstPlayerThreatIsTwo &&
     firstOtherPossiblePlacementPlayerThreatIsTwo
-  )
+  )*/
 
   /////////////////////////////////////////////////////////
+
+  // This underneath prevents the bot from blocking or building unessecary places
+  const otherSlotCoordinatesUnderneath =
+    possible_Coordinates_Entry.participant == botValue
+      ? firstUnderOtherPossiblePlacementBotOpportunity?.coords
+      : firstUnderOtherPossiblePlacementPlayerThreat?.coords
+
+  const duplicateBuildingORBlocking =
+    twoPieceCount &&
+    checkIfItsARecordInLosingCoordinates(otherSlotCoordinatesUnderneath, possible_Coordinates_Entry)
 
   /////// Block prime two ( prevent consecutive vertical three in a row, which is not possible to stop unless the first three in a row is matched with the bots three in a row)
 
@@ -159,26 +174,33 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     possible_Coordinates_Entry.pattern
   )
 
-  const prime_verticalDoubleThree =
-    prime_two &&
-    ((twoAndPlayer && firstPlayerThreatIsThree) || (twoAndBot && firstBotOpportunityIsThree))
+  const prime_verticalDoubleThree = prime_two && (otherSlotIsThree || firstIsThree)
 
   ///////////////////////////////////////////////////////////////////////////////////////////
+
+  const playerHasAPrimeDoubleAbove =
+    firstPlayerThreatIsTwo &&
+    (relevantFirstMoveToOriginalThreatIsThree || relevantFirstMoveUnderToOriginalThreatIsThree)
 
   /// Preventing vertical double three in a row
 
   const non_prime_verticalDoubleThree =
-    (twoAndPlayer && firstPlayerThreatIsThree) || (twoAndBot && firstBotOpportunityIsThree)
+    (twoAndPlayer &&
+      (secondUnderOtherPossiblePlacementPlayerThreatIsThree ||
+        firstUnderOtherPossiblePlacementPlayerThreatIsThree ||
+        firstOtherPossiblePlacementPlayerThreatIsThree ||
+        firstPlayerThreatIsThree)) ||
+    (twoAndBot &&
+      !playerHasAPrimeDoubleAbove &&
+      (secondUnderOtherPossiblePlacementBotOpportunityIsThree ||
+        firstUnderOtherPossiblePlacementBotOpportunityIsThree ||
+        firstOtherPossiblePlacementBotOpportunityIsThree ||
+        firstBotOpportunityIsThree))
 
   /////////////////////////////////////
 
-  const firstPlayerThreatTwoAndRelevantMoveThreatThree =
-    firstPlayerThreatIsTwo &&
-    (relevantFirstMoveToOriginalThreatIsThree || relevantFirstMoveUnderToOriginalThreatIsThree)
-
   return {
     secondBotOpportunity,
-    firstIsTwo,
     firstPlayerThreat,
     secondPlayerThreat,
     firstBotOpportunityIsTwo,
@@ -186,7 +208,6 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     firstBotOpportunityIsThree,
     firstPlayerThreatIsThree,
     firstIsPotentialThree,
-    firstIsThree,
     secondBotOpportunityIsTwo,
     secondPlayerThreatIsTwo,
     secondBotOpportunityIsThree,
@@ -194,8 +215,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     secondIsThree,
     prime_verticalDoubleThree,
     non_prime_verticalDoubleThree,
-    prioritizeTwoWithThreat,
-    prioritizeTwoWithoutOpportunity,
-    firstPlayerThreatTwoAndRelevantMoveThreatThree
+    playerHasAPrimeDoubleAbove,
+    duplicateBuildingORBlocking
   }
 }

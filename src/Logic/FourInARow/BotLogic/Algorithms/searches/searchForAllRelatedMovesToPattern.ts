@@ -1,6 +1,5 @@
 import { botValue, losing_Coordinates } from '../../../GameLogic/variables'
 import type { columnInformation } from '../../../Types'
-import { arraysEqual } from '../../ArrayLogic'
 
 export const find_all_related_moves_to_given_pattern = (zeroCoords: number[]) => {
   const arr: columnInformation = { coords: zeroCoords, player_threats: [], bots_opportunities: [] }
@@ -12,9 +11,6 @@ export const find_all_related_moves_to_given_pattern = (zeroCoords: number[]) =>
 
       const targetArr =
         entry.player_identifier == botValue ? arr.bots_opportunities : arr.player_threats
-
-      if (arraysEqual(entry.pattern, [0, '*', 1, 1]))
-        console.log(colIndex, [x, y], entry.coordinates[1], zeroCoords[1])
 
       targetArr[colIndex] = {
         coords: [x, y],

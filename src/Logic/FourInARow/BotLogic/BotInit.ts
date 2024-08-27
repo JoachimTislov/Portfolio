@@ -43,9 +43,9 @@ export const initiateAlgorithms = async (board: number[][]) => {
             const [x, y] = sequence.coordinates[entry.zeroIndex]
 
             if (participant.id == botValue) {
-              console.log('Winning the game!')
+              //console.log('Winning the game!')
             } else {
-              console.log('Blocking three in a row')
+              //console.log('Blocking three in a row')
             }
             return await botMove(board, x, y)
           }
@@ -149,7 +149,6 @@ export const initiateAlgorithms = async (board: number[][]) => {
 
             const __result = await applyPropertiesToEntry(
               board,
-              pattern,
               doubleThreeInARow,
               potentiallyDoubleInARow,
               coordinates[index],
@@ -164,7 +163,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
     }
   }
 
-  console.log(botChoices.value, playerChoices.value)
+  //console.log(botChoices.value, playerChoices.value, losing_Coordinates.value)
 
   return await searchForBestChoice(board)
 }

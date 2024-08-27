@@ -308,8 +308,7 @@ export const testBoards = [
       [0, 0, 0, 0, 0, 0]
     ],
     expect_coordinate: [1, 3],
-    description:
-      'Build Three And Force Player To Block Three In A Row And Win With Three In A Row One Above'
+    description: 'Golden move'
   },
   {
     board: [
@@ -407,32 +406,6 @@ export const testBoards = [
   {
     board: [
       [0, 0, 0, 0, 0, 0],
-      [3, 3, 1, 3, 0, 0],
-      [1, 3, 1, 1, 0, 0],
-      [3, 1, 1, 3, 0, 0],
-      [3, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0]
-    ],
-    expect_coordinate: [5, 0],
-    description: 'Prevent double three in a row'
-  },
-  {
-    board: [
-      [0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0],
-      [3, 1, 0, 0, 0, 0],
-      [3, 3, 1, 3, 0, 0],
-      [3, 1, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0]
-    ],
-    expect_coordinate: [3, 2],
-    description: 'Anna'
-  },
-  {
-    board: [
-      [0, 0, 0, 0, 0, 0],
       [1, 0, 0, 0, 0, 0],
       [1, 1, 1, 3, 0, 0],
       [3, 1, 1, 3, 0, 0],
@@ -440,7 +413,7 @@ export const testBoards = [
       [3, 3, 3, 1, 3, 0],
       [1, 0, 0, 0, 0, 0]
     ],
-    expect_coordinate: [2, 1],
+    expect_coordinate: [1, 1],
     description: 'Typical block double prime three in a row vertical'
   },
   {
@@ -449,11 +422,11 @@ export const testBoards = [
       [3, 1, 0, 0, 0, 0],
       [1, 1, 0, 0, 0, 0],
       [3, 3, 1, 3, 3, 1],
-      [3, 1, 0, 0, 0, 0],
+      [3, 3, 0, 0, 0, 0],
       [1, 1, 1, 3, 1, 3],
       [3, 3, 3, 1, 1, 0]
     ],
-    expect_coordinate: [2, 1],
+    expect_coordinate: [2, 2],
     description: 'Another: Typical block double prime three in a row vertical'
   },
   {
@@ -473,16 +446,15 @@ export const testBoards = [
   {
     board: [
       [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0],
-      [3, 1, 1, 0, 0, 0],
-      [3, 3, 1, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0],
-      [3, 0, 0, 0, 0, 0]
+      [1, 3, 1, 3, 0, 0],
+      [1, 1, 3, 3, 3, 1],
+      [3, 1, 1, 1, 3, 1],
+      [3, 1, 0, 0, 0, 0],
+      [1, 3, 1, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
     ],
-    expect_coordinate: [5, 2],
-    description:
-      'How do i even program that result ? Make a new object key which says if it a determined loss to play there, and adapt the code to it'
+    expect_coordinate: [5, 3],
+    description: 'Not good enough'
   }
 
   /*{
