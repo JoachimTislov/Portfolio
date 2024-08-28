@@ -90,11 +90,7 @@ const loopThroughValues = async (coordinates: number[][], values: number[], bool
       values[3] == participants[i]
     ) {
       if (boolCheck) {
-        const result = await determineWinner(participants[i])
-        for (const coords of coordinates) {
-          const [x, y] = coords
-          board[x][y] = 4
-        }
+        const result = await determineWinner(participants[i], coordinates)
         return result
       } else {
         return true
@@ -109,9 +105,7 @@ export const getColor = (int: number) => {
   return colors[int]
 }
 
-const determineWinner = async (value: number) => {
-  GameOver.value = true
-
+const determineWinner = async (value: number, coordinates: number[][]) => {
   if (botGame.value) {
     if (value == botValue) {
       winnerMsg.value = 'Bot won'
@@ -123,7 +117,7 @@ const determineWinner = async (value: number) => {
       They are in dire need of an update. 
       Might I humbly request that you analyze the game? Your insight would be most invaluable in helping me improve.`
 
-      await sendMail(
+      sendMail(
         text,
         import.meta.env.VITE_EMAILJS_FOUR_IN_A_ROW_TEMPLATE_ID,
         JSON.stringify(board),
@@ -134,5 +128,15 @@ const determineWinner = async (value: number) => {
     const color = getColor(playerStatus.value)
     winnerMsg.value = `${color} won`
   }
+
+  // Changing coordinates colors to green
+
+  for (const coords of coordinates) {
+    const [x, y] = coords
+    board[x][y] = 4
+  }
+
+  GameOver.value = true
+
   return true
 }

@@ -4,6 +4,7 @@ import { user_validation_arr, validation_messages } from '@/Logic/MacroTracker/i
 import type { User_input_field, UserInfo } from '@/Logic/MacroTracker/types'
 import { reactive, ref, watch } from 'vue'
 import RegisterInputModule from './RegisterInputModule.vue'
+import { user_id } from '@/Logic/MacroTracker/variables'
 
 const props = defineProps<{
   user_info?: UserInfo
@@ -96,6 +97,10 @@ watch(
         _arr.splice(1, 2)
       }
 
+      if (user_id.value == '1') {
+        _arr.splice(0, 1)
+      }
+
       for (const entry of _arr) {
         entry.value = newValue[entry.validate_type]
       }
@@ -121,51 +126,33 @@ watch(
   </template>
 
   <div class="input-group mt-2">
-    <select
-      @change="
-        user_validation_arr.gender = validateGenderOrActivityLvl(
-          $event,
-          validation_messages.register.gender.value,
-          'Gender',
-          'form-control form-control-md'
-        )
-      "
-      class="form-control form-control-md"
-      name="gender"
-      v-model="selectedGender"
-      required
-    >
+    <select @change="
+      user_validation_arr.gender = validateGenderOrActivityLvl(
+        $event,
+        validation_messages.register.gender.value,
+        'Gender',
+        'form-control form-control-md'
+      )
+      " class="form-control form-control-md" name="gender" v-model="selectedGender" required>
       <option value="0">Choose Gender</option>
       <option value="1">Male</option>
       <option value="2">Female</option>
     </select>
     <div class="d-flex input-group-append">
-      <span class="input-group-text"
-        ><font-awesome-icon :icon="['fas', 'person-half-dress']"
-      /></span>
+      <span class="input-group-text"><font-awesome-icon :icon="['fas', 'person-half-dress']" /></span>
     </div>
-    <div
-      :ref="validation_messages.register.gender"
-      class="ml-2 invalid-feedback"
-      style="display: none"
-    ></div>
+    <div :ref="validation_messages.register.gender" class="ml-2 invalid-feedback" style="display: none"></div>
   </div>
 
   <div class="form-group mt-2">
-    <select
-      @change="
-        user_validation_arr.activityLvl = validateGenderOrActivityLvl(
-          $event,
-          validation_messages.register.activity_lvl.value,
-          'Activity Lvl',
-          'form-control form-control-md'
-        )
-      "
-      class="form-control form-control-md"
-      name="activity_lvl"
-      v-model="selectedActivity_lvl"
-      required
-    >
+    <select @change="
+      user_validation_arr.activityLvl = validateGenderOrActivityLvl(
+        $event,
+        validation_messages.register.activity_lvl.value,
+        'Activity Lvl',
+        'form-control form-control-md'
+      )
+      " class="form-control form-control-md" name="activity_lvl" v-model="selectedActivity_lvl" required>
       <option value="0">Choose Activity Lvl</option>
       <option value="1">Sedentary</option>
       <option value="2">Lightly Active</option>
@@ -173,10 +160,6 @@ watch(
       <option value="4">Very Active</option>
       <option value="5">Super Active</option>
     </select>
-    <div
-      :ref="validation_messages.register.activity_lvl"
-      class="ml-2 invalid-feedback"
-      style="display: none"
-    ></div>
+    <div :ref="validation_messages.register.activity_lvl" class="ml-2 invalid-feedback" style="display: none"></div>
   </div>
 </template>

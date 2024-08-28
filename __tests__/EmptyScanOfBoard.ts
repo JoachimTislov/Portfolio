@@ -4,27 +4,11 @@ export const emptyScanOfBoard = [
     sequence: []
   },
   {
-    direction: 'horizontal_right',
+    direction: 'horizontal',
     sequence: []
   },
   {
-    direction: 'horizontal_left',
-    sequence: []
-  },
-  {
-    direction: 'cross_up_right',
-    sequence: []
-  },
-  {
-    direction: 'cross_up_left',
-    sequence: []
-  },
-  {
-    direction: 'cross_down_right',
-    sequence: []
-  },
-  {
-    direction: 'cross_down_left',
+    direction: 'cross',
     sequence: []
   }
 ]

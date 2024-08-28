@@ -15,7 +15,7 @@ const logout = async () => {
   // third party member to exploit the token
 
   alertSecondary()
-  _alert('Successfully logged you out')
+  await _alert('Successfully logged you out')
 
   router.push({ name: 'macroLogin' })
 }

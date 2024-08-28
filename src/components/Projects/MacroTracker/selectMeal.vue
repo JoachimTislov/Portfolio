@@ -96,7 +96,7 @@ async function addMealToGivenDate(meal_id: number) {
       alert(`Network error: ${error}`)
     }
   } else {
-    _alert('Time input is invalid')
+    await _alert('Time input is invalid')
     alertDanger()
   }
 }
@@ -117,83 +117,48 @@ async function addMealToGivenDate(meal_id: number) {
           <AlertBox />
 
           <label for="date"> Date: </label>
-          <input
-            type="date"
-            name="date"
-            class="form-control form-control-md"
-            style="width: 150px"
-            v-model="selectedDate"
-          />
+          <input type="date" name="date" class="form-control form-control-md" style="width: 150px"
+            v-model="selectedDate" />
 
           <form class="mt-3" id="meal_date_info">
             <h5>Input the time when you had the meal</h5>
 
             <div class="mt-1 input-group">
-              <input
-                id="hourInput"
-                @input="
-                  updateTime(),
-                    (isHourValid = ValidateText(
-                      $event,
-                      timeValidation.hour.value,
-                      'Hour',
-                      'form-control form-control-md'
-                    ))
-                "
-                class="form-control form-control-md"
-                type="number"
-                min="0"
-                max="23"
-                name="hour"
-                v-model="hour"
-                placeholder="hour"
-              />
+              <input id="hourInput" @input="
+                updateTime(),
+                (isHourValid = ValidateText(
+                  $event,
+                  timeValidation.hour.value,
+                  'Hour',
+                  'form-control form-control-md'
+                ))
+                " class="form-control form-control-md" type="number" min="0" max="23" name="hour" v-model="hour"
+                placeholder="hour" />
               <div class="input-group-append">
                 <span class="input-group-text"> hour </span>
               </div>
             </div>
-            <div
-              :ref="timeValidation.hour"
-              class="ml-2 invalid-feedback"
-              style="display: none"
-            ></div>
+            <div :ref="timeValidation.hour" class="ml-2 invalid-feedback" style="display: none"></div>
 
             <div class="mt-1 input-group">
-              <input
-                id="minutesInput"
-                @input="
-                  isMinutesValid = ValidateText(
-                    $event,
-                    timeValidation.minutes.value,
-                    'Minutes',
-                    'form-control form-control-md'
-                  )
-                "
-                class="form-control form-control-md"
-                type="number"
-                min="0"
-                max="59"
-                name="minutes"
-                v-model="minutes"
-                placeholder="minutes"
-              />
+              <input id="minutesInput" @input="
+                isMinutesValid = ValidateText(
+                  $event,
+                  timeValidation.minutes.value,
+                  'Minutes',
+                  'form-control form-control-md'
+                )
+                " class="form-control form-control-md" type="number" min="0" max="59" name="minutes" v-model="minutes"
+                placeholder="minutes" />
               <div class="input-group-append">
                 <span class="input-group-text"> minutes </span>
               </div>
             </div>
-            <div
-              :ref="timeValidation.minutes"
-              class="ml-2 invalid-feedback"
-              style="display: none"
-            ></div>
+            <div :ref="timeValidation.minutes" class="ml-2 invalid-feedback" style="display: none"></div>
 
             <div class="mt-1">
-              <select
-                class="form-control form-control-md"
-                name="meal_time"
-                @change="modifyTime()"
-                v-model="selectedMealTime"
-              >
+              <select class="form-control form-control-md" name="meal_time" @change="modifyTime()"
+                v-model="selectedMealTime">
                 <option disabled selected>Choose meal period</option>
                 <option value="Breakfast">Breakfast</option>
                 <option value="Lunch">Lunch</option>
@@ -211,10 +176,7 @@ async function addMealToGivenDate(meal_id: number) {
             </div>
             <div class="wrap">
               <div v-for="meal in meals" :key="meal.meal_id">
-                <button
-                  @click="addMealToGivenDate(meal['meal_id'])"
-                  class="btn btn-secondary btn-md m-2"
-                >
+                <button @click="addMealToGivenDate(meal['meal_id'])" class="btn btn-secondary btn-md m-2">
                   <h6>{{ meal['name'] }}</h6>
                 </button>
               </div>

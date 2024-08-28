@@ -1,11 +1,10 @@
 import router from '@/router'
-import { _alert, alertDanger, alertSuccess, hideAlert } from '../alertFunctions'
+import { _alert, alertDanger, alertSuccess } from '../alertFunctions'
 import { fetchingResource, login_validation, password } from '../initVariables'
 import { token, user_id, username } from '../variables'
 import { fetchResource } from './ajax'
 
 export async function login(userClicked?: boolean) {
-  console.log('Logging in')
   if (login_validation.Password && login_validation.Username && !fetchingResource.value) {
     try {
       const json = JSON.stringify({
@@ -33,11 +32,17 @@ export async function login(userClicked?: boolean) {
           if (userClicked) {
             router.push({ name: 'macroHome' })
           }
+
           alertSuccess()
-          _alert('You have logged into the example account successfully')
+
+          if (user_id.value == '1') {
+            await _alert('You have logged into the example account successfully')
+          } else {
+            await _alert('You have logged into your account successfully')
+          }
         } else {
           alertDanger()
-          _alert(result.message)
+          await _alert(result.message)
         }
       }
     } catch (error) {
@@ -46,9 +51,9 @@ export async function login(userClicked?: boolean) {
   } else {
     alertDanger()
     if (fetchingResource.value) {
-      _alert('Already login in...')
+      await _alert('Already login in...')
     } else {
-      _alert(
+      await _alert(
         `Fill out the ${!login_validation.Username ? 'Username' : 'Password'} field correctly!`
       )
     }

@@ -21,15 +21,13 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
   const firstBotOpportunityIsTwo = firstBotOpportunity?.piece_count === 'Two'
   const firstPlayerThreatIsTwo = firstPlayerThreat?.piece_count === 'Two'
 
-  //const firstIsTwo = firstBotOpportunity || firstPlayerThreatIsTwo
+  const firstIsTwo = firstBotOpportunity || firstPlayerThreatIsTwo
 
   const firstIsPotentialThree =
     firstBotOpportunity?.potentialDoubleThreeInARow || firstPlayerThreat?.potentialDoubleThreeInARow
 
   const firstBotOpportunityIsThree = firstBotOpportunity?.piece_count === 'Three'
   const firstPlayerThreatIsThree = firstPlayerThreat?.piece_count === 'Three'
-
-  const firstIsThree = firstBotOpportunityIsThree || firstPlayerThreatIsThree
 
   const secondBotOpportunityIsTwo = secondBotOpportunity?.piece_count === 'Two'
   const secondPlayerThreatIsTwo = secondPlayerThreat?.piece_count === 'Two'
@@ -174,7 +172,11 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     possible_Coordinates_Entry.pattern
   )
 
-  const prime_verticalDoubleThree = prime_two && (otherSlotIsThree || firstIsThree)
+  const prime_verticalDoubleThree =
+    prime_two &&
+    (otherSlotIsThree ||
+      (twoAndBot && firstBotOpportunityIsThree) ||
+      (twoAndPlayer && firstPlayerThreatIsThree))
 
   ///////////////////////////////////////////////////////////////////////////////////////////
 
@@ -200,6 +202,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
   /////////////////////////////////////
 
   return {
+    firstIsTwo,
     secondBotOpportunity,
     firstPlayerThreat,
     secondPlayerThreat,

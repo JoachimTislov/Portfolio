@@ -12,6 +12,7 @@ export const applyPropertiesToEntry = async (
   key: string
 ) => {
   const {
+    firstIsTwo,
     firstPlayerThreatIsTwo,
     firstBotOpportunityIsThree,
     firstPlayerThreatIsThree,
@@ -48,8 +49,13 @@ export const applyPropertiesToEntry = async (
       !firstBotOpportunityIsThree &&
       !playerHasAPrimeDoubleAbove &&
       !firstIsPotentialThree &&
+      !(firstIsTwo && possible_Coordinates_Entry.direction == 'vertical') &&
       (secondIsThree || !(firstPlayerThreatIsTwo && secondPlayerThreatIsTwo))
     ) {
+      if (firstIsTwo && !secondIsThree) {
+        possible_Coordinates_Entry.losing = true
+      }
+
       targetArr[key].push(possible_Coordinates_Entry)
     }
   }

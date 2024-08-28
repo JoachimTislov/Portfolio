@@ -183,7 +183,7 @@ export async function initPicture() {
       } else {
         const result = await response.json()
         alertSuccess()
-        _alert(result.message)
+        await _alert(result.message)
       }
     }
   }

@@ -53,11 +53,11 @@ export const boardHeight = ref(6)
 const storedBoard = localStorage.getItem('board')
 /*export const board = reactive([
   [0, 0, 0, 0, 0, 0],
-  [1, 3, 1, 3, 0, 0],
-  [1, 1, 3, 3, 3, 0],
-  [3, 1, 1, 1, 3, 1],
-  [3, 1, 0, 0, 0, 0],
-  [1, 3, 1, 0, 0, 0],
+  [1, 3, 0, 0, 0, 0],
+  [1, 3, 0, 0, 0, 0],
+  [3, 1, 3, 0, 0, 0],
+  [1, 3, 0, 0, 0, 0],
+  [3, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0]
 ])*/
 export const board = reactive(
@@ -123,25 +123,23 @@ watch(
 
 const storedLog = localStorage.getItem('log')
 /*export const log = ref<number[][]>([
-  [2, 0],
   [3, 0],
-  [3, 1],
-  [4, 0],
-  [6, 0],
-  [5, 0],
-  [5, 1],
-  [4, 1],
-  [4, 2],
-  [4, 3],
-  [1, 0],
-  [6, 1],
-  [1, 1],
+  [2, 0],
   [2, 1],
-  [1, 2],
-  [1, 3],
-  [2, 2],
+  [3, 1],
   [3, 2],
-  [3, 3]
+  [1, 0],
+  [2, 2],
+  [2, 3],
+  [1, 1],
+  [1, 2],
+  [3, 3],
+  [0, 0],
+  [2, 4],
+  [3, 4],
+  [0, 1],
+  [1, 3],
+  [5, 0]
 ])*/
 export const log = ref<number[][]>(storedLog ? JSON.parse(storedLog) : [])
 watch(

@@ -8,14 +8,12 @@ import {
   user_validation_arr,
   warningMessage
 } from '@/Logic/MacroTracker/initVariables'
-import { onMounted } from 'vue'
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr'
 import AlertBox from './Modules/AlertBox.vue'
 import { username } from '@/Logic/MacroTracker/variables'
 import {
   _alert,
   alertDanger,
-  alertSecondary,
   alertSuccess
 } from '@/Logic/MacroTracker/alertFunctions'
 import RegisterModule from './Modules/RegisterModule.vue'
@@ -23,10 +21,6 @@ import RequestLoader from './RequestLoader.vue'
 import router from '@/router'
 import WarningModule from './Modules/WarningModule.vue'
 
-onMounted(() => {
-  alertSecondary()
-  _alert('Welcome to the register page')
-})
 async function register() {
   const validation = checkValidationArr(user_validation_arr)
 
@@ -36,8 +30,7 @@ async function register() {
 
     if (response && response.ok) {
       alertSuccess()
-      _alert('Successfully registered account')
-
+      await _alert('Successfully registered account')
 
       // Storing login information, because some people struggle with remembering it
 
@@ -59,9 +52,9 @@ async function register() {
     alertDanger()
     alertDanger()
     if (fetchingResource.value) {
-      _alert('Already registering...')
+      await _alert('Already registering...')
     } else {
-      _alert('Fill out the register fields correctly!')
+      await _alert('Fill out the register fields correctly!')
     }
   }
 }

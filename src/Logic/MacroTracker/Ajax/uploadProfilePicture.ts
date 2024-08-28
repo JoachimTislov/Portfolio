@@ -5,7 +5,7 @@ import { fetchResource } from './ajax'
 export async function uploadProfilePicture(file: Blob | null) {
   if (!file) {
     alertDanger()
-    _alert('No file selected')
+    await _alert('No file selected')
   } else {
     try {
       const form_data = new FormData()

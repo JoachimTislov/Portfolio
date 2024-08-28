@@ -28,7 +28,7 @@ async function changePassword() {
     }
   } else {
     alertDanger()
-    _alert('Fill out the password fields correctly')
+    await _alert('Fill out the password fields correctly')
   }
 }
 </script>

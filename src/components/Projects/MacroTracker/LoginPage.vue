@@ -64,7 +64,7 @@ import { initiateExampleAccount } from '@/Logic/MacroTracker/initiateExampleAcco
                   <RequestLoader />
                 </template>
 
-                <button type="submit" class="btn btn-lg btn-primary" @click="login()">
+                <button type="submit" class="btn btn-lg btn-primary" @click="login(true)">
                   Login
                 </button>
               </div>
