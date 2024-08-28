@@ -6,12 +6,12 @@ import {
   login_validation,
   password,
   user_validation_arr,
-  username,
   warningMessage
 } from '@/Logic/MacroTracker/initVariables'
 import { onMounted } from 'vue'
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr'
 import AlertBox from './Modules/AlertBox.vue'
+import { username } from '@/Logic/MacroTracker/variables'
 import {
   _alert,
   alertDanger,

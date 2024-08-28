@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 
-import { token } from '@/Logic/MacroTracker/token'
+import { token } from '@/Logic/MacroTracker/variables'
 import { removeLocalData, fetchResource } from '@/Logic/MacroTracker/Ajax/ajax'
-import { username } from '@/Logic/MacroTracker/initVariables'
+import { username } from '@/Logic/MacroTracker/variables'
 import { _alert, alertSecondary } from '@/Logic/MacroTracker/alertFunctions'
 import router from '@/router'
 
@@ -28,15 +28,8 @@ const routes = ['Home', 'Calender', 'Meals', 'Ingredients', 'Profile']
     <div class="container">
       <h4 class="logo">{{ username }}</h4>
 
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarMacroTracker"
-        aria-controls="navbarMacroTracker"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMacroTracker"
+        aria-controls="navbarMacroTracker" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 

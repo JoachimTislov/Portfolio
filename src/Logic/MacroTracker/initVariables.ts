@@ -41,12 +41,10 @@ export const showAlert = ref<boolean>(false)
 export const alertMessage = ref<string>('')
 export const alertClassName = ref<string>('')
 
-const storedUsername = localStorage.getItem('username')
-export const username = ref<string>(storedUsername ? storedUsername : '')
 export const password = ref<string>('')
 
 export const login_validation = reactive({
-  Username: storedUsername ? true : false,
+  Username: localStorage.getItem('username') ? true : false,
   Password: false
 })
 

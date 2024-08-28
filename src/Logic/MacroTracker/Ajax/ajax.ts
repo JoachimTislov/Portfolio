@@ -1,5 +1,5 @@
-import { token } from '../token'
-import { fetchingResource } from '../initVariables'
+import { token, user_id, username } from '../variables'
+import { fetchingResource, password } from '../initVariables'
 import { _alert, alertDanger, alertSecondary, alertSuccess } from '../alertFunctions'
 import router from '@/router'
 import { hideModal } from '../hideModal'
@@ -14,9 +14,9 @@ function unLoad() {
 
 export function removeLocalData() {
   token.value = undefined
-  localStorage.removeItem('token')
-  localStorage.removeItem('user_id')
-  localStorage.removeItem('username')
+  user_id.value = undefined
+  username.value = ''
+  password.value = ''
 }
 
 function checkIfUserIsUnAuthorized(response: Response, modal_id?: string) {
@@ -47,7 +47,7 @@ export async function getData(url: string) {
     const response = await fetch(endpoint, {
       method: 'GET',
       headers: {
-        Authorization: token.value
+        Authorization: user_id.value == '1' ? user_id.value : token.value
       }
     })
 
@@ -73,7 +73,8 @@ export async function deleteEntity(
         const response = await fetch(endpoint, {
           method: 'DELETE',
           headers: {
-            Authorization: token.value
+            // Example account by pass
+            Authorization: user_id.value == '1' ? user_id.value : token.value
           }
         })
 
@@ -116,11 +117,14 @@ export async function fetchResource(
   modal_id?: string
 ): Promise<Response | undefined> {
   const api_key: string = import.meta.env.VITE_API_KEY
-  const auth = typeOfAuth == 'api_key' ? api_key : token.value
+  let auth = typeOfAuth == 'api_key' ? api_key : token.value
   if (!auth) {
     forceFullyLogTheUserOut()
   } else {
     const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
+
+    // Example account by pass
+    auth = user_id.value == '1' ? user_id.value : auth
 
     const fetchBody = {
       method: method,

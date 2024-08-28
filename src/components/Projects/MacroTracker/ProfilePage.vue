@@ -14,11 +14,13 @@ import { onMounted } from 'vue'
 import { getUserInfo } from '@/Logic/MacroTracker/Ajax/get/getUserInfo'
 import BarChart from './BarChart.vue'
 import RequestLoader from './RequestLoader.vue'
+import { user_id } from '@/Logic/MacroTracker/variables'
 
 onMounted(async () => {
   await getUserInfo()
   await initPicture()
 })
+
 </script>
 
 <template>
@@ -63,22 +65,12 @@ onMounted(async () => {
 
       <div class="d-flex">
         <div class="btn-group btn-group-md mt-4 ms-auto">
-          <button
-            type="button"
-            class="btn btn-info"
-            data-bs-toggle="modal"
-            data-bs-target="#change_password_modal"
-            @click="hideAlert()"
-          >
+          <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#change_password_modal"
+            @click="hideAlert()" v-if="user_id && user_id != '1'">
             Change password
           </button>
-          <button
-            type="button"
-            class="btn btn-success"
-            data-bs-toggle="modal"
-            data-bs-target="#edit_profile_information_modal"
-            @click="hideAlert()"
-          >
+          <button type="button" class="btn btn-success" data-bs-toggle="modal"
+            data-bs-target="#edit_profile_information_modal" @click="hideAlert()">
             Edit profile
           </button>
         </div>
