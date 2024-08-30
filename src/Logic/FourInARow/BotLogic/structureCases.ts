@@ -1,4 +1,4 @@
-import { botValue, playerStatus } from '../GameLogic/variables'
+import { botValue, losing_Coordinates, playerValue } from '../GameLogic/variables'
 import type { possible_Coordinates } from '../Types'
 import { checkIfItsARecordInLosingCoordinates } from './Algorithms/checks/checkIfItsARecordInLosingCoordinates'
 import { checkIfArrayInThe2DArrayEqualArray } from './ArrayLogic'
@@ -27,6 +27,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     firstBotOpportunity?.potentialDoubleThreeInARow || firstPlayerThreat?.potentialDoubleThreeInARow
 
   const firstBotOpportunityIsThree = firstBotOpportunity?.piece_count === 'Three'
+
   const firstPlayerThreatIsThree = firstPlayerThreat?.piece_count === 'Three'
 
   const secondBotOpportunityIsTwo = secondBotOpportunity?.piece_count === 'Two'
@@ -89,7 +90,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
 
   const twoPieceCount = possible_Coordinates_Entry.piece_count == 'Two'
   const twoAndBot = twoPieceCount && possible_Coordinates_Entry.participant == botValue
-  const twoAndPlayer = twoPieceCount && possible_Coordinates_Entry.participant == playerStatus.value
+  const twoAndPlayer = twoPieceCount && possible_Coordinates_Entry.participant == playerValue
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -188,6 +189,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
 
   const non_prime_verticalDoubleThree =
     (twoAndPlayer &&
+      !playerHasAPrimeDoubleAbove &&
       (secondUnderOtherPossiblePlacementPlayerThreatIsThree ||
         firstUnderOtherPossiblePlacementPlayerThreatIsThree ||
         firstOtherPossiblePlacementPlayerThreatIsThree ||
@@ -200,6 +202,18 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
         firstBotOpportunityIsThree))
 
   /////////////////////////////////////
+
+  const double_two = (value: number) => {
+    if (
+      losing_Coordinates.value[key] &&
+      losing_Coordinates.value[key][value] &&
+      losing_Coordinates.value[key][value].Two
+    ) {
+      return losing_Coordinates.value[key][value].Two.length > 1
+    }
+  }
+  const key = JSON.stringify(possible_Coordinates_Entry.coordinates)
+  const doubleTwo = double_two(botValue) || double_two(playerValue)
 
   return {
     firstIsTwo,
@@ -219,6 +233,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     prime_verticalDoubleThree,
     non_prime_verticalDoubleThree,
     playerHasAPrimeDoubleAbove,
-    duplicateBuildingORBlocking
+    duplicateBuildingORBlocking,
+    doubleTwo
   }
 }

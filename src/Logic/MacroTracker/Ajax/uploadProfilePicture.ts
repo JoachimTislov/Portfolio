@@ -1,6 +1,7 @@
 import { _alert, alertDanger } from '../alertFunctions'
 import { initPicture, uploadedPicture, _file } from '../initVariables'
 import { fetchResource } from './ajax'
+import { deleteProfilePicture } from './deleteProfilePicture'
 
 export async function uploadProfilePicture(file: Blob | null) {
   if (!file) {
@@ -8,6 +9,9 @@ export async function uploadProfilePicture(file: Blob | null) {
     await _alert('No file selected')
   } else {
     try {
+      // Delete old picture
+      if (uploadedPicture.value) await deleteProfilePicture()
+
       const form_data = new FormData()
       form_data.append('file', file)
 

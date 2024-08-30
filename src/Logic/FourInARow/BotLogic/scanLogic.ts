@@ -145,6 +145,6 @@ export const scanBoard = (participant: number, board: number[][], pairOfCoordina
     { direction: 'cross', sequence: cross }
   ]
 
-  //console.log(result)
+  // console.log(result)
   return result
 }

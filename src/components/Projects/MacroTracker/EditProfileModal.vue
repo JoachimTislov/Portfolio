@@ -72,17 +72,17 @@ async function handleFileUpload(event: Event) {
 
             <div class="imageUploadBar mt-2 input-group mx-auto">
               <input type="file" class="form-control" id="pictureInput" @change="handleFileUpload" />
-
-              <button v-if="profilePictureUrl != user_icon && !uploadedPicture" type="button"
-                class="btn btn-md btn-outline-success" @click="uploadProfilePicture(_file)">
-                Upload
-              </button>
-
-              <button v-if="profilePictureUrl != user_icon && uploadedPicture" type="button"
-                class="btn btn-md btn-outline-danger" @click="deleteProfilePicture()">
-                Delete
-              </button>
             </div>
+
+            <button v-if="_file" type="button" class="mt-2 btn btn-md btn-outline-success"
+              @click="uploadProfilePicture(_file)">
+              Upload Picture
+            </button>
+
+            <button v-if="profilePictureUrl != user_icon && uploadedPicture" type="button"
+              class="mt-2 btn btn-md btn-outline-danger" @click="deleteProfilePicture()">
+              Delete Picture
+            </button>
           </div>
         </div>
 

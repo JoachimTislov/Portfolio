@@ -7,14 +7,18 @@ export type spotInfo = {
   coords: number[][]
 }
 
-export type _losingCoordinates = {
-  coordinates: number[]
+export type Losing_Coordinates = {
+  [key: string]: {
+    [key: number]: {
+      [key: string]: Losing_Coordinates_Entry
+    }
+  }
+}
+
+export type Losing_Coordinates_Entry = {
   direction: string
   pattern: _pattern
   all_coordinates: _coordinates
-  player_identifier: number
-  piece_count: string
-  instances: number
   relatedMovesOfOtherZeroOrAsterisk: columnInformation | undefined
   potentiallyDoubleThreeInARow: boolean
 }[]
@@ -37,7 +41,6 @@ export type columnInformation = {
 export type filterObject = {
   coords: number[]
   piece_count: string
-  instances: number
   direction: string
   pattern: _pattern
   all_coordinates: number[][]
@@ -61,4 +64,14 @@ export type possible_Coordinates = {
   winning: boolean
   participant: number
   piece_count: string
+}
+
+export type Log = {
+  past: LogEntry[]
+  future: LogEntry[]
+}
+
+export type LogEntry = {
+  coords: number[]
+  participant: number
 }

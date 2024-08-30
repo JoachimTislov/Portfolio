@@ -1,6 +1,6 @@
 import { ref, watch, reactive } from 'vue'
 
-import type { _losingCoordinates, possible_Choices } from '../Types'
+import type { Log, Losing_Coordinates, possible_Choices } from '../Types'
 
 export const name = ref<string>('')
 
@@ -26,7 +26,8 @@ export const botChoices = ref<possible_Choices>(deepClone(defaultChoices))
 
 export const playerChoices = ref<possible_Choices>(deepClone(defaultChoices))
 
-export const botValue: number = 3
+export const botValue: number = 2
+export const playerValue: number = 1
 
 const storedWinnerMsg = localStorage.getItem('winnerMsg')
 export const winnerMsg = ref<string>(storedWinnerMsg ? JSON.parse(storedWinnerMsg) : '')
@@ -48,16 +49,16 @@ watch(
   { deep: true }
 )
 
-export const boardWidth = ref(7)
-export const boardHeight = ref(6)
+export const boardWidth = ref<number>(7)
+export const boardHeight = ref<number>(6)
 const storedBoard = localStorage.getItem('board')
 /*export const board = reactive([
   [0, 0, 0, 0, 0, 0],
-  [1, 3, 0, 0, 0, 0],
-  [1, 3, 0, 0, 0, 0],
-  [3, 1, 3, 0, 0, 0],
-  [1, 3, 0, 0, 0, 0],
-  [3, 0, 0, 0, 0, 0],
+  [2, 0, 0, 0, 0, 0],
+  [1, 1, 0, 0, 0, 0],
+  [1, 2, 0, 0, 0, 0],
+  [2, 1, 1, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0]
 ])*/
 export const board = reactive(
@@ -76,8 +77,8 @@ watch(
 )
 
 const storedLosing_Coordinates = localStorage.getItem('losing_Coordinates')
-export const losing_Coordinates = ref<_losingCoordinates>(
-  storedLosing_Coordinates ? JSON.parse(storedLosing_Coordinates) : []
+export const losing_Coordinates = ref<Losing_Coordinates>(
+  storedLosing_Coordinates ? JSON.parse(storedLosing_Coordinates) : {}
 )
 watch(
   losing_Coordinates,
@@ -87,75 +88,31 @@ watch(
   { deep: true }
 )
 
-const storedShowBoard = localStorage.getItem('ShowBoard')
-export const ShowBoard = ref<boolean>(storedShowBoard ? JSON.parse(storedShowBoard) : true)
-watch(
-  ShowBoard,
-  (newShowBoard) => {
-    localStorage.setItem('ShowBoard', JSON.stringify(newShowBoard))
-  },
-  { deep: true }
-)
-
-const storedBotGame = localStorage.getItem('botGame')
-export const botGame = ref<boolean>(storedBotGame ? JSON.parse(storedBotGame) : true)
-watch(
-  botGame,
-  (newBotGame) => {
-    localStorage.setItem('botGame', JSON.stringify(newBotGame))
-  },
-  { deep: true }
-)
-
-export const gameMode = ref<string>(botGame.value ? 'Player vs Bot' : 'Player vs Player')
-
-const storedFirst_player = localStorage.getItem('first_player')
-export const first_player = ref<string>(
-  storedFirst_player ? JSON.parse(storedFirst_player) : 'player'
+const storedStarting_player = localStorage.getItem('starting_player')
+export const starting_player = ref<string>(
+  storedStarting_player ? JSON.parse(storedStarting_player) : 'player'
 )
 watch(
-  first_player,
-  (newFirst_player) => {
-    localStorage.setItem('first_player', JSON.stringify(newFirst_player))
+  starting_player,
+  (newStarting_player) => {
+    localStorage.setItem('starting_player', JSON.stringify(newStarting_player))
   },
   { deep: true }
 )
 
 const storedLog = localStorage.getItem('log')
-/*export const log = ref<number[][]>([
-  [3, 0],
-  [2, 0],
-  [2, 1],
-  [3, 1],
-  [3, 2],
-  [1, 0],
-  [2, 2],
-  [2, 3],
-  [1, 1],
-  [1, 2],
-  [3, 3],
-  [0, 0],
-  [2, 4],
-  [3, 4],
-  [0, 1],
-  [1, 3],
-  [5, 0]
-])*/
-export const log = ref<number[][]>(storedLog ? JSON.parse(storedLog) : [])
+export const log = ref<Log>(
+  storedLog
+    ? JSON.parse(storedLog)
+    : {
+        past: [],
+        future: []
+      }
+)
 watch(
   log,
   (newLog) => {
     localStorage.setItem('log', JSON.stringify(newLog))
-  },
-  { deep: true }
-)
-
-const storedPlayerStatus = localStorage.getItem('playerStatus')
-export const playerStatus = ref<number>(storedPlayerStatus ? JSON.parse(storedPlayerStatus) : 1)
-watch(
-  playerStatus,
-  (newPlayerStatus) => {
-    localStorage.setItem('playerStatus', JSON.stringify(newPlayerStatus))
   },
   { deep: true }
 )

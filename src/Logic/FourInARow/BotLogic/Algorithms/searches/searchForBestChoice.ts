@@ -1,4 +1,4 @@
-import { botChoices, botValue, first_player, playerChoices } from '../../../GameLogic/variables'
+import { botChoices, botValue, starting_player, playerChoices } from '../../../GameLogic/variables'
 import { botMove } from '../../botMove'
 import { handleLosingChoices } from '../handleLosingChoices'
 import { pieces } from '@/Logic/FourInARow/GameLogic/pieces'
@@ -131,7 +131,7 @@ export const searchForBestChoice = async (board: number[][]) => {
   // Handling base with zero connections. There probably some spots which are better than the other, but since we want different games.
   // We will use computer randomness
   const remainingChoices = [...botChoices.value.One_in_a_row, ...playerChoices.value.One_in_a_row]
-  if (pieces.value == 1 && first_player.value == 'player') {
+  if (pieces.value == 1 && starting_player.value == 'player') {
     const arr_length = remainingChoices.length
     const random_index = Math.floor(Math.random() * (arr_length - 1)) // - 1 since a length of an array is from 1 - n and does not begin with zero
 

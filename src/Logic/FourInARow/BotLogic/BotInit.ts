@@ -1,5 +1,5 @@
 import {
-  playerStatus,
+  playerValue,
   playerChoices,
   deepClone,
   defaultChoices,
@@ -27,7 +27,7 @@ import { getOtherZeroCoordinatesIndex } from './Algorithms/get/getOtherZeroOrAst
 export const initiateAlgorithms = async (board: number[][]) => {
   const participants = [
     { id: botValue, scan: scanBoard(botValue, board) },
-    { id: playerStatus.value, scan: scanBoard(playerStatus.value, board) }
+    { id: playerValue, scan: scanBoard(playerValue, board) }
   ]
 
   // Checks three in a row first to either win or prevent losing the game
@@ -175,5 +175,5 @@ export const resetChoices = () => {
     choices.value = deepClone(defaultChoices)
   }
   // resetting losing choices
-  losing_Coordinates.value = []
+  losing_Coordinates.value = {}
 }

@@ -1,52 +1,37 @@
-import { botValue, losing_Coordinates, playerStatus } from '../../GameLogic/variables'
+import { botValue, losing_Coordinates, playerValue } from '../../GameLogic/variables'
 import { botMove } from '../botMove'
-
-const place_Piece = async (
-  entry: {
-    coordinates: number[]
-    player_identifier: number
-    piece_count: string
-  },
-  board: number[][]
-) => {
-  const [x, y] = entry.coordinates
-  losing_Coordinates.value = losing_Coordinates.value.filter(
-    (e: { coordinates: number[]; player_identifier: number; piece_count: string }) => e !== entry
-  )
-  return await botMove(board, x, y)
-}
 
 const checkCoordinatesStatus = async (
   board: number[][],
   piece_count: string,
   participant: number
 ) => {
-  for (const entry of losing_Coordinates.value) {
-    const [x, y] = entry.coordinates
+  for (const key of Object.keys(losing_Coordinates.value)) {
+    const [x, y] = JSON.parse(key)
     const pieceValueUnderLosingCoordinate = board[x][y - 1]
     if (
-      entry.player_identifier === participant &&
-      entry.piece_count === piece_count &&
       board[x][y] == 0 &&
-      pieceValueUnderLosingCoordinate != 0
+      pieceValueUnderLosingCoordinate != 0 &&
+      losing_Coordinates.value[key][participant][piece_count]
     ) {
-      return await place_Piece(entry, board)
+      delete losing_Coordinates.value[key]
+      return await botMove(board, x, y)
     }
   }
   return false
 }
 
 export const handleLosingChoices = async (board: number[][]) => {
-  //console.log('handling losing choices')
+  // console.log('handling losing choices')
 
   for (const piece_count of ['Two', 'Three']) {
-    for (const value of [botValue, playerStatus.value]) {
+    for (const value of [botValue, playerValue]) {
       const result = await checkCoordinatesStatus(board, piece_count, value)
       if (result != false) return result
     }
   }
 
-  if (losing_Coordinates.value.length > 0) {
+  /*if (losing_Coordinates.value.length > 0) {
     for (const entry of losing_Coordinates.value) {
       const [x, y] = entry.coordinates
       const pieceValueUnderLosingCoordinate = board[x][y - 1]
@@ -54,5 +39,5 @@ export const handleLosingChoices = async (board: number[][]) => {
         return await place_Piece(entry, board)
       }
     }
-  }
+  }*/
 }

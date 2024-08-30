@@ -1,9 +1,9 @@
-import { botValue, playerStatus } from '../../../GameLogic/variables'
+import { botValue, playerValue } from '../../../GameLogic/variables'
 import type { _pattern } from '../../../Types'
 
 export const getPieceCount = (pattern: _pattern, participant: number) => {
   let counter = 0
-  const otherParticipant = participant == botValue ? playerStatus.value : botValue
+  const otherParticipant = participant == botValue ? playerValue : botValue
   for (const value of pattern) {
     if (value == participant) {
       counter++

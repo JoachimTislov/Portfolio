@@ -23,18 +23,19 @@ export const applyPropertiesToEntry = async (
     playerHasAPrimeDoubleAbove,
     prime_verticalDoubleThree,
     non_prime_verticalDoubleThree,
-    duplicateBuildingORBlocking
+    duplicateBuildingORBlocking,
+    doubleTwo
   } = structureCases(possible_Coordinates_Entry)
 
   const [x, y] = coordinates
 
   // Golden move (Double vertically), guaranteed to win
   if (!firstPlayerThreatIsThree && firstBotOpportunityIsThree && secondBotOpportunityIsThree) {
-    //console.log('Golden move played')
+    // console.log('Golden move played')
     return await botMove(board, x, y)
   }
 
-  if (!firstPlayerThreatIsThree) {
+  if (!firstPlayerThreatIsThree && !doubleTwo) {
     if (doubleThreeInARow || prime_verticalDoubleThree) {
       targetArr.prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
     } else if (
@@ -43,7 +44,7 @@ export const applyPropertiesToEntry = async (
       !firstBotOpportunityIsThree
     ) {
       targetArr.non_prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
-    } else if (two_sided_three_in_a_row && !firstBotOpportunityIsThree) {
+    } else if (two_sided_three_in_a_row && !firstBotOpportunityIsThree && !firstIsPotentialThree) {
       targetArr.two_sided_three_in_a_row.push(possible_Coordinates_Entry)
     } else if (
       !firstBotOpportunityIsThree &&

@@ -81,7 +81,7 @@ onMounted(async () => {
 <style scoped>
 img {
   width: clamp(300px, 35vw, 450px);
-  height: clamp(300px, 35vw, 450px);
+  object-fit: contain;
 }
 
 @media (max-width: 770px) {

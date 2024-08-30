@@ -1,9 +1,9 @@
 import { ref } from 'vue'
-import { toggleButtons } from '../GameLogic/functions'
 import { delay } from '../delay'
 import { botValue, playerTurn } from '../GameLogic/variables'
 import { resetChoices } from './BotInit'
 import { executePlacement } from '../GameLogic/executePlacement'
+import { toggleButtons } from '../GameLogic/functions'
 
 export const botCalculating = ref<boolean>(false)
 

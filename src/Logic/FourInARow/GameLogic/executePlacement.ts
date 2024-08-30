@@ -8,12 +8,12 @@ export const executePlacement = async (
   board: number[][],
   row: number,
   slot: number,
-  playerValue: number
+  participant: number
 ) => {
-  //console.log('executePlacement', row, slot, playerValue)
+  placePiece(board, row, slot, participant)
+  logMove([row, slot], participant)
 
-  placePiece(board, row, slot, playerValue)
-  logMove([row, slot])
+  toggleButtons(true)
 
   incrementPieces()
 

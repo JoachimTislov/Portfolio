@@ -159,7 +159,7 @@ export const uploadedPicture = ref<boolean>(false)
 
 export async function initPicture() {
   const storedImageInfo = localStorage.getItem('imageUrl')
-  const imageInfo: { url: string; user_id: null } | null = storedImageInfo
+  const imageInfo: { url: string; user_id: string } | null = storedImageInfo
     ? JSON.parse(storedImageInfo)
     : null
 
@@ -172,7 +172,7 @@ export async function initPicture() {
     const response = await getData(`/user_picture/${user_id}`)
 
     if (response && response.ok) {
-      if (response.headers.get('Content-Type') == 'image/png') {
+      if (response.headers.get('Content-Type')?.split('/')[0] == 'image') {
         const blob = await response.blob()
         const userPictureURL = URL.createObjectURL(blob)
 

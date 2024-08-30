@@ -1,5 +1,5 @@
 import { sendMail } from '@/Logic/Email/sendMail'
-import { board, botGame, botValue, GameOver, log, name, playerStatus, winnerMsg } from './variables'
+import { board, botValue, GameOver, log, name, playerValue, winnerMsg } from './variables'
 
 export const checkWinner = async (boolCheck: boolean) => {
   //check vertical
@@ -80,7 +80,7 @@ export const checkWinner = async (boolCheck: boolean) => {
 }
 
 const loopThroughValues = async (coordinates: number[][], values: number[], boolCheck: boolean) => {
-  const participants: number[] = [playerStatus.value, botValue]
+  const participants: number[] = [playerValue, botValue]
 
   for (let i = 0; i < 2; i++) {
     if (
@@ -100,40 +100,29 @@ const loopThroughValues = async (coordinates: number[][], values: number[], bool
   return false
 }
 
-export const getColor = (int: number) => {
-  const colors = ['', 'Red', 'Blue']
-  return colors[int]
-}
-
 const determineWinner = async (value: number, coordinates: number[][]) => {
-  if (botGame.value) {
-    if (value == botValue) {
-      winnerMsg.value = 'Bot won'
-    } else {
-      winnerMsg.value = 'You won, congrats'
+  if (value == botValue) {
+    winnerMsg.value = 'Bot won'
+  } else {
+    winnerMsg.value = 'You won, congrats'
 
-      const text = `I lost against: ${name.value != '' ? name.value : 'Unknown'}, and I’m so sorry, truly I am. I will strive to do better next time, 
-      but my performance hinges upon the state of my algorithms. 
-      They are in dire need of an update. 
-      Might I humbly request that you analyze the game? Your insight would be most invaluable in helping me improve.`
+    const text = `I lost against: ${name.value != '' ? name.value : 'Unknown'}, and I’m so sorry, truly I am. I will strive to do better next time, 
+    but my performance hinges upon the state of my algorithms. 
+    They are in dire need of an update. 
+    Might I humbly request that you analyze the game? Your insight would be most invaluable in helping me improve.`
 
-      sendMail(
-        text,
-        import.meta.env.VITE_EMAILJS_FOUR_IN_A_ROW_TEMPLATE_ID,
-        JSON.stringify(board),
-        JSON.stringify(log.value)
-      )
-    }
-  } else if (!botGame.value) {
-    const color = getColor(playerStatus.value)
-    winnerMsg.value = `${color} won`
+    sendMail(
+      text,
+      import.meta.env.VITE_EMAILJS_FOUR_IN_A_ROW_TEMPLATE_ID,
+      JSON.stringify(board),
+      JSON.stringify(log.value)
+    )
   }
 
   // Changing coordinates colors to green
-
   for (const coords of coordinates) {
     const [x, y] = coords
-    board[x][y] = 4
+    board[x][y] = 3
   }
 
   GameOver.value = true

@@ -1,5 +1,4 @@
 import { losing_Coordinates } from '@/Logic/FourInARow/GameLogic/variables'
-import { arraysEqual } from '../../ArrayLogic'
 import type { possible_Coordinates } from '@/Logic/FourInARow/Types'
 
 export function checkIfItsARecordInLosingCoordinates(
@@ -10,15 +9,11 @@ export function checkIfItsARecordInLosingCoordinates(
     return false
   }
 
-  for (const entry of losing_Coordinates.value) {
-    const result = arraysEqual(coords, entry.coordinates)
-    if (
-      result &&
-      possible_Coordinates_Entry.participant == entry.player_identifier &&
-      possible_Coordinates_Entry.piece_count != entry.piece_count
-    ) {
-      return true
-    }
+  const key = JSON.stringify(coords)
+
+  const L = losing_Coordinates.value[key][possible_Coordinates_Entry.participant]
+  if (L.Two && L.Three) {
+    return true
   }
 
   return false

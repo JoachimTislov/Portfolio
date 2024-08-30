@@ -1,13 +1,16 @@
-import { arraysEqual, checkIfArrayInThe2DArrayEqualArray } from '../../ArrayLogic'
+import {
+  arraysEqual,
+  checkIfArrayInThe2DArrayEqualArray,
+  TwoDimensionalArraysEqual
+} from '../../ArrayLogic'
 import { losing_Coordinates } from '../../../GameLogic/variables'
 import { three_in_a_row_pattern, two_in_a_row_losing_pattern } from '../../PatternLogic'
 import type { _patternData } from '../../../Types'
-import { find_all_related_moves_to_given_pattern } from './searchForAllRelatedMovesToPattern'
 import { getFourthAndFifthCoordinates } from '../get/getFourthAndFifthCoordinates'
 import { checkPotentiallyDoubleThreeInARow } from '../checks/checkPotentiallyDoubleThreeInARow'
 import { getPieceCountAndIndices } from '../get/getPieceCountAndIndices'
 import { getOtherZeroCoordinatesIndex } from '../get/getOtherZeroOrAsteriskCoordinatesIndex'
-import { checkLosingCoordinates } from '../checks/checkLosingCoordinates'
+import { find_all_related_moves_to_given_pattern } from './searchForAllRelatedMovesToPattern'
 
 export const searchForLosingPatterns = (
   board: number[][],
@@ -32,15 +35,7 @@ export const searchForLosingPatterns = (
         for (const index of piece_countAndIndices.indices) {
           const [x, y] = [sequence.coordinates[index][0], sequence.coordinates[index][1] - 1]
 
-          const check = checkLosingCoordinates(
-            sequence.pattern,
-            [x, y],
-            participant,
-            structure.direction,
-            piece_countAndIndices.piece_count
-          )
-
-          if ((check && three) || (check && two)) {
+          if (three || two) {
             const otherZeroOrAsteriskIndex = getOtherZeroCoordinatesIndex(sequence.pattern, [index])
             const relevantMovesOfOtherZeroOrAsterisk =
               otherZeroOrAsteriskIndex != null
@@ -61,17 +56,40 @@ export const searchForLosingPatterns = (
             const potentiallyDoubleInARow =
               result != false && arraysEqual([x, y + 1], result.coords) ? true : false
 
-            losing_Coordinates.value.push({
-              coordinates: [x, y],
-              direction: structure.direction,
-              pattern: sequence.pattern,
-              all_coordinates: sequence.coordinates,
-              player_identifier: participant,
-              piece_count: piece_countAndIndices.piece_count,
-              instances: 1,
-              relatedMovesOfOtherZeroOrAsterisk: relevantMovesOfOtherZeroOrAsterisk,
-              potentiallyDoubleThreeInARow: potentiallyDoubleInARow
-            })
+            const key = JSON.stringify([x, y])
+
+            if (!losing_Coordinates.value[key]) losing_Coordinates.value[key] = {}
+            if (!losing_Coordinates.value[key][participant])
+              losing_Coordinates.value[key][participant] = {}
+            if (!losing_Coordinates.value[key][participant][piece_countAndIndices.piece_count])
+              losing_Coordinates.value[key][participant][piece_countAndIndices.piece_count] = []
+
+            let canAddEntry = true
+            for (const entry of losing_Coordinates.value[key][participant][
+              piece_countAndIndices.piece_count
+            ]) {
+              if (entry.direction == structure.direction || entry.direction == 'vertical') {
+                if (
+                  entry.direction == 'cross' &&
+                  arraysEqual(entry.pattern, sequence.pattern) &&
+                  TwoDimensionalArraysEqual(entry.all_coordinates, sequence.coordinates)
+                ) {
+                  canAddEntry = false
+                } else {
+                  canAddEntry = false
+                }
+              }
+            }
+
+            if (canAddEntry) {
+              losing_Coordinates.value[key][participant][piece_countAndIndices.piece_count].push({
+                direction: structure.direction,
+                pattern: sequence.pattern,
+                all_coordinates: sequence.coordinates,
+                relatedMovesOfOtherZeroOrAsterisk: relevantMovesOfOtherZeroOrAsterisk,
+                potentiallyDoubleThreeInARow: potentiallyDoubleInARow
+              })
+            }
           }
         }
       }
