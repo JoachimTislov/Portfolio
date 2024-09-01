@@ -17,7 +17,7 @@ const checkCoordinatesStatus = async (
       pieceValueUnderLosingCoordinate != 0 &&
       losing_Coordinates.value[key].status?.count == 1
     ) {
-      console.log('Played losing', participant, losing_Coordinates.value[key])
+      //console.log('Played losing', participant, losing_Coordinates.value[key])
       delete losing_Coordinates.value[key]
       return await botMove(board, x, y)
     }

@@ -1,5 +1,4 @@
 import type { possible_Choices, possible_Coordinates } from '../Types'
-import { arraysEqual } from './ArrayLogic'
 import { botMove } from './botMove'
 import { structureCases } from './structureCases'
 
@@ -36,18 +35,6 @@ export const applyPropertiesToEntry = async (
     // console.log('Golden move played')
     return await botMove(board, x, y)
   }
-
-  if (arraysEqual([6, 2], possible_Coordinates_Entry.coordinates))
-    console.log(
-      !firstBotOpportunityIsThree,
-      !playerHasAPrimeDoubleAbove,
-      !firstIsPotentialThree,
-      !firstIsTwo,
-      possible_Coordinates_Entry,
-      secondIsThree,
-      firstPlayerThreatIsTwo,
-      secondPlayerThreatIsTwo
-    )
 
   if (!firstPlayerThreatIsThree && !doubleTwo) {
     if (doubleThreeInARow || prime_verticalDoubleThree) {

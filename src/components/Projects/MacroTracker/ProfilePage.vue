@@ -52,8 +52,7 @@ onMounted(async () => {
             </div>
           </template>
         </div>
-
-        <div class="d-flex picDiv">
+        <div class="d-flex">
           <img :src="profilePictureUrl" alt="Could not load your picture" class="mx-auto rounded" />
         </div>
       </div>
@@ -80,7 +79,8 @@ onMounted(async () => {
 
 <style scoped>
 img {
-  width: clamp(300px, 35vw, 450px);
+  width: clamp(300px, 33vw, 450px);
+  max-height: clamp(300px, 33vw, 430px);
   object-fit: contain;
 }
 

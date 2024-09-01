@@ -225,7 +225,7 @@ export const initiateAlgorithms = async (board: number[][]) => {
     }
   }
 
-  console.log(botChoices.value, playerChoices.value, losing_Coordinates.value)
+  //console.log(botChoices.value, playerChoices.value, losing_Coordinates.value)
 
   return await searchForBestChoice(board)
 }
