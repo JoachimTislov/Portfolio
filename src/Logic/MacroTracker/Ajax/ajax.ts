@@ -30,6 +30,11 @@ function checkIfUserIsUnAuthorized(response: Response, modal_id?: string) {
   }
 }
 
+function handleNetworkError() {
+  alertDanger()
+  _alert('Sorry, but we are having issues with the server hosted on render.com')
+}
+
 function forceFullyLogTheUserOut() {
   removeLocalData()
   alertSecondary()
@@ -41,19 +46,24 @@ export async function getData(url: string) {
   if (!token.value) {
     forceFullyLogTheUserOut()
   } else {
-    load()
+    try {
+      load()
 
-    const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
-    const response = await fetch(endpoint, {
-      method: 'GET',
-      headers: {
-        Authorization: user_id.value == '1' ? user_id.value : token.value
-      }
-    })
+      const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
+      const response = await fetch(endpoint, {
+        method: 'GET',
+        headers: {
+          Authorization: user_id.value == '1' ? user_id.value : token.value
+        }
+      })
 
-    unLoad()
+      unLoad()
 
-    return checkIfUserIsUnAuthorized(response)
+      return checkIfUserIsUnAuthorized(response)
+    } catch (error) {
+      unLoad()
+      handleNetworkError()
+    }
   }
 }
 
@@ -102,8 +112,7 @@ export async function deleteEntity(
         return checkIfUserIsUnAuthorized(response)
       } catch (error) {
         unLoad()
-        console.log(error)
-        alert(`Network error: ${error}`)
+        handleNetworkError()
       }
     }
   }
@@ -160,8 +169,7 @@ export async function fetchResource(
       return checkIfUserIsUnAuthorized(response, modal_id)
     } catch (error) {
       unLoad()
-      console.log('Fetch failed: ', error)
-      alert(`Network error: ${error}`)
+      handleNetworkError()
     }
   }
 }

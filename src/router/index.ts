@@ -100,8 +100,6 @@ router.beforeEach((to, from, next) => {
     })
   }
 
-  fetchingResource.value = false
-
   if (to.meta.requiresAuth && !isAuthenticated()) {
     //console.log('User is not authed, redirecting to:', to.meta.authRedirect)
     next({ name: to.meta.authRedirect as string })

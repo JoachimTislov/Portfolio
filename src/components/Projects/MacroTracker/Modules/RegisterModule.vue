@@ -97,7 +97,7 @@ watch(
         _arr.splice(1, 2)
       }
 
-      if (user_id.value == '1') {
+      if (user_id.value == '1' && _arr[0].identifier == 'username') {
         _arr.splice(0, 1)
       }
 

@@ -17,6 +17,7 @@ export const applyPropertiesToEntry = async (
     firstBotOpportunityIsThree,
     firstPlayerThreatIsThree,
     firstIsPotentialThree,
+    firstIsPotentialDoubleThreeInARowPlayerThreeThreat,
     secondPlayerThreatIsTwo,
     secondBotOpportunityIsThree,
     secondIsThree,
@@ -44,7 +45,11 @@ export const applyPropertiesToEntry = async (
       !firstBotOpportunityIsThree
     ) {
       targetArr.non_prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
-    } else if (two_sided_three_in_a_row && !firstBotOpportunityIsThree && !firstIsPotentialThree) {
+    } else if (
+      two_sided_three_in_a_row &&
+      !firstBotOpportunityIsThree &&
+      !firstIsPotentialDoubleThreeInARowPlayerThreeThreat
+    ) {
       targetArr.two_sided_three_in_a_row.push(possible_Coordinates_Entry)
     } else if (
       !firstBotOpportunityIsThree &&

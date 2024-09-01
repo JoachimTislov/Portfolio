@@ -44,12 +44,12 @@ import { pieces } from '@/Logic/FourInARow/GameLogic/pieces'
       </div>
 
       <div class="d-flex btn-group btn-group-md">
-        <button :disabled="droppingPiece || log.past.length < 2" @click="previousMove()" type="button"
+        <button :disabled="droppingPiece || log.past.length < 2 || GameOver" @click="previousMove()" type="button"
           class="m-1 btn btn-primary">
           Previous Move
         </button>
 
-        <button :disabled="droppingPiece || log.future.length < 2" @click="nextMove()" type="button"
+        <button :disabled="droppingPiece || log.future.length < 2 || GameOver" @click="nextMove()" type="button"
           class="m-1 btn btn-primary">
           Next Move
         </button>

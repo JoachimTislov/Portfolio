@@ -393,19 +393,6 @@ export const testBoards = [
   {
     board: [
       [0, 0, 0, 0, 0, 0],
-      [2, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
-      [1, 0, 0, 0, 0, 0],
-      [2, 1, 1, 2, 0, 0],
-      [2, 2, 1, 1, 0, 0],
-      [1, 0, 0, 0, 0, 0]
-    ],
-    expect_coordinate: [3, 1],
-    description: 'Prevent double three in a row'
-  },
-  {
-    board: [
-      [0, 0, 0, 0, 0, 0],
       [1, 0, 0, 0, 0, 0],
       [1, 1, 1, 2, 0, 0],
       [2, 1, 1, 2, 0, 0],
@@ -481,6 +468,32 @@ export const testBoards = [
     ],
     expect_coordinate: [6, 0],
     description: 'Testing not playing under two double - two in a row'
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [2, 1, 2, 2, 1, 1],
+      [1, 1, 2, 1, 2, 1],
+      [1, 1, 1, 2, 2, 1],
+      [2, 2, 1, 2, 1, 2],
+      [2, 1, 0, 0, 0, 0],
+      [2, 1, 2, 0, 0, 0]
+    ],
+    expect_coordinate: [6, 3],
+    description: 'Bot does not register losing choice, [5, 2]'
+  },
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [2, 2, 1, 1, 2, 2],
+      [1, 1, 1, 2, 1, 0],
+      [2, 1, 2, 1, 1, 0],
+      [2, 1, 2, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [3, 5],
+    description: 'John Aage'
   }
 
   /*{

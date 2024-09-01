@@ -64,7 +64,7 @@ import { initiateExampleAccount } from '@/Logic/MacroTracker/initiateExampleAcco
                   <RequestLoader />
                 </template>
 
-                <button type="submit" class="btn btn-lg btn-primary" @click="login(true)">
+                <button type="submit" class="btn btn-lg btn-primary" @click="login()">
                   Login
                 </button>
               </div>
@@ -74,8 +74,8 @@ import { initiateExampleAccount } from '@/Logic/MacroTracker/initiateExampleAcco
       </div>
 
       <div class="d-flex">
-        <button type="submit" class="d-flex align-items-center justify-content-center m-2 btn btn-lg btn-secondary"
-          @click="initiateExampleAccount(true)">
+        <button type="submit" class="d-flex align-items-center justify-content-center m-2 ms-0 btn btn-lg btn-secondary"
+          @click="initiateExampleAccount()">
           <font-awesome-icon class="me-1" :icon="['fas', `arrow-right`]" />
           Go to example account
         </button>

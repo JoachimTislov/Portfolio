@@ -12,6 +12,7 @@ export type Losing_Coordinates = {
     [key: number]: {
       [key: string]: Losing_Coordinates_Entry
     }
+    status?: { highest_piece_count: string; participant: number; count: number }
   }
 }
 

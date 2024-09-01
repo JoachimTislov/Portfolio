@@ -33,7 +33,6 @@ export const handleDropInAnimation = async (colIndex: number, rowIndex: number) 
 
 const remove_last_move = () => {
   const last_move = log.value.past.pop()
-
   if (last_move) {
     log.value.future.push(last_move)
 
@@ -43,6 +42,16 @@ const remove_last_move = () => {
   } else {
     alert('There are not any moves played')
   }
+}
+
+export const previousMove = () => {
+  //console.log('Previous', GameOver.value, playerTurn.value)
+  if (log.value.past.length > 1) {
+    for (let i = 0; i < 2; i++) {
+      remove_last_move()
+    }
+  }
+  resetChoices()
 }
 
 const add_last_move = () => {
@@ -55,15 +64,6 @@ const add_last_move = () => {
     board[x][y] = last_move.participant
     incrementPieces()
   }
-}
-
-export const previousMove = () => {
-  if (log.value.past.length > 1) {
-    for (let i = 0; i < 2; i++) {
-      remove_last_move()
-    }
-  }
-  resetChoices()
 }
 
 export const nextMove = () => {

@@ -23,6 +23,7 @@ import { botMove } from './botMove'
 import { arraysEqual } from './ArrayLogic'
 import { three_in_a_row_pattern_with_index } from './PatternLogic'
 import { getOtherZeroCoordinatesIndex } from './Algorithms/get/getOtherZeroOrAsteriskCoordinatesIndex'
+import { checkIfItsARecordInLosingCoordinates } from './Algorithms/checks/checkIfItsARecordInLosingCoordinates'
 
 export const initiateAlgorithms = async (board: number[][]) => {
   const participants = [
@@ -53,6 +54,59 @@ export const initiateAlgorithms = async (board: number[][]) => {
       }
     }
     searchForLosingPatterns(board, participant.scan, participant.id)
+  }
+
+  // Eliminate duplicates in losing coordinates && add relevant moves to losing coordinates with two in a row
+  for (const key of Object.keys(losing_Coordinates.value)) {
+    const coordinates = JSON.parse(key)
+    for (const participant of [botValue, playerValue]) {
+      if (
+        losing_Coordinates.value[key][participant] &&
+        losing_Coordinates.value[key][participant].Two
+      ) {
+        for (let i = 0; i < losing_Coordinates.value[key][participant].Two.length; i++) {
+          const sequence = losing_Coordinates.value[key][participant].Two[i]
+
+          let findRelevantMoves = true
+          if (sequence.relatedMovesOfOtherZeroOrAsterisk) {
+            const coordinatesUnderOtherZeroIndex =
+              sequence.relatedMovesOfOtherZeroOrAsterisk[
+                participant == botValue ? 'bots_opportunities' : 'player_threats'
+              ][-1].coords
+
+            const duplicate = checkIfItsARecordInLosingCoordinates(
+              coordinatesUnderOtherZeroIndex,
+              participant
+            )
+            if (duplicate) {
+              findRelevantMoves = false
+              losing_Coordinates.value[key][participant].Two.splice(i, 1)
+              i--
+            }
+          }
+
+          if (findRelevantMoves) {
+            const [x, y] = coordinates
+            for (const [index, c] of sequence.all_coordinates.entries()) {
+              if (arraysEqual(c, [x, y + 1])) {
+                const otherZeroOrAsteriskIndex = getOtherZeroCoordinatesIndex(sequence.pattern, [
+                  index
+                ])
+
+                const relevantMovesOfOtherZeroOrAsterisk =
+                  otherZeroOrAsteriskIndex != null
+                    ? find_all_related_moves_to_given_pattern(
+                        sequence.all_coordinates[otherZeroOrAsteriskIndex]
+                      )
+                    : undefined
+
+                sequence.relatedMovesOfOtherZeroOrAsterisk = relevantMovesOfOtherZeroOrAsterisk
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
   for (const participant of participants) {

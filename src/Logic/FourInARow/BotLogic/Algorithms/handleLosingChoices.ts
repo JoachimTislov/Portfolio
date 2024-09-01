@@ -9,11 +9,15 @@ const checkCoordinatesStatus = async (
   for (const key of Object.keys(losing_Coordinates.value)) {
     const [x, y] = JSON.parse(key)
     const pieceValueUnderLosingCoordinate = board[x][y - 1]
+    const status = losing_Coordinates.value[key].status
     if (
+      status?.highest_piece_count == piece_count &&
+      status?.participant == participant &&
       board[x][y] == 0 &&
       pieceValueUnderLosingCoordinate != 0 &&
-      losing_Coordinates.value[key][participant][piece_count]
+      losing_Coordinates.value[key].status?.count == 1
     ) {
+      console.log('Played losing', participant, losing_Coordinates.value[key])
       delete losing_Coordinates.value[key]
       return await botMove(board, x, y)
     }
@@ -23,21 +27,13 @@ const checkCoordinatesStatus = async (
 
 export const handleLosingChoices = async (board: number[][]) => {
   // console.log('handling losing choices')
-
-  for (const piece_count of ['Two', 'Three']) {
-    for (const value of [botValue, playerValue]) {
-      const result = await checkCoordinatesStatus(board, piece_count, value)
-      if (result != false) return result
-    }
+  for (const participant of [botValue, playerValue]) {
+    const result = await checkCoordinatesStatus(board, 'Two', participant)
+    if (result != false) return result
   }
 
-  /*if (losing_Coordinates.value.length > 0) {
-    for (const entry of losing_Coordinates.value) {
-      const [x, y] = entry.coordinates
-      const pieceValueUnderLosingCoordinate = board[x][y - 1]
-      if (pieceValueUnderLosingCoordinate != 0 && board[x][y] == 0) {
-        return await place_Piece(entry, board)
-      }
-    }
-  }*/
+  for (const participant of [botValue, playerValue]) {
+    const result = await checkCoordinatesStatus(board, 'Three', participant)
+    if (result != false) return result
+  }
 }

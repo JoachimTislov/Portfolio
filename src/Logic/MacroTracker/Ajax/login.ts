@@ -4,7 +4,7 @@ import { fetchingResource, login_validation, password } from '../initVariables'
 import { token, user_id, username } from '../variables'
 import { fetchResource } from './ajax'
 
-export async function login(userClicked?: boolean) {
+export async function login() {
   if (login_validation.Password && login_validation.Username && !fetchingResource.value) {
     try {
       const json = JSON.stringify({
@@ -29,7 +29,7 @@ export async function login(userClicked?: boolean) {
           user_id.value = result.user_id
           username.value = result.username
 
-          if (userClicked) {
+          if (router.currentRoute.value.name == 'macroLogin') {
             router.push({ name: 'macroHome' })
           }
 

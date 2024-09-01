@@ -23,8 +23,11 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
 
   const firstIsTwo = firstBotOpportunity || firstPlayerThreatIsTwo
 
+  const firstIsPotentialDoubleThreeInARowPlayerThreeThreat =
+    firstPlayerThreat?.potentialDoubleThreeInARow
   const firstIsPotentialThree =
-    firstBotOpportunity?.potentialDoubleThreeInARow || firstPlayerThreat?.potentialDoubleThreeInARow
+    firstBotOpportunity?.potentialDoubleThreeInARow ||
+    firstIsPotentialDoubleThreeInARowPlayerThreeThreat
 
   const firstBotOpportunityIsThree = firstBotOpportunity?.piece_count === 'Three'
 
@@ -164,7 +167,10 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
 
   const duplicateBuildingORBlocking =
     twoPieceCount &&
-    checkIfItsARecordInLosingCoordinates(otherSlotCoordinatesUnderneath, possible_Coordinates_Entry)
+    checkIfItsARecordInLosingCoordinates(
+      otherSlotCoordinatesUnderneath,
+      possible_Coordinates_Entry.participant
+    )
 
   /////// Block prime two ( prevent consecutive vertical three in a row, which is not possible to stop unless the first three in a row is matched with the bots three in a row)
 
@@ -225,6 +231,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     firstBotOpportunityIsThree,
     firstPlayerThreatIsThree,
     firstIsPotentialThree,
+    firstIsPotentialDoubleThreeInARowPlayerThreeThreat,
     secondBotOpportunityIsTwo,
     secondPlayerThreatIsTwo,
     secondBotOpportunityIsThree,

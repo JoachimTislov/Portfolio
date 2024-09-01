@@ -25,5 +25,7 @@ export const username = ref<string>(storedUsername ? storedUsername : '')
 watch(username, (newValue) => {
   if (newValue) {
     localStorage.setItem('username', newValue)
+  } else {
+    localStorage.removeItem('username')
   }
 })

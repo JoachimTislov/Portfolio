@@ -9,8 +9,6 @@ import type { _patternData } from '../../../Types'
 import { getFourthAndFifthCoordinates } from '../get/getFourthAndFifthCoordinates'
 import { checkPotentiallyDoubleThreeInARow } from '../checks/checkPotentiallyDoubleThreeInARow'
 import { getPieceCountAndIndices } from '../get/getPieceCountAndIndices'
-import { getOtherZeroCoordinatesIndex } from '../get/getOtherZeroOrAsteriskCoordinatesIndex'
-import { find_all_related_moves_to_given_pattern } from './searchForAllRelatedMovesToPattern'
 
 export const searchForLosingPatterns = (
   board: number[][],
@@ -36,14 +34,6 @@ export const searchForLosingPatterns = (
           const [x, y] = [sequence.coordinates[index][0], sequence.coordinates[index][1] - 1]
 
           if (three || two) {
-            const otherZeroOrAsteriskIndex = getOtherZeroCoordinatesIndex(sequence.pattern, [index])
-            const relevantMovesOfOtherZeroOrAsterisk =
-              otherZeroOrAsteriskIndex != null
-                ? find_all_related_moves_to_given_pattern(
-                    sequence.coordinates[otherZeroOrAsteriskIndex]
-                  )
-                : undefined
-
             const thirdAndFifth = getFourthAndFifthCoordinates(sequence.coordinates)
             const result = checkPotentiallyDoubleThreeInARow(
               board,
@@ -86,9 +76,36 @@ export const searchForLosingPatterns = (
                 direction: structure.direction,
                 pattern: sequence.pattern,
                 all_coordinates: sequence.coordinates,
-                relatedMovesOfOtherZeroOrAsterisk: relevantMovesOfOtherZeroOrAsterisk,
+                relatedMovesOfOtherZeroOrAsterisk: undefined,
                 potentiallyDoubleThreeInARow: potentiallyDoubleInARow
               })
+
+              if (!losing_Coordinates.value[key].status) {
+                losing_Coordinates.value[key].status = {
+                  highest_piece_count: piece_countAndIndices.piece_count,
+                  participant: participant,
+                  count: 1
+                }
+              } else {
+                if (
+                  losing_Coordinates.value[key].status.participant == participant &&
+                  losing_Coordinates.value[key].status.highest_piece_count ==
+                    piece_countAndIndices.piece_count
+                ) {
+                  losing_Coordinates.value[key].status.count++
+                } else {
+                  losing_Coordinates.value[key].status.participant = participant
+                  losing_Coordinates.value[key].status.count = 1
+                }
+
+                if (
+                  losing_Coordinates.value[key].status.highest_piece_count == 'Two' &&
+                  piece_countAndIndices.piece_count == 'Three'
+                ) {
+                  losing_Coordinates.value[key].status.highest_piece_count =
+                    piece_countAndIndices.piece_count
+                }
+              }
             }
           }
         }

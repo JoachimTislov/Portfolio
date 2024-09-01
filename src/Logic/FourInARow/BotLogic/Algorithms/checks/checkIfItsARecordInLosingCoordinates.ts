@@ -1,9 +1,8 @@
 import { losing_Coordinates } from '@/Logic/FourInARow/GameLogic/variables'
-import type { possible_Coordinates } from '@/Logic/FourInARow/Types'
 
 export function checkIfItsARecordInLosingCoordinates(
   coords: number[] | undefined,
-  possible_Coordinates_Entry: possible_Coordinates
+  participant: number
 ) {
   if (!coords) {
     return false
@@ -11,8 +10,7 @@ export function checkIfItsARecordInLosingCoordinates(
 
   const key = JSON.stringify(coords)
 
-  const L = losing_Coordinates.value[key][possible_Coordinates_Entry.participant]
-  if (L.Two && L.Three) {
+  if (losing_Coordinates.value[key][participant].Three) {
     return true
   }
 

@@ -11,7 +11,7 @@ export const personalData: PersonalData = {
 
   email: 'joachim.tislov@gmail.com',
 
-  intro: `I am 22 year old male from Sandnes. I've had a passion for technology ever since I got access to it.`,
+  intro: `I am 22 year old male from Sandnes with a passion for programming.`,
 
   about: [
     `I live with my Alaskan husky - Leo, 
