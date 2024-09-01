@@ -58,7 +58,7 @@ export const searchForLosingPatterns = (
             for (const entry of losing_Coordinates.value[key][participant][
               piece_countAndIndices.piece_count
             ]) {
-              if (entry.direction == structure.direction || entry.direction == 'vertical') {
+              if (entry.direction == structure.direction) {
                 if (
                   entry.direction == 'cross' &&
                   arraysEqual(entry.pattern, sequence.pattern) &&
@@ -71,7 +71,7 @@ export const searchForLosingPatterns = (
               }
             }
 
-            if (canAddEntry) {
+            if (canAddEntry && structure.direction != 'vertical') {
               losing_Coordinates.value[key][participant][piece_countAndIndices.piece_count].push({
                 direction: structure.direction,
                 pattern: sequence.pattern,

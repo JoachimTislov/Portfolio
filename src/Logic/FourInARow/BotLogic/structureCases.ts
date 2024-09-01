@@ -1,7 +1,7 @@
 import { botValue, losing_Coordinates, playerValue } from '../GameLogic/variables'
 import type { possible_Coordinates } from '../Types'
 import { checkIfItsARecordInLosingCoordinates } from './Algorithms/checks/checkIfItsARecordInLosingCoordinates'
-import { checkIfArrayInThe2DArrayEqualArray } from './ArrayLogic'
+import { arraysEqual, checkIfArrayInThe2DArrayEqualArray } from './ArrayLogic'
 import { prime_two_in_a_row_pattern } from './PatternLogic'
 
 export const structureCases = (possible_Coordinates_Entry: possible_Coordinates) => {
@@ -22,6 +22,9 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
   const firstPlayerThreatIsTwo = firstPlayerThreat?.piece_count === 'Two'
 
   const firstIsTwo = firstBotOpportunity || firstPlayerThreatIsTwo
+
+  if (arraysEqual([6, 2], possible_Coordinates_Entry.coordinates))
+    console.log(firstBotOpportunity, firstPlayerThreatIsTwo)
 
   const firstIsPotentialDoubleThreeInARowPlayerThreeThreat =
     firstPlayerThreat?.potentialDoubleThreeInARow

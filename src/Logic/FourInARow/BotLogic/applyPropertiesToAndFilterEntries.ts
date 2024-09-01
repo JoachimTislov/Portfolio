@@ -1,4 +1,5 @@
 import type { possible_Choices, possible_Coordinates } from '../Types'
+import { arraysEqual } from './ArrayLogic'
 import { botMove } from './botMove'
 import { structureCases } from './structureCases'
 
@@ -17,7 +18,7 @@ export const applyPropertiesToEntry = async (
     firstBotOpportunityIsThree,
     firstPlayerThreatIsThree,
     firstIsPotentialThree,
-    firstIsPotentialDoubleThreeInARowPlayerThreeThreat,
+    //firstIsPotentialDoubleThreeInARowPlayerThreeThreat,
     secondPlayerThreatIsTwo,
     secondBotOpportunityIsThree,
     secondIsThree,
@@ -36,6 +37,18 @@ export const applyPropertiesToEntry = async (
     return await botMove(board, x, y)
   }
 
+  if (arraysEqual([6, 2], possible_Coordinates_Entry.coordinates))
+    console.log(
+      !firstBotOpportunityIsThree,
+      !playerHasAPrimeDoubleAbove,
+      !firstIsPotentialThree,
+      !firstIsTwo,
+      possible_Coordinates_Entry,
+      secondIsThree,
+      firstPlayerThreatIsTwo,
+      secondPlayerThreatIsTwo
+    )
+
   if (!firstPlayerThreatIsThree && !doubleTwo) {
     if (doubleThreeInARow || prime_verticalDoubleThree) {
       targetArr.prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
@@ -45,11 +58,7 @@ export const applyPropertiesToEntry = async (
       !firstBotOpportunityIsThree
     ) {
       targetArr.non_prime_double_Three_in_a_row.push(possible_Coordinates_Entry)
-    } else if (
-      two_sided_three_in_a_row &&
-      !firstBotOpportunityIsThree &&
-      !firstIsPotentialDoubleThreeInARowPlayerThreeThreat
-    ) {
+    } else if (two_sided_three_in_a_row && !firstBotOpportunityIsThree) {
       targetArr.two_sided_three_in_a_row.push(possible_Coordinates_Entry)
     } else if (
       !firstBotOpportunityIsThree &&

@@ -8,7 +8,6 @@ import { token } from '../../Logic/MacroTracker/variables'
 onMounted(async () => {
   if (!token.value) {
     await initiateExampleAccount()
-
   }
 })
 </script>
