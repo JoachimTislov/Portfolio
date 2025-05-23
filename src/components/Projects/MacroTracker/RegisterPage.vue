@@ -11,11 +11,7 @@ import {
 import { checkValidationArr } from '@/Logic/MacroTracker/checkLogic/checkValidationArr'
 import AlertBox from './Modules/AlertBox.vue'
 import { username } from '@/Logic/MacroTracker/variables'
-import {
-  _alert,
-  alertDanger,
-  alertSuccess
-} from '@/Logic/MacroTracker/alertFunctions'
+import { _alert, alertDanger, alertSuccess } from '@/Logic/MacroTracker/alertFunctions'
 import RegisterModule from './Modules/RegisterModule.vue'
 import RequestLoader from './RequestLoader.vue'
 import router from '@/router'
@@ -67,7 +63,7 @@ async function register() {
       <AlertBox />
       <div class="card p-3 border border-1 shadow-lg">
         <div class="card-body d-flex flex-column justify-content-center">
-          <h3 class="card-title"> Register account: </h3>
+          <h3 class="card-title">Register account:</h3>
           <form id="register_form" @submit.prevent>
             <RegisterModule />
 

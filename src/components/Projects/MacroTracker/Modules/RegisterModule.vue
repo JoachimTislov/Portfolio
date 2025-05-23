@@ -126,33 +126,51 @@ watch(
   </template>
 
   <div class="input-group mt-2">
-    <select @change="
-      user_validation_arr.gender = validateGenderOrActivityLvl(
-        $event,
-        validation_messages.register.gender.value,
-        'Gender',
-        'form-control form-control-md'
-      )
-      " class="form-control form-control-md" name="gender" v-model="selectedGender" required>
+    <select
+      @change="
+        user_validation_arr.gender = validateGenderOrActivityLvl(
+          $event,
+          validation_messages.register.gender.value,
+          'Gender',
+          'form-control form-control-md'
+        )
+      "
+      class="form-control form-control-md"
+      name="gender"
+      v-model="selectedGender"
+      required
+    >
       <option value="0">Choose Gender</option>
       <option value="1">Male</option>
       <option value="2">Female</option>
     </select>
     <div class="d-flex input-group-append">
-      <span class="input-group-text"><font-awesome-icon :icon="['fas', 'person-half-dress']" /></span>
+      <span class="input-group-text"
+        ><font-awesome-icon :icon="['fas', 'person-half-dress']"
+      /></span>
     </div>
-    <div :ref="validation_messages.register.gender" class="ml-2 invalid-feedback" style="display: none"></div>
+    <div
+      :ref="validation_messages.register.gender"
+      class="ml-2 invalid-feedback"
+      style="display: none"
+    ></div>
   </div>
 
   <div class="form-group mt-2">
-    <select @change="
-      user_validation_arr.activityLvl = validateGenderOrActivityLvl(
-        $event,
-        validation_messages.register.activity_lvl.value,
-        'Activity Lvl',
-        'form-control form-control-md'
-      )
-      " class="form-control form-control-md" name="activity_lvl" v-model="selectedActivity_lvl" required>
+    <select
+      @change="
+        user_validation_arr.activityLvl = validateGenderOrActivityLvl(
+          $event,
+          validation_messages.register.activity_lvl.value,
+          'Activity Lvl',
+          'form-control form-control-md'
+        )
+      "
+      class="form-control form-control-md"
+      name="activity_lvl"
+      v-model="selectedActivity_lvl"
+      required
+    >
       <option value="0">Choose Activity Lvl</option>
       <option value="1">Sedentary</option>
       <option value="2">Lightly Active</option>
@@ -160,6 +178,10 @@ watch(
       <option value="4">Very Active</option>
       <option value="5">Super Active</option>
     </select>
-    <div :ref="validation_messages.register.activity_lvl" class="ml-2 invalid-feedback" style="display: none"></div>
+    <div
+      :ref="validation_messages.register.activity_lvl"
+      class="ml-2 invalid-feedback"
+      style="display: none"
+    ></div>
   </div>
 </template>

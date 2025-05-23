@@ -4,7 +4,6 @@ import socialLinks from './socialLinks.vue'
 import { personalData } from '@/Data/personal'
 
 import ButtonTemplate from './ButtonTemplate.vue'
-
 </script>
 
 <template>
@@ -12,27 +11,30 @@ import ButtonTemplate from './ButtonTemplate.vue'
     <div class="d-flex flex-column m-2 profileBox p-3">
       <img class="mx-auto" src="@\\assets\\images\\joachim.png" />
 
-      <h1>Hi, I'm {{ personalData.name }} </h1>
+      <h1>Hi, I'm {{ personalData.name }}</h1>
       <socialLinks />
     </div>
 
     <div class="d-flex flex-column justify-content-center align-items-center p-3 textContainer">
-
       <div class="p-3 rounded textBox border border-3 border-secondary">
-        <p> {{ personalData.intro }} </p>
+        <p>{{ personalData.intro }}</p>
       </div>
 
       <div class="mt-1 d-flex">
         <a class="mt-1 me-1" :href="`mailto: ${personalData.email}`">
           <button type="button" class="btn p-3 contact">
             <font-awesome-icon class="me-1 arrow" :icon="['fas', `arrow-right`]" />
-            <p class=" m-0">
-              Contact
-            </p>
+            <p class="m-0">Contact</p>
           </button>
         </a>
-        <ButtonTemplate class="mt-1 ms-1" buttonName="About Me" color="#222222" router-link="/more-of-me"
-          :arrow_right_side="true" arrow_type="right" />
+        <ButtonTemplate
+          class="mt-1 ms-1"
+          buttonName="About Me"
+          color="#222222"
+          router-link="/more-of-me"
+          :arrow_right_side="true"
+          arrow_type="right"
+        />
       </div>
     </div>
   </div>

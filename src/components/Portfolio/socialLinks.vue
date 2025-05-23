@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { personalData } from '@/Data/personal'
-
 </script>
 
 <template>
   <div class="d-flex flex-row">
-    <a v-for="item in personalData.socialLinks" :key="item.link" :href="item.link" class="m-2"> <font-awesome-icon
-        :icon="item.icon" style="font-size: clamp(1.5rem, 2vw, 2rem);" /> </a>
+    <a v-for="item in personalData.socialLinks" :key="item.link" :href="item.link" class="m-2">
+      <font-awesome-icon :icon="item.icon" style="font-size: clamp(1.5rem, 2vw, 2rem)" />
+    </a>
   </div>
 </template>
 

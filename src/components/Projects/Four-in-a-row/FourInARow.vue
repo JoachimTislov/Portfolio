@@ -31,12 +31,17 @@ import { pieces } from '@/Logic/FourInARow/GameLogic/pieces'
       <div class="m-1 d-flex align-items-center">
         <div class="me-1">
           <label class="label" for="name"> Your name (optional): </label>
-          <input type="text" name="name" v-model="name" class="form-control">
+          <input type="text" name="name" v-model="name" class="form-control" />
         </div>
         <div>
           <label class="label" for="starting_player"> Starting Player: </label>
-          <select :disabled="droppingPiece" id="starting_player" class="form-control form-control-sm"
-            v-model="starting_player" @change="resetGame()">
+          <select
+            :disabled="droppingPiece"
+            id="starting_player"
+            class="form-control form-control-sm"
+            v-model="starting_player"
+            @change="resetGame()"
+          >
             <option value="player">You</option>
             <option value="bot">Bot</option>
           </select>
@@ -44,19 +49,31 @@ import { pieces } from '@/Logic/FourInARow/GameLogic/pieces'
       </div>
 
       <div class="d-flex btn-group btn-group-md">
-        <button :disabled="droppingPiece || log.past.length < 2 || GameOver" @click="previousMove()" type="button"
-          class="m-1 btn btn-primary">
+        <button
+          :disabled="droppingPiece || log.past.length < 2 || GameOver"
+          @click="previousMove()"
+          type="button"
+          class="m-1 btn btn-primary"
+        >
           Previous Move
         </button>
 
-        <button :disabled="droppingPiece || log.future.length < 2 || GameOver" @click="nextMove()" type="button"
-          class="m-1 btn btn-primary">
+        <button
+          :disabled="droppingPiece || log.future.length < 2 || GameOver"
+          @click="nextMove()"
+          type="button"
+          class="m-1 btn btn-primary"
+        >
           Next Move
         </button>
       </div>
 
-      <button :disabled="droppingPiece || (starting_player == 'player' && pieces < 2)" @click="resetGame()"
-        type="button" class="m-1 btn btn-success">
+      <button
+        :disabled="droppingPiece || (starting_player == 'player' && pieces < 2)"
+        @click="resetGame()"
+        type="button"
+        class="m-1 btn btn-success"
+      >
         <template v-if="GameOver"> Play Again </template>
         <template v-if="!GameOver"> Restart </template>
       </button>
@@ -75,12 +92,18 @@ import { pieces } from '@/Logic/FourInARow/GameLogic/pieces'
     </div>
 
     <div class="mt-1 board">
-      <div v-for="(column, colIndex) in board" :key="colIndex" @click="dropPiece(colIndex)"
-        class="boardColumn column-reverse">
+      <div
+        v-for="(column, colIndex) in board"
+        :key="colIndex"
+        @click="dropPiece(colIndex)"
+        class="boardColumn column-reverse"
+      >
         <div v-for="(value, rowIndex) in column" :key="rowIndex" class="slotBackground">
-          <div class="slot" :class="getNameOfSlot(colIndex, rowIndex)"
-            :style="{ backgroundColor: getSlotColor(value) }">
-          </div>
+          <div
+            class="slot"
+            :class="getNameOfSlot(colIndex, rowIndex)"
+            :style="{ backgroundColor: getSlotColor(value) }"
+          ></div>
         </div>
       </div>
     </div>

@@ -298,15 +298,22 @@ const api_search = ref<string>('')
 
             <label for="meal_name"> Meal name: </label>
 
-            <input style="width: 80%" @input="
-              meal_name_validation = ValidateText(
-                $event,
-                meal_name_message_validation,
-                'MealName',
-                'form-control form-control-md'
-              )
-              " class="form-control form-control-md" ref="meal_name_input" name="meal_name" type="text"
-              v-model="meal_name" />
+            <input
+              style="width: 80%"
+              @input="
+                meal_name_validation = ValidateText(
+                  $event,
+                  meal_name_message_validation,
+                  'MealName',
+                  'form-control form-control-md'
+                )
+              "
+              class="form-control form-control-md"
+              ref="meal_name_input"
+              name="meal_name"
+              type="text"
+              v-model="meal_name"
+            />
 
             <div ref="meal_name_message_validation" class="ml-2 invalid-feedback"></div>
 
@@ -317,25 +324,47 @@ const api_search = ref<string>('')
             <div class="column">
               <div class="row">
                 <template v-if="ingredientsData.length > 0">
-                  <div class="column form-group ml-4" v-for="(ingredient, index) in ingredientsData" :key="index"
-                    style="max-width: 200px">
-                    <input :name="index + '-ingredient_id'" type="text" :value="ingredient.ingredient_id"
-                      style="display: none" />
+                  <div
+                    class="column form-group ml-4"
+                    v-for="(ingredient, index) in ingredientsData"
+                    :key="index"
+                    style="max-width: 200px"
+                  >
+                    <input
+                      :name="index + '-ingredient_id'"
+                      type="text"
+                      :value="ingredient.ingredient_id"
+                      style="display: none"
+                    />
 
-                    <IngredientInputModule :ingredient="ingredient" food_type="meal" :index="index"
-                      :random="randomNumber" />
+                    <IngredientInputModule
+                      :ingredient="ingredient"
+                      food_type="meal"
+                      :index="index"
+                      :random="randomNumber"
+                    />
 
                     <div class="mt-2 btn-group-md btn-group d-flex">
-                      <button v-if="ingredient.meal_id" type="button" class="btn-outline-danger btn btn-md" @click="
-                        handleDeleteIngredientFromMeal(
-                          ingredient.ingredient_id,
-                          ingredient.meal_id,
-                          index
-                        )
-                        ">
+                      <button
+                        v-if="ingredient.meal_id"
+                        type="button"
+                        class="btn-outline-danger btn btn-md"
+                        @click="
+                          handleDeleteIngredientFromMeal(
+                            ingredient.ingredient_id,
+                            ingredient.meal_id,
+                            index
+                          )
+                        "
+                      >
                         Remove <font-awesome-icon :icon="['fas', 'trash']" />
                       </button>
-                      <button v-else type="button" class="btn-outline-danger btn btn-md" @click="removeEntry(index)">
+                      <button
+                        v-else
+                        type="button"
+                        class="btn-outline-danger btn btn-md"
+                        @click="removeEntry(index)"
+                      >
                         Remove <font-awesome-icon :icon="['fas', 'trash']" />
                       </button>
                     </div>
@@ -346,15 +375,24 @@ const api_search = ref<string>('')
                 <h5>Select and click the ingredient you want to add</h5>
                 <div class="wrap">
                   <div v-for="ingredient in ingredients" :key="ingredient.ingredient_id">
-                    <button type="button" @click="addIngredientToMeal(ingredient)" class="btn btn-secondary btn-md m-2">
+                    <button
+                      type="button"
+                      @click="addIngredientToMeal(ingredient)"
+                      class="btn btn-secondary btn-md m-2"
+                    >
                       <h6>{{ ingredient['name'] }}</h6>
                     </button>
                   </div>
                 </div>
                 <div class="ml-3" v-if="ingredients && ingredients.length == 0">
                   <h6>You don't have any ingredients</h6>
-                  <button type="button" class="btn-success btn btn-sm" data-bs-toggle="modal"
-                    data-bs-target="#create_ingredient_modal" @click="handleCreateIngredientEvent()">
+                  <button
+                    type="button"
+                    class="btn-success btn btn-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#create_ingredient_modal"
+                    @click="handleCreateIngredientEvent()"
+                  >
                     <h6>Create ingredient</h6>
                   </button>
                 </div>
@@ -364,8 +402,17 @@ const api_search = ref<string>('')
 
                 <form @submit.prevent>
                   <div class="input-group m-1">
-                    <input class="form-control" v-model="api_search" placeholder="Search for ingredient" type="text" />
-                    <button type="submit" class="btn btn-primary" @click="load_products_from_api_search()">
+                    <input
+                      class="form-control"
+                      v-model="api_search"
+                      placeholder="Search for ingredient"
+                      type="text"
+                    />
+                    <button
+                      type="submit"
+                      class="btn btn-primary"
+                      @click="load_products_from_api_search()"
+                    >
                       Find product
                     </button>
                   </div>
@@ -373,37 +420,58 @@ const api_search = ref<string>('')
 
                 <div v-if="api_search_data">
                   <div class="wrap justify-content-center mb-5">
-                    <div v-for="(product, index) in api_search_data.data" :key="index" class="rounded m-4 product">
+                    <div
+                      v-for="(product, index) in api_search_data.data"
+                      :key="index"
+                      class="rounded m-4 product"
+                    >
                       <div class="d-flex flex-column align-items-center">
                         <ul class="list-group">
                           <li class="list-group-item list-group-item-info">
                             {{ product['name'] }}
                           </li>
-                          <li v-for="nutrient in product['nutrition']" class="list-group-item"
-                            :key="nutrient.display_name">
+                          <li
+                            v-for="nutrient in product['nutrition']"
+                            class="list-group-item"
+                            :key="nutrient.display_name"
+                          >
                             {{ nutrient['display_name'] }}: {{ nutrient['amount'] }}
                             {{ nutrient['unit'] }}
                           </li>
                           <li class="list-group-item">Price: {{ product['current_price'] }} kr</li>
                         </ul>
 
-                        <img style="width: 100%; height: 200px; object-fit: contain" class="mt-1 mb-2 rounded"
-                          :src="product['image']" :alt="product['name']" />
+                        <img
+                          style="width: 100%; height: 200px; object-fit: contain"
+                          class="mt-1 mb-2 rounded"
+                          :src="product['image']"
+                          :alt="product['name']"
+                        />
 
-                        <button type="button" class="btn btn-info btn-md" @click="addAPIProductToMeal(product)">
+                        <button
+                          type="button"
+                          class="btn btn-info btn-md"
+                          @click="addAPIProductToMeal(product)"
+                        >
                           Add {{ product['name'] }}
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <h5 class="ml-4" v-if="
-                  api_search_data && api_search_data.data.length == 0 && api_search.length > 2
-                ">
+                <h5
+                  class="ml-4"
+                  v-if="
+                    api_search_data && api_search_data.data.length == 0 && api_search.length > 2
+                  "
+                >
                   Please click enter or button *Find product*, if already done; sorry did not find
                   any products with your search: {{ api_search }}
                 </h5>
-                <h5 class="ml-4" v-if="!api_search_data && api_search.length != 0 && api_search.length < 3">
+                <h5
+                  class="ml-4"
+                  v-if="!api_search_data && api_search.length != 0 && api_search.length < 3"
+                >
                   Your search: {{ api_search }} is too short. Minium 3 letters
                 </h5>
               </section>
@@ -417,8 +485,12 @@ const api_search = ref<string>('')
           <div v-if="fetchingResource">
             <RequestLoader />
           </div>
-          <button :disabled="fetchingResource" type="button" @click="triggerMealEvent()"
-            class="btn btn-success btn-lg ml-1">
+          <button
+            :disabled="fetchingResource"
+            type="button"
+            @click="triggerMealEvent()"
+            class="btn btn-success btn-lg ml-1"
+          >
             {{ _formulate_type }} Meal
           </button>
         </div>

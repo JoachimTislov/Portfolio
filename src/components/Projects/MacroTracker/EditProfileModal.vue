@@ -67,20 +67,37 @@ async function handleFileUpload(event: Event) {
           </form>
 
           <div class="d-flex flex-column mt-2 mb-2">
-            <img :src="profilePictureUrl" style="width: 300px; height: auto" alt="Could not load your picture"
-              class="mx-auto rounded" />
+            <img
+              :src="profilePictureUrl"
+              style="width: 300px; height: auto"
+              alt="Could not load your picture"
+              class="mx-auto rounded"
+            />
 
             <div class="imageUploadBar mt-2 input-group mx-auto">
-              <input type="file" class="form-control" id="pictureInput" @change="handleFileUpload" />
+              <input
+                type="file"
+                class="form-control"
+                id="pictureInput"
+                @change="handleFileUpload"
+              />
             </div>
 
-            <button v-if="_file" type="button" class="mt-2 btn btn-md btn-outline-success"
-              @click="uploadProfilePicture(_file)">
+            <button
+              v-if="_file"
+              type="button"
+              class="mt-2 btn btn-md btn-outline-success"
+              @click="uploadProfilePicture(_file)"
+            >
               Upload Picture
             </button>
 
-            <button v-if="profilePictureUrl != user_icon && uploadedPicture" type="button"
-              class="mt-2 btn btn-md btn-outline-danger" @click="deleteProfilePicture()">
+            <button
+              v-if="profilePictureUrl != user_icon && uploadedPicture"
+              type="button"
+              class="mt-2 btn btn-md btn-outline-danger"
+              @click="deleteProfilePicture()"
+            >
               Delete Picture
             </button>
           </div>

@@ -28,30 +28,49 @@ import { initiateExampleAccount } from '@/Logic/MacroTracker/initiateExampleAcco
 
           <form @submit.prevent>
             <div class="form-group">
-              <input @input="
-                login_validation.Username = ValidateText(
-                  $event,
-                  validation_messages.login.username.value,
-                  'Username',
-                  'form-control form-control-lg'
-                )
-                " class="form-control form-control-lg" type="text" v-model="username" placeholder="Username"
-                required />
-              <div :ref="validation_messages.login.username" class="ml-3 invalid-feedback" style="display: none"></div>
+              <input
+                @input="
+                  login_validation.Username = ValidateText(
+                    $event,
+                    validation_messages.login.username.value,
+                    'Username',
+                    'form-control form-control-lg'
+                  )
+                "
+                class="form-control form-control-lg"
+                type="text"
+                v-model="username"
+                placeholder="Username"
+                required
+              />
+              <div
+                :ref="validation_messages.login.username"
+                class="ml-3 invalid-feedback"
+                style="display: none"
+              ></div>
             </div>
 
             <div class="form-group">
-              <input @input="
-                login_validation.Password = ValidateText(
-                  $event,
-                  validation_messages.login.password.value,
-                  'Password',
-                  'mt-2 form-control form-control-lg'
-                )
-                " class="mt-2 form-control form-control-lg" type="password" v-model="password" placeholder="Password"
-                required />
-              <div :ref="validation_messages.login.password" class="ml-3 mb-1 invalid-feedback" style="display: none">
-              </div>
+              <input
+                @input="
+                  login_validation.Password = ValidateText(
+                    $event,
+                    validation_messages.login.password.value,
+                    'Password',
+                    'mt-2 form-control form-control-lg'
+                  )
+                "
+                class="mt-2 form-control form-control-lg"
+                type="password"
+                v-model="password"
+                placeholder="Password"
+                required
+              />
+              <div
+                :ref="validation_messages.login.password"
+                class="ml-3 mb-1 invalid-feedback"
+                style="display: none"
+              ></div>
             </div>
 
             <RouterLink class="btn-link" :to="{ name: 'macroRegister' }">
@@ -64,9 +83,7 @@ import { initiateExampleAccount } from '@/Logic/MacroTracker/initiateExampleAcco
                   <RequestLoader />
                 </template>
 
-                <button type="submit" class="btn btn-lg btn-primary" @click="login()">
-                  Login
-                </button>
+                <button type="submit" class="btn btn-lg btn-primary" @click="login()">Login</button>
               </div>
             </div>
           </form>
@@ -74,13 +91,15 @@ import { initiateExampleAccount } from '@/Logic/MacroTracker/initiateExampleAcco
       </div>
 
       <div class="d-flex">
-        <button type="submit" class="d-flex align-items-center justify-content-center m-2 ms-0 btn btn-lg btn-secondary"
-          @click="initiateExampleAccount()">
+        <button
+          type="submit"
+          class="d-flex align-items-center justify-content-center m-2 ms-0 btn btn-lg btn-secondary"
+          @click="initiateExampleAccount()"
+        >
           <font-awesome-icon class="me-1" :icon="['fas', `arrow-right`]" />
           Go to example account
         </button>
       </div>
-
     </div>
   </div>
 </template>

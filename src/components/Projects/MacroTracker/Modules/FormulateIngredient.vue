@@ -69,14 +69,23 @@ async function IngredientEvent() {
           <AlertBox />
 
           <form :id="`${props.formulate_type}_ingredient_form`">
-            <IngredientInputModule :random="randomNumber" :ingredient="ingredient" food_type="ingredient" />
+            <IngredientInputModule
+              :random="randomNumber"
+              :ingredient="ingredient"
+              food_type="ingredient"
+            />
           </form>
         </div>
         <div class="modal-footer">
           <div v-if="fetchingResource">
             <RequestLoader />
           </div>
-          <button :disabled="fetchingResource" type="submit" @click="IngredientEvent()" class="btn btn-success btn-lg">
+          <button
+            :disabled="fetchingResource"
+            type="submit"
+            @click="IngredientEvent()"
+            class="btn btn-success btn-lg"
+          >
             {{ _formulate_type }}
             Ingredient
           </button>
