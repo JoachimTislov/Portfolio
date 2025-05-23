@@ -1,7 +1,5 @@
-import { LocalStorageMock } from './LocalStorageMock';
-
-import type { Environment } from 'vitest'
-
+import { LocalStorageMock } from './LocalStorageMock'
+import type { Environment } from 'vitest/environments'
 import { JSDOM } from 'jsdom'
 
 export default <Environment>{
@@ -18,7 +16,6 @@ export default <Environment>{
     global.document = dom.window.document;
     global.localStorage = new LocalStorageMock();
 
- 
     return {
       teardown() {
         // called after all tests with this env have been run

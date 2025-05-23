@@ -1,0 +1,52 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Deploy to Production
+
+on: 
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        node-version: [23.x]
+        python-version: [3.x]
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm i 
+
+    - name: Vitest Unit Tests
+      run: npm run test:unit
+
+    - name: Building the Project
+      run: npm run build
+    
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Install dependencies
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install ftpretty
+
+    - name: Deploy with FTP
+      run: |
+        source venv/bin/activate
+        python ftp-deploy.py
+      env:
+        HOST: ${{ secrets.DEPLOY_HOST }}
+        USERNAME: ${{ secrets.DEPLOY_USERNAME }}
+        PASSWORD: ${{ secrets.DEPLOY_PASSWORD }}

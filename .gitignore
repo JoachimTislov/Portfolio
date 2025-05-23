@@ -33,7 +33,7 @@ test-results/
 playwright-report/
 
 Earlier-versions
-ftp.py
+ftp-deploy.ts
 .venv
 .env
 .env.production
