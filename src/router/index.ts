@@ -1,5 +1,4 @@
 import { hideAlert } from '@/Logic/MacroTracker/alertFunctions'
-import { fetchingResource } from '@/Logic/MacroTracker/initVariables'
 import { token } from '@/Logic/MacroTracker/variables'
 import { createRouter, createWebHistory } from 'vue-router'
 
