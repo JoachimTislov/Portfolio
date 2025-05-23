@@ -6,6 +6,8 @@ name: Deploy to Production
 on: 
   push:
     branches: [main]
+    paths:
+      - "src/**"
   workflow_dispatch:
 
 jobs:
@@ -36,7 +38,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     
-    - name: Install dependencies
+    - name: Setup Python environment and install ftpretty
       run: |
         python -m venv venv
         source venv/bin/activate

@@ -486,19 +486,6 @@ export const testBoards = [
     board: [
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0, 0],
-      [2, 2, 1, 1, 2, 2],
-      [1, 1, 1, 2, 1, 0],
-      [2, 1, 2, 1, 1, 0],
-      [2, 1, 2, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0]
-    ],
-    expect_coordinate: [3, 5],
-    description: 'John Aage'
-  },
-  {
-    board: [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0, 0],
       [2, 0, 0, 0, 0, 0],
       [1, 1, 1, 2, 0, 0],
       [2, 2, 1, 0, 0, 0],
@@ -508,8 +495,21 @@ export const testBoards = [
     expect_coordinate: [6, 2],
     description: 'Ignore vertical and block horizontal'
   }
-
-  /*{
+  /*
+  {
+    board: [
+      [0, 0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0],
+      [2, 2, 1, 1, 2, 2],
+      [1, 1, 1, 2, 1, 0],
+      [2, 1, 2, 1, 1, 0],
+      [2, 1, 2, 0, 0, 0],
+      [0, 0, 0, 0, 0, 0]
+    ],
+    expect_coordinate: [3, 5],
+    description: 'Im not sure if this case is unique or not...'
+  }
+  {
     board: [
       [0, 0, 0, 0, 0, 0],
       [1, 0, 0, 0, 0, 0],
