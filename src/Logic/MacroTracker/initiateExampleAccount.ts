@@ -10,11 +10,11 @@ export async function initiateExampleAccount() {
     alertSecondary()
     await _alert('Login into the example account, this might take some time')
 
-    login_validation.Username = true
-    login_validation.Password = true
-
     username.value = 'Peddi'
-    password.value = import.meta.env.VITE_EXAMPLE_ACCOUNT_PASSWORD
+    login_validation.Username = true
+
+    password.value = 'peder@123'
+    login_validation.Password = true
 
     await login()
   }

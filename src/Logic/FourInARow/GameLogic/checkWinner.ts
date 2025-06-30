@@ -113,7 +113,7 @@ const determineWinner = async (value: number, coordinates: number[][]) => {
 
     sendMail(
       text,
-      import.meta.env.VITE_EMAILJS_FOUR_IN_A_ROW_TEMPLATE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
       JSON.stringify(board),
       JSON.stringify(log.value)
     )

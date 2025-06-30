@@ -49,7 +49,7 @@ export async function getData(url: string) {
     try {
       load()
 
-      const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
+      const endpoint = `${import.meta.env.VITE_MACROTRACKER_API_WEB_URL}${url}`
       const response = await fetch(endpoint, {
         method: 'GET',
         headers: {
@@ -79,7 +79,7 @@ export async function deleteEntity(
       try {
         load()
 
-        const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
+        const endpoint = `${import.meta.env.VITE_MACROTRACKER_API_WEB_URL}${url}`
         const response = await fetch(endpoint, {
           method: 'DELETE',
           headers: {
@@ -125,12 +125,12 @@ export async function fetchResource(
   typeOfAuth: string | undefined,
   modal_id?: string
 ): Promise<Response | undefined> {
-  const api_key: string = import.meta.env.VITE_API_KEY
+  const api_key: string = import.meta.env.VITE_MACROTRACKER_API_KEY
   let auth = typeOfAuth == 'api_key' ? api_key : token.value
   if (!auth) {
     forceFullyLogTheUserOut()
   } else {
-    const endpoint = `${import.meta.env.VITE_API_WEB_URL}${url}`
+    const endpoint = `${import.meta.env.VITE_MACROTRACKER_API_WEB_URL}${url}`
 
     // Example account by pass
     auth = user_id.value == '1' ? user_id.value : auth
