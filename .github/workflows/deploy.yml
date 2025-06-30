@@ -18,8 +18,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        node-version: 24.2
-        python-version: 3.13
+        node-version: [24.2]
+        python-version: [3.13]
 
     steps:
     - uses: actions/checkout@v4
