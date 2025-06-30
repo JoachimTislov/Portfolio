@@ -18,8 +18,8 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        node-version: [24.2]
-        python-version: [3.13]
+        node-version: 24.2
+        python-version: 3.13
 
     steps:
     - uses: actions/checkout@v4
@@ -32,15 +32,20 @@ jobs:
     - name: Vitest Unit Tests
       run: npm run test:unit
 
+    - name: Create env file
+      run: |
+        touch .env
+        echo VITE_MACROTRACKER_API_WEB_URL=${{ secrets.VITE_MACROTRACKER_API_WEB_URL }} > .env
+        echo VITE_MACROTRACKER_API_KEY=${{ secrets.VITE_MACROTRACKER_API_KEY }} > .env
+        echo VITE_KASSAL_API_KEY=${{ secrets.KASSAL_API_KEY }} > .env
+        echo VITE_EMAILJS_PUBLIC_KEY=${{ secrets.VITE_EMAILJS_PUBLIC_KEY }} > .env
+        echo VITE_EMAILJS_SERVICE_ID=${{ secrets.VITE_EMAILJS_SERVICE_ID }} > .env
+        echo VITE_EMAILJS_TEMPLATE_ID=${{ secrets.VITE_EMAILJS_TEMPLATE_ID }} > .env
+        cat .env
+
     - name: Building the Project
       run: npm run build
-      env:
-        VITE_MACROTRACKER_API_WEB_URL: ${{ secrets.VITE_MACROTRACKER_API_WEB_URL }}
-        VITE_MACROTRACKER_API_KEY: ${{ secrets.VITE_MACROTRACKER_API_KEY }}
-        VITE_KASSAL_API_KEY: ${{ secrets.VITE_KASSAL_API_KEY }}
-        VITE_EMAILJS_PUBLIC_KEY: ${{ secrets.VITE_EMAILJS_PUBLIC_KEY }}
-        VITE_EMAILJS_SERVICE_ID: ${{ secrets.VITE_EMAILJS_SERVICE_ID }}
-        VITE_EMAILJS_TEMPLATE_ID: ${{ secrets.VITE_EMAILJS_TEMPLATE_ID }}
+      
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
