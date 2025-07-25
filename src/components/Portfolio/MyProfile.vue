@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import socialLinks from './socialLinks.vue'
-
-import { personalData } from '@/Data/personal'
-
+import socialLinks from './SocialLinks.vue'
+import { personalData } from '@/data/personal'
 import ButtonTemplate from './ButtonTemplate.vue'
 </script>
 
@@ -27,14 +25,8 @@ import ButtonTemplate from './ButtonTemplate.vue'
             <p class="m-0">Contact</p>
           </button>
         </a>
-        <ButtonTemplate
-          class="mt-1 ms-1"
-          buttonName="About Me"
-          color="#222222"
-          router-link="/more-of-me"
-          :arrow_right_side="true"
-          arrow_type="right"
-        />
+        <ButtonTemplate class="mt-1 ms-1" buttonName="About Me" color="#222222" router-link="/more-of-me"
+          :arrow_right_side="true" arrow_type="right" />
       </div>
     </div>
   </div>

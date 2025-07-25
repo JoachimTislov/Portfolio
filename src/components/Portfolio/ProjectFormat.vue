@@ -1,15 +1,7 @@
 <script setup lang="ts">
-import { personalData } from '../../Data/personal'
+import { personalData } from '@/data/personal'
 import ButtonTemplate from './ButtonTemplate.vue'
-import { projectToShow } from '@/Logic/Portfolio/variables'
-import { viewName } from '@/Logic/Portfolio/functions'
-import type { Project } from '@/Logic/Portfolio/types'
-
-function assignChosenProject(project: Project) {
-  for (const [key, value] of Object.entries(project)) {
-    projectToShow[key] = value
-  }
-}
+import { viewName } from '@/logic/Portfolio/functions'
 </script>
 
 <template>
@@ -38,23 +30,10 @@ function assignChosenProject(project: Project) {
         </div>
 
         <div class="ms-auto d-flex mt-2">
-          <ButtonTemplate
-            @click="assignChosenProject(project)"
-            class="me-2"
-            buttonName="About"
-            color="#222222"
-            :arrow_left_side="true"
-            arrow_type="right"
-            router-link="/about-project"
-          />
-          <ButtonTemplate
-            v-if="project.viewProjectLink"
-            :arrow_right_side="true"
-            :buttonName="viewName(project)"
-            arrow_type="right"
-            color="#171717"
-            :router-link="project.viewProjectLink"
-          />
+          <ButtonTemplate @click="project" class="me-2" buttonName="About" color="#222222" :arrow_left_side="true"
+            arrow_type="right" :router-link="`/about/${project.name}`" />
+          <ButtonTemplate v-if="project.viewProjectLink" :arrow_right_side="true" :buttonName="viewName(project)"
+            arrow_type="right" color="#171717" :router-link="project.viewProjectLink" />
         </div>
       </div>
     </div>
