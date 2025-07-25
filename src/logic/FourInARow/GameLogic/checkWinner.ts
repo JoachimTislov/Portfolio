@@ -101,7 +101,7 @@ const loopThroughValues = async (coordinates: number[][], values: number[], bool
 }
 
 const determineWinner = async (value: number, coordinates: number[][]) => {
-  let text = "Something stupid happend"
+  let text = "Something stupid happened"
 
   if (value == botValue) {
     winnerMsg.value = 'Bot won'
@@ -116,6 +116,7 @@ const determineWinner = async (value: number, coordinates: number[][]) => {
 
   sendMail(
     text,
+    import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
     JSON.stringify(board),
     JSON.stringify(log.value)
   )

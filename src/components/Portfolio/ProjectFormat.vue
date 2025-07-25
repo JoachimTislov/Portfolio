@@ -30,8 +30,8 @@ import { viewName } from '@/logic/Portfolio/functions'
         </div>
 
         <div class="ms-auto d-flex mt-2">
-          <ButtonTemplate @click="project" class="me-2" buttonName="About" color="#222222" :arrow_left_side="true"
-            arrow_type="right" :router-link="`/about/${project.name}`" />
+          <ButtonTemplate class="me-2" buttonName="About" color="#222222" :arrow_left_side="true" arrow_type="right"
+            :router-link="`/about/${project.name}`" />
           <ButtonTemplate v-if="project.viewProjectLink" :arrow_right_side="true" :buttonName="viewName(project)"
             arrow_type="right" color="#171717" :router-link="project.viewProjectLink" />
         </div>
