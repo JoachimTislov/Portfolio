@@ -11,8 +11,6 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(fab, fas)
 
-import VueApexCharts from 'vue3-apexcharts'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 
@@ -23,7 +21,6 @@ const app = createApp(App)
 const pinia = createPinia()
 
 app.component('font-awesome-icon', FontAwesomeIcon)
-app.use(VueApexCharts)
 app.use(pinia)
 app.use(router)
 

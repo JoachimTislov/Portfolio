@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { personalData } from '@/Data/personal'
+import { personalData } from '@/data/personal'
 </script>
 
 <template>
