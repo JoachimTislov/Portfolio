@@ -4,11 +4,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'home',
-      component: () => import('../views/HomeView.vue')
-    },
-    {
       path: '/more-of-me',
       name: 'aboutMe',
       component: () => import('../views/AboutMeView.vue')
@@ -23,6 +18,11 @@ const router = createRouter({
       name: 'fourInARow',
       component: () => import('../views/FourInARowView.vue')
     },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'home',
+      component: () => import('../views/HomeView.vue')
+    }
   ]
 })
 
