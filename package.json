@@ -17,10 +17,10 @@
   "dependencies": {
     "@coreui/coreui": "^5.0.2",
     "@coreui/vue": "^5.1.0",
-    "@fortawesome/fontawesome-free": "^6.5.2",
-    "@fortawesome/free-brands-svg-icons": "^6.5.2",
-    "@fortawesome/free-solid-svg-icons": "^6.5.2",
-    "@fortawesome/vue-fontawesome": "^3.0.8",
+    "@fortawesome/fontawesome-svg-core": "^7.0.0",
+    "@fortawesome/free-brands-svg-icons": "^7.0.0",
+    "@fortawesome/free-solid-svg-icons": "^7.0.0",
+    "@fortawesome/vue-fontawesome": "^3.1.1",
     "@popperjs/core": "^2.11.8",
     "@vue/language-plugin-pug": "^2.0.24",
     "apexcharts": "^3.52.0",
@@ -31,8 +31,7 @@
     "pinia": "^2.1.7",
     "vue": "^3.4.29",
     "vue-cli-service": "^5.0.10",
-    "vue-router": "^4.3.3",
-    "vue3-apexcharts": "^1.5.3"
+    "vue-router": "^4.3.3"
   },
   "devDependencies": {
     "@pinia/testing": "^0.1.3",

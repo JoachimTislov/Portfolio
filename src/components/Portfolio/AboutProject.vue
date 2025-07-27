@@ -1,31 +1,30 @@
 <script setup lang="ts">
-import { projectToShow } from '@/Logic/Portfolio/variables'
 import ButtonTemplate from './ButtonTemplate.vue'
-import { viewName } from '@/Logic/Portfolio/functions'
-import { watch } from 'vue'
-
-watch(projectToShow, () => {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
-})
+import { personalData } from '@/data/personal'
+import { viewName } from '@/logic/Portfolio/functions'
+import { useRoute } from 'vue-router'
+const route = useRoute()
+const projectName = route.params.project
+const project = personalData.projects[projectName as string]
 </script>
 
 <template>
-  <div v-if="projectToShow" class="card mt-4">
+  <div v-if="project" class="card mt-4">
     <div class="card-header p-4">
       <h1 class="card-title m-0">
-        {{ projectToShow.name }}
+        {{ project.name }}
       </h1>
     </div>
     <div class="card-body">
       <div class="d-flex flex-column">
         <div class="description">
-          <p class="" v-for="paragraph in projectToShow.description" :key="paragraph">
+          <p class="" v-for="paragraph in project.description" :key="paragraph">
             {{ paragraph }}
           </p>
 
           <h6>Tools:</h6>
           <div class="d-flex flex-wrap">
-            <div class="m-1 p-2 bg-dark" v-for="tool in projectToShow.tools" :key="tool.name">
+            <div class="m-1 p-2 bg-dark" v-for="tool in project.tools" :key="tool.name">
               <a class="link" :href="tool.link">
                 {{ tool.name }}
                 <font-awesome-icon v-if="tool.icon" class="icon" :icon="tool.icon" />
@@ -36,14 +35,8 @@ watch(projectToShow, () => {
           <br />
 
           <div class="d-flex">
-            <ButtonTemplate
-              v-if="projectToShow.viewProjectLink"
-              :arrow_right_side="true"
-              :buttonName="viewName(projectToShow)"
-              arrow_type="right"
-              color="rgb(80, 60, 60)"
-              :router-link="projectToShow.viewProjectLink"
-            />
+            <ButtonTemplate v-if="project.viewProjectLink" :arrow_right_side="true" :buttonName="viewName(project)"
+              arrow_type="right" color="rgb(80, 60, 60)" :router-link="project.viewProjectLink" />
           </div>
         </div>
       </div>
