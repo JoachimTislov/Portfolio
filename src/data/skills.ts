@@ -1,4 +1,4 @@
-import type { Skills } from '@/logic/Portfolio/types'
+import type { Skills } from '../logic/Portfolio/types'
 
 export const skills: Skills = {
   'Visual Studio': {

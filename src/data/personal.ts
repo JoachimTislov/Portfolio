@@ -1,15 +1,14 @@
-import macroTrackerImg from '@/assets/images/macroTracker.png'
 import imageGuesserImg from '@/assets/images/image-guesser.png'
 import fourInARowImg from '@/assets/images/four-in-a-row.png'
 import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.png'
 import { skills } from './skills'
-import type { PersonalData } from '@/logic/Portfolio/types'
+import type { PersonalData } from '../logic/Portfolio/types'
 
 export const personalData: PersonalData = {
   name: 'Joachim',
   surname: 'Tisløv',
   email: 'joachim.tislov@gmail.com',
-  intro: `I am 22 year old male from Sandnes with a passion for programming.`,
+  intro: `I am ${new Date().getFullYear() - 2002} year old male from Sandnes with a passion for programming.`,
   about: [
     `I live with my Alaskan husky - Leo, 
       I love programming, gaming, sports and the process of solving a problem. I Played football for over 14 years, 
@@ -77,7 +76,8 @@ export const personalData: PersonalData = {
         skills['Flask'],
         skills['SQLite']
       ],
-      image: refactoredMacroTrackerImg,
+      link: 'https://macrotracker.joachimtisløv.no',
+      image: refactoredMacroTrackerImg
     },
     'Four in a row': {
       name: 'Four in a row',
@@ -105,7 +105,7 @@ export const personalData: PersonalData = {
         skills['Typescript'],
         skills['Vue FrameWork']
       ],
-      viewProjectLink: '/Four-in-a-row',
+      page: '/Four-in-a-row',
       image: fourInARowImg
     },
     'Image guesser': {
@@ -139,6 +139,6 @@ export const personalData: PersonalData = {
         skills['Docker']
       ],
       image: imageGuesserImg
-    },
+    }
   }
 }

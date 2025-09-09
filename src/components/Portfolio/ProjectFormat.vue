@@ -22,7 +22,7 @@ import { viewName } from '@/logic/Portfolio/functions'
       </div>
       <div class="card-body">
         <div class="d-flex bodyBox">
-          <div class="p-3 m-2 rounded border border-3 border-secondary">
+          <div class="p-3 m-2 rounded border-3 border-secondary">
             <p>{{ project.intro }}</p>
           </div>
 
@@ -30,10 +30,22 @@ import { viewName } from '@/logic/Portfolio/functions'
         </div>
 
         <div class="ms-auto d-flex mt-2">
-          <ButtonTemplate class="me-2" buttonName="About" color="#222222" :arrow_left_side="true" arrow_type="right"
-            :router-link="`/about/${project.name}`" />
-          <ButtonTemplate v-if="project.viewProjectLink" :arrow_right_side="true" :buttonName="viewName(project)"
-            arrow_type="right" color="#171717" :router-link="project.viewProjectLink" />
+          <ButtonTemplate
+            class="me-2"
+            buttonName="About"
+            color="#222222"
+            :arrow_left_side="true"
+            arrow_type="right"
+            :router-link="`/about/${project.name}`"
+          />
+          <ButtonTemplate
+            v-if="project.page"
+            :arrow_right_side="true"
+            :buttonName="viewName(project)"
+            arrow_type="right"
+            color="#171717"
+            :router-link="project.page"
+          />
         </div>
       </div>
     </div>

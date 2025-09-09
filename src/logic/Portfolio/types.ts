@@ -19,7 +19,8 @@ export type Project = {
   description: string[]
   tools: Skill[]
   image: string
-  viewProjectLink?: string
+  page?: string
+  link?: string
 }
 
 export type PersonalData = {

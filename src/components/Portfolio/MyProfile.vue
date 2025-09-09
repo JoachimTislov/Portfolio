@@ -14,7 +14,7 @@ import ButtonTemplate from './ButtonTemplate.vue'
     </div>
 
     <div class="d-flex flex-column justify-content-center align-items-center p-3 textContainer">
-      <div class="p-3 rounded textBox border border-3 border-secondary">
+      <div class="p-3 rounded textBox border-3 border-secondary">
         <p>{{ personalData.intro }}</p>
       </div>
 
@@ -25,8 +25,14 @@ import ButtonTemplate from './ButtonTemplate.vue'
             <p class="m-0">Contact</p>
           </button>
         </a>
-        <ButtonTemplate class="mt-1 ms-1" buttonName="About Me" color="#222222" router-link="/more-of-me"
-          :arrow_right_side="true" arrow_type="right" />
+        <ButtonTemplate
+          class="mt-1 ms-1"
+          buttonName="About Me"
+          color="#222222"
+          router-link="/more-of-me"
+          :arrow_right_side="true"
+          arrow_type="right"
+        />
       </div>
     </div>
   </div>
