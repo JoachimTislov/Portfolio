@@ -38,44 +38,34 @@ function leaveHover() {
 </script>
 
 <template>
-  <div @mouseenter="enterHover" @mouseleave="leaveHover">
-    <RouterLink :to="routerLink">
-      <button type="button" ref="button" class="btn p-3 d-flex align-items-center">
+
+
+
+
+  <div>
+    <button @mouseenter="enterHover" @mouseleave="leaveHover" type="button" ref="button">
+      <RouterLink
+        :to="routerLink"
+        class="btn px-4 py-2 flex items-center text-white rounded-2xl transition-all duration-200 hover:rounded-none w-full sm:w-auto text-base sm:text-lg"
+      >
         <font-awesome-icon
           v-if="arrow_left_side"
-          class="me-1"
+          class="mr-2"
           v-show="MouseOver"
           :icon="['fas', `arrow-${arrow_type}`]"
         />
 
-        <p class="m-0">
+        <p class="m-0 flex-1 text-center">
           {{ buttonName }}
         </p>
 
         <font-awesome-icon
           v-if="arrow_right_side"
-          class="ms-1"
+          class="ml-2"
           v-show="MouseOver"
           :icon="['fas', `arrow-${arrow_type}`]"
         />
-      </button>
-    </RouterLink>
+      </RouterLink>
+    </button>
   </div>
 </template>
-
-<style scoped>
-a,
-RouterLink {
-  text-decoration: none;
-  color: white;
-}
-
-button {
-  color: white;
-  border-radius: 20px;
-}
-
-button:hover {
-  border-radius: 0;
-}
-</style>

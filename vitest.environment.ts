@@ -12,7 +12,7 @@ export default <Environment>{
     })
 
     global.console.log = () => {}
-    global.window = dom.window as any
+    // global.window = dom.window as any
     global.document = dom.window.document
     global.localStorage = new LocalStorageMock()
 

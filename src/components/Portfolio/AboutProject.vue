@@ -36,7 +36,7 @@ const project = personalData.projects[projectName as string]
 
           <div class="d-flex">
             <ButtonTemplate
-              v-if="project.viewProjectLink"
+              v-if="project.link"
               :arrow_right_side="true"
               :buttonName="viewName(project)"
               arrow_type="right"

@@ -1,43 +1,39 @@
 @import "tailwindcss";
 
-* {
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial,
-    sans-serif;
+/**/
+/* * { */
+/*   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, */
+/*     sans-serif; */
+/*}*/
+@theme {
+  /* Cosmic Dark Matter Tides and Currents */
+  --color-blue: #1E1E2F;
+  --color-gray: #6D6E8B;
+  --color-orange: #A04E2F;
+  --color-dark: #2D2D30;
+  --color-white: #F5F5F5;
 }
 
-:root {
-  --text-color: #cfcfcf;
-
-  --background-color: #222222;
-  --secondary-background-color: #212121;
-  --profile-background-color: #141414;
-
-  --main-navbar-color: #171717;
-
-  --highlight-color: grey;
-}
-
-body {
-  background-color: var(--background-color);
-}
-
-p {
-  color: var(--text-color);
-  font-size: clamp(1rem, 1vw, 1.3rem);
-}
-
-.wrap {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.Modal {
-  backdrop-filter: blur(20px);
-
-  display: flex;
-  align-self: center;
-}
-
-.apexcharts-menu-item {
-  color: black;
-}
+/* :root { */
+/*   --text-color: #cfcfcf; */
+/*   --background-color: #222222; */
+/*   --secondary-background-color: #212121; */
+/*   --profile-background-color: #141414; */
+/*   --main-navbar-color: #171717; */
+/*   --highlight-color: grey; */
+/* } */
+/* body { */
+/*   background-color: var(--background-color); */
+/* } */
+/* p { */
+/*   color: var(--text-color); */
+/*   font-size: clamp(1rem, 1vw, 1.3rem); */
+/* } */
+/* .Modal { */
+/*   backdrop-filter: blur(20px); */
+/*   display: flex; */
+/*   align-self: center; */
+/* } */
+/* .apexcharts-menu-item { */
+/*   color: black; */
+/* } */

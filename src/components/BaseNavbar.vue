@@ -6,7 +6,7 @@ import { RouterLink } from 'vue-router'
   <nav class="navbar navbar-expand-md" data-bs-theme="dark">
     <div class="container">
       <em>
-        <h3 class="logo">JTs Portfolio</h3>
+        <h3 class="logo">Portfolio</h3>
       </em>
 
       <button

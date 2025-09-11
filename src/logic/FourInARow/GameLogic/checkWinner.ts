@@ -1,4 +1,4 @@
-import { sendMail } from '@/logic/Email/sendMail'
+import { sendMail } from '../../Email/sendMail'
 import { board, botValue, GameOver, log, name, playerValue, winnerMsg } from './variables'
 
 export const checkWinner = async (boolCheck: boolean) => {
@@ -101,7 +101,7 @@ const loopThroughValues = async (coordinates: number[][], values: number[], bool
 }
 
 const determineWinner = async (value: number, coordinates: number[][]) => {
-  let text = "Something stupid happened"
+  let text = 'Something stupid happened'
 
   if (value == botValue) {
     winnerMsg.value = 'Bot won'
