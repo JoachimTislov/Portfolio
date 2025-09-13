@@ -3,11 +3,5 @@ import AboutMe from '@/components/Portfolio/AboutMe.vue'
 </script>
 
 <template>
-
-
-
-
-
-
   <AboutMe />
 </template>

@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  /* Cosmic Dark Matter Tides and Currents */
+  --color-darkblue: #1E1E2F;
+  --color-lightgray: #6D6E8B;
+  --color-darkorange: #A04E2F;
+  --color-darkgrey: #2D2D30;
+  --color-white: #F5F5F5;
+}
+
+/* Tailwind colors 
+ * stone
+ * zinc
+ */
+
+/* old color scheme */
+/* #cfcfcf; */
+/* #222222; */
+/* #212121; */
+/* #141414; */
+/* #171717; */

@@ -2,57 +2,46 @@ import imageGuesserImg from '@/assets/images/image-guesser.png'
 import fourInARowImg from '@/assets/images/four-in-a-row.png'
 import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.png'
 import { skills } from './skills'
-import type { PersonalData } from '../logic/Portfolio/types'
+import type { PersonalData } from '@/logic/Portfolio/types'
 
 export const personalData: PersonalData = {
   name: 'Joachim',
   surname: 'Tisløv',
+  role: 'Software Developer',
+  os: 'Arch Linux',
+  ide: 'Neovim',
+  country: 'Norway',
   email: 'joachim.tislov@gmail.com',
   intro: `I am ${new Date().getFullYear() - 2002} year old male from Sandnes with a passion for programming.`,
   about: [
-    `I live with my Alaskan husky - Leo, 
-      I love programming, gaming, sports and the process of solving a problem. I Played football for over 14 years, 
-      which provided me with extensive team-building skills.`,
+    `I live with my Alaskan husky - Leo, I love programming, gaming, sports and the process of solving a problem. I played football for around 14 years.`,
 
-    `I got access to technology at a fairly young age, but it wasn't until highschool I started to learn coding. 
-    I remember creating a simple website with six boxes and I was tasked to present them in a 2x3 format. I didn't
-    watch any tutorials and spent multiple hours before I eventually managed to style the website correctly, and remember
-    running down to my parents and showing them my website with utmost pride.`,
+    `I got access to technology at a fairly young age, but it wasn't until highschool I started to learn coding. I remember creating a simple website with six boxes and I was tasked to present them in a 2x3 format. I didn't watch any tutorials and spent multiple hours before I eventually managed to style the website correctly, and I remember running down to my parents and showing them my website with utmost pride.`,
 
-    `This task, among many others, is what sparked my interest in programming. The combination of tackling challenges with patience and intellectual or creative thinking, 
-    along with developing applications and systems, offers an all-in-one package that I find compelling.`
+    `This task, among many others, is what sparked my interest in programming. The combination of tackling challenges with patience and intellectual or creative thinking.`
   ],
-  keywords: `Patient, dedicated and persistent`,
-  situation: `I am currently working on personal projects, and plan to integrate every project into
-        the website. This allows you to explore and interact with them, rather just reading
-        about each project. `,
-  education: `Bachelor's Degree in Computer Technology`,
+  keywords: 'Patient, resilient, motivated and persistent',
+  university: 'University of Stavanger 2021 - 2025',
+  degree: "Bachelor's Degree in Computer Science",
   skills: skills,
   socialLinks: [
     {
       icon: ['fab', 'linkedin-in'],
-      link: 'https://www.linkedin.com/in/joachim-tisl%C3%B8v-7074642b1/'
+      link: 'https://www.linkedin.com/in/joachim-tisløv-7074642b1'
     },
     {
       icon: ['fab', 'instagram'],
       link: 'https://www.instagram.com/joachimtislov/'
     },
     { icon: ['fab', 'github'], link: 'https://github.com/JoachimTislov' },
-    { icon: ['fab', 'facebook'], link: 'https://www.facebook.com/profile.php?id=100011419305331' }
-  ],
-  jobs: [
-    'Full-Stack',
-    'IT-Consultant',
-    'Technology Integration Specialist',
-    'Software Engineer',
-    'Data Engineer',
-    'Junior/Intern',
-    'Application/Web Developer',
-    'Database Administrator',
-    'Developer'
+    {
+      icon: ['fab', 'facebook'],
+      link: 'https://www.facebook.com/profile.php?id=100011419305331'
+    }
   ],
   projects: {
     'Macro Tracker': {
+      page: '/macro-tracker',
       name: 'Macro Tracker',
       date: '08.04.2024 - 19.08.2024',
       group_size: 2,
@@ -80,16 +69,18 @@ export const personalData: PersonalData = {
       image: refactoredMacroTrackerImg
     },
     'Four in a row': {
+      page: '/four-in-a-row',
       name: 'Four in a row',
       date: '20.06.2024 - 15.07.2024',
-      githubLink: 'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
+      githubLink:
+        'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
       intro: `During my summer holiday, my father and brother played four in a row. After hearing my brother lose
                 for the 7th time, I thought; "Why not program a bot for him to play against?".`,
       description: [
         `The concept of building an intelligent bot initiated a month-long effort to engineer a sophisticated Four-in-a-Row algorithm. The intent of 
         creating such a bot, were to help my brother, but rather escalated into a far more better goal: `,
 
-        `- Creating an intelligent bot combining both simple and advanced algorithms, making it unbeatable.`,
+        `"Creating an intelligent bot combining both simple and advanced algorithms, making it unbeatable."`,
 
         `This is still ongoing, since it is in fact beatable. I am currently having issues with the core design of my algorithms;
                 scan the board, check for three and two in a row, mark losing choices, filter out awful choices 
@@ -105,7 +96,6 @@ export const personalData: PersonalData = {
         skills['Typescript'],
         skills['Vue FrameWork']
       ],
-      page: '/Four-in-a-row',
       image: fourInARowImg
     },
     'Image guesser': {
