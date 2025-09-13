@@ -11,7 +11,7 @@ const project = personalData.projects[projectName as string]
     <h2 class="font-mono text-xl">Project not found</h2>
   </div>
   <div v-else class="dark:bg-darkblue w-180 rounded-lg p-4">
-    <div class="dark:bg-darkorange flex items-center justify-between">
+    <div class="dark:bg-darkorange flex items-center justify-between p-2">
       <h1 class="pl-2 text-lg">{{ project.name }}</h1>
       <ArrowLink name="View project" :href="project.link" :to="project.page" />
     </div>
