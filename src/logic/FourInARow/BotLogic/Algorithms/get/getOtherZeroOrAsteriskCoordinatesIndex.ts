@@ -1,4 +1,4 @@
-import type { _pattern } from '@/logic/FourInARow/Types'
+import type { _pattern } from '@/logic/FourInARow/types'
 
 export function getOtherZeroCoordinatesIndex(pattern: _pattern, indexOfOriginalZero: number[]) {
   for (const [index, value] of pattern.entries()) {

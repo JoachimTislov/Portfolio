@@ -1,5 +1,5 @@
 import { piecesInARow } from '../GameLogic/variables'
-import type { _coordinates, _pattern, _patternData } from '../Types'
+import type { _coordinates, _pattern, _patternData } from '../types'
 
 const evaluateOperation = (colIndex: number, offset: number, colOperation: string) => {
   const operation: { [key: string]: (a: number, b: number) => number } = {

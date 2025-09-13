@@ -8,7 +8,7 @@ import {
   losing_Coordinates
 } from '../GameLogic/variables'
 
-import type { possible_Coordinates } from '../Types'
+import type { possible_Coordinates } from '../types'
 
 import { scanBoard } from './scanLogic'
 import { searchForBestChoice } from './Algorithms/searches/searchForBestChoice'

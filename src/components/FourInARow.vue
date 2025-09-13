@@ -22,61 +22,106 @@ import { pieces } from '@/logic/FourInARow/GameLogic/pieces'
 </script>
 
 <template>
-  <section class="mainDiv">
-    <div class="menu">
-      <div class="m-1 d-flex align-items-center">
-        <div class="me-1">
-          <label class="label" for="name"> Your name (optional): </label>
-          <input type="text" name="name" v-model="name" class="form-control" placeholder="name" />
+  <section class="w-full h-auto flex flex-col justify-center items-center mt-5">
+    <div class="flex flex-col w-full max-w-2xl px-2">
+      <!-- Menu Container -->
+      <div class="m-1 flex flex-col sm:flex-row sm:items-center gap-2">
+        <div class="flex-1">
+          <label class="text-xs" for="name"> Your name (optional): </label>
+          <input
+            type="text"
+            name="name"
+            v-model="name"
+            class="px-3 py-1.5 border border-gray-300 rounded text-base w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="name"
+          />
         </div>
-        <div>
-          <label class="label" for="starting_player"> Starting Player: </label>
-          <select :disabled="droppingPiece" id="starting_player" class="form-control form-control-sm"
-            v-model="starting_player" @change="resetGame()">
+        <div class="flex-1">
+          <label class="text-xs" for="starting_player"> Starting Player: </label>
+          <select
+            :disabled="droppingPiece"
+            id="starting_player"
+            class="px-3 py-1.5 border border-gray-300 rounded text-base w-full focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+            v-model="starting_player"
+            @change="resetGame()"
+          >
             <option value="player">You</option>
             <option value="bot">Bot</option>
           </select>
         </div>
       </div>
 
-      <div class="d-flex btn-group btn-group-md">
-        <button :disabled="droppingPiece || log.past.length < 2 || GameOver" @click="previousMove()" type="button"
-          class="m-1 btn btn-primary">
+      <div class="flex flex-col sm:flex-row gap-2 mt-2">
+        <button
+          :disabled="droppingPiece || log.past.length < 2 || GameOver"
+          @click="previousMove()"
+          type="button"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex-1"
+        >
           Previous Move
         </button>
 
-        <button :disabled="droppingPiece || log.future.length < 2 || GameOver" @click="nextMove()" type="button"
-          class="m-1 btn btn-primary">
+        <button
+          :disabled="droppingPiece || log.future.length < 2 || GameOver"
+          @click="nextMove()"
+          type="button"
+          class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex-1"
+        >
           Next Move
         </button>
       </div>
 
-      <button :disabled="droppingPiece || (starting_player == 'player' && pieces < 2)" @click="resetGame()"
-        type="button" class="m-1 btn btn-success">
+      <button
+        :disabled="droppingPiece || (starting_player == 'player' && pieces < 2)"
+        @click="resetGame()"
+        type="button"
+        class="mt-2 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed w-full"
+      >
         <template v-if="GameOver"> Play Again </template>
         <template v-if="!GameOver"> Restart </template>
       </button>
 
-      <div v-if="!GameOver" class="m-1 p-2 message">
-        <h5 v-if="busy && !botCalculating"><strong> Dropping piece.. </strong></h5>
-        <template v-else>
-          <h5 v-if="playerTurn"><strong> Your Turn </strong></h5>
-          <h5 v-if="botCalculating"><strong> Bot is calculating... </strong></h5>
-        </template>
+      <div
+        v-if="!GameOver"
+        class="my-3 p-2 bg-zinc-800 text-center shadow-sm border-2 border-white rounded-lg"
+      >
+        <strong>
+          <h5 v-if="busy && !botCalculating" class="text-base font-bold p-0 m-0">
+            Dropping piece..
+          </h5>
+          <template v-else>
+            <h5 v-if="playerTurn" class="text-base font-bold p-0 m-0">Your Turn</h5>
+            <h5 v-if="botCalculating" class="text-base font-bold p-0 m-0">Bot is calculating...</h5>
+          </template>
+        </strong>
       </div>
 
-      <div v-if="GameOver" class="m-1 p-2 message">
-        <h4>{{ winnerMsg }}</h4>
+      <div
+        v-if="GameOver"
+        class="m-1 p-2 bg-zinc-800 text-center shadow-sm border-2 border-white rounded-lg"
+      >
+        <h4 class="text-xl font-bold p-0 m-0">{{ winnerMsg }}</h4>
       </div>
     </div>
-
-    <div class="mt-1 board">
-      <div v-for="(column, colIndex) in board" :key="colIndex" @click="dropPiece(colIndex)"
-        class="boardColumn column-reverse">
-        <div v-for="(value, rowIndex) in column" :key="rowIndex" class="slotBackground">
-          <div class="slot" :class="getNameOfSlot(colIndex, rowIndex)"
-            :style="{ backgroundColor: getSlotColor(value) }">
-          </div>
+    <div
+      class="mt-1 flex flex-row bg-zinc-700 p-[1%] rounded-2xl border-black border-6 border-t-0 mb-20"
+    >
+      <div
+        v-for="(column, colIndex) in board"
+        :key="colIndex"
+        @click="dropPiece(colIndex)"
+        class="flex flex-col-reverse border-t-0 rounded-[50px] transition-all duration-500 ease-in-out hover:bg-black hover:scale-105 hover:shadow-lg hover:shadow-black/20"
+      >
+        <div
+          v-for="(value, rowIndex) in column"
+          :key="rowIndex"
+          class="rounded-full bg-white w-[clamp(2em,11.5vw,6em)] h-[clamp(2em,11.5vw,6em)] p-0.5 m-0.5"
+        >
+          <div
+            class="rounded-full w-full h-full"
+            :class="getNameOfSlot(colIndex, rowIndex)"
+            :style="{ backgroundColor: getSlotColor(value) }"
+          ></div>
         </div>
       </div>
     </div>
@@ -84,93 +129,6 @@ import { pieces } from '@/logic/FourInARow/GameLogic/pieces'
 </template>
 
 <style scoped>
-#starting_player {
-  font-size: clamp(1rem, 1vw, 1.2rem);
-}
-
-.label {
-  font-size: 0.8em;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-}
-
-.buttons {
-  margin-top: 1rem;
-}
-
-.mainDiv {
-  width: 100%;
-  height: auto;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  margin-top: 20px;
-}
-
-.board {
-  display: flex;
-  flex-direction: row;
-
-  background-color: #2a2424;
-
-  padding: 1%;
-  border-radius: 20px;
-
-  border: rgb(0, 0, 0) solid 6px;
-  border-top: 0;
-
-  margin-bottom: 5rem;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-}
-
-.column-reverse {
-  display: flex;
-  flex-direction: column-reverse;
-  border-top: 0;
-
-  border-radius: 40px;
-
-  transition:
-    transform 0.3s ease-in-out,
-    box-shadow 0.3s ease-in-out,
-    background-color 0.3s ease-in-out;
-}
-
-.column-reverse:hover {
-  background-color: #000;
-  /* Using hex for consistency */
-  transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-  /* Adding a subtle shadow effect */
-}
-
-.slotBackground {
-  border-radius: 50%;
-  background-color: white;
-
-  width: clamp(2em, 11.5vw, 6em);
-  height: clamp(2em, 11.5vw, 6em);
-
-  padding: 2px;
-  margin: 2px;
-}
-
-.slot {
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-}
-
 @keyframes dropIn {
   0% {
     transform: translateY(-300%);
@@ -181,46 +139,12 @@ import { pieces } from '@/logic/FourInARow/GameLogic/pieces'
   }
 
   90% {
-    transform: translateY(-5px);
-  }
-
-  100% {
-    transform: translateY(0);
+    transform: translateY(-3px);
   }
 }
 
 .drop-in {
   z-index: 1;
   animation: dropIn 1s cubic-bezier(0.9, 0.6, 0.4, 1);
-}
-
-h1,
-h2,
-h3,
-h4,
-h5 {
-  padding: 0;
-  margin: 0;
-}
-
-h4 {
-  font-size: clamp(1.2rem, 1.2vw, 1.5rem);
-}
-
-h5 {
-  font-size: 1rem;
-}
-
-.message {
-  background-color: #2e2a2a;
-  text-align: center;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border: solid 2px white;
-  border-radius: 8px;
-}
-
-.winner-message h4 {
-  margin: 0;
-  font-size: 1rem;
 }
 </style>

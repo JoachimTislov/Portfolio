@@ -11,7 +11,6 @@ export type Skills = {
 export type Project = {
   [key: string]: string | number | boolean | Skill[] | string[] | undefined
   name: string
-  original?: boolean
   date: string
   githubLink?: string
   group_size?: number
@@ -19,21 +18,25 @@ export type Project = {
   description: string[]
   tools: Skill[]
   image: string
-  viewProjectLink?: string
+  page?: string
+  link?: string
 }
 
 export type PersonalData = {
   name: string
   surname: string
+  role: string
+  os: string
+  ide: string
+  country: string
   email: string
   intro: string
   about: string[]
   keywords: string
-  situation: string
-  education: string
+  university: string
+  degree: string
   skills: Skills
   socialLinks: { icon: string[]; link: string }[]
-  jobs: string[]
   projects: {
     [key: string]: Project
   }

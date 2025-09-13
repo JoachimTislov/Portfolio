@@ -3,19 +3,18 @@ import { personalData } from '@/data/personal'
 </script>
 
 <template>
-  <div class="d-flex flex-row">
-    <a v-for="item in personalData.socialLinks" :key="item.link" :href="item.link" class="m-2">
-      <font-awesome-icon :icon="item.icon" style="font-size: clamp(1.5rem, 2vw, 2rem)" />
+  <div
+    class="flex max-w-60 items-center rounded-lg p-2 text-zinc-500 dark:bg-zinc-900"
+  >
+    <a
+      v-for="item in personalData.socialLinks"
+      :key="item.link"
+      :href="item.link"
+      class="m-1"
+    >
+      <span class="hover:text-darkorange transition-colors">
+        <font-awesome-icon :icon="item.icon" class="text-3xl" />
+      </span>
     </a>
   </div>
 </template>
-
-<style scoped>
-a {
-  color: grey;
-}
-
-a:hover {
-  color: darkgray;
-}
-</style>

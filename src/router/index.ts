@@ -1,29 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import routes from './routes'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/more-of-me',
-      name: 'aboutMe',
-      component: () => import('../views/AboutMeView.vue')
-    },
-    {
-      path: '/about/:project',
-      name: 'aboutProject',
-      component: () => import('../views/AboutProjectView.vue')
-    },
-    {
-      path: '/four-in-a-row',
-      name: 'fourInARow',
-      component: () => import('../views/FourInARowView.vue')
-    },
-    {
-      path: '/:pathMatch(.*)*',
-      name: 'home',
-      component: () => import('../views/HomeView.vue')
-    }
-  ]
+  routes: Array.from(Object.values(routes))
 })
 
 router.beforeEach((to, _, next) => {

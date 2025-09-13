@@ -1,5 +1,5 @@
 import { botValue, losing_Coordinates, playerValue } from '../GameLogic/variables'
-import type { possible_Coordinates } from '../Types'
+import type { possible_Coordinates } from '../types'
 import { checkIfItsARecordInLosingCoordinates } from './Algorithms/checks/checkIfItsARecordInLosingCoordinates'
 import { checkIfArrayInThe2DArrayEqualArray } from './ArrayLogic'
 import { prime_two_in_a_row_pattern } from './PatternLogic'

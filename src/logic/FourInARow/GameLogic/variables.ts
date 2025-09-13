@@ -1,6 +1,6 @@
 import { ref, watch, reactive } from 'vue'
 
-import type { Log, Losing_Coordinates, possible_Choices } from '../Types'
+import type { Log, Losing_Coordinates, possible_Choices } from '../types'
 
 export const name = ref<string>('')
 

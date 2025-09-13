@@ -1,4 +1,4 @@
-import type { possible_Choices, possible_Coordinates } from '../Types'
+import type { possible_Choices, possible_Coordinates } from '../types'
 import { botMove } from './botMove'
 import { structureCases } from './structureCases'
 

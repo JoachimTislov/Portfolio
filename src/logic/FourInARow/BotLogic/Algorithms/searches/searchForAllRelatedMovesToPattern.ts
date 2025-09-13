@@ -1,5 +1,5 @@
 import { botValue, losing_Coordinates, playerValue } from '../../../GameLogic/variables'
-import type { columnInformation, filterObject } from '../../../Types'
+import type { columnInformation, filterObject } from '../../../types'
 
 export const find_all_related_moves_to_given_pattern = (zeroCoords: number[]) => {
   const arr: columnInformation = { coords: zeroCoords, player_threats: [], bots_opportunities: [] }

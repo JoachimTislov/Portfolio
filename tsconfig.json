@@ -1,3 +1,4 @@
+// https://www.typescriptlang.org/tsconfig
 {
   "files": [],
   "references": [
@@ -10,9 +11,5 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ],
-    "compilerOptions": {
-    "strict": true,
-    "forceConsistentCasingInFileNames": true
-  },
+  ]
 }

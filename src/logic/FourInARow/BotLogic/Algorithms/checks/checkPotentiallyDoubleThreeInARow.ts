@@ -1,4 +1,4 @@
-import type { _pattern, spotInfo } from '../../../Types'
+import type { _pattern, spotInfo } from '../../../types'
 import { arraysEqual } from '../../ArrayLogic'
 import { potentially_three_in_a_row_patterns } from '../../PatternLogic'
 import { checkCoordinatesLimit } from './checkCoordinatesLimit'

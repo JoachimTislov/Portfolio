@@ -5,7 +5,7 @@ import {
 } from '../../ArrayLogic'
 import { losing_Coordinates } from '../../../GameLogic/variables'
 import { three_in_a_row_pattern, two_in_a_row_losing_pattern } from '../../PatternLogic'
-import type { _patternData } from '../../../Types'
+import type { _patternData } from '../../../types'
 import { getFourthAndFifthCoordinates } from '../get/getFourthAndFifthCoordinates'
 import { checkPotentiallyDoubleThreeInARow } from '../checks/checkPotentiallyDoubleThreeInARow'
 import { getPieceCountAndIndices } from '../get/getPieceCountAndIndices'

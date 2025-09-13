@@ -1,4 +1,5 @@
-import type { _pattern, spotInfo } from '@/logic/FourInARow/Types'
+// import type { _pattern, spotInfo } from '@/Logic/FourInARow/types.ts'
+import type { _pattern, spotInfo } from '../../../types'
 import { arraysEqual } from '../../ArrayLogic'
 import { double_three_in_a_row_patterns } from '../../PatternLogic'
 import { checkCoordinatesLimit } from './checkCoordinatesLimit'

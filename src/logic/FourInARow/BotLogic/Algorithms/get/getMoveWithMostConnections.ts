@@ -1,4 +1,4 @@
-import type { possible_Coordinates } from '@/logic/FourInARow/Types'
+import type { possible_Coordinates } from '@/logic/FourInARow/types'
 import { scanBoard } from '../../scanLogic'
 import { getAmountOfConnections } from './getAmountOfConnections'
 import { botValue } from '@/logic/FourInARow/GameLogic/variables'
