@@ -1,3 +1,5 @@
+import type { IconDefinition } from "@fortawesome/free-brands-svg-icons"
+
 type Skill = {
   name: string
   icon?: string[]
@@ -37,7 +39,7 @@ export type PersonalData = {
   university: string
   degree: string
   skills: Skills
-  socialLinks: { icon: string[]; link: string }[]
+  socialLinks: { icon: IconDefinition; link: string }[]
   projects: {
     [key: string]: Project
   }

@@ -3,6 +3,12 @@ import fourInARowImg from '@/assets/images/four-in-a-row.webp'
 import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.webp'
 import profilePic from '@/assets/images/joachim.webp'
 import { skills } from './skills'
+import {
+  faSquareLinkedin,
+  faInstagram,
+  faGithub,
+  faFacebook
+} from '@fortawesome/free-brands-svg-icons'
 import type { PersonalData } from '@/logic/Portfolio/types'
 
 export const personalData: PersonalData = {
@@ -28,16 +34,16 @@ export const personalData: PersonalData = {
   skills: skills,
   socialLinks: [
     {
-      icon: ['fab', 'linkedin-in'],
+      icon: faSquareLinkedin,
       link: 'https://www.linkedin.com/in/joachim-tisløv-7074642b1'
     },
     {
-      icon: ['fab', 'instagram'],
+      icon: faInstagram,
       link: 'https://www.instagram.com/joachimtislov/'
     },
-    { icon: ['fab', 'github'], link: 'https://github.com/JoachimTislov' },
+    { icon: faGithub, link: 'https://github.com/JoachimTislov' },
     {
-      icon: ['fab', 'facebook'],
+      icon: faFacebook,
       link: 'https://www.facebook.com/profile.php?id=100011419305331'
     }
   ],
