@@ -9,10 +9,7 @@ import ArrowLink from './ArrowLink.vue'
     <div
       class="max-w-100 dark:bg-darkblue flex flex-col rounded-2xl bg-gray-400/90 px-2 pb-4 pt-5"
     >
-      <img
-        class="mx-auto h-60 w-60 rounded-full"
-        src="@/assets/images/joachim.png"
-      />
+      <img class="mx-auto h-60 w-60 rounded-full" :src="personalData.picture" />
       <div class="mx-5 mt-2 flex flex-col text-pretty">
         <h1 class="text-3xl">Hi, I'm {{ personalData.name }}</h1>
         <h2 class="text-md font-mono">

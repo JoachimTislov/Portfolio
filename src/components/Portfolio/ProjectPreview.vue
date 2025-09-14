@@ -1,14 +1,7 @@
 <script setup lang="ts">
 import { personalData } from '@/data/personal'
-import { ref } from 'vue'
 import ArrowLink from './ArrowLink.vue'
-const previewImage = ref<string | null>(null)
-function openPreview(img: string) {
-  previewImage.value = img
-}
-function closePreview() {
-  previewImage.value = null
-}
+import ImagePreview from './ImagePreview.vue'
 </script>
 
 <template>
@@ -45,22 +38,8 @@ function closePreview() {
               />
             </div>
           </div>
-          <img
-            :src="project.image"
-            class="w-50 h-50 m-1 cursor-pointer rounded object-cover hover:opacity-60"
-            @click="openPreview(project.image)"
-          />
+          <ImagePreview :url="project.image" />
         </div>
-      </div>
-      <div
-        v-if="previewImage"
-        class="fixed inset-0 z-50 flex items-center justify-center rounded-lg backdrop-blur-md"
-        @click="closePreview"
-      >
-        <img
-          :src="previewImage"
-          class="m-1 h-full max-h-[80vh] w-full max-w-4xl rounded-lg object-contain"
-        />
       </div>
     </div>
   </div>
