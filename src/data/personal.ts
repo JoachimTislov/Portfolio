@@ -1,6 +1,7 @@
-import imageGuesserImg from '@/assets/images/image-guesser.png'
-import fourInARowImg from '@/assets/images/four-in-a-row.png'
-import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.png'
+import imageGuesserImg from '@/assets/images/image-guesser.webp'
+import fourInARowImg from '@/assets/images/four-in-a-row.webp'
+import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.webp'
+import profilePic from '@/assets/images/joachim.webp'
 import { skills } from './skills'
 import type { PersonalData } from '@/logic/Portfolio/types'
 
@@ -12,6 +13,7 @@ export const personalData: PersonalData = {
   ide: 'Neovim',
   country: 'Norway',
   email: 'joachim.tislov@gmail.com',
+  picture: profilePic,
   intro: `I am ${new Date().getFullYear() - 2002} year old male from Sandnes with a passion for programming.`,
   about: [
     `I live with my Alaskan husky - Leo, I love programming, gaming, sports and the process of solving a problem. I played football for around 14 years.`,

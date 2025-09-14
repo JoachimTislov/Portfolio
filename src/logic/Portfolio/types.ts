@@ -30,6 +30,7 @@ export type PersonalData = {
   ide: string
   country: string
   email: string
+  picture: string
   intro: string
   about: string[]
   keywords: string

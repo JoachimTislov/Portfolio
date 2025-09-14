@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ArrowLink from './ArrowLink.vue'
+import ImagePreview from './ImagePreview.vue'
 import { personalData } from '@/data/personal'
 import { useRoute } from 'vue-router'
 const projectName = useRoute().params.project
@@ -12,7 +13,7 @@ const project = personalData.projects[projectName as string]
   </div>
   <div v-else class="dark:bg-darkblue w-180 rounded-lg bg-gray-300 p-4">
     <div
-      class="dark:bg-darkorange flex items-center justify-between bg-green-400 p-2"
+      class="dark:bg-darkorange flex items-center justify-between bg-green-300/80 p-2"
     >
       <h1 class="pl-2 text-lg">{{ project.name }}</h1>
       <ArrowLink
@@ -34,7 +35,7 @@ const project = personalData.projects[projectName as string]
               v-for="tool in project.tools"
               :href="tool.link"
               :key="tool.name"
-              class="dark:hover:bg-darkorange flex items-center gap-2 rounded bg-green-300/50 px-3 py-1 transition-colors hover:bg-blue-400 dark:bg-zinc-800"
+              class="dark:hover:bg-darkorange flex items-center gap-2 rounded bg-green-200 px-3 py-1 transition-colors hover:bg-blue-400 dark:bg-zinc-800"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -45,7 +46,7 @@ const project = personalData.projects[projectName as string]
             </a>
           </div>
         </div>
-        <img :src="project.image" class="h-40 w-40 rounded object-cover" />
+        <ImagePreview :url="project.image" />
       </div>
     </div>
   </div>
