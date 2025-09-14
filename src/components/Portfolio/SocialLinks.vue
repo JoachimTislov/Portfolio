@@ -4,7 +4,7 @@ import { personalData } from '@/data/personal'
 
 <template>
   <div
-    class="flex max-w-60 items-center rounded-lg p-2 text-zinc-500 dark:bg-zinc-900"
+    class="flex max-w-60 items-center rounded-lg bg-gray-300 p-2 text-zinc-500 dark:bg-zinc-900"
   >
     <a
       v-for="item in personalData.socialLinks"
@@ -12,7 +12,9 @@ import { personalData } from '@/data/personal'
       :href="item.link"
       class="m-1"
     >
-      <span class="hover:text-darkorange transition-colors">
+      <span
+        class="dark:hover:text-darkorange transition-colors hover:text-blue-400"
+      >
         <font-awesome-icon :icon="item.icon" class="text-3xl" />
       </span>
     </a>

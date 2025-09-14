@@ -10,10 +10,17 @@ const project = personalData.projects[projectName as string]
   <div v-if="!project" class="mt-4">
     <h2 class="font-mono text-xl">Project not found</h2>
   </div>
-  <div v-else class="dark:bg-darkblue w-180 rounded-lg p-4">
-    <div class="dark:bg-darkorange flex items-center justify-between p-2">
+  <div v-else class="dark:bg-darkblue w-180 rounded-lg bg-gray-300 p-4">
+    <div
+      class="dark:bg-darkorange flex items-center justify-between bg-green-400 p-2"
+    >
       <h1 class="pl-2 text-lg">{{ project.name }}</h1>
-      <ArrowLink name="View project" :href="project.link" :to="project.page" />
+      <ArrowLink
+        name="View project"
+        class="bg-blue-400/70 dark:bg-zinc-700"
+        :href="project.link"
+        :to="project.page"
+      />
     </div>
     <div class="mt-2 flex flex-col gap-3 p-1">
       <p v-for="paragraph in project.description" :key="paragraph">
@@ -27,7 +34,7 @@ const project = personalData.projects[projectName as string]
               v-for="tool in project.tools"
               :href="tool.link"
               :key="tool.name"
-              class="hover:bg-darkorange flex items-center gap-2 rounded bg-zinc-800 px-3 py-1 transition-colors"
+              class="dark:hover:bg-darkorange flex items-center gap-2 rounded bg-green-300/50 px-3 py-1 transition-colors hover:bg-blue-400 dark:bg-zinc-800"
               target="_blank"
               rel="noopener noreferrer"
             >

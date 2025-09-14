@@ -12,8 +12,7 @@ import { iconDirection } from './logic/Portfolio/enums'
       <div class="mt-2 flex h-10 justify-between gap-x-5">
         <ArrowLink
           v-if="useRoute().name !== routes.home.name"
-          class="rounded-lg font-mono"
-          color="dark:bg-darkorange/80"
+          class="dark:bg-darkorange/80 rounded-sm bg-blue-400 px-3 font-mono"
           :name="routes.home.displayName"
           to="/"
           :arrow-direction="iconDirection.LEFT"

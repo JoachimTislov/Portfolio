@@ -5,7 +5,6 @@ import { ref } from 'vue'
 defineProps<{
   name: string
   arrowDirection?: iconDirection
-  color?: string
   arrowLeftSide?: boolean
   href?: string
   to?: string
@@ -21,10 +20,9 @@ const showArrow = ref(false)
     :is="href ? 'a' : 'RouterLink'"
     :to
     :href
-    class="text-md flex items-center p-2 font-mono hover:bg-zinc-900"
+    class="text-md flex items-center p-2 font-mono hover:bg-gray-300/80 dark:hover:bg-zinc-900"
     :class="[
       arrowLeftSide ? 'flex-row-reverse' : '',
-      color ?? 'bg-zinc-700',
       to ? 'hover:cursor-pointer' : ''
     ]"
   >

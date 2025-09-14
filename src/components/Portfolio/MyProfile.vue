@@ -7,7 +7,7 @@ import ArrowLink from './ArrowLink.vue'
 <template>
   <div class="flex">
     <div
-      class="max-w-100 dark:bg-darkblue flex flex-col rounded-2xl px-2 pb-4 pt-5"
+      class="max-w-100 dark:bg-darkblue flex flex-col rounded-2xl bg-gray-400/90 px-2 pb-4 pt-5"
     >
       <img
         class="mx-auto h-60 w-60 rounded-full"
@@ -24,11 +24,15 @@ import ArrowLink from './ArrowLink.vue'
         <div class="mt-2 flex gap-x-2">
           <ArrowLink
             name="Reach out"
-            color="bg-darkorange"
+            class="dark:bg-darkorange bg-green-600"
             :href="`mailto: ${personalData.email}`"
             arrow-left-side
           />
-          <ArrowLink :name="routes.about.displayName" :to="routes.about.path" />
+          <ArrowLink
+            :name="routes.about.displayName"
+            class="bg-blue-500 dark:bg-zinc-700"
+            :to="routes.about.path"
+          />
         </div>
       </div>
     </div>
