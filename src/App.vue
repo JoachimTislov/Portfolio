@@ -7,9 +7,9 @@ import { iconDirection } from './logic/Portfolio/enums'
 </script>
 
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center mb-10">
     <div class="flex flex-col">
-      <div class="mt-2 flex h-10 justify-between gap-x-5">
+      <div class="mt-2 flex h-10 justify-center gap-x-5 lg:justify-between">
         <ArrowLink
           v-if="useRoute().name !== routes.home.name"
           class="dark:bg-darkorange/80 rounded-sm bg-blue-400 px-3 font-mono"

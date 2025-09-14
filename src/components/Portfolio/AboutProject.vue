@@ -11,7 +11,7 @@ const project = personalData.projects[projectName as string]
   <div v-if="!project" class="mt-4">
     <h2 class="font-mono text-xl">Project not found</h2>
   </div>
-  <div v-else class="dark:bg-darkblue w-180 rounded-lg bg-gray-300 p-4">
+  <div v-else class="dark:bg-darkblue md:w-180 rounded-lg bg-gray-300 p-4">
     <div
       class="dark:bg-darkorange flex items-center justify-between bg-green-300/80 p-2"
     >
@@ -27,7 +27,7 @@ const project = personalData.projects[projectName as string]
       <p v-for="paragraph in project.description" :key="paragraph">
         {{ paragraph }}
       </p>
-      <div class="flex items-center justify-between gap-2">
+      <div class="flex flex-col items-center lg:flex-row">
         <div>
           <h2 class="mb-2 font-mono text-lg">Tech Stack</h2>
           <div class="flex flex-wrap gap-4">
@@ -35,7 +35,7 @@ const project = personalData.projects[projectName as string]
               v-for="tool in project.tools"
               :href="tool.link"
               :key="tool.name"
-              class="dark:hover:bg-darkorange flex items-center gap-2 rounded bg-green-200 px-3 py-1 transition-colors hover:bg-blue-400 dark:bg-zinc-800"
+              class="dark:hover:bg-darkorange flex items-center rounded bg-green-200 px-3 py-1 transition-colors hover:bg-blue-400 dark:bg-zinc-800"
               target="_blank"
               rel="noopener noreferrer"
             >
