@@ -5,7 +5,7 @@ import ArrowLink from './ArrowLink.vue'
 </script>
 
 <template>
-  <div class="flex">
+  <div class="flex justify-center">
     <div
       class="max-w-100 dark:bg-darkblue flex flex-col rounded-2xl bg-gray-400/90 px-2 pb-4 pt-5"
     >

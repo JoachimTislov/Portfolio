@@ -15,7 +15,7 @@ defineProps<{
 <template>
   <img
     :src="url"
-    class="w-50 h-50 m-1 cursor-pointer rounded object-cover hover:opacity-60"
+    class="h-50 my-2 w-full cursor-pointer rounded object-contain hover:opacity-60"
     @click="openPreview(url)"
   />
   <div
