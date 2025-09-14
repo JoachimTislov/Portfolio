@@ -19,6 +19,7 @@ const showArrow = ref(false)
     @mouseleave="showArrow = false"
     @touchstart="showArrow = true"
     @touchend="showArrow = false"
+    @touchcancel="showArrow = false"
     @focus="showArrow = true"
     @blur="showArrow = false"
     :is="href ? 'a' : 'RouterLink'"
