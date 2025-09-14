@@ -23,7 +23,7 @@ import ImagePreview from './ImagePreview.vue'
         </div>
         <p class="mb-2">{{ project.intro }}</p>
         <div class="mt-auto">
-          <ImagePreview class="w-full" :url="project.image" />
+          <ImagePreview :url="project.image" />
           <div class="flex gap-x-2">
             <ArrowLink
               name="About"
