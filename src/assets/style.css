@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* overrides user preference, allows toggling between dark and white mode */
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   /* Cosmic Dark Matter Tides and Currents */

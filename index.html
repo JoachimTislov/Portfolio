@@ -11,6 +11,7 @@
   <link rel="manifest" href="src/assets/site.webmanifest">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Log</title>
+  <script> document.documentElement.classList.toggle("dark", localStorage.getItem('darkMode') !== null || (!("darkMode" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches));</script>
 </head>
 
 <body class="bg-white text-zinc-950 dark:bg-stone-900 dark:text-zinc-300">
