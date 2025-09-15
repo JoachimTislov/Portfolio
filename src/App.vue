@@ -8,9 +8,9 @@ import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { ref } from 'vue'
 const darkMode = ref(
   localStorage.getItem('darkMode') !== null ||
-    (!('darkMode' in localStorage) &&
-      window.matchMedia('(prefers-color-scheme: dark)').matches)
+    window.matchMedia('(prefers-color-scheme: dark)').matches
 )
+
 function toggleTheme() {
   if (darkMode.value) {
     document.documentElement.classList.remove('dark')
