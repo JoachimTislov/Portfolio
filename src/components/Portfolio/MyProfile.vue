@@ -18,7 +18,7 @@ import ArrowLink from './ArrowLink.vue'
         <small class="font-mono">
           {{ personalData.os }} & {{ personalData.ide }} enthusiast</small
         >
-        <div class="mt-2 flex gap-x-2">
+        <div class="mt-2 flex justify-between gap-x-2">
           <ArrowLink
             name="Reach out"
             class="dark:bg-darkorange bg-green-600"

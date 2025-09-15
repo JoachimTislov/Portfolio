@@ -26,10 +26,12 @@ function toggleTheme() {
 <template>
   <div class="mb-10 flex justify-center">
     <div class="flex flex-col">
-      <div class="mt-2 flex h-10 justify-center gap-x-5 lg:justify-between">
+      <div
+        class="mt-2 flex h-10 items-center justify-center gap-x-5 lg:justify-between"
+      >
         <ArrowLink
           v-if="useRoute().name !== routes.home.name"
-          class="dark:bg-darkorange/80 rounded-sm bg-blue-400 px-3 font-mono"
+          class="dark:bg-darkorange/80 me-auto rounded-sm bg-blue-400 px-3 font-mono hover:w-20"
           :name="routes.home.displayName"
           to="/"
           :arrow-direction="iconDirection.LEFT"
