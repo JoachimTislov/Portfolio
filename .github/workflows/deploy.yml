@@ -49,6 +49,7 @@ jobs:
 
     - name: Setup Python environment and install ftpretty
       run: |
+        python -m venv venv
         venv/bin/pip install ftpretty argparse
 
     - name: Fetch deployment script
