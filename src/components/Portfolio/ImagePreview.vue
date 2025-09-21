@@ -13,11 +13,13 @@ defineProps<{
 </script>
 
 <template>
-  <img
-    :src="url"
-    class="h-50 my-2 w-full cursor-pointer rounded object-contain hover:opacity-60"
-    @click="openPreview(url)"
-  />
+  <div class="flex justify-center">
+    <img
+      :src="url"
+      class="w-70 my-2 h-40 cursor-pointer rounded hover:opacity-60"
+      @click="openPreview(url)"
+    />
+  </div>
   <div
     v-if="previewImage"
     class="fixed inset-0 z-50 flex items-center justify-center rounded-lg backdrop-blur-md"

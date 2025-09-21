@@ -4,3 +4,7 @@ export enum iconDirection {
   UP = 'up',
   DOWN = 'down'
 }
+
+export enum skills {
+  VUE = 'Vue FrameWork'
+}

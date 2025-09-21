@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import ArrowLink from './ArrowLink.vue'
 import ImagePreview from './ImagePreview.vue'
+import ProjectPreview from './ProjectPreview.vue'
 import { personalData } from '@/data/personal'
 import { useRoute } from 'vue-router'
 const projectName = useRoute().params.project
@@ -9,7 +10,12 @@ const project = personalData.projects[projectName as string]
 
 <template>
   <div v-if="!project" class="mt-4">
-    <h2 class="font-mono text-xl">Project not found</h2>
+    <div class="text-center font-mono text-xl">
+      <h2 class="mb-2">Project: {{ projectName }} not found</h2>
+      <h3>Select from the list below</h3>
+      <font-awesome-icon class="mt-5 text-3xl" :icon="['fas', 'arrow-down']" />
+    </div>
+    <ProjectPreview />
   </div>
   <div v-else class="dark:bg-darkblue md:w-180 rounded-lg bg-gray-300 p-4">
     <div
@@ -30,19 +36,21 @@ const project = personalData.projects[projectName as string]
       <div class="flex flex-col items-center lg:flex-row">
         <div>
           <h2 class="mb-2 font-mono text-lg">Tech Stack</h2>
-          <div class="flex flex-wrap gap-4">
+          <div class="mr-2 flex flex-wrap gap-3">
             <a
               v-for="tool in project.tools"
               :href="tool.link"
               :key="tool.name"
-              class="dark:hover:bg-darkorange flex items-center rounded bg-green-200 px-3 py-1 transition-colors hover:bg-blue-400 dark:bg-zinc-800"
+              class="dark:hover:bg-darkorange flex items-center rounded bg-green-200 px-3 py-2 transition-all duration-200 hover:scale-105 hover:bg-blue-400 hover:text-zinc-300 dark:bg-zinc-800 dark:text-zinc-500"
               target="_blank"
               rel="noopener noreferrer"
             >
-              <span v-if="tool.icon">
-                <font-awesome-icon :icon="tool.icon" class="text-xl" />
-              </span>
-              <span class="font-mono">{{ tool.name }}</span>
+              <font-awesome-icon
+                v-if="tool.icon"
+                :icon="tool.icon"
+                class="mr-2 text-xl"
+              />
+              <span class="font-mono dark:text-zinc-300">{{ tool.name }}</span>
             </a>
           </div>
         </div>
