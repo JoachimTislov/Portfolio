@@ -12,7 +12,7 @@ import { personalData } from '@/data/personal'
     >
       {{ paragraph }}
     </p>
-    <div class="mt-2 p-2 dark:bg-zinc-900">
+    <div class="mt-2 bg-gray-400/30 p-2 dark:bg-zinc-900">
       <p>{{ personalData.university }}</p>
       <small class="italic">{{ personalData.degree }}</small>
     </div>

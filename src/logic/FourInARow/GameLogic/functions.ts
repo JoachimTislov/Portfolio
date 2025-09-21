@@ -1,5 +1,4 @@
 import { resetChoices } from '../BotLogic/BotInit'
-
 import { delay } from '../delay'
 import { executePlacement } from './executePlacement'
 import { decrementPieces, incrementPieces } from './pieces'
@@ -20,8 +19,13 @@ export function toggleButtons(bool: boolean) {
   droppingPiece.value = bool
 }
 
-export const handleDropInAnimation = async (colIndex: number, rowIndex: number) => {
-  const specific_slot = document.querySelector('.slot' + colIndex + '-' + rowIndex)
+export const handleDropInAnimation = async (
+  colIndex: number,
+  rowIndex: number
+) => {
+  const specific_slot = document.querySelector(
+    '.slot' + colIndex + '-' + rowIndex
+  )
   if (specific_slot != null) {
     specific_slot.classList.add('drop-in')
 
@@ -83,12 +87,8 @@ export const initBotStarts = async () => {
 }
 
 export const getSlotColor = (value: number) => {
-  const colors = ['white', 'red', 'black', 'green']
+  const colors = ['white', 'red', 'blue', 'green']
   return colors[value]
-}
-
-export const getNameOfSlot = (colIndex: number, rowIndex: number) => {
-  return 'slot' + colIndex + '-' + rowIndex
 }
 
 export const checkForTie = (pieces: number) => {

@@ -2,7 +2,7 @@ import imageGuesserImg from '@/assets/images/image-guesser.webp'
 import fourInARowImg from '@/assets/images/four-in-a-row.webp'
 import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.webp'
 import profilePic from '@/assets/images/joachim.webp'
-import { skills } from './skills'
+import { tools } from './tools'
 import {
   faSquareLinkedin,
   faInstagram,
@@ -31,7 +31,7 @@ export const personalData: PersonalData = {
   keywords: 'Patient, resilient, motivated and persistent',
   university: 'University of Stavanger 2021 - 2025',
   degree: "Bachelor's Degree in Computer Science",
-  skills: skills,
+  skills: tools,
   socialLinks: [
     {
       icon: faSquareLinkedin,
@@ -48,7 +48,7 @@ export const personalData: PersonalData = {
     }
   ],
   projects: {
-    'Macro Tracker': {
+    'macro-tracker': {
       page: '/macro-tracker',
       name: 'Macro Tracker',
       date: '08.04.2024 - 19.08.2024',
@@ -63,22 +63,22 @@ export const personalData: PersonalData = {
       ],
       tools: [
         //Frontend
-        skills['Bootstrap'],
-        skills['CSS'],
-        skills['HTML'],
-        skills['Typescript'],
-        skills['Vue FrameWork'],
+        tools.Bootstrap,
+        tools.CSS,
+        tools.HTML,
+        tools.TypeScript,
+        tools.Vue,
         // Backend
-        skills['Python'],
-        skills['Flask'],
-        skills['SQLite']
+        tools.Python,
+        tools.Flask,
+        tools.SQLite
       ],
       link: 'https://macrotracker.joachimtisløv.no',
       image: refactoredMacroTrackerImg
     },
-    'Four in a row': {
+    'four-in-a-row': {
       page: '/four-in-a-row',
-      name: 'Four in a row',
+      name: 'Four in a row - Bot',
       date: '20.06.2024 - 15.07.2024',
       githubLink:
         'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
@@ -98,15 +98,15 @@ export const personalData: PersonalData = {
       ],
       tools: [
         //Frontend
-        skills['Bootstrap'],
-        skills['CSS'],
-        skills['HTML'],
-        skills['Typescript'],
-        skills['Vue FrameWork']
+        tools.Bootstrap,
+        tools.CSS,
+        tools.HTML,
+        tools.TypeScript,
+        tools.Vue
       ],
       image: fourInARowImg
     },
-    'Image guesser': {
+    'image-guesser': {
       name: 'Image guesser',
       date: '22.10.2023 - 05.12.2023',
       group_size: 5,
@@ -123,20 +123,32 @@ export const personalData: PersonalData = {
                 and if its AI or, in other words; an algorithm, then it determines which tiles to reveal when the leader of the lobby decides to do so.`,
 
         `The development period was roughly two months. I experienced programming an application in a group for the first time. It was quite challenging,
-                 considering I did'nt have full control over the project and could'nt just implement everything; So I adapted my work in relation to the group.`
+                 considering I didn't have full control over the project and couldn't just implement everything; So I adapted my work in relation to the group.`
       ],
       tools: [
         //Frontend
-        skills['Bootstrap'],
-        skills['CSS'],
-        skills['HTML'],
-        skills['Javascript'],
-        skills['C#'],
-        skills['.NET'],
-        skills['SQLite'],
-        skills['Docker']
+        tools.Bootstrap,
+        tools.CSS,
+        tools.HTML,
+        tools.JavaScript,
+        tools.CSharp,
+        tools.ASPDotNet,
+        tools.SQLite,
+        tools.Docker
       ],
       image: imageGuesserImg
+    },
+    'ref-viz': {
+      name: 'RefViz - Reference Visualization',
+      date: '16.01.2025 - 12.02.2025 (Ongoing)',
+      intro: `A tool designed to visualize code references within a codebase. By generating structured Graphviz files that represent the relationships between symbols within the code.`,
+      description: [``, ``, ``],
+      tools: [tools.TypeScript],
+      image: '',
+      links: [
+        // First structured Graphviz file - took around 2 hours to generate the data used to generate the graph file
+        'https://github.com/quickfeed/quickfeed/pull/1200/commits/2227fdaa6cb8e165c5c7d5f4bea6374554377565'
+      ]
     }
   }
 }
