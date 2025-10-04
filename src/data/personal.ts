@@ -1,5 +1,5 @@
 import imageGuesserImg from '@/assets/images/image-guesser.webp'
-import fourInARowImg from '@/assets/images/four-in-a-row.webp'
+import connectFourImg from '@/assets/images/connectFour.webp'
 import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.webp'
 import profilePic from '@/assets/images/joachim.webp'
 import { tools } from './tools'
@@ -76,13 +76,13 @@ export const personalData: PersonalData = {
       link: 'https://macrotracker.joachimtisløv.no',
       image: refactoredMacroTrackerImg
     },
-    'four-in-a-row': {
-      page: '/four-in-a-row',
-      name: 'Four in a row - Bot',
+    'connect-four': {
+      page: '/connect-four',
+      name: 'Connect Four - Bot',
       date: '20.06.2024 - 15.07.2024',
       githubLink:
         'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
-      intro: `During my summer holiday, my father and brother played four in a row. After hearing my brother lose
+      intro: `During my summer holiday, my father and brother played connect four. After hearing my brother lose
                 for the 7th time, I thought; "Why not program a bot for him to play against?".`,
       description: [
         `The concept of building an intelligent bot initiated a month-long effort to engineer a sophisticated Four-in-a-Row algorithm. The intent of 
@@ -104,7 +104,7 @@ export const personalData: PersonalData = {
         tools.TypeScript,
         tools.Vue
       ],
-      image: fourInARowImg
+      image: connectFourImg
     },
     'image-guesser': {
       name: 'Image guesser',

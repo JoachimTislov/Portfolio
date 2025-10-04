@@ -11,10 +11,10 @@ export default {
     displayName: 'View Project',
     component: () => import('../views/AboutProjectView.vue')
   },
-  fourInARow: {
-    path: '/four-in-a-row',
-    name: 'fourInARow',
-    displayName: 'Four in a Row',
+  connectFour: {
+    path: '/connect-four',
+    name: 'connectFour',
+    displayName: 'Connect Four',
     component: () => import('../views/FourInARowView.vue')
   },
   home: {

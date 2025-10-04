@@ -1,10 +1,16 @@
-import { botValue, losing_Coordinates, playerValue } from '../GameLogic/variables'
+import {
+  botValue,
+  losing_Coordinates,
+  playerValue
+} from '../GameLogic/variables'
 import type { possible_Coordinates } from '../types'
 import { checkIfItsARecordInLosingCoordinates } from './Algorithms/checks/checkIfItsARecordInLosingCoordinates'
 import { checkIfArrayInThe2DArrayEqualArray } from './ArrayLogic'
 import { prime_two_in_a_row_pattern } from './PatternLogic'
 
-export const structureCases = (possible_Coordinates_Entry: possible_Coordinates) => {
+export const structureCases = (
+  possible_Coordinates_Entry: possible_Coordinates
+) => {
   ////////////////////////////////// Defining useful variables ////////////////////////////////////////////////////////
 
   const zeroPlacement = possible_Coordinates_Entry.relatedMoves.zero
@@ -29,14 +35,16 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     firstBotOpportunity?.potentialDoubleThreeInARow ||
     firstIsPotentialDoubleThreeInARowPlayerThreeThreat
 
-  const firstBotOpportunityIsThree = firstBotOpportunity?.piece_count === 'Three'
+  const firstBotOpportunityIsThree =
+    firstBotOpportunity?.piece_count === 'Three'
 
   const firstPlayerThreatIsThree = firstPlayerThreat?.piece_count === 'Three'
 
   const secondBotOpportunityIsTwo = secondBotOpportunity?.piece_count === 'Two'
   const secondPlayerThreatIsTwo = secondPlayerThreat?.piece_count === 'Two'
 
-  const secondBotOpportunityIsThree = secondBotOpportunity?.piece_count === 'Three'
+  const secondBotOpportunityIsThree =
+    secondBotOpportunity?.piece_count === 'Three'
   const secondPlayerThreatIsThree = secondPlayerThreat?.piece_count === 'Three'
 
   const secondIsThree = secondBotOpportunityIsThree || secondPlayerThreatIsThree
@@ -87,13 +95,17 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     firstOtherPossiblePlacementBotOpportunityIsThree
 
   const relevantFirstMoveToOriginalThreatIsThree =
-    firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0]?.piece_count == 'Three'
+    firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[0]
+      ?.piece_count == 'Three'
   const relevantFirstMoveUnderToOriginalThreatIsThree =
-    firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[-1]?.piece_count == 'Three'
+    firstPlayerThreat?.relatedMovesOfOtherZeroOrAsterisk?.player_threats[-1]
+      ?.piece_count == 'Three'
 
   const twoPieceCount = possible_Coordinates_Entry.piece_count == 'Two'
-  const twoAndBot = twoPieceCount && possible_Coordinates_Entry.participant == botValue
-  const twoAndPlayer = twoPieceCount && possible_Coordinates_Entry.participant == playerValue
+  const twoAndBot =
+    twoPieceCount && possible_Coordinates_Entry.participant == botValue
+  const twoAndPlayer =
+    twoPieceCount && possible_Coordinates_Entry.participant == playerValue
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -120,10 +132,10 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
     7. Prevent three in a row
 
 
-    --- Four in a row slang ---
-    
+    --- Connect four slang ---
+
     - Prime two - 
-    
+
       1x4 pattern, two player values and two zeros, ex: [0, player, player, 0]
       meaning the player can possibly create an unstoppable combination of two; three in a rows 
 
@@ -132,7 +144,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
       - Two-sided prime three in a row = double three in a row (non prime is a two-sided three in a row)
 
       - '*' is an invalid placement
-      
+
       -The algorithm are based around 1x4 pattern, but extends to 1x5 to find immediate threats like a prime two with two zero in on each side: [0, 1, 1, 0, 0]
 
   */
@@ -159,7 +171,7 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
 
   /////////////////////////////////////////////////////////
 
-  // This underneath prevents the bot from blocking or building unessecary places
+  // This underneath prevents the bot from blocking or building unnessecary places
   const otherSlotCoordinatesUnderneath =
     possible_Coordinates_Entry.participant == botValue
       ? firstUnderOtherPossiblePlacementBotOpportunity?.coords
@@ -189,7 +201,8 @@ export const structureCases = (possible_Coordinates_Entry: possible_Coordinates)
 
   const playerHasAPrimeDoubleAbove =
     firstPlayerThreatIsTwo &&
-    (relevantFirstMoveToOriginalThreatIsThree || relevantFirstMoveUnderToOriginalThreatIsThree)
+    (relevantFirstMoveToOriginalThreatIsThree ||
+      relevantFirstMoveUnderToOriginalThreatIsThree)
 
   /// Preventing vertical double three in a row
 
