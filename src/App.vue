@@ -44,6 +44,8 @@ function toggleTheme() {
             :key="item.link"
             :href="item.link"
             class="m-0.5"
+            target="_blank"
+            rel="noopener"
           >
             <span
               class="dark:hover:text-darkorange transition-colors hover:text-blue-400"

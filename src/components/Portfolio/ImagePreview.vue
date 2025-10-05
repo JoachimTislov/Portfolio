@@ -18,16 +18,19 @@ defineProps<{
       :src="url"
       class="w-70 my-2 h-40 cursor-pointer rounded hover:opacity-60"
       @click="openPreview(url)"
+      @click.prevent
     />
   </div>
-  <div
-    v-if="previewImage"
-    class="fixed inset-0 z-50 flex items-center justify-center rounded-lg backdrop-blur-md"
-    @click="closePreview"
-  >
-    <img
-      :src="previewImage"
-      class="m-1 h-full max-h-[80vh] w-full max-w-4xl rounded-lg object-contain"
-    />
-  </div>
+  <Teleport to="body">
+    <div
+      v-if="previewImage"
+      class="fixed inset-0 z-50 flex items-center justify-center rounded-lg backdrop-blur-md"
+      @click="closePreview"
+    >
+      <img
+        :src="previewImage"
+        class="m-1 h-full max-h-[80vh] w-full max-w-4xl rounded-lg object-contain"
+      />
+    </div>
+  </Teleport>
 </template>

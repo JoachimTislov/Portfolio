@@ -54,7 +54,7 @@ const project = personalData.projects[projectName as string]
             </a>
           </div>
         </div>
-        <ImagePreview :url="project.image" />
+        <ImagePreview v-if="project.image" :url="project.image" />
       </div>
     </div>
   </div>

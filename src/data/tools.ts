@@ -104,5 +104,6 @@ export const tools: Tools = {
     icon: faWind,
     link: 'https://tailwindcss.com/'
   },
-  Go: { name: 'Go', link: 'https://go.dev/' }
+  Go: { name: 'Go', link: 'https://go.dev/' },
+  Graphviz: { name: 'Graphviz', link: 'https://graphviz.org/' }
 }

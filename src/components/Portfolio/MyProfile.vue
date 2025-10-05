@@ -5,7 +5,7 @@ import ArrowLink from './ArrowLink.vue'
 </script>
 
 <template>
-  <div class="mb-20 flex justify-center">
+  <div class="mb-10 flex justify-center">
     <div
       class="max-w-100 dark:bg-darkblue flex flex-col rounded-2xl bg-gray-400/90 px-2 pb-4 pt-5"
     >
@@ -21,7 +21,7 @@ import ArrowLink from './ArrowLink.vue'
         <div class="mt-2 flex justify-between gap-x-2">
           <ArrowLink
             name="Reach out"
-            class="dark:bg-darkorange bg-green-600"
+            class="dark:bg-darkorange rounded-sm bg-green-600"
             :href="`mailto: ${personalData.email}`"
             arrow-left-side
           />

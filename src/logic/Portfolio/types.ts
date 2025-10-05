@@ -27,6 +27,7 @@ type ToolName =
   | 'Node'
   | 'Docker'
   | 'Go'
+  | 'Graphviz'
 
 export type Tools = Record<ToolName, Tool>
 
@@ -34,12 +35,12 @@ export type Project = {
   [key: string]: string | number | boolean | Tool[] | string[] | undefined
   name: string
   date: string
-  githubLink?: string
+  githubLink: string
   group_size?: number
   intro: string
-  description: string[]
+  description?: string[]
   tools: Tool[]
-  image: string
+  image?: string
   page?: string
   link?: string
 }
