@@ -1,10 +1,13 @@
-import type { possible_Coordinates } from '@/logic/FourInARow/types'
+import type { possible_Coordinates } from '@/logic/ConnectFour/types'
 import { scanBoard } from '../../scanLogic'
 import { getAmountOfConnections } from './getAmountOfConnections'
-import { botValue } from '@/logic/FourInARow/GameLogic/variables'
+import { botValue } from '@/logic/ConnectFour/GameLogic/variables'
 
-export function getMoveWithMostConnections(board: number[][], arr: possible_Coordinates[]) {
-  let choice_with_most_connections: possible_Coordinates | {} = {}
+export function getMoveWithMostConnections(
+  board: number[][],
+  arr: possible_Coordinates[]
+) {
+  let choice_with_most_connections: possible_Coordinates | object = {}
   let choice_connections = 0
 
   for (const entry of arr) {

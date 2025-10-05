@@ -1,4 +1,4 @@
-import { losing_Coordinates } from '@/logic/FourInARow/GameLogic/variables'
+import { losing_Coordinates } from '@/logic/ConnectFour/GameLogic/variables'
 
 export function checkIfItsARecordInLosingCoordinates(
   coords: number[] | undefined,

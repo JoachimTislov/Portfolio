@@ -1,8 +1,9 @@
 import imageGuesserImg from '@/assets/images/image-guesser.webp'
-import fourInARowImg from '@/assets/images/four-in-a-row.webp'
-import refactoredMacroTrackerImg from '@/assets/images/refactored-macro-tracker.webp'
+import connectFourImg from '@/assets/images/connectFour-small.webp'
+import macroTrackerImg from '@/assets/images/macro-tracker-small.webp'
 import profilePic from '@/assets/images/joachim.webp'
-import { skills } from './skills'
+import routes from '@/router/routes'
+import { tools } from './tools'
 import {
   faSquareLinkedin,
   faInstagram,
@@ -10,6 +11,8 @@ import {
   faFacebook
 } from '@fortawesome/free-brands-svg-icons'
 import type { PersonalData } from '@/logic/Portfolio/types'
+
+const githubBaseLink = 'https://github.com/JoachimTislov/'
 
 export const personalData: PersonalData = {
   name: 'Joachim',
@@ -31,7 +34,7 @@ export const personalData: PersonalData = {
   keywords: 'Patient, resilient, motivated and persistent',
   university: 'University of Stavanger 2021 - 2025',
   degree: "Bachelor's Degree in Computer Science",
-  skills: skills,
+  skills: tools,
   socialLinks: [
     {
       icon: faSquareLinkedin,
@@ -41,17 +44,60 @@ export const personalData: PersonalData = {
       icon: faInstagram,
       link: 'https://www.instagram.com/joachimtislov/'
     },
-    { icon: faGithub, link: 'https://github.com/JoachimTislov' },
+    { icon: faGithub, link: githubBaseLink },
     {
       icon: faFacebook,
       link: 'https://www.facebook.com/profile.php?id=100011419305331'
     }
   ],
   projects: {
-    'Macro Tracker': {
+    foodsvr: {
+      name: 'FoodSavr',
+      date: '01.02.2022 - 20.05.2022',
+      githubLink: githubBaseLink + 'foodsavr',
+      intro: `A simple food ordering application with a REST API backend built with Node.js and Express, and a frontend built with React and TypeScript. The application allows users to browse a menu, add items to their cart, and place orders.`,
+      tools: [
+        tools.React,
+        tools.TypeScript
+        // tools.NodeJS,
+        // tools.Express,
+        // tools.MongoDB
+      ]
+    },
+    javaCompiler: {
+      name: 'Lite Java Compiler',
+      date: '01.02.2023 - 20.05.2023',
+      githubLink: githubBaseLink + 'lite-jnc',
+      intro: `A simple Java compiler built with JavaCC and implemented in Java. The compiler supports basic features such as variable declarations, arithmetic operations, control flow statements, and function definitions.`,
+      tools: []
+    },
+    budget: {
+      name: 'Budget',
+      date: '01.09.2023 - 20.12.2023',
+      githubLink: githubBaseLink + 'php-api-server',
+      intro: `A simple budget application with a REST API backend built with PHP and a frontend built with Vue.js and TypeScript. The application allows users to manage their income and expenses, providing an overview of their financial situation.`,
+      tools: [
+        tools.Vue
+        // tools.PHP,
+        // tools.MySQL
+      ]
+    },
+    refviz: {
+      name: 'RefViz - Reference Visualization',
+      date: '16.01.2025 - 12.02.2025 (Ongoing)',
+      githubLink: githubBaseLink + 'refviz',
+      intro: `A tool designed to visualize code references within a codebase, by generating structured Graphviz files that represent the relationships between symbols within the code.`,
+      tools: [tools.TypeScript, tools.Graphviz],
+      links: [
+        // First structured Graphviz file - took around 2 hours to generate the data used to generate the graph file
+        'https://github.com/quickfeed/quickfeed/pull/1200/commits/2227fdaa6cb8e165c5c7d5f4bea6374554377565'
+      ]
+    },
+    'macro-tracker': {
       page: '/macro-tracker',
       name: 'Macro Tracker',
       date: '08.04.2024 - 19.08.2024',
+      githubLink: githubBaseLink + 'macrotracker',
       group_size: 2,
       intro: `My fellow student and I aimed for excellence in creating a Macro Tracker. A simple website with a profile, a calender, statistics, list over meals and ingredients.`,
       description: [
@@ -63,26 +109,25 @@ export const personalData: PersonalData = {
       ],
       tools: [
         //Frontend
-        skills['Bootstrap'],
-        skills['CSS'],
-        skills['HTML'],
-        skills['Typescript'],
-        skills['Vue FrameWork'],
+        tools.Bootstrap,
+        tools.CSS,
+        tools.HTML,
+        tools.TypeScript,
+        tools.Vue,
         // Backend
-        skills['Python'],
-        skills['Flask'],
-        skills['SQLite']
+        tools.Python,
+        tools.Flask,
+        tools.SQLite
       ],
       link: 'https://macrotracker.joachimtisløv.no',
-      image: refactoredMacroTrackerImg
+      image: macroTrackerImg
     },
-    'Four in a row': {
-      page: '/four-in-a-row',
-      name: 'Four in a row',
+    'connect-four': {
+      page: routes.connectFour.path,
+      name: routes.connectFour.displayName,
       date: '20.06.2024 - 15.07.2024',
-      githubLink:
-        'https://github.com/JoachimTislov/JTs-Portfolio/tree/main/src/Logic/FourInARow',
-      intro: `During my summer holiday, my father and brother played four in a row. After hearing my brother lose
+      githubLink: githubBaseLink + 'portfolio/tree/main/src/logic/ConnectFour',
+      intro: `During my summer holiday, my father and brother played connect four. After hearing my brother lose
                 for the 7th time, I thought; "Why not program a bot for him to play against?".`,
       description: [
         `The concept of building an intelligent bot initiated a month-long effort to engineer a sophisticated Four-in-a-Row algorithm. The intent of 
@@ -98,17 +143,31 @@ export const personalData: PersonalData = {
       ],
       tools: [
         //Frontend
-        skills['Bootstrap'],
-        skills['CSS'],
-        skills['HTML'],
-        skills['Typescript'],
-        skills['Vue FrameWork']
+        tools.Bootstrap,
+        tools.CSS,
+        tools.HTML,
+        tools.TypeScript,
+        tools.Vue
       ],
-      image: fourInARowImg
+      image: connectFourImg
     },
-    'Image guesser': {
+    'campus-eats': {
+      name: 'Campus Eats',
+      date: '01.02.2023 - 20.05.2023',
+      githubLink: githubBaseLink + 'campus-eats',
+      intro: `A food ordering application with a REST API backend built with Node.js and Express, and a frontend built with React and TypeScript. The application allows users to browse a menu, add items to their cart, and place orders.`,
+      tools: [
+        tools.React,
+        tools.TypeScript
+        // tools.NodeJS,
+        // tools.Express,
+        // tools.MongoDB
+      ]
+    },
+    'image-guesser': {
       name: 'Image guesser',
       date: '22.10.2023 - 05.12.2023',
+      githubLink: githubBaseLink + 'image-guesser',
       group_size: 5,
       intro: `We developed a game with the objective of guessing an image. The roles of the game consisted of an Oracle which could either be AI or
                 a person, and the rest were guessers.`,
@@ -123,18 +182,18 @@ export const personalData: PersonalData = {
                 and if its AI or, in other words; an algorithm, then it determines which tiles to reveal when the leader of the lobby decides to do so.`,
 
         `The development period was roughly two months. I experienced programming an application in a group for the first time. It was quite challenging,
-                 considering I did'nt have full control over the project and could'nt just implement everything; So I adapted my work in relation to the group.`
+                 considering I didn't have full control over the project and couldn't just implement everything; So I adapted my work in relation to the group.`
       ],
       tools: [
         //Frontend
-        skills['Bootstrap'],
-        skills['CSS'],
-        skills['HTML'],
-        skills['Javascript'],
-        skills['C#'],
-        skills['.NET'],
-        skills['SQLite'],
-        skills['Docker']
+        tools.Bootstrap,
+        tools.CSS,
+        tools.HTML,
+        tools.JavaScript,
+        tools.CSharp,
+        tools.ASPDotNet,
+        tools.SQLite,
+        tools.Docker
       ],
       image: imageGuesserImg
     }

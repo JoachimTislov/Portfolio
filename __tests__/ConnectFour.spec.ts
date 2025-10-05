@@ -1,8 +1,7 @@
 import { describe, it, expect, test } from 'vitest'
-import { initiateAlgorithms } from '@/logic/FourInARow/BotLogic/BotInit'
-import { scanBoard } from '@/logic/FourInARow/BotLogic/scanLogic'
+import { initiateAlgorithms } from '@/logic/ConnectFour/BotLogic/BotInit'
+import { scanBoard } from '@/logic/ConnectFour/BotLogic/scanLogic'
 import { vi } from 'vitest'
-
 import { emptyBoard, testBoards } from './testBoards'
 import { emptyScanOfBoard } from './EmptyScanOfBoard'
 
@@ -14,7 +13,7 @@ describe('Scanning a 7x6 board', () => {
   })
 })
 
-vi.mock('@/logic/FourInARow/delay', () => ({
+vi.mock('@/logic/ConnectFour/delay', () => ({
   delay: vi.fn().mockResolvedValue(undefined)
 }))
 
