@@ -1,5 +1,5 @@
-import { botValue, playerValue } from '@/logic/FourInARow/GameLogic/variables'
-import type { _pattern } from '@/logic/FourInARow/types'
+import { botValue, playerValue } from '@/logic/ConnectFour/GameLogic/variables'
+import type { _pattern } from '@/logic/ConnectFour/types'
 
 export function getAmountOfConnections(pattern: _pattern) {
   let connections = 0

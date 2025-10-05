@@ -3,10 +3,10 @@ import {
   previousMove,
   getSlotColor,
   nextMove
-} from '@/logic/FourInARow/GameLogic/functions'
-import { resetGame } from '@/logic/FourInARow/GameLogic/resetGame'
-import { dropPiece, busy } from '@/logic/FourInARow/GameLogic/dropPiece'
-import { botCalculating } from '@/logic/FourInARow/BotLogic/botMove'
+} from '@/logic/ConnectFour/GameLogic/functions'
+import { resetGame } from '@/logic/ConnectFour/GameLogic/resetGame'
+import { dropPiece, busy } from '@/logic/ConnectFour/GameLogic/dropPiece'
+import { botCalculating } from '@/logic/ConnectFour/BotLogic/botMove'
 import {
   starting_player,
   GameOver,
@@ -16,8 +16,8 @@ import {
   droppingPiece,
   name,
   log
-} from '@/logic/FourInARow/GameLogic/variables'
-import { pieces } from '@/logic/FourInARow/GameLogic/pieces'
+} from '@/logic/ConnectFour/GameLogic/variables'
+import { pieces } from '@/logic/ConnectFour/GameLogic/pieces'
 </script>
 
 <template>

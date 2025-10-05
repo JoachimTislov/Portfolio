@@ -8,14 +8,13 @@ export default {
   project: {
     path: '/about/:project',
     name: 'project',
-    displayName: 'View Project',
     component: () => import('../views/AboutProjectView.vue')
   },
   connectFour: {
     path: '/connect-four',
     name: 'connectFour',
-    displayName: 'Connect Four',
-    component: () => import('../views/FourInARowView.vue')
+    displayName: 'Connect Four - Bot',
+    component: () => import('../views/ConnectFourView.vue')
   },
   home: {
     path: '/:pathMatch(.*)*',

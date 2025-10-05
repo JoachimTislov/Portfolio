@@ -1,10 +1,12 @@
-// import type { _pattern, spotInfo } from '@/Logic/FourInARow/types.ts'
-import type { _pattern, spotInfo } from '../../../types'
+import type { _pattern, spotInfo } from '@/logic/ConnectFour/types'
 import { arraysEqual } from '../../ArrayLogic'
 import { double_three_in_a_row_patterns } from '../../PatternLogic'
 import { checkCoordinatesLimit } from './checkCoordinatesLimit'
 
-const checkIfSpotIsNotOccupiedOnBoard = (board: number[][], coords: number[]) => {
+const checkIfSpotIsNotOccupiedOnBoard = (
+  board: number[][],
+  coords: number[]
+) => {
   const [x, y] = coords
   return board[x][y] == 0 && (y == 0 || (y > 0 && board[x][y - 1] != 0))
 }
@@ -53,7 +55,11 @@ export const checkDoubleThreeInARow = (
   all_coordinates: number[][],
   zeroIndex: number
 ) => {
-  const arr = double_three_in_a_row_patterns(participant, coords, all_coordinates)
+  const arr = double_three_in_a_row_patterns(
+    participant,
+    coords,
+    all_coordinates
+  )
 
   for (const entry of arr) {
     const result = checkPattern(
