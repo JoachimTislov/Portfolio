@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import ArrowLink from './ArrowLink.vue'
+import TextIconLink from './TextIconLink.vue'
 import ImagePreview from './ImagePreview.vue'
 import ProjectPreview from './ProjectPreview.vue'
 import { personalData } from '@/data/personal'
 import { useRoute } from 'vue-router'
 const projectName = useRoute().params.project
-const project = personalData.projects[projectName as string]
+const project = personalData.projects.archived[projectName as string]
 </script>
 
 <template>
@@ -22,7 +22,7 @@ const project = personalData.projects[projectName as string]
       class="dark:bg-darkorange flex items-center justify-between bg-green-300/80 p-2"
     >
       <h1 class="pl-2 text-lg">{{ project.name }}</h1>
-      <ArrowLink
+      <TextIconLink
         name="View project"
         class="bg-blue-400/70 dark:bg-zinc-700"
         :href="project.link"

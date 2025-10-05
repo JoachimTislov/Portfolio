@@ -2,10 +2,10 @@
 import { personalData } from '@/data/personal'
 import { RouterView, useRoute } from 'vue-router'
 import routes from '@/router/routes'
-import ArrowLink from './components/Portfolio/ArrowLink.vue'
-import { iconDirection } from './logic/Portfolio/enums'
+import TextIconLink from './components/Portfolio/TextIconLink.vue'
 import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { ref } from 'vue'
+import { icons } from './logic/Portfolio/icons'
 const darkMode = ref(
   localStorage.getItem('darkMode') !== null ||
     window.matchMedia('(prefers-color-scheme: dark)').matches
@@ -28,13 +28,13 @@ function toggleTheme() {
       <div
         class="mx-2 mt-3 flex h-10 items-center justify-center gap-x-5 lg:justify-between"
       >
-        <ArrowLink
+        <TextIconLink
           v-if="useRoute().name !== routes.home.name"
           class="dark:bg-darkorange/80 me-auto rounded-sm bg-blue-400 px-3 font-mono"
           :name="routes.home.displayName"
           to="/"
-          :arrow-direction="iconDirection.LEFT"
-          arrow-left-side
+          :icon="icons.arrowLeft"
+          iconLeftSide
         />
         <div
           class="ml-2 flex items-center rounded-lg bg-gray-300 p-1 text-zinc-500 dark:bg-zinc-900"

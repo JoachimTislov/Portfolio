@@ -45,6 +45,8 @@ export type Project = {
   link?: string
 }
 
+export type ProjectKey = { [key: string]: Project }
+
 export type PersonalData = {
   name: string
   surname: string
@@ -62,6 +64,7 @@ export type PersonalData = {
   skills: Tools
   socialLinks: { icon: IconDefinition; link: string }[]
   projects: {
-    [key: string]: Project
+    ongoing: ProjectKey
+    archived: ProjectKey
   }
 }

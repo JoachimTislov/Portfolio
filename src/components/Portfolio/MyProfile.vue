@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { personalData } from '@/data/personal'
 import routes from '@/router/routes'
-import ArrowLink from './ArrowLink.vue'
+import TextIconLink from './TextIconLink.vue'
 </script>
 
 <template>
@@ -19,13 +19,13 @@ import ArrowLink from './ArrowLink.vue'
           {{ personalData.os }} & {{ personalData.ide }} enthusiast</small
         >
         <div class="mt-2 flex justify-between gap-x-2">
-          <ArrowLink
+          <TextIconLink
             name="Reach out"
             class="dark:bg-darkorange rounded-sm bg-green-600"
             :href="`mailto: ${personalData.email}`"
-            arrow-left-side
+            iconLeftSide
           />
-          <ArrowLink
+          <TextIconLink
             :name="routes.about.displayName"
             class="bg-blue-500 dark:bg-zinc-700"
             :to="routes.about.path"
