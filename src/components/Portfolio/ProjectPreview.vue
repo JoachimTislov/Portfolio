@@ -4,7 +4,7 @@ import ProjectCard from './ProjectCard.vue'
 import { icons } from '@/logic/Portfolio/icons'
 
 const header = 'mt-2 p-2 text-center font-mono text-xl'
-const grid = 'grid gap-y-4 lg:grid-cols-2'
+const grid = 'grid gap-y-4 gap-x-2 lg:grid-cols-2'
 </script>
 
 <template>

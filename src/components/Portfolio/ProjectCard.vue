@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import TextIconLink from './TextIconLink.vue'
 import ImagePreview from './ImagePreview.vue'
-import { faGithub } from '@fortawesome/free-brands-svg-icons'
 import type { Project } from '@/logic/Portfolio/types'
+import { icons } from '@/logic/Portfolio/icons'
 
 defineProps<{
   project: Project
@@ -11,9 +11,9 @@ defineProps<{
 
 <template>
   <div
-    class="w-md dark:bg-darkblue/50 mx-2 h-full rounded-lg border border-gray-300/20 bg-gray-400/60 p-4 shadow-lg transition-all duration-300 hover:shadow-xl"
+    class="w-sm dark:bg-darkblue/50 h-full rounded-lg border bg-gray-400/60 p-4 shadow-lg transition-all duration-300 hover:shadow-2xl dark:border-gray-300/20"
   >
-    <div class="mb-1 flex flex-row items-center justify-between">
+    <div class="mb-1 flex flex-row justify-between">
       <div>
         <h2 class="text-lg">{{ project.name }}</h2>
         <div class="mb-1 text-zinc-600 dark:text-zinc-500">
@@ -28,7 +28,7 @@ defineProps<{
         <span
           class="dark:hover:text-darkorange transition-colors hover:text-blue-400"
         >
-          <font-awesome-icon :icon="faGithub" class="text-3xl" />
+          <font-awesome-icon :icon="icons.github" class="mt-0.5 text-3xl" />
         </span>
       </a>
     </div>

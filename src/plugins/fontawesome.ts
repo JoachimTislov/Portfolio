@@ -1,13 +1,8 @@
 import { library } from '@fortawesome/fontawesome-svg-core'
-import {
-  faArrowRight,
-  faArrowLeft,
-  faArrowUp,
-  faArrowDown
-} from '@fortawesome/free-solid-svg-icons'
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faArrowRight, faArrowLeft, faArrowUp, faArrowDown)
+library.add(faSun, faMoon)
 
 // import { config } from '@fortawesome/fontawesome-svg-core'
 // config.familyDefault = 'classic'

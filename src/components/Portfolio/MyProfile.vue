@@ -7,7 +7,7 @@ import TextIconLink from './TextIconLink.vue'
 <template>
   <div class="mb-10 flex justify-center">
     <div
-      class="max-w-100 dark:bg-darkblue flex flex-col rounded-2xl bg-gray-400/90 px-2 pb-4 pt-5"
+      class="max-w-100 dark:bg-darkblue flex flex-col rounded-2xl border bg-gray-400/90 px-2 pb-4 pt-5 shadow-2xl dark:border-gray-300/20"
     >
       <img class="mx-auto h-60 w-60 rounded-full" :src="personalData.picture" />
       <div class="mx-5 mt-2 flex flex-col text-pretty">
@@ -21,7 +21,7 @@ import TextIconLink from './TextIconLink.vue'
         <div class="mt-2 flex justify-between gap-x-2">
           <TextIconLink
             name="Reach out"
-            class="dark:bg-darkorange rounded-sm bg-green-600"
+            class="dark:bg-darkorange rounded-sm bg-green-500"
             :href="`mailto: ${personalData.email}`"
             iconLeftSide
           />

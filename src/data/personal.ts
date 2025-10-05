@@ -4,13 +4,8 @@ import macroTrackerImg from '@/assets/images/macro-tracker-small.webp'
 import profilePic from '@/assets/images/joachim.webp'
 import routes from '@/router/routes'
 import { tools } from './tools'
-import {
-  faSquareLinkedin,
-  faInstagram,
-  faGithub,
-  faFacebook
-} from '@fortawesome/free-brands-svg-icons'
 import type { PersonalData } from '@/logic/Portfolio/types'
+import { icons } from '@/logic/Portfolio/icons'
 
 const githubBaseLink = 'https://github.com/JoachimTislov/'
 
@@ -37,16 +32,16 @@ export const personalData: PersonalData = {
   skills: tools,
   socialLinks: [
     {
-      icon: faSquareLinkedin,
+      icon: icons.linkedin,
       link: 'https://www.linkedin.com/in/joachim-tisløv-7074642b1'
     },
     {
-      icon: faInstagram,
+      icon: icons.instagram,
       link: 'https://www.instagram.com/joachimtislov/'
     },
-    { icon: faGithub, link: githubBaseLink },
+    { icon: icons.github, link: githubBaseLink },
     {
-      icon: faFacebook,
+      icon: icons.facebook,
       link: 'https://www.facebook.com/profile.php?id=100011419305331'
     }
   ],

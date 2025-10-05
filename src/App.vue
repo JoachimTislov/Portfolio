@@ -3,7 +3,6 @@ import { personalData } from '@/data/personal'
 import { RouterView, useRoute } from 'vue-router'
 import routes from '@/router/routes'
 import TextIconLink from './components/Portfolio/TextIconLink.vue'
-import { faMoon, faSun } from '@fortawesome/free-solid-svg-icons'
 import { ref } from 'vue'
 import { icons } from './logic/Portfolio/icons'
 const darkMode = ref(
@@ -26,7 +25,7 @@ function toggleTheme() {
   <div class="mb-10 flex justify-center">
     <div class="flex flex-col">
       <div
-        class="mx-2 mt-3 flex h-10 items-center justify-center gap-x-5 lg:justify-between"
+        class="mt-3 flex h-10 items-center justify-center gap-x-5 lg:justify-between"
       >
         <TextIconLink
           v-if="useRoute().name !== routes.home.name"
@@ -37,7 +36,7 @@ function toggleTheme() {
           iconLeftSide
         />
         <div
-          class="ml-2 flex items-center rounded-lg bg-gray-300 p-1 text-zinc-500 dark:bg-zinc-900"
+          class="flex items-center rounded-lg border bg-gray-300 p-1 text-zinc-500 dark:bg-zinc-900"
         >
           <a
             v-for="item in personalData.socialLinks"
@@ -59,7 +58,7 @@ function toggleTheme() {
         >
           <font-awesome-icon
             @click="toggleTheme"
-            :icon="darkMode ? faSun : faMoon"
+            :icon="darkMode ? icons.sun : icons.moon"
           />
         </span>
       </div>
