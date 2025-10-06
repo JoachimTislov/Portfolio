@@ -54,7 +54,7 @@ const rightIconStyle =
       </a>
     </div>
     <div
-      class="dark:border-darkorange flex items-center gap-x-2 rounded-sm border-2 bg-gray-300 p-1 text-zinc-500 dark:bg-zinc-900"
+      class="dark:border-darkorange flex items-center gap-x-2 rounded-sm border-2 border-blue-500 bg-gray-300 p-1 text-zinc-500 dark:bg-zinc-900"
     >
       <a :href="personalData.sourceCode" target="_blank" rel="noopener">
         <span :class="rightIconStyle">
