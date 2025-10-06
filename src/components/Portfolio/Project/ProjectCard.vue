@@ -43,7 +43,7 @@ const linkToAboutProject = computed(() => aboutProject(project))
             <span
               class="dark:hover:text-darkorange transition-colors hover:text-blue-400"
             >
-              <font-awesome-icon :icon="icons.github" class="mt-0.5 text-3xl" />
+              <font-awesome-icon :icon="icons.github" class="mt-1 text-3xl" />
             </span>
           </a>
         </div>
