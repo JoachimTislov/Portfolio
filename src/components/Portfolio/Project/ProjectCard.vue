@@ -20,7 +20,7 @@ const linkToAboutProject = computed(() => aboutProject(project))
     :to="`/about/${id}`"
   >
     <div
-      class="dark:bg-darkblue/50 h-full rounded-lg border bg-gray-400/60 p-4 shadow-lg transition-all duration-300 hover:shadow-2xl dark:border-gray-300/20"
+      class="w-sm md:w-md dark:bg-darkblue/50 h-full rounded-lg border bg-gray-400/60 p-4 shadow-lg transition-all duration-300 hover:shadow-2xl dark:border-gray-300/20"
       :class="linkToAboutProject ? 'hover:scale-102 hover:cursor-pointer' : ''"
     >
       <div class="mb-1 flex flex-row justify-between">
