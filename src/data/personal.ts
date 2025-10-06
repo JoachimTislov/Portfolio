@@ -7,7 +7,7 @@ import { tools } from './tools'
 import type { PersonalData } from '@/logic/Portfolio/types'
 import { icons } from '@/logic/Portfolio/icons'
 
-const githubBaseLink = 'https://github.com/JoachimTislov/'
+const githubLink = 'https://github.com/JoachimTislov/'
 
 export const personalData: PersonalData = {
   name: 'Joachim',
@@ -39,7 +39,7 @@ export const personalData: PersonalData = {
       icon: icons.instagram,
       link: 'https://www.instagram.com/joachimtislov/'
     },
-    { icon: icons.github, link: githubBaseLink },
+    { icon: icons.github, link: githubLink },
     {
       icon: icons.facebook,
       link: 'https://www.facebook.com/profile.php?id=100011419305331'
@@ -47,11 +47,11 @@ export const personalData: PersonalData = {
   ],
   projects: {
     ongoing: {
-      foodsvr: {
+      foodsavr: {
         name: 'FoodSavr',
-        date: '01.02.2022 - 20.05.2022',
-        githubLink: githubBaseLink + 'foodsavr',
-        intro: `A simple food ordering application with a REST API backend built with Node.js and Express, and a frontend built with React and TypeScript. The application allows users to browse a menu, add items to their cart, and place orders.`,
+        date: '27.08.2025',
+        githubLink: githubLink + 'foodsavr',
+        intro: ``,
         tools: [
           tools.React,
           tools.TypeScript
@@ -60,18 +60,19 @@ export const personalData: PersonalData = {
           // tools.MongoDB
         ]
       },
-      javaCompiler: {
+      'lite-jnc': {
         name: 'Lite Java Compiler',
-        date: '01.02.2023 - 20.05.2023',
-        githubLink: githubBaseLink + 'lite-jnc',
-        intro: `A simple Java compiler built with JavaCC and implemented in Java. The compiler supports basic features such as variable declarations, arithmetic operations, control flow statements, and function definitions.`,
-        tools: []
+        date: '04.10.2025',
+        githubLink: githubLink + 'lite-jnc',
+        intro: `In order to get a deeper understanding of Java and the compilation process, I'm building a lightweight Java compiler from "scratch". The compiler should be capable of handling a subset of the Java language.`,
+        description: [``, ``],
+        tools: [tools.Go, tools.Java]
       },
-      budget: {
-        name: 'Budget',
-        date: '01.09.2023 - 20.12.2023',
-        githubLink: githubBaseLink + 'php-api-server',
-        intro: `A simple budget application with a REST API backend built with PHP and a frontend built with Vue.js and TypeScript. The application allows users to manage their income and expenses, providing an overview of their financial situation.`,
+      'php-api-server': {
+        name: 'PHP API Server & Budget App',
+        date: '26.07.2025',
+        githubLink: githubLink + 'php-api-server',
+        intro: ``,
         tools: [
           tools.Vue
           // tools.PHP,
@@ -79,9 +80,9 @@ export const personalData: PersonalData = {
         ]
       },
       refviz: {
-        name: 'RefViz - Reference Visualization',
-        date: '16.01.2025 - 12.02.2025 (Ongoing)',
-        githubLink: githubBaseLink + 'refviz',
+        name: 'RefViz',
+        date: '16.01.2025',
+        githubLink: githubLink + 'refviz',
         intro: `A tool designed to visualize code references within a codebase, by generating structured Graphviz files that represent the relationships between symbols within the code.`,
         tools: [tools.TypeScript, tools.Graphviz],
         links: [
@@ -92,10 +93,9 @@ export const personalData: PersonalData = {
     },
     archived: {
       'macro-tracker': {
-        page: '/macro-tracker',
         name: 'Macro Tracker',
         date: '08.04.2024 - 19.08.2024',
-        githubLink: githubBaseLink + 'macrotracker',
+        githubLink: githubLink + 'macrotracker',
         group_size: 2,
         intro: `My fellow student and I aimed for excellence in creating a Macro Tracker. A simple website with a profile, a calender, statistics, list over meals and ingredients.`,
         description: [
@@ -121,11 +121,10 @@ export const personalData: PersonalData = {
         image: macroTrackerImg
       },
       'connect-four': {
-        page: routes.connectFour.path,
         name: routes.connectFour.displayName,
+        path: routes.connectFour.path,
         date: '20.06.2024 - 15.07.2024',
-        githubLink:
-          githubBaseLink + 'portfolio/tree/main/src/logic/ConnectFour',
+        githubLink: githubLink + 'portfolio/tree/main/src/logic/ConnectFour',
         intro: `During my summer holiday, my father and brother played connect four. After hearing my brother lose
                 for the 7th time, I thought; "Why not program a bot for him to play against?".`,
         description: [
@@ -153,7 +152,7 @@ export const personalData: PersonalData = {
       'campus-eats': {
         name: 'Campus Eats',
         date: '01.02.2023 - 20.05.2023',
-        githubLink: githubBaseLink + 'campus-eats',
+        githubLink: githubLink + 'campus-eats',
         intro: `A food ordering application with a REST API backend built with Node.js and Express, and a frontend built with React and TypeScript. The application allows users to browse a menu, add items to their cart, and place orders.`,
         tools: [
           tools.React,
@@ -166,7 +165,7 @@ export const personalData: PersonalData = {
       'image-guesser': {
         name: 'Image guesser',
         date: '22.10.2023 - 05.12.2023',
-        githubLink: githubBaseLink + 'image-guesser',
+        githubLink: githubLink + 'image-guesser',
         group_size: 5,
         intro: `We developed a game with the objective of guessing an image. The roles of the game consisted of an Oracle which could either be AI or
                 a person, and the rest were guessers.`,

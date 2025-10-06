@@ -1,6 +1,6 @@
 export default {
   about: {
-    path: '/more-of-me',
+    path: '/about-me',
     name: 'about',
     displayName: 'My Background',
     component: () => import('../views/AboutMeView.vue')
