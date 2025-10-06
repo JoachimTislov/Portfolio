@@ -21,18 +21,22 @@ import { RouterLink } from 'vue-router'
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarColor02">
+      <div class="navbar-collapse collapse" id="navbarColor02">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
             <RouterLink class="nav-link" to="/"> Home </RouterLink>
           </li>
 
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/four-in-a-row"> Four in a row </RouterLink>
+            <RouterLink class="nav-link" to="/connect-four">
+              Connect Four
+            </RouterLink>
           </li>
 
           <li class="nav-item">
-            <RouterLink class="nav-link" to="/macro-tracker"> Macro Tracker </RouterLink>
+            <RouterLink class="nav-link" to="/macro-tracker">
+              Macro Tracker
+            </RouterLink>
           </li>
         </ul>
       </div>

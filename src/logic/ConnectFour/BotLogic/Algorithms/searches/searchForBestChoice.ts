@@ -1,13 +1,21 @@
-import { botChoices, botValue, starting_player, playerChoices } from '../../../GameLogic/variables'
+import {
+  botChoices,
+  botValue,
+  starting_player,
+  playerChoices
+} from '../../../GameLogic/variables'
 import { botMove } from '../../botMove'
 import { handleLosingChoices } from '../handleLosingChoices'
-import { pieces } from '@/logic/FourInARow/GameLogic/pieces'
+import { pieces } from '@/logic/ConnectFour/GameLogic/pieces'
 import { getMoveWithMostConnections } from '../get/getMoveWithMostConnections'
 import { arraysEqual, TwoDimensionalArraysEqual } from '../../ArrayLogic'
 
 export const searchForBestChoice = async (board: number[][]) => {
   const choices = [
-    [botChoices.value.prime_double_Three_in_a_row, playerChoices.value.prime_double_Three_in_a_row],
+    [
+      botChoices.value.prime_double_Three_in_a_row,
+      playerChoices.value.prime_double_Three_in_a_row
+    ],
     [
       botChoices.value.non_prime_double_Three_in_a_row,
       playerChoices.value.non_prime_double_Three_in_a_row
@@ -51,13 +59,19 @@ export const searchForBestChoice = async (board: number[][]) => {
 
   // Checking for two - two in a rows
 
-  for (const arr of [botChoices.value.Two_in_a_row, playerChoices.value.Two_in_a_row]) {
+  for (const arr of [
+    botChoices.value.Two_in_a_row,
+    playerChoices.value.Two_in_a_row
+  ]) {
     for (let i = 0; i < arr.length; i++) {
       for (let j = 0; j < arr.length; j++) {
         if (
           i != j &&
           arraysEqual(arr[i].coordinates, arr[j].coordinates) &&
-          !TwoDimensionalArraysEqual(arr[i].all_coordinates, arr[j].all_coordinates) &&
+          !TwoDimensionalArraysEqual(
+            arr[i].all_coordinates,
+            arr[j].all_coordinates
+          ) &&
           arr[i].direction != arr[j].direction
         ) {
           const [row, slot] = arr[i].coordinates
@@ -71,7 +85,10 @@ export const searchForBestChoice = async (board: number[][]) => {
   /////
 
   /// Getting the two in a row with most amount of connections
-  const two_in_a_rows = [...botChoices.value.Two_in_a_row, ...playerChoices.value.Two_in_a_row]
+  const two_in_a_rows = [
+    ...botChoices.value.Two_in_a_row,
+    ...playerChoices.value.Two_in_a_row
+  ]
 
   const result = getMoveWithMostConnections(board, two_in_a_rows)
 
@@ -130,7 +147,10 @@ export const searchForBestChoice = async (board: number[][]) => {
 
   // Handling base with zero connections. There probably some spots which are better than the other, but since we want different games.
   // We will use computer randomness
-  const remainingChoices = [...botChoices.value.One_in_a_row, ...playerChoices.value.One_in_a_row]
+  const remainingChoices = [
+    ...botChoices.value.One_in_a_row,
+    ...playerChoices.value.One_in_a_row
+  ]
   if (pieces.value == 1 && starting_player.value == 'player') {
     const arr_length = remainingChoices.length
     const random_index = Math.floor(Math.random() * (arr_length - 1)) // - 1 since a length of an array is from 1 - n and does not begin with zero
