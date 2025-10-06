@@ -18,8 +18,6 @@ const showArrow = ref(false)
     v-if="href || to"
     @mouseenter="showArrow = true"
     @mouseleave="showArrow = false"
-    @focus="showArrow = true"
-    @blur="showArrow = false"
     :is="href ? 'a' : 'RouterLink'"
     :to
     :href
