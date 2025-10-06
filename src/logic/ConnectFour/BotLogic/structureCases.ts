@@ -171,7 +171,7 @@ export const structureCases = (
 
   /////////////////////////////////////////////////////////
 
-  // This underneath prevents the bot from blocking or building unnessecary places
+  // This underneath prevents the bot from blocking or building unnecessary places
   const otherSlotCoordinatesUnderneath =
     possible_Coordinates_Entry.participant == botValue
       ? firstUnderOtherPossiblePlacementBotOpportunity?.coords
