@@ -19,6 +19,8 @@ function toggleTheme() {
   }
   darkMode.value = !darkMode.value
 }
+const rightIconStyle =
+  'dark:text-lightgray dark:hover:text-darkorange text-3xl text-gray-500 transition-colors hover:cursor-pointer hover:text-blue-400'
 </script>
 
 <template>
@@ -34,7 +36,7 @@ function toggleTheme() {
       iconLeftSide
     />
     <div
-      class="flex items-center rounded-lg border bg-gray-300 p-1 text-zinc-500 dark:bg-zinc-900"
+      class="flex items-center rounded-md border bg-gray-300 p-1 text-zinc-500 dark:bg-zinc-900"
     >
       <a
         v-for="item in personalData.socialLinks"
@@ -51,13 +53,20 @@ function toggleTheme() {
         </span>
       </a>
     </div>
-    <span
-      class="dark:text-lightgray dark:hover:text-darkorange text-3xl text-gray-500 transition-colors hover:cursor-pointer hover:text-blue-400"
+    <div
+      class="border-darkorange flex items-center gap-x-2 rounded-sm border-2 bg-gray-300 p-1 text-zinc-500 dark:bg-zinc-900"
     >
-      <font-awesome-icon
-        @click="toggleTheme"
-        :icon="darkMode ? icons.sun : icons.moon"
-      />
-    </span>
+      <a :href="personalData.sourceCode" target="_blank" rel="noopener">
+        <span :class="rightIconStyle">
+          <font-awesome-icon :icon="icons.github" />
+        </span>
+      </a>
+      <span :class="rightIconStyle">
+        <font-awesome-icon
+          @click="toggleTheme"
+          :icon="darkMode ? icons.sun : icons.moon"
+        />
+      </span>
+    </div>
   </div>
 </template>

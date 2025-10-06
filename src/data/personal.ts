@@ -19,6 +19,7 @@ export const personalData: PersonalData = {
   country: 'Norway',
   email: 'joachim.tislov@gmail.com',
   picture: profilePic,
+  sourceCode: githubLink + 'portfolio',
   intro: `I am ${new Date().getFullYear() - 2002} year old male from Sandnes with a passion for programming.`,
   about: [
     `I live with my Alaskan husky - Leo, I enjoy programming, gaming, sports and the process of solving a problem. I played football for around 14 years.`,

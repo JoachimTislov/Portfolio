@@ -62,6 +62,7 @@ export type PersonalData = {
   country: string
   email: string
   picture: string
+  sourceCode: string
   intro: string
   about: string[]
   keywords: string
