@@ -6,6 +6,8 @@ import {
   faWind
 } from '@fortawesome/free-solid-svg-icons'
 import {
+  faGolang,
+  faJava,
   faGithub,
   faBootstrap,
   faCss3,
@@ -104,6 +106,38 @@ export const tools: Tools = {
     icon: faWind,
     link: 'https://tailwindcss.com/'
   },
-  Go: { name: 'Go', link: 'https://go.dev/' },
-  Graphviz: { name: 'Graphviz', link: 'https://graphviz.org/' }
+  Go: {
+    name: 'Go',
+    icon: faGolang,
+    link: 'https://go.dev/'
+  },
+  Graphviz: {
+    name: 'Graphviz',
+    link: 'https://graphviz.org/'
+  },
+  Java: {
+    name: 'Java',
+    icon: faJava,
+    link: 'https://www.java.com/en/'
+  },
+  PHP: {
+    name: 'PHP',
+    link: 'https://www.php.net/'
+  },
+  Laravel: {
+    name: 'Laravel',
+    link: 'https://laravel.com/'
+  },
+  MariaDB: {
+    name: 'MariaDB',
+    link: 'https://mariadb.org/'
+  },
+  PostgreSQL: {
+    name: 'PostgreSQL',
+    link: 'https://www.postgresql.org/'
+  },
+  Assembly: {
+    name: 'Assembly',
+    link: 'https://en.wikipedia.org/wiki/Assembly_language'
+  }
 }

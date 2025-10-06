@@ -28,24 +28,30 @@ type ToolName =
   | 'Docker'
   | 'Go'
   | 'Graphviz'
+  | 'Java'
+  | 'PHP'
+  | 'Laravel'
+  | 'MariaDB'
+  | 'PostgreSQL'
+  | 'Assembly'
 
 export type Tools = Record<ToolName, Tool>
 
 export type Project = {
   [key: string]: string | number | boolean | Tool[] | string[] | undefined
   name: string
+  path?: string
   date: string
   githubLink: string
   group_size?: number
   intro: string
   description?: string[]
-  tools: Tool[]
+  tools?: Tool[]
   image?: string
-  page?: string
   link?: string
 }
 
-export type ProjectKey = { [key: string]: Project }
+export type ProjectKey = { [key: string]: Project | undefined }
 
 export type PersonalData = {
   name: string
