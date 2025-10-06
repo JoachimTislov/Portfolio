@@ -5,7 +5,7 @@ import HeaderIconText from '@/components/Portfolio/HeaderIconText.vue'
 </script>
 
 <template>
-  <div class="flex flex-col items-center justify-center">
+  <div class="w-3xl flex flex-col items-center justify-center">
     <HeaderIconText headerText="Working on" />
     <ProjectsGrid :projects="personalData.projects.ongoing" />
     <HeaderIconText headerText="Archived Projects" />

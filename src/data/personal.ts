@@ -1,4 +1,5 @@
 import imageGuesserImg from '@/assets/images/image-guesser.webp'
+import campusEatsImg from '@/assets/images/campus-eats.webp'
 import connectFourImg from '@/assets/images/connectFour-small.webp'
 import macroTrackerImg from '@/assets/images/macro-tracker-small.webp'
 import profilePic from '@/assets/images/joachim.webp'
@@ -20,11 +21,11 @@ export const personalData: PersonalData = {
   picture: profilePic,
   intro: `I am ${new Date().getFullYear() - 2002} year old male from Sandnes with a passion for programming.`,
   about: [
-    `I live with my Alaskan husky - Leo, I love programming, gaming, sports and the process of solving a problem. I played football for around 14 years.`,
+    `I live with my Alaskan husky - Leo, I enjoy programming, gaming, sports and the process of solving a problem. I played football for around 14 years.`,
 
     `I got access to technology at a fairly young age, but it wasn't until highschool I started to learn coding. I remember creating a simple website with six boxes and I was tasked to present them in a 2x3 format. I didn't watch any tutorials and spent multiple hours before I eventually managed to style the website correctly, and I remember running down to my parents and showing them my website with utmost pride.`,
 
-    `This task, among many others, is what sparked my interest in programming. The combination of tackling challenges with patience and intellectual or creative thinking.`
+    `This task, among many others, is what sparked my interest in programming. The combination of tackling challenges with patience and intellectual or creative thinking, is rewarding.`
   ],
   keywords: 'Patient, resilient, motivated and persistent',
   university: 'University of Stavanger 2021 - 2025',
@@ -51,39 +52,28 @@ export const personalData: PersonalData = {
         name: 'FoodSavr',
         date: '27.08.2025',
         githubLink: githubLink + 'foodsavr',
-        intro: ``,
-        tools: [
-          tools.React,
-          tools.TypeScript
-          // tools.NodeJS,
-          // tools.Express,
-          // tools.MongoDB
-        ]
+        intro: `I personally need an application to handle almost every task related to inventory managament, meal planning, tracking macros and more. End goal is to provide the user with the desired functionality and enable simple self-hosting through containerization.`,
+        tools: [tools.Java]
       },
       'lite-jnc': {
         name: 'Lite Java Compiler',
         date: '04.10.2025',
         githubLink: githubLink + 'lite-jnc',
         intro: `In order to get a deeper understanding of Java and the compilation process, I'm building a lightweight Java compiler from "scratch". The compiler should be capable of handling a subset of the Java language.`,
-        description: [``, ``],
         tools: [tools.Go, tools.Java]
       },
       'php-api-server': {
-        name: 'PHP API Server & Budget App',
+        name: 'Multi purpose PHP application',
         date: '26.07.2025',
         githubLink: githubLink + 'php-api-server',
-        intro: ``,
-        tools: [
-          tools.Vue
-          // tools.PHP,
-          // tools.MySQL
-        ]
+        intro: `The application must be capable of processing requests from different clients with distinct purposes. The chosen technology stack enables deployment on a shared hosting environment limited to PHP and MySQL support.`,
+        tools: [tools.Vue, tools.PHP, tools.MySQL]
       },
       refviz: {
         name: 'RefViz',
         date: '16.01.2025',
         githubLink: githubLink + 'refviz',
-        intro: `A tool designed to visualize code references within a codebase, by generating structured Graphviz files that represent the relationships between symbols within the code.`,
+        intro: `A tool designed to visualize code references within a codebase by generating structured Graphviz files that represent the relationships between symbols within the code. The gathered data is naturally visualized through a graph.`,
         tools: [tools.TypeScript, tools.Graphviz],
         links: [
           // First structured Graphviz file - took around 2 hours to generate the data used to generate the graph file
@@ -153,14 +143,16 @@ export const personalData: PersonalData = {
         name: 'Campus Eats',
         date: '01.02.2023 - 20.05.2023',
         githubLink: githubLink + 'campus-eats',
-        intro: `A food ordering application with a REST API backend built with Node.js and Express, and a frontend built with React and TypeScript. The application allows users to browse a menu, add items to their cart, and place orders.`,
+        group_size: 5,
+        intro: `A web app for ordering food from the canteen at the University of Stavanger. Target audience were students and employees at the university. User roles included customers, couriers and admins.`,
         tools: [
           tools.React,
           tools.TypeScript
           // tools.NodeJS,
           // tools.Express,
           // tools.MongoDB
-        ]
+        ],
+        image: campusEatsImg
       },
       'image-guesser': {
         name: 'Image guesser',
