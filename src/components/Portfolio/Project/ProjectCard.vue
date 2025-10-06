@@ -26,7 +26,7 @@ const linkToAboutProject = computed(() => aboutProject(project))
       <div class="mb-1 flex flex-row justify-between">
         <div>
           <h2 class="text-lg">{{ project.name }}</h2>
-          <div class="mb-1 text-zinc-600 dark:text-zinc-500">
+          <div class="-mt-1 mb-1 text-zinc-600 dark:text-zinc-500">
             <small> {{ project.date }} </small>
             <small v-if="project.group_size">
               · Group: {{ project.group_size }}
