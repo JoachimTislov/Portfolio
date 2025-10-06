@@ -1,21 +1,24 @@
 <script setup lang="ts">
-import TextIconLink from './TextIconLink.vue'
-import ImagePreview from './ImagePreview.vue'
-import ProjectPreview from './ProjectPreview.vue'
-import { personalData } from '@/data/personal'
+import TextIconLink from '@/components/Portfolio/TextIconLink.vue'
+import ImagePreview from '@/components/Portfolio/ImagePreview.vue'
+import ProjectsGrid from '@/components/Portfolio/Project/ProjectsGrid.vue'
 import { useRoute } from 'vue-router'
-const projectName = useRoute().params.project
-const project = personalData.projects.archived[projectName as string]
+import { computed } from 'vue'
+import { icons } from '@/logic/Portfolio/icons'
+import { findProject, projectsWithAbout } from '@/logic/Portfolio/functions'
+const route = useRoute()
+const projectName = computed(() => route.params.project)
+const project = computed(() => findProject(projectName.value))
 </script>
 
 <template>
   <div v-if="!project" class="mt-4">
     <div class="text-center font-mono text-xl">
       <h2 class="mb-2">Project: {{ projectName }} not found</h2>
-      <h3>Select from the list below</h3>
-      <font-awesome-icon class="mt-5 text-3xl" :icon="['fas', 'arrow-down']" />
+      <h3>Select from list below</h3>
+      <font-awesome-icon class="my-3 text-2xl" :icon="icons.arrowDown" />
     </div>
-    <ProjectPreview />
+    <ProjectsGrid :projects="projectsWithAbout" />
   </div>
   <div v-else class="dark:bg-darkblue md:w-180 rounded-lg bg-gray-300 p-4">
     <div
@@ -26,7 +29,7 @@ const project = personalData.projects.archived[projectName as string]
         name="View project"
         class="bg-blue-400/70 dark:bg-zinc-700"
         :href="project.link"
-        :to="project.page"
+        :to="project.path"
       />
     </div>
     <div class="mt-2 flex flex-col gap-3 p-1">
